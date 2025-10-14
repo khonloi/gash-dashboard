@@ -18,7 +18,7 @@ import Orders from "./pages/Orders.jsx";
 import ProductSpecifications from "./pages/ProductSpecifications.jsx";
 import Accounts from "./pages/Accounts.jsx";
 import Categories from "./pages/Categories.jsx";
-import Feedbacks from "./pages/Feedbacks.jsx";
+import Feedbacks from "./pages/Feedback/Feedbacks.jsx";
 import ImportBills from "./pages/ImportBills.jsx";
 import Statistics from "./pages/Statistics.jsx";
 import Layout from "./pages/Layout.jsx";

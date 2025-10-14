@@ -1,7 +1,33 @@
 import React, { useState, useRef, useEffect, useContext, useCallback, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import * as Unicons from '@iconscout/react-unicons';
+import {
+  ShoppingCart,
+  List,
+  ShoppingBag,
+  Comment,
+  Inventory,
+  Info,
+  Layers,
+  FileUpload,
+  LocalOffer,
+  Notifications,
+  Chat,
+  People,
+  BarChart,
+  Person,
+  Menu,
+  Close,
+  AccountCircle,
+  Settings,
+  Logout,
+  Email,
+  CalendarToday,
+  AccessTime,
+  CheckCircle,
+  Cancel,
+  Visibility
+} from '@mui/icons-material';
 import '../styles/Layout.css';
 import gashLogo from '../assets/image/gash-logo.svg';
 
@@ -53,28 +79,30 @@ const Layout = ({ children }) => {
     setIsSidebarExpanded((prev) => !prev);
   }, []);
 
-  // Sidebar items with LineIcons
+  // Sidebar items with MUI Icons
   const sidebarItems = useMemo(
     () => {
       const items = [
-        { label: 'Cart', to: '/carts', icon: Unicons.UilShoppingCart },
-        { label: 'Category', to: '/categories', icon: Unicons.UilListUl },
-        { label: 'Order', to: '/orders', icon: Unicons.UilShoppingBag },
-        { label: 'Feedback', to: '/feedbacks', icon: Unicons.UilCommentDots },
-        { label: 'Product', to: '/products', icon: Unicons.UilBox },
-        { label: 'Product Specification', to: '/specifications', icon: Unicons.UilFileInfoAlt },
-        { label: 'Product Variant', to: '/variants', icon: Unicons.UilLayerGroup },
-        { label: 'Import Bills', to: '/imports', icon: Unicons.UilFileImport },
-        { label: 'Voucher', to: '/vouchers', icon: Unicons.UilTagAlt },
-        { label: 'Notifications', to: '/notifications', icon: Unicons.UilBell },
-        { label: 'Chat', to: '/chat', icon: Unicons.UilChat },
+        { label: 'Order', to: '/orders', icon: ShoppingBag },
+        { label: 'Product', to: '/products', icon: Inventory },
+        { label: 'Category', to: '/categories', icon: List },
+        { label: 'Cart', to: '/carts', icon: ShoppingCart },
+        { label: 'Product Specification', to: '/specifications', icon: Info },
+        { label: 'Product Variant', to: '/variants', icon: Layers },
+        { label: 'Import Bills', to: '/imports', icon: FileUpload },
+        { label: 'Voucher', to: '/vouchers', icon: LocalOffer },
+        { label: 'Feedback', to: '/feedbacks', icon: Comment },
+        { label: 'Chat', to: '/chat', icon: Chat },
+        { label: 'Notifications', to: '/notifications', icon: Notifications },
       ];
+
       if (user?.role === 'admin') {
         items.unshift(
-          { label: 'Account', to: '/accounts', icon: Unicons.UilUsersAlt },
-          { label: 'Statistics', to: '/statistics', icon: Unicons.UilChart }
+          { label: 'Account', to: '/accounts', icon: People },
+          { label: 'Statistics', to: '/statistics', icon: BarChart }
         );
       }
+
       return items;
     },
     [user]
@@ -83,8 +111,9 @@ const Layout = ({ children }) => {
   // Account sublist items
   const accountItems = useMemo(
     () => [
-      { label: 'My Account', to: '/profile' },
-      { label: 'Sign Out', action: handleLogout, className: 'logout-item' },
+      { label: 'My Account', to: '/profile', icon: AccountCircle },
+      { label: 'Settings', to: '/settings', icon: Settings },
+      { label: 'Sign Out', action: handleLogout, className: 'logout-item', icon: Logout },
     ],
     [handleLogout]
   );
@@ -113,15 +142,29 @@ const Layout = ({ children }) => {
     return user.username || user.email?.split('@')[0] || 'Account';
   }, [user]);
 
+  // User profile info
+  const userProfileInfo = useMemo(() => {
+    if (!user) return null;
+    return {
+      name: user.username || user.email?.split('@')[0] || 'Unknown User',
+      email: user.email || 'No email provided',
+      role: user.role || 'user',
+      roleDisplay: user.role === 'admin' ? 'Administrator' : user.role === 'manager' ? 'Manager' : 'Staff',
+      joinDate: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown',
+      lastLogin: user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never',
+      status: user.isActive !== false ? 'Active' : 'Inactive'
+    };
+  }, [user]);
+
   return (
-    <div className="layout">
+    <div className="flex min-h-screen bg-white">
       {/* Error notification */}
       {error && (
-        <div className="layout-error-notification" role="alert">
-          <span className="layout-error-icon" aria-hidden="true">⚠</span>
-          <span>{error}</span>
+        <div className="fixed top-20 right-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md shadow-lg z-50 flex items-center gap-2 max-w-sm animate-slide-in" role="alert">
+          <span className="text-lg" aria-hidden="true">⚠</span>
+          <span className="text-sm flex-1">{error}</span>
           <button
-            className="layout-error-close"
+            className="bg-transparent border-none text-red-600 text-lg cursor-pointer p-1 leading-none hover:opacity-80"
             onClick={() => setError(null)}
             type="button"
             aria-label="Close error notification"
@@ -132,19 +175,20 @@ const Layout = ({ children }) => {
       )}
 
       {/* Navigation Bar */}
-      <nav className="navbar" role="navigation" aria-label="Main navigation">
-        <div className="navbar-container">
+      <nav className="bg-gray-900 text-white fixed w-full top-0 z-50 shadow-sm h-16" role="navigation" aria-label="Main navigation">
+        <div className="max-w-7xl mx-auto flex justify-start items-center px-4 h-full">
           {/* Logo */}
           <Link
             to={user?.role === 'manager' ? '/orders' : '/'}
-            className="logo"
+            className="flex items-center transition-opacity duration-200 hover:opacity-90"
             onClick={handleLogoClick}
             aria-label="Gash homepage"
           >
-            {logoLoaded ? null : <span style={{ fontSize: '0.875rem', color: 'var(--amazon-bg)' }}>Gash</span>}
+            {logoLoaded ? null : <span className="text-sm text-white">Gash</span>}
             <img
               src={gashLogo}
               alt="Gash Logo"
+              className="h-6 object-contain"
               onLoad={() => setLogoLoaded(true)}
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -160,88 +204,116 @@ const Layout = ({ children }) => {
       {/* Sidebar */}
       {user && ['admin', 'manager'].includes(user.role) && (
         <aside
-          className={`sidebar ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}
+          className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white text-gray-800 shadow-lg z-50 flex flex-col transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'
+            }`}
           role="navigation"
           aria-label="Admin navigation"
         >
-          <nav className="sidebar-nav">
-            {sidebarItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.to}
-                className="sidebar-item"
-                onClick={() => setIsSidebarExpanded(false)}
-                role="menuitem"
-                title={item.label}
-              >
-                <item.icon size={24} />
-                <span className="sidebar-item-label">{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-          <div className="sidebar-footer">
-            {/* Account Button with Sublist */}
-            <button
-              className="sidebar-item"
-              onClick={handleAccountClick}
-              aria-expanded={isAccountOpen}
-              aria-haspopup="true"
-              type="button"
-              title="Account"
-            >
-              <Unicons.UilUser size={24} />
-              <span className="sidebar-item-label">{user ? userDisplayName : 'Sign In'}</span>
-            </button>
-            {user && isAccountOpen && (
-              <div className="account-sublist">
-                {accountItems.map((item, index) => (
-                  item.to ? (
-                    <Link
-                      key={index}
-                      to={item.to}
-                      className={`sidebar-item sublist-item ${item.className || ''}`}
-                      role="menuitem"
-                      onClick={() => setIsAccountOpen(false)}
-                    >
-                      <span className="sublist-icon-placeholder" />
-                      <span className="sidebar-item-label">{item.label}</span>
-                    </Link>
-                  ) : (
-                    <button
-                      key={index}
-                      className={`sidebar-item sublist-item ${item.className || ''}`}
-                      onClick={() => {
-                        item.action();
-                        setIsAccountOpen(false);
-                      }}
-                      type="button"
-                      role="menuitem"
-                    >
-                      <span className="sublist-icon-placeholder" />
-                      <span className="sidebar-item-label">{item.label}</span>
-                    </button>
-                  )
-                ))}
-              </div>
+          {/* Logo Section */}
+          <div className="px-4 py-5 border-b border-gray-200 flex items-center justify-between">
+            {isSidebarExpanded && (
+              <h1 className="text-2xl font-bold text-black font-sans">Dashboard</h1>
             )}
-            {/* Extend/Collapse Button */}
             <button
-              className="sidebar-item"
               onClick={handleSidebarToggle}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               aria-label={isSidebarExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
-              type="button"
-              title={isSidebarExpanded ? 'Collapse' : 'Expand'}
             >
-              <Unicons.UilBars size={24} />
-              <span className="sidebar-item-label">{isSidebarExpanded ? 'Collapse' : 'Expand'}</span>
+              {isSidebarExpanded ? (
+                <Close sx={{ fontSize: 20 }} />
+              ) : (
+                <Menu sx={{ fontSize: 20 }} />
+              )}
             </button>
+          </div>
+
+          {/* Navigation Items */}
+          <nav className="flex flex-col flex-1 py-4 overflow-y-auto">
+            <div className="space-y-1">
+              {sidebarItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.to}
+                  className={`flex items-center px-4 py-3 mx-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${location.pathname === item.to
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  role="menuitem"
+                  title={item.label}
+                >
+                  {location.pathname === item.to && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r-sm"></div>
+                  )}
+                  <item.icon sx={{ fontSize: 20 }} className="flex-shrink-0" />
+                  {isSidebarExpanded && (
+                    <span className="ml-3 whitespace-nowrap">{item.label}</span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
+          {/* Profile Section */}
+          <div className="flex flex-col border-t border-gray-200 py-3 mt-auto">
+            {/* Profile Info */}
+            <div className="px-4 py-2 mx-2">
+              {isSidebarExpanded ? (
+                <div className="space-y-2">
+                  {/* Avatar and Basic Info - Clickable */}
+                  <Link
+                    to="/profile"
+                    className="flex items-center space-x-3 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors duration-200"
+                  >
+                    <div className="w-9 h-9 bg-purple-100 rounded-full flex items-center justify-center">
+                      <AccountCircle sx={{ fontSize: 22, color: '#800080' }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">
+                        {userProfileInfo?.name || 'Guest User'}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {userProfileInfo?.roleDisplay || 'User'}
+                      </p>
+                    </div>
+                  </Link>
+
+                  {/* Sign Out Button */}
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 w-full px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors duration-200"
+                  >
+                    <Logout sx={{ fontSize: 16 }} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center space-y-2">
+                  <Link
+                    to="/profile"
+                    className="w-7 h-7 bg-purple-100 rounded-full flex items-center justify-center hover:bg-purple-200 transition-colors duration-200"
+                  >
+                    <AccountCircle sx={{ fontSize: 18, color: '#800080' }} />
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded transition-colors duration-200"
+                    title="Sign Out"
+                  >
+                    <Logout sx={{ fontSize: 16 }} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </aside>
       )}
 
       {/* Main Content */}
       <main
-        className={`main-content ${user && ['admin', 'manager'].includes(user.role) ? (isSidebarExpanded ? 'sidebar-expanded' : 'sidebar-collapsed') : ''}`}
+        className={`flex-grow mt-16 bg-white min-h-[calc(100vh-4rem)] transition-all duration-300 ${user && ['admin', 'manager'].includes(user.role)
+          ? (isSidebarExpanded ? 'ml-64 w-[calc(100%-16rem)]' : 'ml-16 w-[calc(100%-4rem)]')
+          : 'ml-0 w-full'
+          }`}
         role="main"
       >
         {children}

@@ -51,19 +51,19 @@ const Api = {
 
     // ==== Accounts ====
     accounts: {
-        getProfile: (userId) => axiosClient.get(`/accounts/${userId}`),
+        getProfile: (userId) => axiosClient.get(`/accounts/${userId}`).then(response => response.data),
         updateProfile: (userId, data) =>
-            axiosClient.put(`/accounts/change-profile/${userId}`, data),
+            axiosClient.put(`/accounts/change-profile/${userId}`, data).then(response => response.data),
         changePassword: (userId, data) =>
-            axiosClient.put(`/accounts/change-password/${userId}`, data),
-        deleteAccount: (userId) => axiosClient.delete(`/accounts/${userId}`),
+            axiosClient.put(`/accounts/change-password/${userId}`, data).then(response => response.data),
+        deleteAccount: (userId) => axiosClient.delete(`/accounts/${userId}`).then(response => response.data),
         softDeleteAccount: (userId) =>
-            axiosClient.delete(`/accounts/soft/${userId}`),
+            axiosClient.delete(`/accounts/soft/${userId}`).then(response => response.data),
         disableAccount: (userId) =>
-            axiosClient.put(`/accounts/disable/${userId}`),
-        getAllAccounts: (params = {}) => axiosClient.get("/accounts", { params }),
-        createAccount: (data) => axiosClient.post("/accounts", data),
-        updateAccount: (userId, data) => axiosClient.put(`/accounts/${userId}`, data),
+            axiosClient.put(`/accounts/disable/${userId}`).then(response => response.data),
+        getAllAccounts: (params = {}) => axiosClient.get("/accounts", { params }).then(response => response.data),
+        createAccount: (data) => axiosClient.post("/accounts", data).then(response => response.data),
+        updateAccount: (userId, data) => axiosClient.put(`/accounts/${userId}`, data).then(response => response.data),
     },
 
     // ==== Products ====
@@ -87,35 +87,35 @@ const Api = {
     // ==== New Products ====
     newProducts: {
         // Get all products
-        getAll: (filters = {}) => axiosClient.get('/new-products', { params: filters }),
+        getAll: (filters = {}) => axiosClient.get('/new-products', { params: filters }).then(response => response.data),
         // Get single product by ID
-        getById: (productId) => axiosClient.get(`/new-products/${productId}`),
+        getById: (productId) => axiosClient.get(`/new-products/${productId}`).then(response => response.data),
         // Create product (admin/manager only)
-        create: (data) => axiosClient.post('/new-products', data),
+        create: (data) => axiosClient.post('/new-products', data).then(response => response.data),
         // Update product (admin/manager only)
-        update: (productId, data) => axiosClient.put(`/new-products/${productId}`, data),
+        update: (productId, data) => axiosClient.put(`/new-products/${productId}`, data).then(response => response.data),
         // Delete product (admin/manager only)
-        delete: (productId) => axiosClient.delete(`/new-products/${productId}`),
+        delete: (productId) => axiosClient.delete(`/new-products/${productId}`).then(response => response.data),
         // Add product image (admin/manager only)
-        addImage: (productId, data) => axiosClient.post(`/new-products/${productId}/images`, data),
+        addImage: (productId, data) => axiosClient.post(`/new-products/${productId}/images`, data).then(response => response.data),
         // Delete product image (admin/manager only)
-        deleteImage: (productId, imageId) => axiosClient.delete(`/new-products/${productId}/images/${imageId}`),
+        deleteImage: (productId, imageId) => axiosClient.delete(`/new-products/${productId}/images/${imageId}`).then(response => response.data),
         // Search products
-        search: (params) => axiosClient.get('/new-products/search', { params }),
+        search: (params) => axiosClient.get('/new-products/search', { params }).then(response => response.data),
     },
 
     // ==== New Product Variants ====
     newVariants: {
         // Get all variants (with optional filters)
-        getAll: (filters = {}) => axiosClient.get('/new-variants', { params: filters }),
+        getAll: (filters = {}) => axiosClient.get('/new-variants', { params: filters }).then(response => response.data),
         // Get single variant by ID
-        getById: (variantId) => axiosClient.get(`/new-variants/${variantId}`),
+        getById: (variantId) => axiosClient.get(`/new-variants/${variantId}`).then(response => response.data),
         // Create variant (admin/manager only)
-        create: (data) => axiosClient.post('/new-variants', data),
+        create: (data) => axiosClient.post('/new-variants', data).then(response => response.data),
         // Update variant (admin/manager only)
-        update: (variantId, data) => axiosClient.put(`/new-variants/${variantId}`, data),
+        update: (variantId, data) => axiosClient.put(`/new-variants/${variantId}`, data).then(response => response.data),
         // Delete variant (admin/manager only)
-        delete: (variantId) => axiosClient.delete(`/new-variants/${variantId}`),
+        delete: (variantId) => axiosClient.delete(`/new-variants/${variantId}`).then(response => response.data),
     },
 
     // ==== Product Specifications ====
@@ -140,35 +140,35 @@ const Api = {
     // ==== Orders ====
     orders: {
         // Get all orders
-        getAll: (params = {}) => axiosClient.get("/orders", { params }),
+        getAll: (params = {}) => axiosClient.get("/orders", { params }).then(response => response.data),
         // Get single order details
-        getOrder: (orderId) => axiosClient.get(`/orders/get-order-by-id/${orderId}`),
+        getOrder: (orderId) => axiosClient.get(`/orders/get-order-by-id/${orderId}`).then(response => response.data),
         // Get orders by user
-        getOrdersByUser: (userId) => axiosClient.get(`/orders?acc_id=${userId}`),
+        getOrdersByUser: (userId) => axiosClient.get(`/orders?acc_id=${userId}`).then(response => response.data),
         // Update order status
-        updateStatus: (orderId, data) => axiosClient.patch(`/orders/${orderId}/status`, data),
+        updateStatus: (orderId, data) => axiosClient.patch(`/orders/${orderId}/status`, data).then(response => response.data),
         // Cancel order
-        cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}),
+        cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}).then(response => response.data),
         // VNPay return handler
-        vnpayReturn: (params) => axiosClient.get(`/orders/vnpay-return${params}`),
+        vnpayReturn: (params) => axiosClient.get(`/orders/vnpay-return${params}`).then(response => response.data),
         // VNPay payment URL
-        getPaymentUrl: (data) => axiosClient.post("/orders/payment-url", data),
+        getPaymentUrl: (data) => axiosClient.post("/orders/payment-url", data).then(response => response.data),
         // Get order statistics
-        getStatistics: (params = {}) => axiosClient.get("/orders/statistics", { params }),
+        getStatistics: (params = {}) => axiosClient.get("/orders/statistics", { params }).then(response => response.data),
     },
 
     // ==== Order Details ====
     orderDetails: {
         // Create new order detail
-        create: (data) => axiosClient.post('/order-detail/create-order-detail', data),
+        create: (data) => axiosClient.post('/order-detail/create-order-detail', data).then(response => response.data),
         // Update order detail
-        update: (orderDetailId, data) => axiosClient.put(`/order-detail/update-order-detail/${orderDetailId}`, data),
+        update: (orderDetailId, data) => axiosClient.put(`/order-detail/update-order-detail/${orderDetailId}`, data).then(response => response.data),
         // Delete order detail
-        delete: (orderDetailId) => axiosClient.delete(`/order-detail/delete-order-detail/${orderDetailId}`),
+        delete: (orderDetailId) => axiosClient.delete(`/order-detail/delete-order-detail/${orderDetailId}`).then(response => response.data),
         // Search order details
-        search: (queryParams) => axiosClient.get('/order-detail/search', { params: queryParams }),
+        search: (queryParams) => axiosClient.get('/order-detail/search', { params: queryParams }).then(response => response.data),
         // Get order details by product
-        getByProduct: (productId) => axiosClient.get(`/order-detail/get-order-details-by-product/${productId}`),
+        getByProduct: (productId) => axiosClient.get(`/order-detail/get-order-details-by-product/${productId}`).then(response => response.data),
     },
 
     // ==== Cart ====
@@ -204,22 +204,11 @@ const Api = {
 
     // ==== Feedback ====
     feedback: {
-        // Get all feedback for a product variant (with pagination)
-        getAllFeedback: (variantId, page = 1, limit = 10) =>
-            axiosClient.get(`/orders/get-all-feedback/${variantId}`, {
-                params: { page, limit }
-            }),
-        // Add new feedback
-        addFeedback: (orderId, variantId, data) =>
-            axiosClient.patch(`/orders/${orderId}/add-feedback/${variantId}`, data),
-        // Edit existing feedback
-        editFeedback: (orderId, variantId, data) =>
-            axiosClient.put(`/orders/${orderId}/edit-feedback/${variantId}`, data),
-        // Delete feedback (soft delete)
-        deleteFeedback: (orderId, variantId) =>
-            axiosClient.delete(`/orders/${orderId}/delete-feedback/${variantId}`),
-        // Get all feedbacks (admin)
-        getAll: (params = {}) => axiosClient.get("/feedbacks", { params }),
+        // Get all feedbacks with new structure
+        getAllFeedbacks: (params = {}) => axiosClient.get("/feedback/get-all-feedbacks", { params }).then(response => response.data),
+        // Get feedback by ID
+        getFeedbackById: (feedbackId) => axiosClient.get(`/feedback/get-feedback-by-id/${feedbackId}`).then(response => response.data),
+
     },
 
     // ==== Vouchers ====
