@@ -157,10 +157,10 @@ const Layout = ({ children }) => {
   }, [user]);
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-screen bg-gray-50">
       {/* Error notification */}
       {error && (
-        <div className="fixed top-20 right-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md shadow-lg z-50 flex items-center gap-2 max-w-sm animate-slide-in" role="alert">
+        <div className="fixed top-4 right-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md shadow-lg z-50 flex items-center gap-2 max-w-sm animate-slide-in" role="alert">
           <span className="text-lg" aria-hidden="true">⚠</span>
           <span className="text-sm flex-1">{error}</span>
           <button
@@ -174,49 +174,37 @@ const Layout = ({ children }) => {
         </div>
       )}
 
-      {/* Navigation Bar */}
-      <nav className="bg-gray-900 text-white fixed w-full top-0 z-50 shadow-sm h-16" role="navigation" aria-label="Main navigation">
-        <div className="max-w-7xl mx-auto flex justify-start items-center px-4 h-full">
-          {/* Logo */}
-          <Link
-            to={user?.role === 'manager' ? '/orders' : '/'}
-            className="flex items-center transition-opacity duration-200 hover:opacity-90"
-            onClick={handleLogoClick}
-            aria-label="Gash homepage"
-          >
-            {logoLoaded ? null : <span className="text-sm text-white">Gash</span>}
-            <img
-              src={gashLogo}
-              alt="Gash Logo"
-              className="h-6 object-contain"
-              onLoad={() => setLogoLoaded(true)}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                setLogoLoaded(false);
-                console.warn('Logo failed to load');
-              }}
-              style={{ display: logoLoaded ? 'block' : 'none' }}
-            />
-          </Link>
-        </div>
-      </nav>
-
       {/* Sidebar */}
       {user && ['admin', 'manager'].includes(user.role) && (
         <aside
-          className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white text-gray-800 shadow-lg z-50 flex flex-col transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'
+          className={`fixed top-0 left-0 h-full bg-white text-gray-800 shadow-xl z-50 flex flex-col transition-all duration-300 border-r border-gray-200 ${isSidebarExpanded ? 'w-64' : 'w-16'
             }`}
           role="navigation"
           aria-label="Admin navigation"
         >
-          {/* Logo Section */}
-          <div className="px-4 py-5 border-b border-gray-200 flex items-center justify-between">
-            {isSidebarExpanded && (
-              <h1 className="text-2xl font-bold text-black font-sans">Dashboard</h1>
+          {/* Sidebar Header */}
+          <div className="px-4 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+            {isSidebarExpanded ? (
+              <Link
+                to={user?.role === 'manager' ? '/orders' : '/'}
+                className="flex items-center transition-opacity duration-200 hover:opacity-90"
+                onClick={handleLogoClick}
+                aria-label="Gash homepage"
+              >
+                <h1 className="text-xl font-bold text-gray-800 font-sans">Gash Dashboard</h1>
+              </Link>
+            ) : (
+              <Link
+                to={user?.role === 'manager' ? '/orders' : '/'}
+                className="flex items-center justify-center transition-opacity duration-200 hover:opacity-90"
+                onClick={handleLogoClick}
+                aria-label="Gash homepage"
+              >
+              </Link>
             )}
             <button
               onClick={handleSidebarToggle}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 text-gray-600 hover:text-gray-800"
               aria-label={isSidebarExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
             >
               {isSidebarExpanded ? (
@@ -229,24 +217,30 @@ const Layout = ({ children }) => {
 
           {/* Navigation Items */}
           <nav className="flex flex-col flex-1 py-4 overflow-y-auto">
-            <div className="space-y-1">
+            <div className="space-y-1 px-2">
               {sidebarItems.map((item, index) => (
                 <Link
                   key={index}
                   to={item.to}
-                  className={`flex items-center px-4 py-3 mx-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${location.pathname === item.to
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-700 hover:bg-gray-100'
+                  className={`flex items-center px-3 py-3 mx-1 rounded-xl text-sm font-medium transition-all duration-200 relative group ${location.pathname === item.to
+                    ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-sm'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                     }`}
                   role="menuitem"
                   title={item.label}
                 >
                   {location.pathname === item.to && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r-sm"></div>
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-600 rounded-r-full"></div>
                   )}
-                  <item.icon sx={{ fontSize: 20 }} className="flex-shrink-0" />
+                  <item.icon
+                    sx={{ fontSize: 20 }}
+                    className={`flex-shrink-0 transition-colors duration-200 ${location.pathname === item.to
+                      ? 'text-blue-600'
+                      : 'text-gray-500 group-hover:text-gray-700'
+                      }`}
+                  />
                   {isSidebarExpanded && (
-                    <span className="ml-3 whitespace-nowrap">{item.label}</span>
+                    <span className="ml-3 whitespace-nowrap font-medium">{item.label}</span>
                   )}
                 </Link>
               ))}
@@ -310,7 +304,7 @@ const Layout = ({ children }) => {
 
       {/* Main Content */}
       <main
-        className={`flex-grow mt-16 bg-white min-h-[calc(100vh-4rem)] transition-all duration-300 ${user && ['admin', 'manager'].includes(user.role)
+        className={`flex-grow bg-gray-50 min-h-screen transition-all duration-300 ${user && ['admin', 'manager'].includes(user.role)
           ? (isSidebarExpanded ? 'ml-64 w-[calc(100%-16rem)]' : 'ml-16 w-[calc(100%-4rem)]')
           : 'ml-0 w-full'
           }`}

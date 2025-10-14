@@ -287,7 +287,7 @@ const Feedbacks = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6 xl:p-8">
       {/* Toast Notification */}
       {toast && (
         <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${toast.type === 'success' ? 'bg-green-500 text-white' :
@@ -299,25 +299,28 @@ const Feedbacks = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Feedback Management</h1>
-            <p className="text-gray-600 mt-1">Manage and review customer feedbacks</p>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-6">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 truncate">Feedback Management</h1>
+            <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage and review customer feedbacks</p>
           </div>
-          <div className="flex items-center space-x-3">
-            <div className="text-sm text-gray-500">
-              {feedbacks.length} feedback{feedbacks.length !== 1 ? 's' : ''}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 flex-shrink-0">
+            <div className="bg-gray-50 px-2 lg:px-4 py-1 lg:py-2 rounded-lg border border-gray-200">
+              <span className="text-xs lg:text-sm font-medium text-gray-700">
+                {feedbacks.length} feedback{feedbacks.length !== 1 ? 's' : ''}
+              </span>
             </div>
             <button
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
+              className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-6 py-1.5 lg:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-xs lg:text-base"
               onClick={toggleFilters}
               aria-label="Toggle filters"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
               </svg>
-              <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+              <span className="font-medium hidden sm:inline">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+              <span className="font-medium sm:hidden">Filters</span>
             </button>
           </div>
         </div>
@@ -325,67 +328,67 @@ const Feedbacks = () => {
 
       {/* Statistics Section */}
       {statistics && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Feedback Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
+          <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Feedback Statistics</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {/* Total Feedbacks */}
-            <div className="bg-blue-50 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 lg:p-6 border border-blue-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs lg:text-sm font-medium text-blue-700 mb-1">Total Feedbacks</p>
+                  <p className="text-2xl lg:text-3xl font-bold text-blue-900">{statistics.total_feedbacks}</p>
+                </div>
+                <div className="p-2 lg:p-3 bg-blue-200 rounded-xl flex-shrink-0">
+                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Total Feedbacks</p>
-                  <p className="text-2xl font-bold text-gray-900">{statistics.total_feedbacks}</p>
                 </div>
               </div>
             </div>
 
             {/* Average Rating */}
-            <div className="bg-yellow-50 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-yellow-100 rounded-lg">
-                  <svg className="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 lg:p-6 border border-yellow-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs lg:text-sm font-medium text-yellow-700 mb-1">Average Rating</p>
+                  <p className="text-2xl lg:text-3xl font-bold text-yellow-900">{statistics.average_rating?.toFixed(1)}/5</p>
+                </div>
+                <div className="p-2 lg:p-3 bg-yellow-200 rounded-xl flex-shrink-0">
+                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-yellow-700" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Average Rating</p>
-                  <p className="text-2xl font-bold text-gray-900">{statistics.average_rating?.toFixed(1)}/5</p>
                 </div>
               </div>
             </div>
 
             {/* Total Ratings */}
-            <div className="bg-green-50 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 lg:p-6 border border-green-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs lg:text-sm font-medium text-green-700 mb-1">Total Ratings</p>
+                  <p className="text-2xl lg:text-3xl font-bold text-green-900">{statistics.total_ratings}</p>
+                </div>
+                <div className="p-2 lg:p-3 bg-green-200 rounded-xl flex-shrink-0">
+                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-green-700" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Total Ratings</p>
-                  <p className="text-2xl font-bold text-gray-900">{statistics.total_ratings}</p>
                 </div>
               </div>
             </div>
 
             {/* Rating Percentage */}
-            <div className="bg-purple-50 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Rating Rate</p>
-                  <p className="text-2xl font-bold text-gray-900">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 lg:p-6 border border-purple-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs lg:text-sm font-medium text-purple-700 mb-1">Rating Rate</p>
+                  <p className="text-2xl lg:text-3xl font-bold text-purple-900">
                     {statistics.rating_rate}%
                   </p>
+                </div>
+                <div className="p-2 lg:p-3 bg-purple-200 rounded-xl flex-shrink-0">
+                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -393,16 +396,16 @@ const Feedbacks = () => {
 
           {/* Rating Distribution */}
           {statistics.rating_distribution && (
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <h3 className="text-md font-semibold text-gray-900 mb-4">Rating Distribution</h3>
-              <div className="grid grid-cols-5 gap-4">
+            <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-4 lg:mb-6">Rating Distribution</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-6">
                 {[1, 2, 3, 4, 5].map((rating) => (
-                  <div key={rating} className="text-center">
-                    <div className="flex items-center justify-center mb-2">
+                  <div key={rating} className="text-center bg-gray-50 rounded-xl p-3 lg:p-4 border border-gray-200">
+                    <div className="flex items-center justify-center mb-2 lg:mb-3">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <svg
                           key={star}
-                          className={`w-4 h-4 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                          className={`w-3 h-3 lg:w-5 lg:h-5 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -410,10 +413,10 @@ const Feedbacks = () => {
                         </svg>
                       ))}
                     </div>
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-xl lg:text-3xl font-bold text-gray-900 mb-1">
                       {statistics.rating_distribution[rating.toString()] || 0}
                     </div>
-                    <div className="text-sm text-gray-500">feedbacks</div>
+                    <div className="text-xs lg:text-sm text-gray-600 font-medium">feedbacks</div>
                   </div>
                 ))}
               </div>
@@ -424,38 +427,38 @@ const Feedbacks = () => {
 
       {/* Filter Section */}
       {showFilters && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Search & Filter</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
+          <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Search & Filter</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             <div>
-              <label htmlFor="search-start-date" className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+              <label htmlFor="search-start-date" className="block text-sm font-medium text-gray-700 mb-3">Start Date</label>
               <input
                 id="search-start-date"
                 type="date"
                 value={searchParams.startDate}
                 onChange={(e) => { handleFieldChange(e, 'search', 'startDate'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                 aria-label="Start Date"
               />
             </div>
             <div>
-              <label htmlFor="search-end-date" className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+              <label htmlFor="search-end-date" className="block text-sm font-medium text-gray-700 mb-3">End Date</label>
               <input
                 id="search-end-date"
                 type="date"
                 value={searchParams.endDate}
                 onChange={(e) => { handleFieldChange(e, 'search', 'endDate'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                 aria-label="End Date"
               />
             </div>
             <div>
-              <label htmlFor="search-product-id" className="block text-sm font-medium text-gray-700 mb-2">Product</label>
+              <label htmlFor="search-product-id" className="block text-sm font-medium text-gray-700 mb-3">Product</label>
               <select
                 id="search-product-id"
                 value={searchParams.productId}
                 onChange={(e) => { handleFieldChange(e, 'search', 'productId'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                 aria-label="Select Product"
               >
                 <option value="">All Products</option>
@@ -467,12 +470,12 @@ const Feedbacks = () => {
               </select>
             </div>
             <div>
-              <label htmlFor="search-username" className="block text-sm font-medium text-gray-700 mb-2">Username</label>
+              <label htmlFor="search-username" className="block text-sm font-medium text-gray-700 mb-3">Username</label>
               <select
                 id="search-username"
                 value={searchParams.username}
                 onChange={(e) => { handleFieldChange(e, 'search', 'username'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                 aria-label="Select User"
               >
                 <option value="">All Users</option>
@@ -484,17 +487,19 @@ const Feedbacks = () => {
               </select>
             </div>
           </div>
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-gray-200 gap-4">
             <button
               onClick={clearSearch}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              className="px-4 lg:px-6 py-2 lg:py-3 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400 font-medium text-sm lg:text-base"
               aria-label="Clear search"
               disabled={loading || !hasActiveFilters()}
             >
               Clear Filters
             </button>
-            <div className="text-sm text-gray-500">
-              Showing {startIndex + 1} to {Math.min(endIndex, feedbacks.length)} of {feedbacks.length} feedbacks
+            <div className="bg-gray-50 px-3 lg:px-4 py-2 rounded-lg border border-gray-200">
+              <span className="text-xs lg:text-sm text-gray-600 font-medium">
+                Showing {startIndex + 1} to {Math.min(endIndex, feedbacks.length)} of {feedbacks.length} feedbacks
+              </span>
             </div>
           </div>
         </div>
@@ -556,30 +561,34 @@ const Feedbacks = () => {
       ) : (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           {/* Table Header */}
-          <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-            <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-700">
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-2 sm:px-4 lg:px-6 xl:px-8 py-3 lg:py-4 xl:py-6 border-b border-gray-200">
+            <div className="grid grid-cols-12 gap-2 lg:gap-4 xl:gap-6 text-xs lg:text-sm font-semibold text-gray-800">
               <div className="col-span-1">#</div>
-              <div className="col-span-2">Customer</div>
+              <div className="col-span-3 lg:col-span-2">Customer</div>
               <div className="col-span-2">Rating</div>
-              <div className="col-span-6">Content</div>
-              <div className="col-span-1">Actions</div>
+              <div className="col-span-4 lg:col-span-5">Content</div>
+              <div className="col-span-2">Actions</div>
             </div>
           </div>
 
           {/* Table Body */}
           <div className="divide-y divide-gray-200">
             {currentFeedbacks.map((feedback, index) => (
-              <div key={feedback._id} className="px-6 py-4 hover:bg-gray-50 transition-colors duration-200">
-                <div className="grid grid-cols-12 gap-4 items-center">
+              <div key={feedback._id} className="px-2 sm:px-4 lg:px-6 xl:px-8 py-3 lg:py-4 xl:py-6 hover:bg-gray-50 transition-all duration-200">
+                <div className="grid grid-cols-12 gap-2 lg:gap-4 xl:gap-6 items-center">
                   {/* Index */}
-                  <div className="col-span-1 text-sm text-gray-500">
-                    {startIndex + index + 1}
+                  <div className="col-span-1">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-gray-600">
+                        {startIndex + index + 1}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Customer */}
-                  <div className="col-span-2">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100">
+                  <div className="col-span-3 lg:col-span-2">
+                    <div className="flex items-center space-x-1 lg:space-x-2 xl:space-x-4">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
                         {feedback.customer?.image ? (
                           <img
                             src={feedback.customer.image}
@@ -588,17 +597,17 @@ const Feedbacks = () => {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                             </svg>
                           </div>
                         )}
                       </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900 truncate">
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs lg:text-sm font-semibold text-gray-900 truncate">
                           {feedback.customer?.name || 'Unknown User'}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-500 font-medium truncate">
                           @{feedback.customer?.username || 'N/A'}
                         </div>
                       </div>
@@ -608,51 +617,53 @@ const Feedbacks = () => {
                   {/* Rating */}
                   <div className="col-span-2">
                     {feedback.feedback?.has_rating ? (
-                      <div className="flex items-center space-x-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg
-                            key={star}
-                            className={`w-4 h-4 ${star <= (feedback.feedback.rating || 0)
-                              ? 'text-yellow-400'
-                              : 'text-gray-300'
-                              }`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                        <span className="text-sm text-gray-600 ml-1">
+                      <div className="flex flex-col lg:flex-row lg:items-center space-y-1 lg:space-y-0 lg:space-x-2">
+                        <div className="flex items-center space-x-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <svg
+                              key={star}
+                              className={`w-3 h-3 lg:w-4 lg:h-4 ${star <= (feedback.feedback.rating || 0)
+                                ? 'text-yellow-400'
+                                : 'text-gray-300'
+                                }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
+                        <span className="text-xs lg:text-sm font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-full">
                           {feedback.feedback.rating}/5
                         </span>
                       </div>
                     ) : (
-                      <span className="text-sm text-gray-400">No rating</span>
+                      <span className="text-xs lg:text-sm text-gray-400 bg-gray-50 px-2 lg:px-3 py-1 rounded-full">No rating</span>
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="col-span-6">
+                  <div className="col-span-4 lg:col-span-5">
                     {feedback.feedback?.has_content && feedback.feedback.content ? (
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p className="text-gray-800 text-sm leading-relaxed">
+                      <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg lg:rounded-xl p-2 lg:p-3 xl:p-4">
+                        <p className="text-gray-800 text-xs lg:text-sm leading-relaxed font-medium line-clamp-2">
                           "{feedback.feedback.content}"
                         </p>
                       </div>
                     ) : (
-                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <p className="text-gray-500 text-sm italic">No feedback content provided</p>
+                      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-lg lg:rounded-xl p-2 lg:p-3 xl:p-4">
+                        <p className="text-gray-500 text-xs lg:text-sm italic">No feedback content provided</p>
                       </div>
                     )}
                   </div>
 
                   {/* Actions */}
-                  <div className="col-span-1">
-                    <div className="flex items-center space-x-2">
+                  <div className="col-span-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
                       {/* View Detail Button */}
                       <button
                         onClick={() => handleViewDetail(feedback)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 border border-blue-200 hover:border-blue-300 flex-shrink-0"
                         aria-label="View feedback details"
                         title="View Details"
                       >
@@ -666,13 +677,22 @@ const Feedbacks = () => {
                       {(user?.role === 'admin' || user?.role === 'manager' || feedback.customer?._id === user?._id) && (
                         <button
                           onClick={() => toggleDeleteFeedback(feedback, !feedback.feedback?.is_deleted)}
-                          className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200 ${feedback.feedback?.is_deleted
-                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                            : 'bg-red-100 text-red-700 hover:bg-red-200'
+                          className={`p-2 rounded-lg transition-all duration-200 border flex-shrink-0 ${feedback.feedback?.is_deleted
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200 border-green-200 hover:border-green-300'
+                            : 'bg-red-100 text-red-700 hover:bg-red-200 border-red-200 hover:border-red-300'
                             }`}
-                          aria-label={`${feedback.feedback?.is_deleted ? 'Undelete' : 'Delete'} feedback`}
+                          aria-label={`${feedback.feedback?.is_deleted ? 'Restore' : 'Delete'} feedback`}
+                          title={`${feedback.feedback?.is_deleted ? 'Restore' : 'Delete'} feedback`}
                         >
-                          {feedback.feedback?.is_deleted ? 'Restore' : 'Delete'}
+                          {feedback.feedback?.is_deleted ? (
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          )}
                         </button>
                       )}
                     </div>
@@ -686,25 +706,26 @@ const Feedbacks = () => {
 
       {/* Pagination */}
       {feedbacks.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 mt-3 sm:mt-4 lg:mt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 lg:gap-4">
+            <div className="text-xs lg:text-sm text-gray-700">
               Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, feedbacks.length)}</span> of <span className="font-medium">{feedbacks.length}</span> feedbacks
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 lg:space-x-2">
               <button
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                className="px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
                 aria-label="Previous page"
               >
-                Previous
+                <span className="hidden sm:inline">Previous</span>
+                <span className="sm:hidden">Prev</span>
               </button>
               <div className="flex items-center space-x-1">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                   <button
                     key={page}
-                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page
+                    className={`px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page
                       ? 'bg-blue-600 text-white'
                       : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
                       }`}
@@ -716,12 +737,13 @@ const Feedbacks = () => {
                 ))}
               </div>
               <button
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                className="px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
+                <span className="sm:hidden">Next</span>
               </button>
             </div>
           </div>
