@@ -21,28 +21,29 @@ import Accounts from "./pages/Accounts.jsx";
 import Categories from "./pages/Categories.jsx";
 import Feedbacks from "./pages/Feedback/Feedbacks.jsx";
 import ImportBills from "./pages/ImportBills.jsx";
-import Statistics from "./pages/Statistics.jsx";
 import Layout from "./pages/Layout.jsx";
 import Vouchers from "./pages/Voucher/Vouchers.jsx";
-
-// ==== Import Forgot Password, OTP, Reset Password ====
+import AdminChat from "./pages/AdminChat.jsx";
+import Notifications from "./pages/Notifications.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import OTPVerification from "./pages/OTPVerification.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import WelcomeBack from "./pages/WelcomeBack.jsx";
+import RevenueStatistics from "./pages/RevenueStatistcs/RevenueStatistics.jsx";
+import OrderStatistics from "./pages/OrderStatistics/OrderStatistics.jsx";
+import CustomerStatistics from "./pages/CustomerStatistics/CustomerStatistics.jsx";
+import ProductStatistics from "./pages/ProductStatistics/ProductStatistics.jsx";
 
-// ✅ Import thêm Chat và Notifications
-import AdminChat from "./pages/AdminChat.jsx";
-import Notifications from "./pages/Notifications.jsx";
 
 // ===============================
-// 🔒 ProtectedRoute (chặn người không có quyền)
+// ProtectedRoute (chặn người không có quyền)
 // ===============================
 const ProtectedRoute = ({ children }) => {
   const { user, isAuthLoading } = React.useContext(AuthContext);
   const location = useLocation();
 
   if (isAuthLoading) {
-    return null; // hoặc spinner loading
+    return null;
   }
 
   if (!user || !["admin", "manager"].includes(user.role)) {
@@ -53,7 +54,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 // ===============================
-// 🧠 App Component
+// App Component
 // ===============================
 const App = () => {
   return (
@@ -73,7 +74,7 @@ const App = () => {
                 path="/"
                 element={
                   <ProtectedRoute>
-                    <Statistics />
+                    <WelcomeBack />
                   </ProtectedRoute>
                 }
               />
@@ -93,11 +94,43 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              <Route
+              {/* <Route
                 path="/statistics"
                 element={
                   <ProtectedRoute>
                     <Statistics />
+                  </ProtectedRoute>
+                }
+              /> */}
+              <Route
+                path="/statistics/revenue"
+                element={
+                  <ProtectedRoute>
+                    <RevenueStatistics />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/statistics/customer"
+                element={
+                  <ProtectedRoute>
+                    <CustomerStatistics />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/statistics/product"
+                element={
+                  <ProtectedRoute>
+                    <ProductStatistics />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/statistics/order"
+                element={
+                  <ProtectedRoute>
+                    <OrderStatistics />
                   </ProtectedRoute>
                 }
               />
@@ -166,7 +199,6 @@ const App = () => {
                 }
               />
 
-              {/* ✅ Vouchers */}
               <Route
                 path="/vouchers"
                 element={
@@ -176,7 +208,6 @@ const App = () => {
                 }
               />
 
-              {/* ✅ Notifications */}
               <Route
                 path="/notifications"
                 element={
@@ -186,7 +217,6 @@ const App = () => {
                 }
               />
 
-              {/* ✅ Admin Chat */}
               <Route
                 path="/chat"
                 element={
