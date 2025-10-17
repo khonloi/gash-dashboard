@@ -26,7 +26,7 @@ const CategoriesRedirect = () => {
   }, [navigate]);
   return null;
 };
-import Accounts from "./pages/Accounts.jsx";
+import Accounts from "./pages/Account/Accounts.jsx";
 import Feedbacks from "./pages/Feedback/Feedbacks.jsx";
 import ImportBills from "./pages/ImportBills.jsx";
 import Layout from "./pages/Layout.jsx";
@@ -36,7 +36,6 @@ import Notifications from "./pages/Notifications.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import OTPVerification from "./pages/OTPVerification.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-import WelcomeBack from "./pages/WelcomeBack.jsx";
 import RevenueStatistics from "./pages/RevenueStatistcs/RevenueStatistics.jsx";
 import OrderStatistics from "./pages/OrderStatistics/OrderStatistics.jsx";
 import CustomerStatistics from "./pages/CustomerStatistics/CustomerStatistics.jsx";
@@ -82,7 +81,7 @@ const App = () => {
                 path="/"
                 element={
                   <ProtectedRoute>
-                    <WelcomeBack />
+                    <OrderStatistics />
                   </ProtectedRoute>
                 }
               />

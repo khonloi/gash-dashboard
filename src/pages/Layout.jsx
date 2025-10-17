@@ -70,7 +70,7 @@ const Layout = ({ children }) => {
   const handleLogoClick = useCallback(
     (e) => {
       e.preventDefault();
-      navigate(user?.role === 'manager' ? '/orders' : '/');
+      navigate(user?.role === 'manager' ? '/orders' : '/statistics/order');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     [navigate, user]
@@ -205,7 +205,7 @@ const Layout = ({ children }) => {
           <div className="px-4 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
             {isSidebarExpanded ? (
               <Link
-                to={user?.role === 'manager' ? '/orders' : '/'}
+                to={user?.role === 'manager' ? '/orders' : '/statistics/order'}
                 className="flex items-center transition-opacity duration-200 hover:opacity-90"
                 onClick={handleLogoClick}
                 aria-label="Gash homepage"
@@ -214,7 +214,7 @@ const Layout = ({ children }) => {
               </Link>
             ) : (
               <Link
-                to={user?.role === 'manager' ? '/orders' : '/'}
+                to={user?.role === 'manager' ? '/orders' : '/statistics/order'}
                 className="flex items-center justify-center transition-opacity duration-200 hover:opacity-90"
                 onClick={handleLogoClick}
                 aria-label="Gash homepage"
