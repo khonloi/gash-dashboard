@@ -243,6 +243,10 @@ const Api = {
 
     // ==== Statistics ====
     statistics: {
+        // ==== Order Statistics ====
+        // Get order statistics
+        getOrderStatistics: (params = {}) => axiosClient.get("/new-statistics/order-statistics", { params }).then(response => response.data),
+     
         // ==== Revenue Statistics ====
         // Get revenue by week
         getRevenueByWeek: (weeks = 52) => axiosClient.get(`/statistics/revenue/revenue-by-week?weeks=${weeks}`).then(response => response.data),
