@@ -187,67 +187,16 @@ const Api = {
 
     // ==== Orders ====
     orders: {
-        // Get all orders
-        getAll: (params = {}) => axiosClient.get("/orders", { params }).then(response => response.data),
-        // Get single order details
-        getOrder: (orderId) => axiosClient.get(`/orders/get-order-by-id/${orderId}`).then(response => response.data),
-        // Get orders by user
-        getOrdersByUser: (userId) => axiosClient.get(`/orders?acc_id=${userId}`).then(response => response.data),
-        // Update order status
-        updateStatus: (orderId, data) => axiosClient.patch(`/orders/${orderId}/status`, data).then(response => response.data),
+        // Get all orders for admin
+        getAll: () => axiosClient.get("/orders/admin/get-all-order").then(response => response.data),
+        // Search orders with filters
+        search: (params = {}) => axiosClient.get("/orders/search", { params }).then(response => response.data),
+        // Get order details by ID
+        getDetails: (orderId) => axiosClient.get(`/orders/get-order-by-id/${orderId}`).then(response => response.data),
+        // Update order (status, payment, refund) - Admin endpoint
+        update: (orderId, data) => axiosClient.put(`/orders/admin/update/${orderId}`, data).then(response => response.data),
         // Cancel order
         cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}).then(response => response.data),
-        // VNPay return handler
-        vnpayReturn: (params) => axiosClient.get(`/orders/vnpay-return${params}`).then(response => response.data),
-        // VNPay payment URL
-        getPaymentUrl: (data) => axiosClient.post("/orders/payment-url", data).then(response => response.data),
-        // Get order statistics
-        getStatistics: (params = {}) => axiosClient.get("/orders/statistics", { params }).then(response => response.data),
-    },
-
-    // ==== Order Details ====
-    orderDetails: {
-        // Create new order detail
-        create: (data) => axiosClient.post('/order-detail/create-order-detail', data).then(response => response.data),
-        // Update order detail
-        update: (orderDetailId, data) => axiosClient.put(`/order-detail/update-order-detail/${orderDetailId}`, data).then(response => response.data),
-        // Delete order detail
-        delete: (orderDetailId) => axiosClient.delete(`/order-detail/delete-order-detail/${orderDetailId}`).then(response => response.data),
-        // Search order details
-        search: (queryParams) => axiosClient.get('/order-detail/search', { params: queryParams }).then(response => response.data),
-        // Get order details by product
-        getByProduct: (productId) => axiosClient.get(`/order-detail/get-order-details-by-product/${productId}`).then(response => response.data),
-    },
-
-    // ==== Cart ====
-    cart: {
-        fetch: (userId) => axiosClient.get(`/carts?acc_id=${userId}`),
-        addItem: (cartItem) => axiosClient.post("/carts", cartItem),
-        updateItem: (itemId, data) => axiosClient.put(`/carts/${itemId}`, data),
-        removeItem: (itemId) => axiosClient.delete(`/carts/${itemId}`),
-        batchRemove: (ids) => axiosClient.delete(`/carts/batch`, { data: { ids } }),
-        clearCart: async (userId) => {
-            const res = await axiosClient.get(`/carts?acc_id=${userId}`);
-            const items = Array.isArray(res.data) ? res.data : [];
-            await Promise.all(
-                items.map((item) => axiosClient.delete(`/carts/${item._id}`))
-            );
-            return true;
-        },
-    },
-
-    // ==== New Cart ====
-    newCart: {
-        // Create cart item
-        create: (data) => axiosClient.post('/new-carts', data),
-        // Get cart by account
-        getByAccount: (accountId) => axiosClient.get(`/new-carts/account/${accountId}`),
-        // Get cart item by ID
-        getById: (cartId) => axiosClient.get(`/new-carts/${cartId}`),
-        // Update cart item
-        update: (cartId, data) => axiosClient.put(`/new-carts/${cartId}`, data),
-        // Delete cart item
-        delete: (cartId) => axiosClient.delete(`/new-carts/${cartId}`),
     },
 
     // ==== Feedback ====
@@ -294,33 +243,13 @@ const Api = {
 
     // ==== Statistics ====
     statistics: {
-        // Get dashboard statistics
-        getDashboard: (params = {}) => axiosClient.get("/statistics/dashboard", { params }),
-        // Get sales statistics
-        getSales: (params = {}) => axiosClient.get("/statistics/sales", { params }),
-        // Get product statistics
-        getProducts: (params = {}) => axiosClient.get("/statistics/products", { params }),
-        // Get user statistics
-        getUsers: (params = {}) => axiosClient.get("/statistics/users", { params }),
-
         // ==== Revenue Statistics ====
-        // Get total revenue statistics
-        getRevenue: () => axiosClient.get("/statistics/revenue").then(response => response.data),
-        // Get revenue by week (new API structure)
-        getRevenueByWeek: () => axiosClient.get("/statistics/revenue/revenue-by-week").then(response => response.data),
+        // Get revenue by week
+        getRevenueByWeek: (weeks = 52) => axiosClient.get(`/statistics/revenue/revenue-by-week?weeks=${weeks}`).then(response => response.data),
         // Get revenue by month
-        getRevenueByMonth: () => axiosClient.get("/statistics/revenue/revenue-by-month").then(response => response.data),
+        getRevenueByMonth: (years = 10) => axiosClient.get(`/statistics/revenue/revenue-by-month?years=${years}`).then(response => response.data),
         // Get revenue by year
-        getRevenueByYear: () => axiosClient.get("/statistics/revenue/revenue-by-year").then(response => response.data),
-
-        // ==== Customer Statistics ====
-        // Get customer statistics
-        getCustomers: () => axiosClient.get("/statistics/customers").then(response => response.data),
-
-        // ==== Order Statistics ====
-        // Get order statistics
-        getOrders: () => axiosClient.get("/statistics/orders").then(response => response.data),
-        getOrderStatistics: () => axiosClient.get("/new-statistics/order-statistics").then(response => response.data),
+        getRevenueByYear: (years = 3) => axiosClient.get(`/statistics/revenue/revenue-by-year?years=${years}`).then(response => response.data),
     },
 
     // ==== Bills ====
