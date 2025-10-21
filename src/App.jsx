@@ -11,7 +11,7 @@ import { ToastProvider } from "./components/Toast.jsx";
 
 // ==== Import các component hiện có ====
 import Products from "./pages/Product/Products.jsx";
-import ProductVariants from "./pages/ProductVariants.jsx";
+import ProductVariants from "./pages/Variant/ProductVariants.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Carts from "./pages/Carts.jsx";
