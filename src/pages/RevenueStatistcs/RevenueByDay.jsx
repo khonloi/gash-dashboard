@@ -730,26 +730,6 @@ const RevenueByDay = ({ user }) => {
                         </div>
                     </div>
 
-                    {/* vs Same Day Last Week */}
-                    <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
-                        <div className="flex flex-col items-center text-center space-y-2">
-                            <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                                <FaChartLine className="text-sm text-white" />
-                            </div>
-                            <div>
-                                <p className="text-gray-600 text-xs font-medium mb-1">vs Same Day Last Week</p>
-                                <p className={`text-sm font-bold ${daySummary?.changeVsSameDayLastWeek?.startsWith('+')
-                                    ? 'text-green-600'
-                                    : daySummary?.changeVsSameDayLastWeek?.startsWith('-')
-                                        ? 'text-red-600'
-                                        : 'text-gray-800'
-                                    } truncate`}>
-                                    {daySummary?.changeVsSameDayLastWeek || '-'}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Average Daily Revenue */}
                     <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
@@ -765,6 +745,24 @@ const RevenueByDay = ({ user }) => {
                         </div>
                     </div>
 
+
+                    {/* Best Day in Period */}
+                    {daySummary?.bestDayInPeriod && (
+                        <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
+                            <div className="flex flex-col items-center text-center space-y-2">
+                                <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                                    <FaTrophy className="text-sm text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-gray-600 text-xs font-medium mb-1">Best Day</p>
+                                    <p className="text-xs font-bold text-gray-800 truncate">
+                                        {daySummary.bestDayInPeriod}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Activity Rate */}
                     <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
@@ -775,6 +773,26 @@ const RevenueByDay = ({ user }) => {
                                 <p className="text-gray-600 text-xs font-medium mb-1">Activity Rate</p>
                                 <p className="text-sm font-bold text-gray-800 truncate">
                                     {daySummary?.activityRate || '0.0%'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* vs Same Day Last Week */}
+                    <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
+                        <div className="flex flex-col items-center text-center space-y-2">
+                            <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                <FaChartLine className="text-sm text-white" />
+                            </div>
+                            <div>
+                                <p className="text-gray-600 text-xs font-medium mb-1">vs Same Day Last Week</p>
+                                <p className={`text-sm font-bold ${daySummary?.changeVsSameDayLastWeek?.startsWith('+')
+                                    ? 'text-green-600'
+                                    : daySummary?.changeVsSameDayLastWeek?.startsWith('-')
+                                        ? 'text-red-600'
+                                        : 'text-gray-800'
+                                    } truncate`}>
+                                    {daySummary?.changeVsSameDayLastWeek || '-'}
                                 </p>
                             </div>
                         </div>
@@ -807,23 +825,6 @@ const RevenueByDay = ({ user }) => {
                                             : 'text-gray-500'
                                         } truncate`}>
                                         {daySummary.trend.changePercentage || '-'} vs {daySummary.trend.comparedTo === '7-day average' ? '7-day average' : daySummary.trend.comparedTo || 'previous period'}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Best Day in Period */}
-                    {daySummary?.bestDayInPeriod && (
-                        <div className="bg-white rounded-xl p-3 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
-                            <div className="flex flex-col items-center text-center space-y-2">
-                                <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-                                    <FaTrophy className="text-sm text-white" />
-                                </div>
-                                <div>
-                                    <p className="text-gray-600 text-xs font-medium mb-1">Best Day</p>
-                                    <p className="text-xs font-bold text-gray-800 truncate">
-                                        {daySummary.bestDayInPeriod}
                                     </p>
                                 </div>
                             </div>
