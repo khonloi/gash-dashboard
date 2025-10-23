@@ -41,69 +41,66 @@ const Feedbacks = () => {
   }, [toast]);
 
   // Fetch feedbacks with search parameters
-  const fetchFeedbacks = useCallback(async () => {
-    if (!user?._id) {
-      setError('User not authenticated');
-      return;
+const fetchFeedbacks = useCallback(async () => {
+  if (!user?._id) {
+    setError('User not authenticated');
+    return;
+  }
+  setLoading(true);
+  setError('');
+
+  try {
+    const { startDate, endDate, productId, username } = searchParams;
+    const params = {};
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    if (productId) params.productId = productId;
+    if (username) params.username = username;
+
+    const response = await Api.feedback.getAll(params);
+    console.log('Full API response:', response);
+
+    let feedbacksData = [];
+    if (Array.isArray(response)) {
+      feedbacksData = response;
+    } else if (response?.data?.feedbacks) {
+      feedbacksData = response.data.feedbacks;
+    } else {
+      throw new Error('Unexpected response format');
     }
-    setLoading(true);
-    setError('');
 
-    try {
-      const { startDate, endDate, productId, username } = searchParams;
-      const params = {};
-      if (startDate) params.startDate = startDate;
-      if (endDate) params.endDate = endDate;
-      if (productId) params.productId = productId;
-      if (username) params.username = username;
+    console.log('Extracted feedbacksData:', feedbacksData);
 
-      const response = await Api.feedback.getAll(params);
+    // Filter out invalid feedback entries
+    feedbacksData = feedbacksData.filter(feedback => 
+      feedback.order?._id && feedback.variant?.variant_id && feedback.customer?._id
+    );
 
-      // Debug: Log the full response to see the structure
-      console.log('Full API response:', response);
-      console.log('Response data:', response?.data);
-      console.log('Response data.feedbacks:', response?.data?.feedbacks);
+    const sortedFeedbacks = feedbacksData.sort((a, b) => {
+      const dateA = a.order?.orderDate ? new Date(a.order.orderDate) : new Date(0);
+      const dateB = b.order?.orderDate ? new Date(b.order.orderDate) : new Date(0);
+      return dateB - dateA;
+    });
 
-      // Extract feedbacks from response
-      // Based on the expected structure: { success: true, message: "...", data: { feedbacks: [...] } }
-      let feedbacksData = [];
-      if (response?.data?.feedbacks) {
-        feedbacksData = response.data.feedbacks;
-      } else if (response?.feedbacks) { // Fallback for direct array if API changes
-        feedbacksData = response.feedbacks;
-      } else if (Array.isArray(response?.data)) { // Fallback for direct data array
-        feedbacksData = response.data;
-      } else if (Array.isArray(response)) { // Fallback for direct response array
-        feedbacksData = response;
-      }
+    setFeedbacks(sortedFeedbacks);
+    console.log('Final sorted feedbacks:', sortedFeedbacks);
 
-      console.log('Extracted feedbacksData:', feedbacksData);
-
-      // Sort feedbacks by order date descending (latest first)
-      const sortedFeedbacks = feedbacksData.sort((a, b) => {
-        const dateA = a.order?.orderDate ? new Date(a.order.orderDate) : new Date(0);
-        const dateB = b.order?.orderDate ? new Date(b.order.orderDate) : new Date(0);
-        return dateB - dateA;
-      });
-
-      setFeedbacks(sortedFeedbacks);
-      console.log('Final sorted feedbacks:', sortedFeedbacks);
-
-      // Set statistics if available
-      if (response?.data?.statistics) {
-        setStatistics(response.data.statistics);
-      }
-
-      if (sortedFeedbacks.length === 0) {
-        setToast({ type: 'info', message: 'No feedback found for the given criteria' });
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to load feedbacks');
-      console.error('Fetch feedbacks error:', err);
-    } finally {
-      setLoading(false);
+    if (response?.data?.statistics) {
+      setStatistics(response.data.statistics);
     }
-  }, [user, searchParams]);
+
+    if (sortedFeedbacks.length === 0) {
+      setToast({ type: 'info', message: 'No feedback found for the given criteria' });
+    }
+  } catch (err) {
+    const errorMessage = err.response?.data?.message || err.message || 'Failed to load feedbacks. Please try again later.';
+    setError(errorMessage);
+    setToast({ type: 'error', message: errorMessage });
+    console.error('Fetch feedbacks error:', err);
+  } finally {
+    setLoading(false);
+  }
+}, [user, searchParams]);
 
   // Fetch orders, variants, products, and users for dropdowns
   const fetchOrders = useCallback(async () => {
@@ -112,33 +109,37 @@ const Feedbacks = () => {
       setOrders(response || []);
     } catch (err) {
       console.error('Fetch orders error:', err);
+      setOrders([]);
     }
   }, []);
 
   const fetchVariants = useCallback(async () => {
     try {
-      const response = await Api.variants.getAll();
+      const response = await Api.newVariants.getAll();
       setVariants(response || []);
     } catch (err) {
       console.error('Fetch variants error:', err);
+      setVariants([]);
     }
   }, []);
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await Api.products.getAll();
+      const response = await Api.newProducts.getAll();
       setProducts(response || []);
     } catch (err) {
       console.error('Fetch products error:', err);
+      setProducts([]);
     }
   }, []);
 
   const fetchUsers = useCallback(async () => {
     try {
-      const response = await Api.users.getAll();
+      const response = await Api.accounts.getAll();
       setUsers(response || []);
     } catch (err) {
       console.error('Fetch users error:', err);
+      setUsers([]);
     }
   }, []);
 
@@ -193,21 +194,21 @@ const Feedbacks = () => {
     }
   };
 
-    // Toggle delete feedback
-    const toggleDeleteFeedback = async (feedback, isDeleted) => {
-      try {
-        if (isDeleted) {
-          await Api.feedback.delete(feedback._id); // Use feedback._id as the single parameter
-          setToast({ type: 'success', message: 'Feedback deleted successfully' });
-        } else {
-          await Api.feedback.restore(feedback._id); // Use restore for restoring feedback
-          setToast({ type: 'success', message: 'Feedback restored successfully' });
-        }
-        fetchFeedbacks();
-      } catch (err) {
-        setToast({ type: 'error', message: err.message || 'Failed to update feedback' });
+  // Toggle delete feedback
+  const toggleDeleteFeedback = async (feedback, isDeleted) => {
+    try {
+      if (isDeleted) {
+        await Api.feedback.delete(feedback._id);
+        setToast({ type: 'success', message: 'Feedback deleted successfully' });
+      } else {
+        await Api.feedback.restore(feedback._id);
+        setToast({ type: 'success', message: 'Feedback restored successfully' });
       }
-    };
+      fetchFeedbacks();
+    } catch (err) {
+      setToast({ type: 'error', message: err.message || 'Failed to update feedback' });
+    }
+  };
 
   // Toggle filters
   const toggleFilters = () => {
@@ -359,142 +360,6 @@ const Feedbacks = () => {
                   </svg>
                 </div>
               </div>
-            </div>
-
-            {/* Total Ratings */}
-            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 lg:p-6 border border-green-200">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs lg:text-sm font-medium text-green-700 mb-1">Total Ratings</p>
-                  <p className="text-2xl lg:text-3xl font-bold text-green-900">{statistics.total_ratings}</p>
-                </div>
-                <div className="p-2 lg:p-3 bg-green-200 rounded-xl flex-shrink-0">
-                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-green-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* Rating Percentage */}
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 lg:p-6 border border-purple-200">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs lg:text-sm font-medium text-purple-700 mb-1">Rating Rate</p>
-                  <p className="text-2xl lg:text-3xl font-bold text-purple-900">
-                    {statistics.rating_rate}%
-                  </p>
-                </div>
-                <div className="p-2 lg:p-3 bg-purple-200 rounded-xl flex-shrink-0">
-                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Rating Distribution */}
-          {statistics.rating_distribution && (
-            <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
-              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-4 lg:mb-6">Rating Distribution</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-6">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <div key={rating} className="text-center bg-gray-50 rounded-xl p-3 lg:p-4 border border-gray-200">
-                    <div className="flex items-center justify-center mb-2 lg:mb-3">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <svg
-                          key={star}
-                          className={`w-3 h-3 lg:w-5 lg:h-5 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <div className="text-xl lg:text-3xl font-bold text-gray-900 mb-1">
-                      {statistics.rating_distribution[rating.toString()] || 0}
-                    </div>
-                    <div className="text-xs lg:text-sm text-gray-600 font-medium">feedbacks</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Filter Section */}
-      {showFilters && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
-          <h2 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Search & Filter</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
-            <div>
-              <label htmlFor="search-start-date" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Start Date</label>
-              <input
-                id="search-start-date"
-                type="date"
-                value={searchParams.startDate}
-                onChange={(e) => { handleFieldChange(e, 'search', 'startDate'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-                aria-label="Start Date"
-              />
-            </div>
-            <div>
-              <label htmlFor="search-end-date" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">End Date</label>
-              <input
-                id="search-end-date"
-                type="date"
-                value={searchParams.endDate}
-                onChange={(e) => { handleFieldChange(e, 'search', 'endDate'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-                aria-label="End Date"
-              />
-            </div>
-            <div>
-              <label htmlFor="search-product-id" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Product</label>
-              <select
-                id="search-product-id"
-                value={searchParams.productId}
-                onChange={(e) => { handleFieldChange(e, 'search', 'productId'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-                aria-label="Select Product"
-              >
-                <option value="">All Products</option>
-                {products.map(product => (
-                  <option key={product._id} value={product._id}>
-                    {product.product_name || product.pro_name || 'N/A'}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="search-username" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Username</label>
-              <select
-                id="search-username"
-                value={searchParams.username}
-                onChange={(e) => { handleFieldChange(e, 'search', 'username'); fetchFeedbacks(); }}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-                aria-label="Select User"
-              >
-                <option value="">All Users</option>
-                {users.map(user => (
-                  <option key={user._id} value={user.username}>
-                    {user.username}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-end">
-              <button
-                onClick={clearSearch}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400 font-medium text-sm lg:text-base"
-                aria-label="Clear search"
-                disabled={loading || !hasActiveFilters()}
-              >
-                Clear Filters
-              </button>
             </div>
           </div>
         </div>
