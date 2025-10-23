@@ -227,20 +227,6 @@ const Api = {
         applyVoucher: (data) => axiosClient.post("/vouchers/apply-voucher", data).then(response => response.data),
     },
 
-    // ==== Import Bills ====
-    importBills: {
-        // Get all import bills
-        getAll: (params = {}) => axiosClient.get("/import-bills", { params }),
-        // Get import bill by ID
-        getById: (billId) => axiosClient.get(`/import-bills/${billId}`),
-        // Create import bill
-        create: (data) => axiosClient.post("/import-bills", data),
-        // Update import bill
-        update: (billId, data) => axiosClient.put(`/import-bills/${billId}`, data),
-        // Delete import bill
-        delete: (billId) => axiosClient.delete(`/import-bills/${billId}`),
-    },
-
     // ==== Statistics ====
     statistics: {
         // ==== Order Statistics ====
