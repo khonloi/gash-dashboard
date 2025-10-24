@@ -93,7 +93,7 @@ const Layout = ({ children }) => {
         // { label: 'Cart', to: '/carts', icon: ShoppingCart },
         { label: 'Product Specification', to: '/specifications', icon: Info },
         { label: 'Product Variant', to: '/variants', icon: Layers },
-        { label: 'Import Bills', to: '/imports', icon: FileUpload },
+        { label: 'Bills', to: '/bills', icon: FileUpload },
         { label: 'Voucher', to: '/vouchers', icon: LocalOffer },
         { label: 'Feedback', to: '/feedbacks', icon: Comment },
         { label: 'Chat', to: '/chat', icon: Chat },

@@ -11,10 +11,9 @@ import { ToastProvider } from "./components/Toast.jsx";
 
 // ==== Import các component hiện có ====
 import Products from "./pages/Product/Products.jsx";
-import ProductVariants from "./pages/ProductVariants.jsx";
+import ProductVariants from "./pages/Variant/ProductVariants.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
-import Carts from "./pages/Carts.jsx";
 import Orders from "./pages/Order/Orders.jsx";
 import ProductSpecifications from "./pages/ProductSpecifications/ProductSpecifications.jsx";
 
@@ -28,7 +27,7 @@ const CategoriesRedirect = () => {
 };
 import Accounts from "./pages/Account/Accounts.jsx";
 import Feedbacks from "./pages/Feedback/Feedbacks.jsx";
-import ImportBills from "./pages/ImportBills.jsx";
+import Bills from "./pages/Bills/Bill.jsx";
 import Layout from "./pages/Layout.jsx";
 import Vouchers from "./pages/Voucher/Vouchers.jsx";
 import AdminChat from "./pages/AdminChat.jsx";
@@ -101,14 +100,6 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              {/* <Route
-                path="/statistics"
-                element={
-                  <ProtectedRoute>
-                    <Statistics />
-                  </ProtectedRoute>
-                }
-              /> */}
               <Route
                 path="/statistics/revenue"
                 element={
@@ -142,10 +133,10 @@ const App = () => {
                 }
               />
               <Route
-                path="/imports"
+                path="/bills"
                 element={
                   <ProtectedRoute>
-                    <ImportBills />
+                    <Bills />
                   </ProtectedRoute>
                 }
               />
@@ -178,14 +169,6 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/carts"
-                element={
-                  <ProtectedRoute>
-                    <Carts />
                   </ProtectedRoute>
                 }
               />
