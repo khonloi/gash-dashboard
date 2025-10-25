@@ -232,7 +232,7 @@ const Api = {
         // ==== Order Statistics ====
         // Get order statistics
         getOrderStatistics: (params = {}) => axiosClient.get("/new-statistics/order-statistics", { params }).then(response => response.data),
-     
+
         // ==== Revenue Statistics ====
         // Get revenue by day
         getRevenueByDay: (params = {}) => axiosClient.get('/statistics/revenue/revenue-by-day', { params }).then(response => response.data),
@@ -262,6 +262,20 @@ const Api = {
         getMessages: (params = {}) => axiosClient.get("/chat/messages", { params }),
         sendMessage: (data) => axiosClient.post("/chat/messages", data),
         getConversations: (params = {}) => axiosClient.get("/chat/conversations", { params }),
+    },
+
+    // ==== Livestream ====
+    livestream: {
+        // Start livestream (admin/manager only)
+        start: (data) => axiosClient.post("/livestream/start", data).then(response => response.data),
+        // End livestream (admin/manager only)
+        end: (livestreamId) => axiosClient.put("/livestream/end", { livestreamId }).then(response => response.data),
+        // Get host livestreams (admin/manager only)
+        getHost: () => axiosClient.get("/livestream/host").then(response => response.data),
+        // Get live streams (authenticated users)
+        getLive: () => axiosClient.get("/livestream/live").then(response => response.data),
+        // View/Join livestream (authenticated users)
+        view: (data) => axiosClient.post("/livestream/view", data).then(response => response.data),
     },
 };
 

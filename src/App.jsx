@@ -39,6 +39,7 @@ import RevenueStatistics from "./pages/RevenueStatistcs/RevenueStatistics.jsx";
 import OrderStatistics from "./pages/OrderStatistics/OrderStatistics.jsx";
 import CustomerStatistics from "./pages/CustomerStatistics/CustomerStatistics.jsx";
 import ProductStatistics from "./pages/ProductStatistics/ProductStatistics.jsx";
+import LiveStream from "./pages/LiveStream/LiveStream.jsx";
 
 
 // ===============================
@@ -212,6 +213,15 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <AdminChat />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/livestream"
+                element={
+                  <ProtectedRoute>
+                    <LiveStream />
                   </ProtectedRoute>
                 }
               />
