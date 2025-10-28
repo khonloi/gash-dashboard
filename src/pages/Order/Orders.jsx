@@ -35,6 +35,18 @@ function formatOrderId(orderId) {
   return '...' + orderId.slice(-8);
 }
 
+function formatUpdatedAt(dateStr) {
+  if (!dateStr) return "Never updated";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "Invalid date";
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 // Helper to determine which order status options should be enabled for update
 const getOrderStatusOptionDisabled = (currentStatus, optionValue) => {
   // Define allowed transitions based on backend logic
@@ -644,7 +656,8 @@ const Orders = () => {
                 <tr>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">#</th>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Order ID</th>
-                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Date</th>
+                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Create Date</th>
+                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated Date</th>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Name Receive</th>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Phone</th>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Address</th>
@@ -669,6 +682,7 @@ const Orders = () => {
                         </div>
                       </td>
                       <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-center">{formatDateVN(order.orderDate)}</td>
+                      <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">{order.updatedAt ? formatUpdatedAt(order.updatedAt) : "—"}</td>
                       <td className="px-2 lg:px-4 py-3">
                         <div className="text-xs lg:text-sm font-medium text-gray-900 break-words max-w-xs">
                           {order.name || order.acc_id?.name || order.acc_id?.username || "Guest"}
