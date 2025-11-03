@@ -105,12 +105,6 @@ const VideoPreview = ({
                         {isAudioPlaying ? 'Turn Off Mic' : 'Turn On Mic'}
                     </button>
 
-                    <button
-                        onClick={onCheckLiveKit}
-                        className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 text-xs font-semibold"
-                    >
-                        Check Status
-                    </button>
                 </div>
 
                 {/* Status Grid */}

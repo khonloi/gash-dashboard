@@ -73,7 +73,7 @@ const LiveStreamProducts = ({ liveId }) => {
     };
 
     // Load live products from API
-    const loadLiveProducts = useCallback(async () => {
+    const loadLiveProducts = useCallback(async (showSuccessToast = false) => {
         if (!hasLiveId) return;
         try {
             setIsLoading(true);
@@ -102,16 +102,22 @@ const LiveStreamProducts = ({ liveId }) => {
             // Only update if we got valid data (don't reset to empty array if no data found)
             if (productsArray.length > 0 || (resp && !Array.isArray(resp) && resp.success !== false)) {
                 setLiveProducts(productsArray);
+                // Show success toast only when manually refreshed
+                if (showSuccessToast && productsArray.length > 0) {
+                    showToast(`Refreshed: ${productsArray.length} product(s)`, 'success');
+                }
             }
             // If no valid data structure found, keep existing products (don't reset to empty)
         } catch (e) {
-            setError('Unable to load live products');
+            const errorMsg = e?.response?.data?.message || e?.message || 'Unable to load live products';
+            setError(errorMsg);
+            showToast(errorMsg, 'error');
             console.error('loadLiveProducts error:', e);
             // Don't reset products on error - keep existing state
         } finally {
             setIsLoading(false);
         }
-    }, [hasLiveId, liveId]);
+    }, [hasLiveId, liveId, showToast]);
 
     useEffect(() => {
         loadLiveProducts();
@@ -123,14 +129,21 @@ const LiveStreamProducts = ({ liveId }) => {
             setIsLoading(true);
             setError('');
             const resp = await Api.newProducts.getAll({ status: 'active' });
-            setAllProducts(extractArray(resp));
+            const products = extractArray(resp);
+            setAllProducts(products);
+            // Show success toast if products loaded (only if not silent operation)
+            if (products.length > 0) {
+                // Silent success for initial load, only show if explicitly needed
+            }
         } catch (e) {
-            setError('Unable to load products');
+            const errorMsg = e?.response?.data?.message || e?.message || 'Unable to load products';
+            setError(errorMsg);
+            showToast(errorMsg, 'error');
             console.error('loadAllProducts error:', e);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [showToast]);
 
     useEffect(() => {
         loadAllProducts();
@@ -152,13 +165,19 @@ const LiveStreamProducts = ({ liveId }) => {
             // Auto-open dropdown when search results are loaded
             if (products && products.length > 0) {
                 setIsDropdownOpen(true);
+                showToast(`Found ${products.length} product(s)`, 'success');
+            } else {
+                showToast('No products found', 'info');
             }
         } catch (e) {
-            setError('Unable to search products');
+            const errorMsg = e?.response?.data?.message || e?.message || 'Unable to search products';
+            setError(errorMsg);
+            showToast(errorMsg, 'error');
+            console.error('searchProducts error:', e);
         } finally {
             setIsSubmitting(false);
         }
-    }, [loadAllProducts]);
+    }, [loadAllProducts, showToast]);
 
     // Handle search input change with debounce
     const handleSearchChange = useCallback((value) => {
@@ -299,7 +318,7 @@ const LiveStreamProducts = ({ liveId }) => {
                     </span>
                 </div>
                 <button
-                    onClick={loadLiveProducts}
+                    onClick={() => loadLiveProducts(true)}
                     disabled={isLoading}
                     className="text-xs px-2.5 py-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
                     aria-label="Refresh live products"
@@ -557,10 +576,6 @@ const LiveStreamProducts = ({ liveId }) => {
                     })
                 )}
             </div>
-
-            {error && (
-                <div className="mt-3 px-3 py-2 rounded-lg border border-red-200 bg-red-50 text-red-700 text-xs">{error}</div>
-            )}
         </div>
     );
 };
