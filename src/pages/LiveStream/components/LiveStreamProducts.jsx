@@ -80,13 +80,34 @@ const LiveStreamProducts = ({ liveId }) => {
             setError('');
             const resp = await Api.livestream.getLiveProducts(liveId);
 
-            // Backend returns: { success: true, data: [...], count: N }
-            // SummaryAPI already does .then(response => response.data), so resp is the result object
-            const products = resp?.data || [];
-            setLiveProducts(extractArray(products));
+            let productsArray = [];
+
+            // Check standard structure: resp.success && resp.data
+            if (resp?.success && Array.isArray(resp?.data)) {
+                productsArray = resp.data;
+            }
+            // Check if data is directly in resp.data
+            else if (Array.isArray(resp?.data)) {
+                productsArray = resp.data;
+            }
+            // Check if resp is already an array
+            else if (Array.isArray(resp)) {
+                productsArray = resp;
+            }
+            // Check if resp.data.data exists
+            else if (Array.isArray(resp?.data?.data)) {
+                productsArray = resp.data.data;
+            }
+
+            // Only update if we got valid data (don't reset to empty array if no data found)
+            if (productsArray.length > 0 || (resp && !Array.isArray(resp) && resp.success !== false)) {
+                setLiveProducts(productsArray);
+            }
+            // If no valid data structure found, keep existing products (don't reset to empty)
         } catch (e) {
             setError('Unable to load live products');
             console.error('loadLiveProducts error:', e);
+            // Don't reset products on error - keep existing state
         } finally {
             setIsLoading(false);
         }
@@ -126,9 +147,7 @@ const LiveStreamProducts = ({ liveId }) => {
             }
             // Backend expects 'name' parameter, not 'q', and 'status' to filter only active products
             const resp = await Api.newProducts.search({ name: query.trim(), status: 'active' });
-            console.log('Search response:', resp); // Debug log
             const products = extractArray(resp);
-            console.log('Extracted products:', products); // Debug log
             setAllProducts(products);
             // Auto-open dropdown when search results are loaded
             if (products && products.length > 0) {
@@ -136,7 +155,6 @@ const LiveStreamProducts = ({ liveId }) => {
             }
         } catch (e) {
             setError('Unable to search products');
-            console.error('searchProducts error:', e);
         } finally {
             setIsSubmitting(false);
         }
