@@ -36,6 +36,18 @@ function formatDate(dateStr) {
     return `${day}/${month}/${year}`;
 }
 
+function formatUpdatedAt(dateStr) {
+  if (!dateStr) return "Never updated";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "Invalid date";
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 const OrderDetails = ({ order, onClose, isOpen }) => {
     const { showToast } = useContext(ToastContext);
     const [orderDetails, setOrderDetails] = useState([]);
@@ -375,8 +387,15 @@ const OrderDetails = ({ order, onClose, isOpen }) => {
                                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    <span className="font-medium">Date:</span>
+                                    <span className="font-medium">Creation Date:</span>
                                     <span className="ml-1">{formatDateTime(currentOrder?.orderDate)}</span>
+                                </div>
+                                                                <div className="flex items-center">
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <span className="font-medium">Update Date:</span>
+                                    <span className="ml-1">{formatDateTime(currentOrder?.updatedAt)}</span>
                                 </div>
                                 <div className="flex items-center">
                                     <span className="font-medium">Total:</span>
@@ -1048,6 +1067,16 @@ const OrderDetails = ({ order, onClose, isOpen }) => {
                     <div className="flex justify-between items-center">
                         <div className="text-sm text-gray-500">
                             Order created on {formatDate(currentOrder?.orderDate)}
+                                  <div>
+                                <span>Created on </span>
+                                <span className="font-medium">{formatDate(currentOrder?.orderDate)}</span>
+                            </div>
+                            {currentOrder?.updatedAt && (
+                                <div className="mt-1">
+                                <span>Updated on </span>
+                                <span className="font-medium">{formatUpdatedAt(currentOrder?.updatedAt)}</span>
+                                </div>
+                            )}
                         </div>
                         <button
                             onClick={onClose}

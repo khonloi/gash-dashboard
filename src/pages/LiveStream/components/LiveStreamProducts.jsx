@@ -226,7 +226,7 @@ const LiveStreamProducts = ({ liveId }) => {
             }
             const productName = allProducts.find(p => (p?._id || p?.id) === selectedProductId)?.productName || 'Unknown';
             await Api.livestream.addProduct({ liveId: liveIdStr, productId: productIdStr });
-            showToast(`Product added successfully`, 'success');
+            showToast(`Product added successfully!`, 'success');
             setSelectedProductId('');
             await loadLiveProducts();
         } catch (e) {
@@ -254,7 +254,7 @@ const LiveStreamProducts = ({ liveId }) => {
             }
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
             await Api.livestream.removeProduct({ liveId, productId });
-            showToast(`Product removed successfully`, 'success');
+            showToast(`Product removed successfully!`, 'success');
             await loadLiveProducts();
         } catch (e) {
             const apiMsg = e?.response?.data?.message || e?.message || 'Unable to remove product from live';
@@ -274,7 +274,7 @@ const LiveStreamProducts = ({ liveId }) => {
             setError('');
             await Api.livestream.pinProduct(liveProduct._id, { liveId });
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
-            showToast(`Product pinned successfully`, 'success');
+            showToast(`Product pinned successfully!`, 'success');
             await loadLiveProducts();
         } catch (e) {
             const apiMsg = e?.response?.data?.message || e?.message || 'Unable to pin product';
@@ -294,7 +294,7 @@ const LiveStreamProducts = ({ liveId }) => {
             setError('');
             await Api.livestream.unpinProduct(liveProduct._id, { liveId });
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
-            showToast(`Product unpinned successfully`, 'success');
+            showToast(`Product unpinned successfully!`, 'success');
             await loadLiveProducts();
         } catch (e) {
             const apiMsg = e?.response?.data?.message || e?.message || 'Unable to unpin product';
