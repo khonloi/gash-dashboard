@@ -12,6 +12,7 @@ const LiveStreamProducts = ({ liveId }) => {
     const [selectedProductId, setSelectedProductId] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [showAllProducts, setShowAllProducts] = useState(false);
     const dropdownRef = useRef(null);
     const searchTimeoutRef = useRef(null);
 
@@ -101,11 +102,21 @@ const LiveStreamProducts = ({ liveId }) => {
 
             // Only update if we got valid data (don't reset to empty array if no data found)
             if (productsArray.length > 0 || (resp && !Array.isArray(resp) && resp.success !== false)) {
-                setLiveProducts(productsArray);
+                // Filter to ensure only active products are shown
+                // Backend getActiveLiveProducts already filters isActive: true, but add extra safety check
+                const activeProducts = productsArray.filter(product => {
+                    // STRICT CHECK: Only show products where isActive === true
+                    return product.isActive === true;
+                });
+                
+                setLiveProducts(activeProducts);
                 // Show success toast only when manually refreshed
-                if (showSuccessToast && productsArray.length > 0) {
-                    showToast(`Refreshed: ${productsArray.length} product(s)`, 'success');
+                if (showSuccessToast && activeProducts.length > 0) {
+                    showToast(`Refreshed: ${activeProducts.length} product(s)`, 'success');
                 }
+            } else if (productsArray.length === 0 && resp && !Array.isArray(resp) && resp.success !== false) {
+                // If backend returns empty array or no products, clear the list
+                setLiveProducts([]);
             }
             // If no valid data structure found, keep existing products (don't reset to empty)
         } catch (e) {
@@ -211,6 +222,8 @@ const LiveStreamProducts = ({ liveId }) => {
     }, []);
 
     // Add product to live
+    // Backend allows adding same product multiple times (creates new record each time)
+    // Backend checks if product is already active and returns error if so
     const handleAddToLive = async () => {
         if (!hasLiveId || !selectedProductId) return;
         try {
@@ -224,11 +237,22 @@ const LiveStreamProducts = ({ liveId }) => {
                 showToast('Invalid product ID', 'error');
                 return;
             }
-            const productName = allProducts.find(p => (p?._id || p?.id) === selectedProductId)?.productName || 'Unknown';
-            await Api.livestream.addProduct({ liveId: liveIdStr, productId: productIdStr });
-            showToast(`Product added successfully!`, 'success');
-            setSelectedProductId('');
-            await loadLiveProducts();
+            
+            const response = await Api.livestream.addProduct({ liveId: liveIdStr, productId: productIdStr });
+            
+            // Backend returns: { success: true/false, message: string, data?: object }
+            if (response?.success === true) {
+                const productName = allProducts.find(p => (p?._id || p?.id) === selectedProductId)?.productName || 'Unknown';
+                showToast(`Product added successfully!`, 'success');
+                setSelectedProductId('');
+                // Reload products to show the newly added product
+                await loadLiveProducts();
+            } else {
+                // Backend returns error if product is already active
+                const errorMsg = response?.message || 'Unable to add product to live';
+                setError(errorMsg);
+                showToast(errorMsg, 'error');
+            }
         } catch (e) {
             const apiMsg = e?.response?.data?.message || e?.message || 'Unable to add product to live';
             setError(apiMsg);
@@ -240,22 +264,63 @@ const LiveStreamProducts = ({ liveId }) => {
     };
 
     // Remove product from live
+    // Backend finds the ACTIVE product with { liveId, productId, isActive: true }
+    // This ensures we remove the correct record even if there are multiple records (from previous add/remove cycles)
     const handleRemoveFromLive = async (liveProduct) => {
         if (!liveProduct) return;
         try {
             setIsSubmitting(true);
             setError('');
+            
             // Backend expects: { liveId, productId } in body
-            const productId = liveProduct.productId?._id || liveProduct.productId || liveProduct.product?.productId;
+            // Extract productId from liveProduct (can be populated object or string/ObjectId)
+            let productId = null;
+            if (liveProduct.productId) {
+                // If productId is populated object, get _id
+                if (typeof liveProduct.productId === 'object' && liveProduct.productId._id) {
+                    productId = liveProduct.productId._id;
+                } 
+                // If productId is string/ObjectId
+                else if (typeof liveProduct.productId === 'string') {
+                    productId = liveProduct.productId;
+                }
+                // If productId is ObjectId object, convert to string
+                else if (liveProduct.productId && typeof liveProduct.productId.toString === 'function') {
+                    productId = liveProduct.productId.toString();
+                }
+            } else if (liveProduct.product?.productId) {
+                productId = liveProduct.product.productId;
+            }
+            
             if (!productId) {
                 setError('Product ID not found');
                 showToast('Product ID not found', 'error');
                 return;
             }
+            
+            // Ensure productId is a string
+            if (typeof productId !== 'string') {
+                productId = String(productId);
+            }
+            
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
-            await Api.livestream.removeProduct({ liveId, productId });
-            showToast(`Product removed successfully!`, 'success');
-            await loadLiveProducts();
+            
+            // Call API to remove product
+            // Backend will find the ACTIVE product (isActive: true) and set isActive: false
+            const response = await Api.livestream.removeProduct({ liveId, productId });
+            
+            // Backend returns: { success: true/false, message: string, data?: object }
+            if (response?.success === true) {
+                const message = response?.message || 'Product removed successfully!';
+                showToast(message, 'success');
+                // Reload products to reflect the removal (getActiveLiveProducts only returns isActive: true)
+                await loadLiveProducts();
+            } else {
+                // Backend returns error if product not found or not active
+                const errorMsg = response?.message || 'Unable to remove product from live';
+                setError(errorMsg);
+                showToast(errorMsg, 'error');
+            }
         } catch (e) {
             const apiMsg = e?.response?.data?.message || e?.message || 'Unable to remove product from live';
             setError(apiMsg);
@@ -474,7 +539,19 @@ const LiveStreamProducts = ({ liveId }) => {
                         <p className="text-xs text-gray-500 mt-1">Add products using the form above</p>
                     </div>
                 ) : (
-                    liveProducts.map((lp) => {
+                    <>
+                        {liveProducts.length > 20 && (
+                            <div className="flex justify-end mb-2">
+                                <button
+                                    onClick={() => setShowAllProducts(!showAllProducts)}
+                                    className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                                >
+                                    {showAllProducts ? 'Show Less' : `View All (${liveProducts.length})`}
+                                </button>
+                            </div>
+                        )}
+                        <div className={`${showAllProducts ? '' : 'max-h-96'} overflow-y-auto space-y-2 pr-1`}>
+                            {(showAllProducts ? liveProducts : liveProducts.slice(0, 20)).map((lp) => {
                         const product = lp.productId || lp.product || {};
                         const productName = getProductName(product);
                         const productId = product._id || lp.productId?._id || lp.productId || '';
@@ -573,7 +650,14 @@ const LiveStreamProducts = ({ liveId }) => {
                                 </div>
                             </div>
                         );
-                    })
+                    })}
+                        </div>
+                        {!showAllProducts && liveProducts.length > 20 && (
+                            <p className="text-xs text-gray-500 mt-2 text-center">
+                                Showing 20 of {liveProducts.length} products
+                            </p>
+                        )}
+                    </>
                 )}
             </div>
         </div>

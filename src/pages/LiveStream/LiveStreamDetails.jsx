@@ -26,6 +26,7 @@ const LiveStreamDetails = () => {
         current: 0
     });
     const [showAllComments, setShowAllComments] = useState(false);
+    const [showAllProducts, setShowAllProducts] = useState(false);
 
     // Load livestream details
     const loadLivestreamDetails = async () => {
@@ -252,11 +253,11 @@ const LiveStreamDetails = () => {
             {/* Main Content */}
             <div className="space-y-6">
                 {/* Basic Information */}
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <div className="flex items-start justify-between mb-6">
+                <div className="bg-white rounded-lg shadow-sm border p-4">
+                    <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-3">
-                                <h2 className="text-xl font-semibold text-gray-900">{livestream.title || 'Untitled Stream'}</h2>
+                                <h2 className="text-lg font-semibold text-gray-900">{livestream.title || 'Untitled Stream'}</h2>
                                 <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${statusBadge.className}`}>
                                     {statusBadge.icon}
                                     {statusBadge.text}
@@ -269,178 +270,201 @@ const LiveStreamDetails = () => {
                     </div>
 
                     {/* Details Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        <div className="border border-gray-200 rounded-lg p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <Fingerprint className="w-5 h-5" />
-                                <span className="text-sm font-medium">Stream ID</span>
+                                <Fingerprint className="w-4 h-4" />
+                                <span className="text-xs font-medium">Stream ID</span>
                             </div>
                             <p className="text-xs font-semibold text-gray-900 break-all">{livestream._id}</p>
                         </div>
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <Videocam className="w-5 h-5" />
-                                <span className="text-sm font-medium">Room Name</span>
+                                <Videocam className="w-4 h-4" />
+                                <span className="text-xs font-medium">Room Name</span>
                             </div>
                             <p className="text-xs font-semibold text-gray-900 break-all">{livestream.roomName}</p>
                         </div>
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <Flag className="w-5 h-5" />
-                                <span className="text-sm font-medium">Status</span>
+                                <Flag className="w-4 h-4" />
+                                <span className="text-xs font-medium">Status</span>
                             </div>
-                            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${statusBadge.className}`}>
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${statusBadge.className}`}>
                                 {statusBadge.icon}
                                 {statusBadge.text}
                             </span>
                         </div>
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        {/* <div className="border border-gray-200 rounded-lg p-4">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
                                 <People className="w-5 h-5" />
                                 <span className="text-sm font-medium">Viewers</span>
                             </div>
                             <p className="text-lg font-semibold text-gray-900">{viewerStats.current} viewers</p>
+                        </div> */}
+
+                        <div className="border border-gray-200 rounded-lg p-3">
+                            <div className="flex items-center gap-2 text-gray-600 mb-2">
+                                <TrendingUp className="w-4 h-4" />
+                                <span className="text-xs font-medium">Peak Viewers</span>
+                            </div>
+                            <p className="text-base font-semibold text-gray-900">{viewerStats.peak} viewers</p>
                         </div>
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <TrendingUp className="w-5 h-5" />
-                                <span className="text-sm font-medium">Peak Viewers</span>
+                                <TrendingDown className="w-4 h-4" />
+                                <span className="text-xs font-medium">Min Viewers</span>
                             </div>
-                            <p className="text-lg font-semibold text-gray-900">{viewerStats.peak} viewers</p>
+                            <p className="text-base font-semibold text-gray-900">{viewerStats.min} viewers</p>
                         </div>
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <TrendingDown className="w-5 h-5" />
-                                <span className="text-sm font-medium">Min Viewers</span>
+                                <Schedule className="w-4 h-4" />
+                                <span className="text-xs font-medium">Duration</span>
                             </div>
-                            <p className="text-lg font-semibold text-gray-900">{viewerStats.min} viewers</p>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg p-4">
-                            <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <Schedule className="w-5 h-5" />
-                                <span className="text-sm font-medium">Duration</span>
-                            </div>
-                            <p className="text-lg font-semibold text-gray-900">
+                            <p className="text-base font-semibold text-gray-900">
                                 {calculateDuration(livestream.startTime, livestream.endTime, livestream.duration)}
                             </p>
                         </div>
 
                         {reactions && reactions.total > 0 && (
-                            <div className="border border-gray-200 rounded-lg p-4">
+                            <div className="border border-gray-200 rounded-lg p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                    <LiveTv className="w-5 h-5" />
-                                    <span className="text-sm font-medium">Reactions</span>
+                                    <LiveTv className="w-4 h-4" />
+                                    <span className="text-xs font-medium">Reactions</span>
                                 </div>
-                                <p className="text-lg font-semibold text-gray-900">
+                                <p className="text-base font-semibold text-gray-900">
                                     {reactions.total || 0} total
                                 </p>
                             </div>
                         )}
 
-                        <div className="border border-gray-200 rounded-lg p-4">
+                        <div className="border border-gray-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 text-gray-600 mb-2">
-                                <Comment className="w-5 h-5" />
-                                <span className="text-sm font-medium">Comments</span>
+                                <Comment className="w-4 h-4" />
+                                <span className="text-xs font-medium">Comments</span>
                             </div>
-                            <p className="text-lg font-semibold text-gray-900">
-                                {comments?.filter(c => !c.isDeleted).length || 0} total
+                            <p className="text-base font-semibold text-gray-900">
+                                {comments?.length || 0} total
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Reactions Details */}
-                {reactions && reactions.total > 0 && (
-                    <div className="bg-white rounded-lg shadow-sm border p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Reactions ({reactions.total})
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            {[
-                                { type: 'like', emoji: '👍', label: 'Like', color: '#3B82F6' },
-                                { type: 'love', emoji: '❤️', label: 'Love', color: '#EF4444' },
-                                { type: 'haha', emoji: '😂', label: 'Haha', color: '#F59E0B' },
-                                { type: 'wow', emoji: '😮', label: 'Wow', color: '#8B5CF6' },
-                                { type: 'sad', emoji: '😢', label: 'Sad', color: '#6B7280' },
-                                { type: 'angry', emoji: '😡', label: 'Angry', color: '#DC2626' },
-                            ].map(({ type, emoji, label, color }) => {
-                                const count = reactions[type] || 0;
-                                const percentage = reactions.total > 0 ? (count / reactions.total) * 100 : 0;
+                {/* Reactions Details and Timeline */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {/* Reactions Details */}
+                    {reactions && reactions.total > 0 && (
+                        <div className="bg-white rounded-lg shadow-sm border p-4">
+                            <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                                Reactions ({reactions.total})
+                            </h3>
+                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                                {[
+                                    { type: 'like', emoji: '👍', label: 'Like', color: '#3B82F6' },
+                                    { type: 'love', emoji: '❤️', label: 'Love', color: '#EF4444' },
+                                    { type: 'haha', emoji: '😂', label: 'Haha', color: '#F59E0B' },
+                                    { type: 'wow', emoji: '😮', label: 'Wow', color: '#8B5CF6' },
+                                    { type: 'sad', emoji: '😢', label: 'Sad', color: '#6B7280' },
+                                    { type: 'angry', emoji: '😡', label: 'Angry', color: '#DC2626' },
+                                ].map(({ type, emoji, label, color }) => {
+                                    const count = reactions[type] || 0;
+                                    const percentage = reactions.total > 0 ? (count / reactions.total) * 100 : 0;
 
-                                return (
-                                    <div key={type} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                                        <div className="flex items-center justify-center mb-3">
-                                            <div
-                                                className="p-3 rounded-xl flex items-center justify-center shadow-sm"
-                                                style={{ backgroundColor: `${color}20` }}
-                                            >
-                                                <span className="text-3xl leading-none">{emoji}</span>
+                                    return (
+                                        <div key={type} className="border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow">
+                                            <div className="flex flex-col items-center">
+                                                <div
+                                                    className="p-1.5 rounded-lg flex items-center justify-center shadow-sm mb-1.5"
+                                                    style={{ backgroundColor: `${color}20` }}
+                                                >
+                                                    <span className="text-lg leading-none">{emoji}</span>
+                                                </div>
+                                                <p className="text-[9px] font-semibold text-gray-600 mb-0.5 uppercase tracking-wider text-center">{label}</p>
+                                                <p className="text-sm font-bold text-gray-900 mb-0.5">{count}</p>
+                                                {percentage > 0 && (
+                                                    <p className="text-[8px] text-gray-500">{percentage.toFixed(1)}%</p>
+                                                )}
                                             </div>
                                         </div>
-                                        <div className="text-center">
-                                            <p className="text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wider">{label}</p>
-                                            <p className="text-2xl font-bold text-gray-900">{count}</p>
-                                            {percentage > 0 && (
-                                                <p className="text-xs text-gray-500 mt-1">{percentage.toFixed(1)}%</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                )}
-
-                {/* Timeline */}
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Timeline</h3>
-                    <div className="space-y-4">
-                        <div className="flex items-start gap-4">
-                            <div className="shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <Schedule className="w-6 h-6 text-green-600" />
-                            </div>
-                            <div className="flex-1">
-                                <p className="text-sm font-medium text-gray-900">Livestream started</p>
-                                <p className="text-sm text-gray-600">{formatDate(livestream.startTime)}</p>
+                                    );
+                                })}
                             </div>
                         </div>
+                    )}
 
-                        {livestream.endTime && (
-                            <div className="flex items-start gap-4">
-                                <div className="shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <Flag className="w-6 h-6 text-red-600" />
+                    {/* Timeline */}
+                    <div className="bg-white rounded-lg shadow-sm border p-4">
+                        <h3 className="text-sm font-semibold text-gray-900 mb-3">Timeline</h3>
+                        <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                                <div className="shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <Schedule className="w-5 h-5 text-green-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium text-gray-900">Livestream ended</p>
-                                    <p className="text-sm text-gray-600">{formatDate(livestream.endTime)}</p>
+                                    <p className="text-xs font-medium text-gray-900">Livestream started</p>
+                                    <p className="text-xs text-gray-600 mt-0.5">{formatDate(livestream.startTime)}</p>
                                 </div>
                             </div>
-                        )}
+
+                            {livestream.endTime && (
+                                <div className="flex items-start gap-3">
+                                    <div className="shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                        <Flag className="w-5 h-5 text-red-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-xs font-medium text-gray-900">Livestream ended</p>
+                                        <p className="text-xs text-gray-600 mt-0.5">{formatDate(livestream.endTime)}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 {/* Additional Information */}
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Information</h3>
+                <div className="bg-white rounded-lg shadow-sm border p-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">Additional Information</h3>
                     <dl>
                         <div>
                             <dt className="text-sm font-medium text-gray-500 mb-2">Host</dt>
                             <dd className="text-sm text-gray-900 break-all">
                                 {typeof livestream.hostId === 'object' ? (
-                                    <div className="space-y-1">
-                                        <p className="font-semibold">{livestream.hostId?.name || 'Unknown'}</p>
-                                        {livestream.hostId?.email && (
-                                            <p className="text-xs text-gray-500">{livestream.hostId.email}</p>
-                                        )}
-                                        {livestream.hostId?.username && (
-                                            <p className="text-xs text-gray-500">@{livestream.hostId.username}</p>
-                                        )}
+                                    <div className="flex items-start gap-3">
+                                        {/* Avatar */}
+                                        <div className="flex-shrink-0">
+                                            {livestream.hostId?.avatar || livestream.hostId?.avatarUrl || livestream.hostId?.image || livestream.hostId?.profileImage ? (
+                                                <img
+                                                    src={livestream.hostId?.avatar || livestream.hostId?.avatarUrl || livestream.hostId?.image || livestream.hostId?.profileImage}
+                                                    alt={livestream.hostId?.name || livestream.hostId?.username || 'Host'}
+                                                    className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                        e.target.nextSibling.style.display = 'flex';
+                                                    }}
+                                                />
+                                            ) : null}
+                                            <div className={`w-12 h-12 rounded-full bg-gray-200 border border-gray-200 items-center justify-center ${livestream.hostId?.avatar || livestream.hostId?.avatarUrl || livestream.hostId?.image || livestream.hostId?.profileImage ? 'hidden' : 'flex'}`}>
+                                                <span className="text-lg font-semibold text-gray-600">
+                                                    {(livestream.hostId?.name || livestream.hostId?.username || 'U').charAt(0).toUpperCase()}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {/* Info */}
+                                        <div className="flex-1 space-y-1">
+                                            <p className="font-semibold">{livestream.hostId?.name || 'Unknown'}</p>
+                                            {livestream.hostId?.email && (
+                                                <p className="text-xs text-gray-500">{livestream.hostId.email}</p>
+                                            )}
+                                            {livestream.hostId?.username && (
+                                                <p className="text-xs text-gray-500">@{livestream.hostId.username}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 ) : (
                                     livestream.hostId
@@ -452,12 +476,22 @@ const LiveStreamDetails = () => {
 
                 {/* Live Products */}
                 {products && products.length > 0 && (
-                    <div className="bg-white rounded-lg shadow-sm border p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Live Products ({products.length})
-                        </h3>
-                        <div className="space-y-3">
-                            {products.map((liveProduct) => {
+                    <div className="bg-white rounded-lg shadow-sm border p-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-sm font-semibold text-gray-900">
+                                Live Products ({products.length})
+                            </h3>
+                            {products.length > 20 && (
+                                <button
+                                    onClick={() => setShowAllProducts(!showAllProducts)}
+                                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                                >
+                                    {showAllProducts ? 'Show Less' : `View All (${products.length})`}
+                                </button>
+                            )}
+                        </div>
+                        <div className={`space-y-3 ${showAllProducts ? '' : 'max-h-96'} overflow-y-auto pr-1`}>
+                            {(showAllProducts ? products : products.slice(0, 20)).map((liveProduct) => {
                                 const isActive = liveProduct.isActive && !liveProduct.removedAt;
                                 return (
                                     <div key={liveProduct._id} className={`border rounded-lg p-3 hover:shadow-md transition-shadow flex items-center gap-4 ${!isActive ? 'opacity-60 bg-gray-50' : 'bg-white'}`}>
@@ -531,58 +565,90 @@ const LiveStreamDetails = () => {
                                 );
                             })}
                         </div>
+                        {!showAllProducts && products.length > 20 && (
+                            <p className="text-sm text-gray-500 mt-4 text-center">
+                                Showing 20 of {products.length} products
+                            </p>
+                        )}
                     </div>
                 )}
 
                 {/* Live Comments */}
-                {(() => {
-                    const activeComments = comments.filter(c => !c.isDeleted);
-                    return activeComments.length > 0 && (
-                        <div className="bg-white rounded-lg shadow-sm border p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    Comments ({activeComments.length})
-                                </h3>
-                                {activeComments.length > 20 && (
-                                    <button
-                                        onClick={() => setShowAllComments(!showAllComments)}
-                                        className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                                    >
-                                        {showAllComments ? 'Show Less' : `View All (${activeComments.length})`}
-                                    </button>
-                                )}
-                            </div>
-                            <div className={`space-y-3 ${showAllComments ? '' : 'max-h-96'} overflow-y-auto`}>
-                                {(showAllComments ? activeComments : activeComments.slice(0, 20)).map((comment) => (
-                                    <div key={comment._id} className="border rounded-lg p-3 bg-gray-50 border-gray-200">
+                {comments && comments.length > 0 && (
+                    <div className="bg-white rounded-lg shadow-sm border p-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-sm font-semibold text-gray-900">
+                                Comments ({comments.length})
+                            </h3>
+                            {comments.length > 20 && (
+                                <button
+                                    onClick={() => setShowAllComments(!showAllComments)}
+                                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                                >
+                                    {showAllComments ? 'Show Less' : `View All (${comments.length})`}
+                                </button>
+                            )}
+                        </div>
+                        <div className={`space-y-3 ${showAllComments ? '' : 'max-h-96'} overflow-y-auto pr-1`}>
+                            {(showAllComments ? comments : comments.slice(0, 20)).map((comment) => {
+                                const isDeleted = comment.isDeleted === true;
+                                return (
+                                    <div key={comment._id} className={`border rounded-lg p-3 ${isDeleted ? 'bg-gray-100 border-gray-300 opacity-60' : 'bg-gray-50 border-gray-200'}`}>
                                         <div className="flex items-start justify-between mb-2">
                                             <div className="flex-1">
-                                                <div className="flex items-center gap-2 mb-1">
+                                                <div className="flex items-center gap-2 mb-1 flex-wrap">
                                                     {comment.senderId && (
-                                                        <span className="font-semibold text-sm text-gray-900">
+                                                        <span className={`font-semibold text-sm ${isDeleted ? 'text-gray-500' : 'text-gray-900'}`}>
                                                             {comment.senderId.name || comment.senderId.username || 'Unknown'}
                                                         </span>
                                                     )}
+                                                    {isDeleted && (
+                                                        <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded">
+                                                            Deleted
+                                                        </span>
+                                                    )}
                                                 </div>
-                                                <p className="text-sm text-gray-700">{comment.commentText || comment.content}</p>
+                                                <p className={`text-sm ${isDeleted ? 'text-gray-500' : 'text-gray-700'}`}>
+                                                    {comment.commentText || comment.content}
+                                                </p>
+                                                {isDeleted && comment.deletedBy && (
+                                                    <p className="text-xs text-gray-400 mt-1">
+                                                        Deleted by: {typeof comment.deletedBy === 'object' 
+                                                            ? (comment.deletedBy.name || comment.deletedBy.username || 'Unknown')
+                                                            : 'Unknown'}
+                                                        {typeof comment.deletedBy === 'object' && comment.deletedBy.role && (
+                                                            <span className="ml-1 text-gray-500">({comment.deletedBy.role})</span>
+                                                        )}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between mt-2">
-                                            <span className="text-xs text-gray-500">
-                                                {formatDate(comment.createdAt)}
-                                            </span>
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <span className="text-xs text-gray-500">
+                                                    {formatDate(comment.createdAt)}
+                                                </span>
+                                                {isDeleted && comment.deletedAt && (
+                                                    <>
+                                                        <span className="text-xs text-gray-400">•</span>
+                                                        <span className="text-xs text-gray-400">
+                                                            Deleted: {formatDate(comment.deletedAt)}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                            {!showAllComments && activeComments.length > 20 && (
-                                <p className="text-sm text-gray-500 mt-4 text-center">
-                                    Showing 20 of {activeComments.length} comments
-                                </p>
-                            )}
+                                );
+                            })}
                         </div>
-                    );
-                })()}
+                        {!showAllComments && comments.length > 20 && (
+                            <p className="text-sm text-gray-500 mt-4 text-center">
+                                Showing 20 of {comments.length} comments
+                            </p>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
