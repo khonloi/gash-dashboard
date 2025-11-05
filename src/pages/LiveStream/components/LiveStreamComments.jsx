@@ -191,11 +191,21 @@ const CommentItem = ({ comment, currentUserId, hostId, onHideComment, onPinComme
                         <span className="text-gray-500 text-[10px]">{formatTimeAgo(comment.createdAt)}</span>
                     </div>
                     <p className={`text-sm break-words leading-relaxed ${isDeleted
-                        ? 'text-gray-400 italic'
+                        ? 'text-gray-500'
                         : 'text-gray-800'
                         }`}>
-                        {isDeleted && !isAdmin ? '[This comment has been deleted]' : (comment.commentText || comment.content)}
+                        {comment.commentText || comment.content}
                     </p>
+                    {isDeleted && comment.deletedBy && (
+                        <p className="text-xs text-gray-400 mt-1">
+                            Deleted by: {typeof comment.deletedBy === 'object' 
+                                ? (comment.deletedBy.name || comment.deletedBy.username || 'Unknown')
+                                : 'Unknown'}
+                            {typeof comment.deletedBy === 'object' && comment.deletedBy.role && (
+                                <span className="ml-1 text-gray-500">({comment.deletedBy.role})</span>
+                            )}
+                        </p>
+                    )}
                 </div>
                 {(canDelete || canPin || canUnpin) && !isDeleted && (
                     <div className="relative">

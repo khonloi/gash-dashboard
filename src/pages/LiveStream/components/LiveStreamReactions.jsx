@@ -138,46 +138,31 @@ const LiveStreamReactions = ({ liveId }) => {
 
     return (
         <div className="bg-transparent p-0 w-full">
-            <div className="flex items-center justify-between mb-3">
-                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+            <div className="flex items-center justify-between mb-2">
+                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold">
                     {totalReactions.toLocaleString()} total
                 </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="flex gap-2">
                 {REACTIONS.map(({ type, emoji, color, label }) => {
                     const count = reactionCounts[type] || 0;
                     const percentage = totalReactions > 0 ? (count / totalReactions) * 100 : 0;
 
                     return (
-                        <div key={type} className="group p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200">
-                            <div className="flex items-center justify-between mb-1.5">
-                                <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <div
-                                        className="p-1.5 rounded-lg transition-all group-hover:scale-105 flex items-center justify-center shrink-0"
-                                        style={{ backgroundColor: `${color}20` }}
-                                    >
-                                        <span className="text-base leading-none">{emoji}</span>
-                                    </div>
-                                    <span className="text-gray-800 font-medium text-xs truncate">{label}</span>
-                                </div>
-                                <div className="flex items-center gap-2 shrink-0 ml-2">
-                                    <span className="text-gray-500 text-[10px] font-semibold">
-                                        {percentage > 0 ? `${percentage.toFixed(1)}%` : '0%'}
-                                    </span>
-                                    <span className="text-gray-900 font-bold text-sm min-w-[40px] text-right">
-                                        {count.toLocaleString()}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div key={type} className="group flex-1 min-w-0 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200">
+                            <div className="flex flex-col items-center">
                                 <div
-                                    className="h-full rounded-full transition-all duration-700 ease-out"
-                                    style={{
-                                        width: `${percentage}%`,
-                                        backgroundColor: color,
-                                    }}
-                                />
+                                    className="p-2 rounded-lg transition-all group-hover:scale-105 flex items-center justify-center mb-1.5"
+                                    style={{ backgroundColor: `${color}20` }}
+                                >
+                                    <span className="text-xl leading-none">{emoji}</span>
+                                </div>
+                                <span className="text-gray-800 font-medium text-[10px] mb-1 text-center">{label}</span>
+                                <span className="text-gray-900 font-bold text-xs mb-0.5">{count.toLocaleString()}</span>
+                                {percentage > 0 && (
+                                    <span className="text-gray-500 text-[9px] font-semibold">{percentage.toFixed(1)}%</span>
+                                )}
                             </div>
                         </div>
                     );
