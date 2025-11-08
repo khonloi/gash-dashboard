@@ -11,15 +11,15 @@ const Feedbacks = () => {
   const navigate = useNavigate();
   const [feedbacks, setFeedbacks] = useState([]);
   const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
-  const [products, setProducts] = useState([]);
   const [selectedFeedbackId, setSelectedFeedbackId] = useState(null);
+  const [uniqueProductNames, setUniqueProductNames] = useState([]);
 
   // Filter states
   const [filters, setFilters] = useState({
     startDate: "",
     endDate: "",
-    productId: "",
-    username: "",
+    productName: "",
+    ratingFilter: "",
     statusFilter: "",
   });
   const [showFilters, setShowFilters] = useState(false);
@@ -95,22 +95,10 @@ const Feedbacks = () => {
     }
   }, [user, showToast]);
 
-  // Fetch products for dropdowns
-  const fetchProducts = useCallback(async () => {
-    try {
-      const response = await Api.newProducts.getAll();
-      setProducts(Array.isArray(response) ? response : []);
-    } catch (err) {
-      console.error("Fetch products error:", err);
-      setProducts([]);
-    }
-  }, []);
-
   // Fetch data
   const fetchData = useCallback(async () => {
-    await fetchProducts();
     await fetchFeedbacks();
-  }, [fetchProducts, fetchFeedbacks]);
+  }, [fetchFeedbacks]);
 
   // Handle authentication state and fetch data
   useEffect(() => {
@@ -124,22 +112,40 @@ const Feedbacks = () => {
     }
   }, [user, isAuthLoading, navigate, fetchData]);
 
+  useEffect(() => {
+    const names = [
+      ...new Set(
+        feedbacks
+          .map(
+            (fb) =>
+              fb.product?.product_name || fb.product?.productName || "Unknown"
+          )
+          .filter(Boolean)
+      ),
+    ].sort();
+
+    setUniqueProductNames(names);
+  }, [feedbacks]);
+
   // Apply filters to feedbacks
   const applyFilters = useCallback((feedbacksList, filterSettings) => {
     return feedbacksList.filter((feedback) => {
-      // Username filter
-      if (filterSettings.username) {
-        const query = filterSettings.username.toLowerCase();
-        const username = feedback.customer?.username?.toLowerCase() || "";
-        if (!username.includes(query)) {
+      // Product name filter (string match)
+      if (filterSettings.productName) {
+        const feedbackName = (
+          feedback.product?.product_name ||
+          feedback.product?.productName ||
+          ""
+        ).toLowerCase();
+        if (!feedbackName.includes(filterSettings.productName.toLowerCase())) {
           return false;
         }
       }
 
-      // Product filter
+      // Rating filter
       if (
-        filterSettings.productId &&
-        feedback.product?._id !== filterSettings.productId
+        filterSettings.ratingFilter &&
+        feedback.feedback?.rating !== parseInt(filterSettings.ratingFilter)
       ) {
         return false;
       }
@@ -163,17 +169,15 @@ const Feedbacks = () => {
         if (
           filterSettings.startDate &&
           orderDate < new Date(filterSettings.startDate)
-        ) {
+        )
           return false;
-        }
         if (
           filterSettings.endDate &&
           orderDate > new Date(filterSettings.endDate)
-        ) {
+        )
           return false;
-        }
       } else if (filterSettings.startDate || filterSettings.endDate) {
-        return false; // Exclude if date filters are set but no order date
+        return false;
       }
 
       return true;
@@ -217,8 +221,8 @@ const Feedbacks = () => {
     setFilters({
       startDate: "",
       endDate: "",
-      productId: "",
-      username: "",
+      productName: "",
+      ratingFilter: "",
       statusFilter: "",
     });
   }, []);
@@ -328,8 +332,8 @@ const Feedbacks = () => {
     return (
       filters.startDate ||
       filters.endDate ||
-      filters.productId ||
-      filters.username ||
+      filters.productName ||
+      filters.ratingFilter ||
       filters.statusFilter
     );
   }, [filters]);
@@ -419,35 +423,43 @@ const Feedbacks = () => {
             </div>
             <div>
               <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
-                Product
+                Product Name
               </label>
               <select
-                value={filters.productId}
+                value={filters.productName}
                 onChange={(e) =>
-                  handleFilterChange("productId", e.target.value)
+                  handleFilterChange("productName", e.target.value)
                 }
                 className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
               >
-                <option value="">All Products</option>
-                {Array.isArray(products) &&
-                  products.map((product) => (
-                    <option key={product._id} value={product._id}>
-                      {product.productName || product.name || "Unnamed Product"}
-                    </option>
-                  ))}
+                <option value="">
+                  All Products ({uniqueProductNames.length})
+                </option>
+                {uniqueProductNames.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
-                Username
+                Rating
               </label>
-              <input
-                type="text"
-                placeholder="Search by username"
-                value={filters.username}
-                onChange={(e) => handleFilterChange("username", e.target.value)}
+              <select
+                value={filters.ratingFilter}
+                onChange={(e) =>
+                  handleFilterChange("ratingFilter", e.target.value)
+                }
                 className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-              />
+              >
+                <option value="">All Ratings</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
             </div>
             <div>
               <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
@@ -465,7 +477,6 @@ const Feedbacks = () => {
                 <option value="deleted">Deleted</option>
               </select>
             </div>
-
             <div className="mt-4 flex justify-end space-x-2">
               <button
                 onClick={clearFilters}
@@ -480,7 +491,7 @@ const Feedbacks = () => {
         </div>
       )}
 
-      {/* Statistics Section */}
+      {/* Statistics Section
       {statistics && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
           <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">
@@ -537,7 +548,7 @@ const Feedbacks = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Unified State: Loading / Empty / Error */}
       {isAuthLoading || loading || filteredFeedbacks.length === 0 || error ? (
