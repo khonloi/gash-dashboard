@@ -74,7 +74,6 @@ const CreateProductModal = ({
         if (!file) return '';
         try {
             const response = await Api.upload.image(file);
-            console.log('Upload response:', response);
 
             // Try different possible response structures
             const imageUrl = response.data?.url ||
@@ -84,13 +83,11 @@ const CreateProductModal = ({
                 response.data;
 
             if (!imageUrl) {
-                console.error('No image URL found in response:', response);
                 return '';
             }
 
             return imageUrl;
         } catch (err) {
-            console.error('Upload error:', err);
             return '';
         }
     }, []);
@@ -180,7 +177,6 @@ const CreateProductModal = ({
             setMainImageIndex(0);
             setValidationErrors({});
         } catch (err) {
-            console.error('Add product error:', err);
             showToast('Failed to create product. Please try again.', 'error');
         }
     }, [formData, images, mainImageIndex, uploadSingleImage, onSubmit, validateForm, showToast]);

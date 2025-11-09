@@ -24,16 +24,9 @@ const ProductDetailsModal = ({
     const [showImageModal, setShowImageModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
-    // Debug logging
-    console.log('ProductDetailsModal - product:', product);
-    console.log('ProductDetailsModal - productVariants:', productVariants);
-    console.log('ProductDetailsModal - product._id:', product?._id);
-    console.log('ProductDetailsModal - variants for product:', productVariants[product?._id]);
-
     // Fetch variants when modal opens and product is available
     useEffect(() => {
         if (isOpen && product?._id && onVariantChange) {
-            console.log('ProductDetailsModal - requesting variants fetch for product:', product._id);
             onVariantChange();
         }
     }, [isOpen, product?._id, onVariantChange]);

@@ -34,10 +34,8 @@ export default function Accounts() {
         try {
             const response = await SummaryAPI.accounts.getAll();
             const accountData = Array.isArray(response) ? response : Array.isArray(response.data) ? response.data : [];
-            console.log("Fetched accounts:", accountData);
             setAccounts(accountData);
         } catch (err) {
-            console.error("Fetch accounts error:", err);
             let errorMessage = "Failed to fetch accounts";
             if (err.response?.data?.message) {
                 errorMessage = err.response.data.message;
@@ -143,7 +141,6 @@ export default function Accounts() {
             showToast("Account disabled successfully!", "success");
             fetchAccounts();
         } catch (err) {
-            console.error("Disable account error:", err);
             let errorMessage = "Failed to disable account";
             if (err.response?.data?.message) {
                 errorMessage = err.response.data.message;

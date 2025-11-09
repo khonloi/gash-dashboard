@@ -106,13 +106,11 @@ const EditProductModal = ({
                 response.data;
 
             if (!imageUrl) {
-                console.error('No image URL found in response:', response);
                 return '';
             }
 
             return imageUrl;
         } catch (err) {
-            console.error('Upload error:', err);
             return '';
         }
     }, []);
@@ -228,7 +226,6 @@ const EditProductModal = ({
             setMainImageIndex(0);
             setValidationErrors({});
         } catch (err) {
-            console.error('Edit product error:', err);
             showToast('Failed to update product. Please try again.', 'error');
         }
     }, [formData, newImages, mainImageIndex, uploadSingleImage, onSubmit, validateForm, showToast]);
