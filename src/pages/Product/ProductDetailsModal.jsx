@@ -1,3 +1,4 @@
+// ProductDetailsModal.jsx
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { FaPlus, FaEdit } from 'react-icons/fa';
 import { ToastContext } from '../../context/ToastContext';
@@ -24,16 +25,9 @@ const ProductDetailsModal = ({
     const [showImageModal, setShowImageModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
-    // Debug logging
-    console.log('ProductDetailsModal - product:', product);
-    console.log('ProductDetailsModal - productVariants:', productVariants);
-    console.log('ProductDetailsModal - product._id:', product?._id);
-    console.log('ProductDetailsModal - variants for product:', productVariants[product?._id]);
-
     // Fetch variants when modal opens and product is available
     useEffect(() => {
         if (isOpen && product?._id && onVariantChange) {
-            console.log('ProductDetailsModal - requesting variants fetch for product:', product._id);
             onVariantChange();
         }
     }, [isOpen, product?._id, onVariantChange]);
@@ -161,9 +155,10 @@ const ProductDetailsModal = ({
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                                <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg min-h-[120px]">
-                                    <p className="text-gray-900">{product.description || 'No description available'}</p>
-                                </div>
+                                <div
+    className="p-3 bg-gray-50 border border-gray-200 rounded-lg min-h-[120px] prose prose-sm max-w-none"
+    dangerouslySetInnerHTML={{ __html: product.description || 'No description available' }}
+  />
                             </div>
                         </div>
 

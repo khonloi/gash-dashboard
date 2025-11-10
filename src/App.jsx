@@ -16,7 +16,7 @@ import ProductVariants from "./pages/Variant/ProductVariants.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Orders from "./pages/Order/Orders.jsx";
-import ProductSpecifications from "./pages/ProductSpecifications/ProductSpecifications.jsx";
+import ProductSpecifications from "./pages/ProductSpecifications.jsx";
 
 // Component to redirect to categories tab in ProductSpecifications
 const CategoriesRedirect = () => {

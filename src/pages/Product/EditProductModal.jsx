@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useEffect, useContext, useRef } from 'react';
 import { FaTimes, FaImage, FaStar } from 'react-icons/fa';
+import { MdFormatBold, MdFormatItalic, MdFormatListBulleted, MdFormatListNumbered, MdLink, MdFormatUnderlined, MdLooksOne, MdLooksTwo, MdLooks3 } from 'react-icons/md';
 import { ToastContext } from '../../context/ToastContext';
 import Api from '../../common/SummaryAPI';
 
@@ -24,22 +25,70 @@ const EditProductModal = ({
     const [newImagePreviews, setNewImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [validationErrors, setValidationErrors] = useState({});
+    const descriptionRef = useRef(null);
+    const [activeFormats, setActiveFormats] = useState({
+        bold: false,
+        italic: false,
+        underline: false,
+        bullet: false,
+        numbered: false,
+        h1: false,
+        h2: false,
+        h3: false,
+    });
+
+    const updateActiveFormats = () => {
+        if (!descriptionRef.current) return;
+        const formatBlock = document.queryCommandValue('formatBlock').toLowerCase();
+        setActiveFormats({
+            bold: document.queryCommandState('bold'),
+            italic: document.queryCommandState('italic'),
+            underline: document.queryCommandState('underline'),
+            bullet: document.queryCommandState('insertUnorderedList'),
+            numbered: document.queryCommandState('insertOrderedList'),
+            h1: formatBlock === 'h1',
+            h2: formatBlock === 'h2',
+            h3: formatBlock === 'h3',
+        });
+    };
+
+    useEffect(() => {
+        const editor = descriptionRef.current;
+        if (editor) {
+            editor.addEventListener('input', updateActiveFormats);
+            editor.addEventListener('keyup', updateActiveFormats);
+            editor.addEventListener('mouseup', updateActiveFormats);
+            editor.addEventListener('focus', updateActiveFormats);
+            return () => {
+                editor.removeEventListener('input', updateActiveFormats);
+                editor.removeEventListener('keyup', updateActiveFormats);
+                editor.removeEventListener('mouseup', updateActiveFormats);
+                editor.removeEventListener('focus', updateActiveFormats);
+            };
+        }
+    }, []);
 
     // Initialize form data when product changes
     useEffect(() => {
         if (product && isOpen) {
-            setFormData({
+            const initialData = {
                 productName: product.productName || '',
                 categoryId: product.categoryId?._id || product.categoryId || '',
                 description: product.description || '',
                 productStatus: product.productStatus || 'active',
                 productImageIds: product.productImageIds || []
-            });
+            };
+            setFormData(initialData);
             setNewImages([]);
             setNewImagePreviews([]);
             // Find the main image index
             const mainIndex = product.productImageIds?.findIndex(img => img.isMain) || 0;
             setMainImageIndex(mainIndex >= 0 ? mainIndex : 0);
+
+            // Set description HTML
+            if (descriptionRef.current) {
+                descriptionRef.current.innerHTML = initialData.description;
+            }
         }
     }, [product, isOpen]);
 
@@ -106,13 +155,11 @@ const EditProductModal = ({
                 response.data;
 
             if (!imageUrl) {
-                console.error('No image URL found in response:', response);
                 return '';
             }
 
             return imageUrl;
         } catch (err) {
-            console.error('Upload error:', err);
             return '';
         }
     }, []);
@@ -228,7 +275,6 @@ const EditProductModal = ({
             setMainImageIndex(0);
             setValidationErrors({});
         } catch (err) {
-            console.error('Update product error:', err);
             showToast('Failed to update product. Please try again.', 'error');
         }
     }, [formData, newImages, mainImageIndex, uploadSingleImage, onSubmit, validateForm, showToast]);
@@ -327,19 +373,56 @@ const EditProductModal = ({
 
                     {/* Description */}
                     <div>
-                        <label htmlFor="edit-description" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
                             Description *
                         </label>
-                        <textarea
-                            id="edit-description"
-                            value={formData.description}
-                            onChange={(e) => handleFieldChange('description', e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${validationErrors.description ? 'border-red-500' : 'border-gray-300'
+                        <div className="border rounded-lg overflow-hidden shadow-sm">
+                            <div className="flex items-center gap-1 bg-gray-100 p-2 border-b flex-wrap">
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('bold', false); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.bold ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdFormatBold /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('italic', false); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.italic ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdFormatItalic /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('underline', false); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.underline ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdFormatUnderlined /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { 
+                                        descriptionRef.current.focus(); 
+                                        const url = prompt('Enter URL:'); 
+                                        if (url) document.execCommand('createLink', false, url); 
+                                        updateActiveFormats();
+                                    }} 
+                                    className="p-2 hover:bg-gray-300 rounded"><MdLink /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('insertUnorderedList', false); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.bullet ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdFormatListBulleted /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('insertOrderedList', false); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.numbered ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdFormatListNumbered /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('formatBlock', false, '<h1>'); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.h1 ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdLooksOne /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('formatBlock', false, '<h2>'); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.h2 ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdLooksTwo /></button>
+                                <button type="button" onMouseDown={(e) => e.preventDefault()} 
+                                    onClick={() => { descriptionRef.current.focus(); document.execCommand('formatBlock', false, '<h3>'); updateActiveFormats(); }} 
+                                    className={`p-2 rounded ${activeFormats.h3 ? 'bg-gray-300' : 'hover:bg-gray-300'}`}><MdLooks3 /></button>
+                            </div>
+
+                            <div
+                                ref={descriptionRef}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onInput={(e) => handleFieldChange('description', e.currentTarget.innerHTML)}
+                                className={`min-h-48 px-4 py-3 prose prose-sm max-w-none focus:outline-none bg-white ${
+                                    validationErrors.description ? 'border-red-500' : ''
                                 }`}
-                            rows={4}
-                            placeholder="Enter product description..."
-                            required
-                        />
+                                style={{ minHeight: '24em' }}
+                            />
+                        </div>
                         {validationErrors.description && (
                             <p className="mt-1 text-sm text-red-600">{validationErrors.description}</p>
                         )}
