@@ -1,3 +1,4 @@
+// Products.jsx
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -14,6 +15,8 @@ import axiosClient from '../../common/axiosClient';
 // Using SummaryAPI for all API calls
 
 const Products = () => {
+  const stripHtml = (html) => html.replace(/<[^>]*>/g, '');
+
   const { user, isAuthLoading } = useContext(AuthContext);
   const { showToast } = useContext(ToastContext);
   const location = useLocation();
@@ -760,9 +763,7 @@ const Products = () => {
                       <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
                         <div className="truncate">
                           {product.description
-                            ? `${product.description.substring(0, 80)}${
-                                product.description.length > 80 ? '...' : ''
-                              }`
+                            ? `${stripHtml(product.description).substring(0, 80)}${stripHtml(product.description).length > 80 ? '...' : ''}`
                             : 'N/A'}
                         </div>
                       </td>

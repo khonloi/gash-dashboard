@@ -1,3 +1,4 @@
+// ProductDetailsModal.jsx
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { FaPlus, FaEdit } from 'react-icons/fa';
 import { ToastContext } from '../../context/ToastContext';
@@ -154,9 +155,10 @@ const ProductDetailsModal = ({
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                                <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg min-h-[120px]">
-                                    <p className="text-gray-900">{product.description || 'No description available'}</p>
-                                </div>
+                                <div
+    className="p-3 bg-gray-50 border border-gray-200 rounded-lg min-h-[120px] prose prose-sm max-w-none"
+    dangerouslySetInnerHTML={{ __html: product.description || 'No description available' }}
+  />
                             </div>
                         </div>
 
