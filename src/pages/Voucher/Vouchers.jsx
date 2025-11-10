@@ -284,7 +284,7 @@ export default function Vouchers() {
 
       {/* Main Voucher Management UI */}
       {/* Header Section */}
-      <div className="bg-white rounded-xl shadow-sm border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
+      <div className="bg-white rounded-xl shadow-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2">Voucher Management</h1>
@@ -328,7 +328,7 @@ export default function Vouchers() {
 
       {/* Filter Section */}
       {showFilters && (
-        <div className="bg-white rounded-xl shadow-sm border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
+        <div className="bg-white rounded-xl shadow-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
           <div className="flex items-center justify-between mb-3 lg:mb-4">
             <h2 className="text-base lg:text-lg font-semibold text-gray-900">Search & Filter</h2>
             <button
@@ -340,7 +340,7 @@ export default function Vouchers() {
               Clear Filters
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
             <div>
               <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search by Code</label>
               <input
@@ -408,7 +408,7 @@ export default function Vouchers() {
       )}
 
       {/* Vouchers Table */}
-      <div className="bg-white rounded-xl shadow-sm border overflow-hidden" style={{ borderColor: '#A86523' }}>
+      <div className="bg-white rounded-xl shadow-xl border overflow-hidden" style={{ borderColor: '#A86523' }}>
         {loading || filteredVouchers.length === 0 || error ? (
           <div className="p-6" role="status">
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
@@ -475,19 +475,19 @@ export default function Vouchers() {
             <table className="w-full table-fixed min-w-[900px]">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="w-[4%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">
                     #
                   </th>
-                  <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Code</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Type</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Discount</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Min Order</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Max Discount</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Start Date</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">End Date</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Usage</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                  <th className="w-[13%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Code</th>
+                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Type</th>
+                  <th className="w-[10%] px-2 lg:px-4 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Discount</th>
+                  <th className="w-[8%] pl-2 lg:pl-4 pr-3 lg:pr-5 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Min Order</th>
+                  <th className="w-[8%] pl-3 lg:pl-5 pr-5 lg:pr-7 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Max Discount</th>
+                  <th className="w-[10%] pl-5 lg:pl-7 pr-2 lg:pr-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Start Date</th>
+                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">End Date</th>
+                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Usage</th>
+                  <th className="w-[9%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Status</th>
+                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -507,24 +507,24 @@ export default function Vouchers() {
                       <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
                         {v.discountType === "percentage" ? "Percentage" : "Fixed"}
                       </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-right">
                         <div className="text-xs lg:text-sm font-semibold text-gray-900">
                           {v.discountType === "percentage"
                             ? `${v.discountValue}%`
                             : `${v.discountValue.toLocaleString("vi-VN")}₫`}
                         </div>
                       </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <td className="pl-2 lg:pl-4 pr-3 lg:pr-5 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">
                         {v.minOrderValue.toLocaleString("vi-VN")}₫
                       </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <td className="pl-3 lg:pl-5 pr-5 lg:pr-7 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">
                         {v.discountType === "percentage"
                           ? v.maxDiscount
                             ? `${v.maxDiscount.toLocaleString("vi-VN")}₫`
                             : "-"
                           : "-"}
                       </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <td className="pl-5 lg:pl-7 pr-2 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
                         {new Date(v.startDate).toLocaleDateString("vi-VN", {
                           day: '2-digit',
                           month: '2-digit',
@@ -607,7 +607,7 @@ export default function Vouchers() {
 
       {/* Pagination */}
       {filteredVouchers.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523' }}>
+        <div className="bg-white rounded-xl shadow-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523' }}>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-700">
               Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, filteredVouchers.length)}</span> of <span className="font-medium">{filteredVouchers.length}</span> vouchers

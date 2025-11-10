@@ -153,7 +153,7 @@ export default function Bills() {
       {/* Main Bill Management UI */}
       <>
         {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
+        <div className="bg-white rounded-xl shadow-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4">
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2">Bill Management</h1>
@@ -185,7 +185,7 @@ export default function Bills() {
 
         {/* Filters Section */}
         {showFilters && (
-          <div className="bg-white rounded-xl shadow-sm border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
+          <div className="bg-white rounded-xl shadow-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523' }}>
             <div className="flex items-center justify-between mb-3 lg:mb-4">
               <h2 className="text-base lg:text-lg font-semibold text-gray-900">Search & Filter</h2>
               <button
@@ -264,7 +264,7 @@ export default function Bills() {
         )}
 
         {/* Orders Table */}
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden" style={{ borderColor: '#A86523' }}>
+        <div className="bg-white rounded-xl shadow-xl border overflow-hidden" style={{ borderColor: '#A86523' }}>
           {filteredOrders.length === 0 ? (
             <div className="p-6" role="status">
               <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
@@ -297,17 +297,17 @@ export default function Bills() {
                 <table className="w-full table-fixed min-w-[1000px]">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="w-[4%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="w-[5%] px-3 lg:px-5 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">
                         #
                       </th>
-                      <th className="w-[13%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Order ID</th>
-                      <th className="w-[11%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Date</th>
-                      <th className="w-[18%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Customer</th>
-                      <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Total</th>
-                      <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Payment Method</th>
-                      <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                      <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Paid Status</th>
-                      <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                      <th className="w-[12%] px-3 lg:px-5 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Order ID</th>
+                      <th className="w-[18%] px-3 lg:px-5 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Customer</th>
+                      <th className="w-[11%] px-3 lg:px-5 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Date</th>
+                      <th className="w-[6%] pl-3 lg:pl-5 pr-4 lg:pr-5 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Payment Method</th>
+                      <th className="w-[16%] pl-4 lg:pl-5 pr-3 lg:pr-5 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Total</th>
+                      <th className="w-[10%] px-3 lg:px-5 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Status</th>
+                      <th className="w-[10%] px-3 lg:px-5 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Paid Status</th>
+                      <th className="w-[12%] px-3 lg:px-5 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white">
@@ -317,6 +317,12 @@ export default function Bills() {
                           {startIndex + index + 1}
                         </td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm font-medium text-gray-900">#{order._id.slice(-6).toUpperCase()}</td>
+
+                        <td className="px-2 lg:px-4 py-3">
+                          <div className="text-xs lg:text-sm text-gray-900" style={{ wordBreak: 'break-word', whiteSpace: 'normal' }} title={order.name || 'N/A'}>
+                            {order.name || 'N/A'}
+                          </div>
+                        </td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
                           {new Date(order.orderDate).toLocaleDateString("vi-VN", {
                             day: '2-digit',
@@ -324,31 +330,30 @@ export default function Bills() {
                             year: 'numeric'
                           })}
                         </td>
-                        <td className="px-2 lg:px-4 py-3">
-                          <div className="text-xs lg:text-sm text-gray-900" style={{ wordBreak: 'break-word', whiteSpace: 'normal' }} title={order.name || 'N/A'}>
-                            {order.name || 'N/A'}
+                        <td className="pl-2 lg:pl-3 pr-3 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 capitalize">{order.payment_method || 'N/A'}</td>
+                        <td className="pl-3 lg:pl-4 pr-2 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">{order.finalPrice ? `${order.finalPrice.toLocaleString('vi-VN')}đ` : 'N/A'}</td>
+                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                          <div className="flex justify-center">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.order_status === 'delivered' ? 'bg-green-100 text-green-800' :
+                              order.order_status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+                                order.order_status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+                                  order.order_status === 'pending' ? 'bg-gray-100 text-gray-800' :
+                                    'bg-red-100 text-red-800'
+                              }`}>
+                              {order.order_status ? order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1) : 'N/A'}
+                            </span>
                           </div>
                         </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">{order.finalPrice ? `${order.finalPrice.toLocaleString('vi-VN')}đ` : 'N/A'}</td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 capitalize">{order.payment_method || 'N/A'}</td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.order_status === 'delivered' ? 'bg-green-100 text-green-800' :
-                            order.order_status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-                              order.order_status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
-                                order.order_status === 'pending' ? 'bg-gray-100 text-gray-800' :
-                                  'bg-red-100 text-red-800'
-                            }`}>
-                            {order.order_status ? order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1) : 'N/A'}
-                          </span>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.pay_status?.toLowerCase() === 'paid' ? 'bg-green-100 text-green-800' :
-                            order.pay_status?.toLowerCase() === 'unpaid' ? 'bg-yellow-100 text-yellow-800' :
-                              order.pay_status?.toLowerCase() === 'refunded' ? 'bg-red-100 text-red-800' :
-                                'bg-gray-100 text-gray-800'
-                            }`}>
-                            {order.pay_status ? order.pay_status.charAt(0).toUpperCase() + order.pay_status.slice(1) : 'N/A'}
-                          </span>
+                          <div className="flex justify-center">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.pay_status?.toLowerCase() === 'paid' ? 'bg-green-100 text-green-800' :
+                              order.pay_status?.toLowerCase() === 'unpaid' ? 'bg-yellow-100 text-yellow-800' :
+                                order.pay_status?.toLowerCase() === 'refunded' ? 'bg-red-100 text-red-800' :
+                                  'bg-gray-100 text-gray-800'
+                              }`}>
+                              {order.pay_status ? order.pay_status.charAt(0).toUpperCase() + order.pay_status.slice(1) : 'N/A'}
+                            </span>
+                          </div>
                         </td>
                         <td className="px-2 lg:px-4 py-3">
                           <div className="flex justify-center items-center space-x-1">
@@ -382,7 +387,7 @@ export default function Bills() {
 
         {/* Pagination */}
         {filteredOrders.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523' }}>
+          <div className="bg-white rounded-xl shadow-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523' }}>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-700">
                 Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, filteredOrders.length)}</span> of <span className="font-medium">{filteredOrders.length}</span> bills
