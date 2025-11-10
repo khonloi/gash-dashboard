@@ -231,7 +231,6 @@ const Orders = () => {
     setError("");
     try {
       const response = await Api.orders.getAll();
-      console.log("Orders Response:", response);
 
       // Extract data from response structure
       const ordersData = response?.data || response || [];
@@ -245,7 +244,6 @@ const Orders = () => {
       );
     } catch (err) {
       setError(err.message || "Failed to load orders");
-      console.error("Fetch Orders Error:", err);
     } finally {
       setLoading(false);
     }
@@ -425,25 +423,10 @@ const Orders = () => {
           }
         }
 
-        console.log("Updating order:", orderId, "with data:", changedFields);
-        console.log(
-          "Order ID type:",
-          typeof orderId,
-          "Length:",
-          orderId?.length
-        );
-        console.log("Full order object:", originalOrder);
-        console.log("API endpoint will be:", `/orders/admin/update/${orderId}`);
-
         let response;
         try {
           response = await Api.orders.update(orderId, changedFields);
-          console.log("Update Order Response:", response);
         } catch (error) {
-          console.error("Update Order Error:", error);
-          console.error("Error details:", error.response?.data);
-          console.error("Request URL:", error.config?.url);
-          console.error("Request method:", error.config?.method);
 
           // Handle specific error cases
           if (
@@ -1340,7 +1323,6 @@ const Orders = () => {
             };
 
             const response = await Api.orders.update(cancelOrderId, updateData);
-            console.log("Cancel Order Response:", response);
 
             // Update local orders state
             setOrders((prevOrders) =>
@@ -1358,7 +1340,6 @@ const Orders = () => {
           } catch (err) {
             setError(err.message || "Failed to cancel order");
             showToast(err.message || "Failed to cancel order", "error");
-            console.error("Cancel Order Error:", err);
           } finally {
             setLoading(false);
           }

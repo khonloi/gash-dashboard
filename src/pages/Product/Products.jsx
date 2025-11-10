@@ -1,3 +1,4 @@
+// Products.jsx
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -14,6 +15,8 @@ import axiosClient from '../../common/axiosClient';
 // Using SummaryAPI for all API calls
 
 const Products = () => {
+  const stripHtml = (html) => html.replace(/<[^>]*>/g, '');
+
   const { user, isAuthLoading } = useContext(AuthContext);
   const { showToast } = useContext(ToastContext);
   const location = useLocation();
@@ -128,10 +131,8 @@ const Products = () => {
   const fetchCategories = useCallback(async () => {
     try {
       const response = await Api.categories.getAll();
-      console.log('Fetched categories:', response);
       setCategories(Array.isArray(response) ? response : []);
     } catch (err) {
-      console.error('Fetch categories error:', err);
     }
   }, []);
 
@@ -139,10 +140,8 @@ const Products = () => {
   const fetchColors = useCallback(async () => {
     try {
       const response = await Api.colors.getAll();
-      console.log('Colors API response:', response);
       setColors(Array.isArray(response) ? response : []);
     } catch (err) {
-      console.warn('Colors API not available, using mock data:', err.message);
       // Fallback to mock data
       setColors([
         { _id: '507f1f77bcf86cd799439011', color_name: 'Red' },
@@ -161,10 +160,8 @@ const Products = () => {
   const fetchSizes = useCallback(async () => {
     try {
       const response = await Api.sizes.getAll();
-      console.log('Sizes API response:', response);
       setSizes(Array.isArray(response) ? response : []);
     } catch (err) {
-      console.warn('Sizes API not available, using mock data:', err.message);
       // Fallback to mock data
       setSizes([
         { _id: '507f1f77bcf86cd799439021', size_name: 'XS' },
@@ -188,13 +185,11 @@ const Products = () => {
     setError('');
     try {
       const response = await Api.newProducts.getAll();
-      console.log('Fetched new products:', response.data);
       // Response structure: { success: true, data: [...], message: "..." }
       const productsData = response.data || response;
       setProducts(Array.isArray(productsData) ? productsData : []);
     } catch (err) {
       setError(err.message || 'Failed to load products');
-      console.error('Fetch products error:', err);
     } finally {
       setLoading(false);
     }
@@ -202,10 +197,8 @@ const Products = () => {
 
   // Fetch variants for a specific product
   const fetchProductVariants = useCallback(async (productId) => {
-    console.log(`Fetching variants for product ${productId}...`);
     try {
       const response = await Api.newVariants.getByProduct(productId);
-      console.log(`Fetched variants for product ${productId}:`, response);
 
       // Handle different response structures
       let variantsData = [];
@@ -223,17 +216,14 @@ const Products = () => {
         }
       }
 
-      console.log(`Processed variants data for product ${productId}:`, variantsData);
       setProductVariants(prev => {
         const newState = {
           ...prev,
           [productId]: variantsData
         };
-        console.log('Updated productVariants state:', newState);
         return newState;
       });
     } catch (err) {
-      console.error('Fetch variants error:', err);
       setProductVariants(prev => ({
         ...prev,
         [productId]: []
@@ -274,7 +264,6 @@ const Products = () => {
       const response = await Api.upload.image(file);
       return response.data?.url || response.data?.data?.url || '';
     } catch (err) {
-      console.error('Upload error:', err);
       return '';
     }
   }, []);
@@ -290,7 +279,6 @@ const Products = () => {
         productStatus: 'active' // Set to active by default
       });
 
-      console.log('Product created:', response.data);
       const newProduct = response.data?.data || response.data;
       setProducts(prev => [...prev, newProduct]);
       showToast('Product created successfully. Add variants to activate it.', 'success');
@@ -299,7 +287,6 @@ const Products = () => {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to create product';
       setError(errorMessage);
       showToast(errorMessage, 'error');
-      console.error('Add product error:', err);
     } finally {
       setLoading(false);
     }
@@ -313,7 +300,6 @@ const Products = () => {
     try {
       const response = await Api.newProducts.update(editingProductId, formData);
 
-      console.log('Product updated:', response.data);
       const updatedProduct = response.data?.data || response.data;
       setProducts(prev =>
         prev.map(product =>
@@ -332,7 +318,6 @@ const Products = () => {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to update product';
       setError(errorMessage);
       showToast(errorMessage, 'error');
-      console.error('Edit product error:', err);
     } finally {
       setLoading(false);
     }
@@ -347,8 +332,6 @@ const Products = () => {
 
     try {
       await Api.newProducts.delete(productId);
-
-      console.log('Product discontinued:', productId);
 
       // Update the product status to discontinued instead of removing it
       setProducts(prev =>
@@ -366,7 +349,6 @@ const Products = () => {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to discontinue product';
       setError(errorMessage);
       showToast(errorMessage, 'error');
-      console.error('Delete product error:', err);
     } finally {
       setLoading(false);
     }
@@ -374,12 +356,10 @@ const Products = () => {
 
   // Handle authentication state and fetch data
   useEffect(() => {
-    console.log('Products useEffect: user=', user, 'isAuthLoading=', isAuthLoading);
     if (isAuthLoading) {
       return;
     }
     if (!user && !localStorage.getItem('token')) {
-      console.log('No user and no token, redirecting to login');
       navigate('/login', { replace: true });
     } else if (user) {
       fetchData();
@@ -783,9 +763,7 @@ const Products = () => {
                       <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
                         <div className="truncate">
                           {product.description
-                            ? `${product.description.substring(0, 80)}${
-                                product.description.length > 80 ? '...' : ''
-                              }`
+                            ? `${stripHtml(product.description).substring(0, 80)}${stripHtml(product.description).length > 80 ? '...' : ''}`
                             : 'N/A'}
                         </div>
                       </td>
