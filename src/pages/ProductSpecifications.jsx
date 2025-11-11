@@ -804,19 +804,19 @@ const ProductSpecifications = () => {
       // Color: pattern validation (only letters, numbers, Vietnamese characters - NO spaces)
       const colorNamePattern = /^[a-zA-ZÀ-ỹ0-9]+$/;
       if (trimmed.length < 2 || trimmed.length > 30 || !colorNamePattern.test(trimmed)) {
-        return 'Color name must contain only letters and numbers, 2 to 30 characters long';
+        return 'Color name must be 2 to 30 characters long and contain only letters and numbers';
       }
     } else if (type === 'size') {
       // Size: pattern validation (only letters, numbers, Vietnamese characters - NO spaces)
       const sizeNamePattern = /^[a-zA-ZÀ-ỹ0-9]+$/;
       if (trimmed.length < 1 || trimmed.length > 12 || !sizeNamePattern.test(trimmed)) {
-        return 'Size name must contain only letters and numbers, up to 12 characters long';
+        return 'Size name must be 1 to 12 characters long and contain only letters and numbers';
       }
     } else if (type === 'category') {
       // Category: pattern validation (letters, numbers, Vietnamese characters, hyphen - NO spaces except hyphen)
       const categoryNamePattern = /^[a-zA-ZÀ-ỹ0-9\-]+$/;
       if (trimmed.length < 3 || trimmed.length > 30 || !categoryNamePattern.test(trimmed)) {
-        return 'Category name must contain only letters, numbers, and hyphen, 3 to 30 characters long';
+        return 'Category name must be 3 to 30 characters long and contain only letters, numbers, and hyphens';
       }
     } else {
       // Default validation for unknown types

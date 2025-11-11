@@ -25,7 +25,7 @@ const ImageModal = ({ isOpen, onClose, imageUrl, alt = 'Image' }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[60] p-4 animate-in fade-in-0 duration-300"
+            className="fixed inset-0 bg-black/30 bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[60] p-4 animate-in fade-in-0 duration-300"
             onClick={onClose}
         >
             <div
