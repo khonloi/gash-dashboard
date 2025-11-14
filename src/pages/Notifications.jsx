@@ -219,6 +219,7 @@ export default function Notifications() {
     }
   };
 
+  // ===== DELETE NOTIFICATION =====
   const handleDeleteNotification = async (id) => {
     if (!window.confirm("Delete this notification?")) return;
     try {
