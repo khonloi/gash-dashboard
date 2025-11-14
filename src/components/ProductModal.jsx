@@ -121,6 +121,15 @@ const ProductModal = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen, isEditMode]);
 
+    // Get character count from HTML description
+    const getDescriptionCharCount = useCallback((htmlContent) => {
+        if (!htmlContent) return 0;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        const textContent = tempDiv.textContent || tempDiv.innerText || '';
+        return textContent.trim().length;
+    }, []);
+
     // Validate individual field
     const validateField = useCallback((name, value, currentFormData = formData) => {
         switch (name) {
@@ -795,9 +804,26 @@ const ProductModal = ({
                                     style={{ minHeight: isEditMode ? '24em' : '320px' }}
                                 />
                             </div>
-                            {validationErrors.description && (
-                                <p className="mt-1.5 text-sm text-red-600">{validationErrors.description}</p>
-                            )}
+                            <div className="mt-2 flex items-center justify-between">
+                                {validationErrors.description && (
+                                    <p className="text-sm text-red-600">{validationErrors.description}</p>
+                                )}
+                                <div className="ml-auto">
+                                    <p className={`text-xs font-medium ${getDescriptionCharCount(formData.description) < 50
+                                        ? 'text-orange-600'
+                                        : getDescriptionCharCount(formData.description) > 10000
+                                            ? 'text-red-600'
+                                            : getDescriptionCharCount(formData.description) > 9500
+                                                ? 'text-yellow-600'
+                                                : 'text-gray-500'
+                                        }`}>
+                                        {getDescriptionCharCount(formData.description)} / 10000 characters
+                                        {getDescriptionCharCount(formData.description) < 50 && (
+                                            <span className="ml-1">(Minimum: 50)</span>
+                                        )}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Image Management */}
