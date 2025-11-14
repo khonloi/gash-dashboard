@@ -235,7 +235,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                             <div>
                                                 <p className="text-xs text-gray-500 mb-1">Content</p>
                                                 <div className="bg-white border rounded-lg p-2 sm:p-3" style={{ borderColor: '#A86523' }}>
-                                                    <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
+                                                    <p className="text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-normal break-words">
                                                         "{feedback.feedback.content}"
                                                     </p>
                                                 </div>
