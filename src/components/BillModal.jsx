@@ -26,44 +26,52 @@ const BillModal = ({ isOpen, onClose, billData }) => {
     return dateString ? new Date(dateString).toLocaleDateString('vi-VN') : 'N/A';
   };
 
-  const renderItemsTable = () => (
-    <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #d1d5db' }}>
-      <thead>
-        <tr style={{ backgroundColor: '#f9fafb' }}>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>Product</th>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', fontWeight: 600, color: '#374151' }}>Color</th>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', fontWeight: 600, color: '#374151' }}>Size</th>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', fontWeight: 600, color: '#374151' }}>Quantity</th>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'right', fontWeight: 600, color: '#374151' }}>Unit Price</th>
-          <th style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'right', fontWeight: 600, color: '#374151' }}>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {billData.items?.map((item, index) => (
-          <tr key={index}>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px' }}>
-              <p style={{ fontWeight: 600, color: '#1f2937', margin: 0 }}>{item.productName || 'N/A'}</p>
-            </td>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', color: '#6b7280' }}>
-              {item.color || 'N/A'}
-            </td>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', color: '#6b7280' }}>
-              {item.size || 'N/A'}
-            </td>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center', fontWeight: 500 }}>
-              {item.quantity || 0}
-            </td>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'right', color: '#6b7280' }}>
-              {formatPrice(item.unitPrice)}
-            </td>
-            <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'right', fontWeight: 600, color: '#1f2937' }}>
-              {formatPrice(item.totalPrice)}
-            </td>
+  const renderItemsTable = () => {
+    if (!billData?.items || billData.items.length === 0) {
+      return '<p>No items found</p>';
+    }
+
+    const itemsRows = billData.items.map((item, index) => `
+      <tr>
+        <td style="border: 1px solid #d1d5db; padding: 12px;">
+          <p style="font-weight: 600; color: #1f2937; margin: 0;">${item.productName || 'N/A'}</p>
+        </td>
+        <td style="border: 1px solid #d1d5db; padding: 12px; text-align: center; color: #6b7280;">
+          ${item.color || 'N/A'}
+        </td>
+        <td style="border: 1px solid #d1d5db; padding: 12px; text-align: center; color: #6b7280;">
+          ${item.size || 'N/A'}
+        </td>
+        <td style="border: 1px solid #d1d5db; padding: 12px; text-align: center; font-weight: 500;">
+          ${item.quantity || 0}
+        </td>
+        <td style="border: 1px solid #d1d5db; padding: 12px; text-align: right; color: #6b7280;">
+          ${formatPrice(item.unitPrice)}
+        </td>
+        <td style="border: 1px solid #d1d5db; padding: 12px; text-align: right; font-weight: 600; color: #1f2937;">
+          ${formatPrice(item.totalPrice)}
+        </td>
+      </tr>
+    `).join('');
+
+    return `
+      <table style="width: 100%; border-collapse: collapse; border: 1px solid #d1d5db;">
+        <thead>
+          <tr style="background-color: #f9fafb;">
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: left; font-weight: 600; color: #374151;">Product</th>
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: center; font-weight: 600; color: #374151;">Color</th>
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: center; font-weight: 600; color: #374151;">Size</th>
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: center; font-weight: 600; color: #374151;">Quantity</th>
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: right; font-weight: 600; color: #374151;">Unit Price</th>
+            <th style="border: 1px solid #d1d5db; padding: 12px; text-align: right; font-weight: 600; color: #374151;">Total</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+        </thead>
+        <tbody>
+          ${itemsRows}
+        </tbody>
+      </table>
+    `;
+  };
 
   const handleExportPDF = async () => {
     if (!billData) {
@@ -126,7 +134,7 @@ const BillModal = ({ isOpen, onClose, billData }) => {
 
         <div style="padding: 24px;">
           <h3 style="font-size: 18px; font-weight: bold; color: #1f2937; margin: 0 0 16px 0;">ORDER ITEMS</h3>
-          ${renderItemsTable().outerHTML}
+          ${renderItemsTable()}
         </div>
 
         <div style="padding: 32px; background-color: #FFCF71; border-top: 1px solid #e5e7eb;">
