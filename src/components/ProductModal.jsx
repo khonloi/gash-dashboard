@@ -142,8 +142,8 @@ const ProductModal = ({
                 const trimmedDescription = textContent.trim();
                 // Check if blank after extracting text content
                 if (trimmedDescription === '') return 'Please fill in all required fields';
-                if (trimmedDescription.length < 50 || trimmedDescription.length > 2000) {
-                    return 'Description must be between 50 and 2000 characters long';
+                if (trimmedDescription.length < 50 || trimmedDescription.length > 10000) {
+                    return 'Description must be between 50 and 10000 characters long';
                 }
                 return null;
             default:
