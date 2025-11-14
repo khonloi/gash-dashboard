@@ -49,13 +49,13 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                 {/* Modal Header */}
-                <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <div className="flex items-center justify-between p-4 sm:p-5 md:p-6 border-b-2 border-gray-300">
                     <h2 className="text-2xl font-bold text-gray-900">Feedback Details</h2>
                     <button
                         onClick={onClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors duration-200 border-2 border-transparent hover:border-gray-300 focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2"
                         aria-label="Close modal"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,7 +65,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                 </div>
 
                 {/* Modal Content */}
-                <div className="p-6">
+                <div className="p-4 sm:p-5 md:p-6">
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -82,7 +82,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                             <p className="text-gray-600 mb-4">{error}</p>
                             <button
                                 onClick={fetchFeedbackDetail}
-                                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200"
+                                className="px-3 py-1.5 bg-transparent border-2 border-gray-300 text-blue-600 text-sm rounded-lg cursor-pointer hover:bg-gray-100 hover:border-blue-600 focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2 disabled:bg-gray-200 disabled:border-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                             >
                                 Retry
                             </button>
@@ -90,7 +90,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                     ) : feedback ? (
                         <div className="space-y-6">
                             {/* Customer Information */}
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-gray-50 rounded-xl p-4 sm:p-5 md:p-6 border-2 border-gray-300">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Customer Information</h3>
                                 <div className="flex items-center space-x-4">
                                     <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200">
@@ -132,7 +132,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                             </div>
 
                             {/* Feedback Content */}
-                            <div className="bg-blue-50 rounded-lg p-4">
+                            <div className="bg-blue-50 rounded-xl p-4 sm:p-5 md:p-6 border-2 border-blue-200">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Feedback</h3>
                                 <div className="space-y-4">
                                     {/* Rating */}
@@ -164,7 +164,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                     {feedback.feedback?.has_content && feedback.feedback.content ? (
                                         <div>
                                             <p className="text-sm text-gray-500 mb-2">Content</p>
-                                            <div className="bg-white border border-blue-200 rounded-lg p-4">
+                                            <div className="bg-white border-2 border-blue-300 rounded-xl p-4">
                                                 <p className="text-gray-800 leading-relaxed">
                                                     "{feedback.feedback.content}"
                                                 </p>
@@ -173,7 +173,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                     ) : (
                                         <div>
                                             <p className="text-sm text-gray-500 mb-2">Content</p>
-                                            <div className="bg-white border border-gray-200 rounded-lg p-4">
+                                            <div className="bg-white border-2 border-gray-300 rounded-xl p-4">
                                                 <p className="text-gray-500 italic">No feedback content provided</p>
                                             </div>
                                         </div>
@@ -198,10 +198,10 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                             </div>
 
                             {/* Product Information */}
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-gray-50 rounded-xl p-4 sm:p-5 md:p-6 border-2 border-gray-300">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Product Information</h3>
                                 <div className="flex items-center space-x-4">
-                                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-white">
+                                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-white border-2 border-gray-300">
                                         {feedback.variant?.image ? (
                                             <img
                                                 src={feedback.variant.image}
@@ -240,7 +240,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                             </div>
 
                             {/* Order Information */}
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-gray-50 rounded-xl p-4 sm:p-5 md:p-6 border-2 border-gray-300">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Order Information</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
@@ -272,10 +272,10 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                 </div>
 
                 {/* Modal Footer */}
-                <div className="flex items-center justify-end p-6 border-t border-gray-200">
+                <div className="flex items-center justify-end p-4 sm:p-5 md:p-6 border-t-2 border-gray-300">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200"
+                        className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-xl transition-colors duration-200 border-2 border-gray-700 focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2"
                     >
                         Close
                     </button>
