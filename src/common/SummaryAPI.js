@@ -123,6 +123,8 @@ const Api = {
         getById: (variantId) => axiosClient.get(`/new-variants/get-variant-detail/${variantId}`).then(response => response.data),
         // Create variant (restricted to manager/admin)
         create: (data) => axiosClient.post('/new-variants/create-variant', data).then(response => response.data),
+        // Bulk create variants (restricted to manager/admin)
+        bulkCreate: (data) => axiosClient.post('/new-variants/bulk-create-variants', data).then(response => response.data),
         // Update variant (restricted to manager/admin)
         update: (variantId, data) => axiosClient.put(`/new-variants/update-variant/${variantId}`, data).then(response => response.data),
         // Delete variant (restricted to manager/admin)

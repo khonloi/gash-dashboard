@@ -3,6 +3,7 @@ import React, { useState, useCallback, useContext, useEffect, useMemo } from 're
 import { FaPlus, FaEdit } from 'react-icons/fa';
 import { ToastContext } from '../../context/ToastContext';
 import VariantModal from '../../components/VariantModal';
+import BulkVariantModal from '../../components/BulkVariantModal';
 import ProductVariantList from '../ProductVariant/ProductVariantList';
 import ImageModal from '../../components/ImageModal';
 
@@ -22,6 +23,7 @@ const ProductDetailsModal = ({
     const { showToast } = useContext(ToastContext);
     const [editingVariant, setEditingVariant] = useState(null);
     const [showCreateVariant, setShowCreateVariant] = useState(false);
+    const [showBulkVariant, setShowBulkVariant] = useState(false);
     const [showImageModal, setShowImageModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
@@ -35,6 +37,13 @@ const ProductDetailsModal = ({
     // Handle variant operations
     const handleVariantCreated = useCallback(() => {
         setShowCreateVariant(false);
+        if (onVariantChange) {
+            onVariantChange();
+        }
+    }, [onVariantChange]);
+
+    const handleBulkVariantsCreated = useCallback(() => {
+        setShowBulkVariant(false);
         if (onVariantChange) {
             onVariantChange();
         }
@@ -345,14 +354,27 @@ const ProductDetailsModal = ({
                                     </p>
                                 </div>
                                 {!viewOnly && realtimeProductStatus !== 'discontinued' && (
-                                    <button
-                                        onClick={() => setShowCreateVariant(true)}
-                                        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                        style={{ '--tw-ring-color': '#A86523' }}
-                                    >
-                                        <FaPlus className="w-4 h-4" />
-                                        <span>Add Variant</span>
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => setShowBulkVariant(true)}
+                                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                            style={{ '--tw-ring-color': '#A86523' }}
+                                            title="Bulk add variants with same color and image"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                            </svg>
+                                            <span>Bulk Add</span>
+                                        </button>
+                                        <button
+                                            onClick={() => setShowCreateVariant(true)}
+                                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                            style={{ '--tw-ring-color': '#A86523' }}
+                                        >
+                                            <FaPlus className="w-4 h-4" />
+                                            <span>Add Variant</span>
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                             {product?._id && sortedVariants.length > 0 ? (
@@ -405,6 +427,16 @@ const ProductDetailsModal = ({
                 colors={colors}
                 sizes={sizes}
                 onVariantUpdated={handleVariantUpdated}
+            />
+
+            {/* Bulk Variant Modal */}
+            <BulkVariantModal
+                isOpen={showBulkVariant}
+                onClose={() => setShowBulkVariant(false)}
+                product={product}
+                colors={colors}
+                sizes={sizes}
+                onVariantsCreated={handleBulkVariantsCreated}
             />
 
             {/* Image Modal */}
