@@ -713,7 +713,7 @@ const RevenueByYear = ({ user }) => {
             )}
 
             {/* Revenue by Year Content */}
-            <div className="bg-white rounded-xl shadow-sm border overflow-hidden" style={{ borderColor: '#A86523' }}>
+            <div className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                 <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
                     <h3 className="text-base lg:text-lg font-semibold text-gray-900">Chart & Data</h3>
                     <p className="text-gray-600 text-sm lg:text-base">Visual representation and detailed data</p>
