@@ -245,7 +245,7 @@ const Layout = ({ children }) => {
           aria-label="Admin navigation"
         >
           {/* Sidebar Header */}
-          <div className="px-4 py-4 border-b flex items-center justify-between bg-gradient-to-r from-[#FCEFCB] to-white" style={{ borderColor: '#A86523' }}>
+          <div className="px-4 py-4 border-b flex items-center justify-between bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A]" style={{ borderColor: '#A86523' }}>
             {isSidebarExpanded ? (
               <Link
                 to={user?.role === "manager" ? "/orders" : "/statistics/order"}
@@ -253,7 +253,7 @@ const Layout = ({ children }) => {
                 onClick={handleLogoClick}
                 aria-label="Gash homepage"
               >
-                <h1 className="text-xl font-bold text-gray-800 font-sans whitespace-nowrap">
+                <h1 className="text-xl font-bold text-white font-sans whitespace-nowrap">
                   Gash Dashboard
                 </h1>
               </Link>
@@ -262,7 +262,7 @@ const Layout = ({ children }) => {
             )}
             <button
               onClick={handleSidebarToggle}
-              className="p-2 rounded-lg hover:bg-[#FCEFCB] transition-colors duration-200 text-gray-600 hover:text-[#A86523]"
+              className="p-2 rounded-lg hover:bg-white/20 transition-colors duration-200 text-white hover:text-white"
               aria-label={
                 isSidebarExpanded ? "Collapse sidebar" : "Expand sidebar"
               }
