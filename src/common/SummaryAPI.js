@@ -123,6 +123,8 @@ const Api = {
         getById: (variantId) => axiosClient.get(`/new-variants/get-variant-detail/${variantId}`).then(response => response.data),
         // Create variant (restricted to manager/admin)
         create: (data) => axiosClient.post('/new-variants/create-variant', data).then(response => response.data),
+        // Bulk create variants (restricted to manager/admin)
+        bulkCreate: (data) => axiosClient.post('/new-variants/bulk-create-variants', data).then(response => response.data),
         // Update variant (restricted to manager/admin)
         update: (variantId, data) => axiosClient.put(`/new-variants/update-variant/${variantId}`, data).then(response => response.data),
         // Delete variant (restricted to manager/admin)
@@ -203,6 +205,8 @@ const Api = {
         update: (orderId, data) => axiosClient.put(`/orders/admin/update/${orderId}`, data).then(response => response.data),
         // Cancel order
         cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}).then(response => response.data),
+        // Debug: Generate random orders (only when ENABLE_DEBUG_ORDERS=true)
+        generateDebugOrders: (count) => axiosClient.post("/orders/debug/generate-orders", { count }).then(response => response.data),
     },
 
     // ==== Feedback ====
