@@ -10,7 +10,7 @@ import MediaSetup from './components/MediaSetup';
 import StreamsList from './components/StreamsList';
 import { LIVEKIT_CONFIG } from '../../config/livekit';
 
-const LiveStream = () => {
+const LiveStreamManagement = () => {
     const { user } = useContext(AuthContext);
     const { showToast } = useToast();
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ const LiveStream = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [startForm, setStartForm] = useState({ title: '', description: '' });
     const [showStartForm, setShowStartForm] = useState(false);
+    const [validationErrors, setValidationErrors] = useState({});
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -100,23 +101,55 @@ const LiveStream = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showStartForm, currentLivestream]);
 
+    // Restart stream when microphone or camera changes
+    useEffect(() => {
+        if (showStartForm && !currentLivestream && streamRef.current) {
+            // Restart stream with new device
+            const timer = setTimeout(() => {
+                startMediaStream().catch(error => {
+                    console.error('Error restarting stream with new device:', error);
+                });
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedMicrophone, selectedCamera]);
+
     // Media setup
     const setupMediaDevices = useCallback(async () => {
         try {
+            // Request permission first to get device labels
+            // This is required because enumerateDevices() won't return labels without permission
+            let tempStream = null;
+            try {
+                tempStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+                // Stop the temporary stream immediately
+                tempStream.getTracks().forEach(track => track.stop());
+            } catch (permError) {
+                // Permission denied or device not available - continue anyway
+                console.warn('Permission request failed, device labels may be missing:', permError);
+            }
+
+            // Now enumerate devices - labels should be available if permission was granted
             const devices = await navigator.mediaDevices.enumerateDevices();
             const cameras = devices.filter(device => device.kind === 'videoinput');
             const microphones = devices.filter(device => device.kind === 'audioinput');
 
             setMediaDevices({ cameras, microphones });
 
+            // Select first available device if not already selected
             if (cameras.length > 0) {
-                setSelectedCamera(cameras[0].deviceId);
+                setSelectedCamera(prev => prev || cameras[0].deviceId);
             }
             if (microphones.length > 0) {
-                setSelectedMicrophone(microphones[0].deviceId);
+                setSelectedMicrophone(prev => prev || microphones[0].deviceId);
             }
 
         } catch (error) {
+            console.error('Error setting up media devices:', error);
             setMediaError('Unable to access media devices');
         }
     }, []);
@@ -188,9 +221,16 @@ const LiveStream = () => {
                 previewVideoRef.current.srcObject = stream;
 
                 try {
+                    // Ensure audio is not muted if audio is enabled
+                    if (isAudioEnabled && stream.getAudioTracks().length > 0) {
+                        previewVideoRef.current.muted = false;
+                    } else {
+                        previewVideoRef.current.muted = true;
+                    }
+
                     await previewVideoRef.current.play();
                     setIsVideoPlaying(true);
-                    setIsAudioPlaying(true);
+                    setIsAudioPlaying(isAudioEnabled && stream.getAudioTracks().length > 0);
 
                     previewVideoRef.current.onloadedmetadata = () => {
                         checkMediaStatus();
@@ -201,8 +241,8 @@ const LiveStream = () => {
                         checkMediaStatus();
                     }, 500);
                 } catch (playError) {
+                    console.error('Error playing preview video:', playError);
                 }
-            } else {
             }
 
             return stream;
@@ -284,19 +324,48 @@ const LiveStream = () => {
         setTimeout(checkMediaStatus, 100);
     };
 
-    const toggleAudio = () => {
+    const toggleAudio = async () => {
         const newValue = !isAudioEnabled;
         setIsAudioEnabled(newValue);
-
-        // Update playing state based on enabled state
         setIsAudioPlaying(newValue);
 
         if (streamRef.current) {
             const audioTrack = streamRef.current.getAudioTracks()[0];
-            if (audioTrack) {
-                audioTrack.enabled = newValue;
+
+            if (newValue) {
+                // Turning audio ON - need to restart stream if no audio track exists
+                if (!audioTrack) {
+                    // Restart stream to get audio track
+                    try {
+                        await startMediaStream();
+                    } catch (error) {
+                        console.error('Error restarting stream for audio:', error);
+                        setIsAudioEnabled(false);
+                        setIsAudioPlaying(false);
+                    }
+                    return;
+                } else {
+                    // Enable existing audio track
+                    audioTrack.enabled = true;
+                }
+            } else {
+                // Turning audio OFF - just disable the track
+                if (audioTrack) {
+                    audioTrack.enabled = false;
+                }
             }
+        } else if (newValue && showStartForm) {
+            // No stream exists but audio is being enabled - start stream
+            try {
+                await startMediaStream();
+            } catch (error) {
+                console.error('Error starting stream for audio:', error);
+                setIsAudioEnabled(false);
+                setIsAudioPlaying(false);
+            }
+            return;
         }
+
         setTimeout(checkMediaStatus, 100);
     };
 
@@ -552,11 +621,127 @@ const LiveStream = () => {
         setCurrentPage(1);
     }, [statusFilter, itemsPerPage]);
 
+    // Check if any filters are active
+    const hasActiveFilters = useCallback(() => {
+        return searchTerm || statusFilter !== 'all';
+    }, [searchTerm, statusFilter]);
+
+    // Clear all filters
+    const clearFilters = useCallback(() => {
+        setSearchTerm('');
+        setStatusFilter('all');
+        setCurrentPage(1);
+    }, []);
+
+    // Pagination calculations
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Handle first/last page
+    const handleFirstPage = useCallback(() => {
+        setCurrentPage(1);
+    }, []);
+
+    const handleLastPage = useCallback(() => {
+        setCurrentPage(totalPages);
+    }, [totalPages]);
+
+    // Handle previous/next page
+    const handlePreviousPage = useCallback(() => {
+        setCurrentPage(prev => Math.max(prev - 1, 1));
+    }, []);
+
+    const handleNextPage = useCallback(() => {
+        setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    }, [totalPages]);
+
+    // Calculate which pages to show (max 5 pages)
+    const getVisiblePages = useCallback(() => {
+        const maxVisible = 5;
+        if (totalPages <= maxVisible) {
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+
+        let start = Math.max(1, currentPage - 2);
+        let end = Math.min(totalPages, start + maxVisible - 1);
+
+        if (end - start < maxVisible - 1) {
+            start = Math.max(1, end - maxVisible + 1);
+        }
+
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }, [currentPage, totalPages]);
+
+    const visiblePages = getVisiblePages();
+
+    // Validate individual field
+    const validateField = useCallback((name, value, currentFormData = startForm) => {
+        switch (name) {
+            case 'title':
+                if (!value || value.trim() === '') return 'Please fill in all required fields';
+                const trimmedTitle = value.trim();
+                if (trimmedTitle.length < 3 || trimmedTitle.length > 50) {
+                    return 'Livestream title must be between 3 and 50 characters';
+                }
+                return null;
+            case 'description':
+                // Description is optional, but if provided, must be valid
+                if (value && value.trim() !== '') {
+                    const trimmedDescription = value.trim();
+                    if (trimmedDescription.length < 10 || trimmedDescription.length > 100) {
+                        return 'Livestream description must be between 10 and 100 characters';
+                    }
+                }
+                return null;
+            default:
+                return null;
+        }
+    }, [startForm]);
+
+    // Validation function
+    const validateForm = useCallback(() => {
+        const errors = {};
+
+        // Validate title
+        const titleError = validateField('title', startForm.title);
+        if (titleError) errors.title = titleError;
+
+        // Validate description
+        const descriptionError = validateField('description', startForm.description);
+        if (descriptionError) errors.description = descriptionError;
+
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    }, [startForm, validateField]);
+
+    // Handle field change with real-time validation
+    const handleFieldChange = useCallback((field, value) => {
+        setStartForm(prev => {
+            const updated = { ...prev, [field]: value };
+
+            // Validate the current field with updated formData
+            const error = validateField(field, value, updated);
+
+            // Update errors
+            setValidationErrors(prevErrors => {
+                const newErrors = { ...prevErrors };
+                if (error) {
+                    newErrors[field] = error;
+                } else {
+                    delete newErrors[field];
+                }
+                return newErrors;
+            });
+
+            return updated;
+        });
+    }, [validateField]);
 
     // Start livestream
     const handleStartLivestream = async () => {
-        if (!startForm.title.trim()) {
-            showToast('Please enter livestream title', 'error');
+        // Validate form - this will set validationErrors
+        if (!validateForm()) {
+            // Show generic message since error messages are already displayed under each field
+            showToast('Please check the input fields again', 'error');
             return;
         }
 
@@ -628,7 +813,7 @@ const LiveStream = () => {
                 const livestreamId = response.data.livestreamId || response.data._id;
 
                 // Show success message
-                showToast('Livestream started successfully!', 'success');
+                showToast('Livestream started successfully', 'success');
 
                 // Clean up video elements before navigation to prevent AbortError
                 if (localVideoRef.current) {
@@ -646,6 +831,7 @@ const LiveStream = () => {
 
                 // Reset form and state
                 setStartForm({ title: '', description: '' });
+                setValidationErrors({});
                 setShowStartForm(false);
                 setCurrentLivestream(null);
                 setIsLive(false);
@@ -663,28 +849,74 @@ const LiveStream = () => {
             console.error('Error starting livestream:', error);
 
             // Provide specific error messages based on error type
+            let errorMessage = "An unexpected error occurred";
+            const blankFields = {};
+            let hasFieldErrors = false;
+
             if (error.response) {
                 // Server responded with error status
                 const status = error.response.status;
                 const message = error.response.data?.message || error.response.data?.error || 'Unknown server error';
 
+                // Extract actual message if wrapped
+                const prefix = 'Failed to start livestream: ';
+                if (message.includes(prefix)) {
+                    errorMessage = message.replace(prefix, '');
+                } else {
+                    errorMessage = message;
+                }
+
+                // If error is "Please fill in all required fields", highlight blank fields
+                if (errorMessage === "Please fill in all required fields" ||
+                    errorMessage.toLowerCase().includes("fill in all required")) {
+                    if (!startForm.title || !startForm.title.trim()) {
+                        blankFields.title = "Please fill in all required fields";
+                        hasFieldErrors = true;
+                    }
+                    if (Object.keys(blankFields).length > 0) {
+                        setValidationErrors(prev => ({ ...prev, ...blankFields }));
+                    }
+                } else if (errorMessage.includes('Livestream title must be between') || errorMessage.includes('Title must be')) {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        title: errorMessage
+                    }));
+                    hasFieldErrors = true;
+                } else if (errorMessage.includes('Livestream description must be between')) {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        description: errorMessage
+                    }));
+                    hasFieldErrors = true;
+                }
+
                 if (status === 400) {
-                    showToast(`Data error: ${message}`, 'error');
+                    if (!hasFieldErrors) {
+                        showToast(`Data error: ${errorMessage}`, 'error');
+                    }
                 } else if (status === 401) {
                     showToast('Please login to perform this action', 'error');
                 } else if (status === 403) {
                     showToast('You do not have permission. Only admin/manager can start livestream', 'error');
                 } else if (status === 500) {
-                    showToast(`Server error: ${message}`, 'error');
+                    showToast(`Server error: ${errorMessage}`, 'error');
                 } else {
-                    showToast(`API error (${status}): ${message}`, 'error');
+                    if (!hasFieldErrors) {
+                        showToast(`API error (${status}): ${errorMessage}`, 'error');
+                    }
                 }
             } else if (error.request) {
                 // Network error
                 showToast('Network error. Please check your internet connection and try again', 'error');
             } else {
                 // Other error
-                showToast(`Unknown error: ${error.message}`, 'error');
+                errorMessage = error.message;
+                showToast(errorMessage, 'error');
+            }
+
+            // Show toast: if field errors are displayed, show generic message; otherwise show specific error
+            if (hasFieldErrors || Object.keys(blankFields).length > 0) {
+                showToast("Please check the input fields again", "error");
             }
 
             stopMediaStream();
@@ -707,7 +939,7 @@ const LiveStream = () => {
             if (response.success) {
                 setCurrentLivestream(null);
                 setIsLive(false);
-                showToast('Livestream stopped successfully!', 'success');
+                showToast('Livestream stopped successfully', 'success');
             } else {
                 showToast(response.message || 'Unable to stop livestream', 'error');
             }
@@ -815,96 +1047,71 @@ const LiveStream = () => {
     const isAdminOrManager = user?.role === 'admin' || user?.role === 'manager';
 
     return (
-        <div className="min-h-screen bg-gray-50 p-2 sm:p-3 lg:p-4 xl:p-6">
+        <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6">
+
             {/* Header Section */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4">
-                    <div className="flex-1 min-w-0">
-                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2">Livestream Management</h1>
-                        <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage and start livestreams</p>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
-                        {totalItems > 0 && (
-                            <div className="bg-gray-50 px-2 lg:px-4 py-1 lg:py-2 rounded-lg border border-gray-200">
-                                <span className="text-xs lg:text-sm font-medium text-gray-700">
-                                    {totalItems} livestream{totalItems !== 1 ? 's' : ''}
-                                </span>
-                            </div>
-                        )}
-                        {!currentLivestream && isAdminOrManager && (
-                            <button
-                                onClick={() => setShowStartForm(true)}
-                                className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-xs lg:text-sm"
-                            >
-                                <LiveTv className="w-3 h-3 lg:w-4 lg:h-4" />
-                                <span className="font-medium">Start Live</span>
-                            </button>
-                        )}
-                    </div>
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
+                <div className="flex-1 min-w-0">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">Livestream Management</h1>
+                    {/* <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage and start livestreams</p> */}
+                </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
+                    {totalItems > 0 && (
+                        <div className="bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-md px-2 lg:px-4 py-1 lg:py-2 rounded-xl border-2 border-yellow-400/50 shadow-md">
+                            <span className="text-xs lg:text-sm font-semibold text-gray-700">
+                                {totalItems} livestream{totalItems !== 1 ? 's' : ''}
+                            </span>
+                        </div>
+                    )}
+                    {!currentLivestream && isAdminOrManager && (
+                        <button
+                            onClick={() => setShowStartForm(true)}
+                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                        >
+                            <LiveTv className="w-3 h-3 lg:w-4 lg:h-4" />
+                            <span className="font-medium">Start Live</span>
+                        </button>
+                    )}
                 </div>
             </div>
 
             {/* Search and Filter Controls */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
-                <h2 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Search & Filter</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="flex items-center justify-between mb-3 lg:mb-4">
+                    <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={clearFilters}
+                            disabled={!hasActiveFilters()}
+                            className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
+                            aria-label="Clear all filters"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
                     <div>
                         <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search Livestream</label>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search by title, description..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base pr-10"
-                            />
-                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
-                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search by title, description..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                        />
                     </div>
                     <div>
                         <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Status</label>
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
+                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
                         >
                             <option value="all">All Statuses</option>
                             <option value="live">Live</option>
                             <option value="ended">Ended</option>
                         </select>
-                    </div>
-                    <div>
-                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Items per Page</label>
-                        <select
-                            value={itemsPerPage}
-                            onChange={(e) => {
-                                setItemsPerPage(Number(e.target.value));
-                                setCurrentPage(1);
-                            }}
-                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm lg:text-base"
-                        >
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                        </select>
-                    </div>
-                    <div className="flex items-end">
-                        <button
-                            onClick={() => {
-                                setSearchTerm('');
-                                setStatusFilter('all');
-                                setCurrentPage(1);
-                            }}
-                            disabled={!searchTerm && statusFilter === 'all'}
-                            className="w-full px-3 py-2 lg:px-4 lg:py-3 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400 font-medium text-sm lg:text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            Clear Filters
-                        </button>
                     </div>
                 </div>
             </div>
@@ -922,28 +1129,93 @@ const LiveStream = () => {
                 onTotalItemsChange={setTotalItems}
             />
 
-            {/* Pagination Summary */}
-            {totalItems > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6">
+            {/* Pagination */}
+            {totalItems > 0 && totalPages > 1 && (
+                <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="text-xs lg:text-sm text-gray-600">
-                            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} results
+                        <div className="text-sm font-medium text-gray-700">
+                            Showing <span className="font-bold text-gray-900">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span className="font-bold text-gray-900">{totalItems}</span> results
                         </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs lg:text-sm text-gray-600">Go to page:</span>
-                            <input
-                                type="number"
-                                min="1"
-                                max={Math.ceil(totalItems / itemsPerPage)}
-                                value={currentPage}
-                                onChange={(e) => {
-                                    const page = parseInt(e.target.value);
-                                    if (page >= 1 && page <= Math.ceil(totalItems / itemsPerPage)) {
-                                        setCurrentPage(page);
-                                    }
-                                }}
-                                className="w-16 px-2 lg:px-3 py-1 lg:py-2 text-xs lg:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                            />
+                        <div className="flex items-center space-x-2">
+                            <button
+                                onClick={handleFirstPage}
+                                disabled={currentPage === 1}
+                                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                                aria-label="First page"
+                                title="First page"
+                            >
+                                First
+                            </button>
+                            <button
+                                onClick={handlePreviousPage}
+                                disabled={currentPage === 1}
+                                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                                aria-label="Previous page"
+                            >
+                                Previous
+                            </button>
+
+                            <div className="flex items-center space-x-1">
+                                {totalPages > 5 && visiblePages[0] > 1 && (
+                                    <>
+                                        <button
+                                            className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                                            onClick={() => setCurrentPage(1)}
+                                            aria-label="Page 1"
+                                        >
+                                            1
+                                        </button>
+                                        {visiblePages[0] > 2 && (
+                                            <span className="px-2 text-gray-500">...</span>
+                                        )}
+                                    </>
+                                )}
+                                {visiblePages.map(page => (
+                                    <button
+                                        key={page}
+                                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === page
+                                            ? 'text-white border-transparent bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A] hover:from-[#A86523] hover:via-[#8B4E1A] hover:to-[#6B3D14]'
+                                            : 'text-gray-600 bg-white border border-gray-300 hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300'
+                                            }`}
+                                        onClick={() => setCurrentPage(page)}
+                                        aria-label={`Page ${page}`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                                {totalPages > 5 && visiblePages[visiblePages.length - 1] < totalPages && (
+                                    <>
+                                        {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
+                                            <span className="px-2 text-gray-500">...</span>
+                                        )}
+                                        <button
+                                            className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                                            onClick={() => setCurrentPage(totalPages)}
+                                            aria-label={`Page ${totalPages}`}
+                                        >
+                                            {totalPages}
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+
+                            <button
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                                aria-label="Next page"
+                            >
+                                Next
+                            </button>
+                            <button
+                                onClick={handleLastPage}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                                aria-label="Last page"
+                                title="Last page"
+                            >
+                                Last
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1008,96 +1280,144 @@ const LiveStream = () => {
 
             {/* Start Stream Modal */}
             {showStartForm && !currentLivestream && isAdminOrManager && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                        {/* Modal Header */}
-                        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
-                            <h2 className="text-xl font-semibold text-gray-900">Start New Livestream</h2>
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
+                    <div
+                        className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300"
+                        style={{ borderColor: '#A86523' }}
+                    >
+                        {/* Header */}
+                        <div
+                            className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
+                            style={{ borderColor: '#A86523' }}
+                        >
+                            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
+                                Start New Livestream
+                            </h2>
                             <button
+                                type="button"
                                 onClick={() => {
                                     setShowStartForm(false);
                                     setStartForm({ title: '', description: '' });
+                                    setValidationErrors({});
                                     stopMediaStream();
                                 }}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                style={{ '--tw-ring-color': '#A86523' }}
+                                aria-label="Close"
                             >
-                                ✕
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                             </button>
                         </div>
 
-                        {/* Modal Content */}
-                        <div className="p-6 space-y-6 overflow-y-auto" style={{ marginTop: '70px' }}>
-                            {/* Media Setup */}
-                            <MediaSetup
-                                mediaDevices={mediaDevices}
-                                selectedCamera={selectedCamera}
-                                selectedMicrophone={selectedMicrophone}
-                                isVideoPlaying={isVideoPlaying}
-                                isAudioPlaying={isAudioPlaying}
-                                videoDimensions={videoDimensions}
-                                mediaError={mediaError}
-                                isVideoEnabled={isVideoEnabled}
-                                isAudioEnabled={isAudioEnabled}
-                                onCameraChange={setSelectedCamera}
-                                onMicrophoneChange={setSelectedMicrophone}
-                                onToggleVideo={toggleVideo}
-                                onToggleAudio={toggleAudio}
-                                previewVideoRef={previewVideoRef}
-                            />
+                        {/* Body */}
+                        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                            <div className="space-y-5 lg:space-y-6">
+                                {/* Start Form */}
+                                <div>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Livestream Information</h3>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                Stream Title <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={startForm.title}
+                                                onChange={(e) => handleFieldChange('title', e.target.value)}
+                                                placeholder="Enter livestream title..."
+                                                className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 focus:ring-2 bg-white text-sm lg:text-base ${validationErrors.title
+                                                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
+                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                                    }`}
+                                                required
+                                            />
+                                            {validationErrors.title && (
+                                                <p className="mt-1.5 text-sm text-red-600">{validationErrors.title}</p>
+                                            )}
+                                        </div>
 
-                            {/* Start Form */}
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Livestream Information</h3>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Stream Title *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            value={startForm.title}
-                                            onChange={(e) => setStartForm({ ...startForm, title: e.target.value })}
-                                            placeholder="Enter livestream title..."
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Stream Description
-                                        </label>
-                                        <textarea
-                                            value={startForm.description}
-                                            onChange={(e) => setStartForm({ ...startForm, description: e.target.value })}
-                                            placeholder="Enter livestream description..."
-                                            rows={3}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        />
+                                        <div>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                                Stream Description
+                                            </label>
+                                            <textarea
+                                                value={startForm.description}
+                                                onChange={(e) => handleFieldChange('description', e.target.value)}
+                                                placeholder="Enter livestream description..."
+                                                rows={3}
+                                                className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 focus:ring-2 bg-white text-sm lg:text-base ${validationErrors.description
+                                                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
+                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                                    }`}
+                                            />
+                                            {validationErrors.description && (
+                                                <p className="mt-1.5 text-sm text-red-600">{validationErrors.description}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
+
+                                {/* Media Setup */}
+                                <MediaSetup
+                                    mediaDevices={mediaDevices}
+                                    selectedCamera={selectedCamera}
+                                    selectedMicrophone={selectedMicrophone}
+                                    isVideoPlaying={isVideoPlaying}
+                                    isAudioPlaying={isAudioPlaying}
+                                    videoDimensions={videoDimensions}
+                                    mediaError={mediaError}
+                                    isVideoEnabled={isVideoEnabled}
+                                    isAudioEnabled={isAudioEnabled}
+                                    onCameraChange={setSelectedCamera}
+                                    onMicrophoneChange={setSelectedMicrophone}
+                                    onToggleVideo={toggleVideo}
+                                    onToggleAudio={toggleAudio}
+                                    previewVideoRef={previewVideoRef}
+                                />
                             </div>
                         </div>
 
-                        {/* Modal Footer */}
-                        <div className="sticky bottom-0 bg-gray-50 border-t px-6 py-4 flex justify-end gap-3">
+                        {/* Footer */}
+                        <div
+                            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0"
+                            style={{ borderColor: '#A86523' }}
+                        >
                             <button
+                                type="button"
                                 onClick={() => {
                                     setShowStartForm(false);
                                     setStartForm({ title: '', description: '' });
+                                    setValidationErrors({});
                                     stopMediaStream();
                                 }}
                                 disabled={isLoading}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                                className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50"
+                                style={{ '--tw-ring-color': '#A86523' }}
                             >
                                 Cancel
                             </button>
                             <button
+                                type="button"
                                 onClick={handleStartLivestream}
-                                disabled={isLoading || !startForm.title.trim()}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                                disabled={isLoading}
+                                className="flex items-center gap-2 px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] disabled:hover:from-[#E9A319] disabled:hover:to-[#A86523]"
+                                style={{
+                                    '--tw-ring-color': '#A86523'
+                                }}
                             >
-                                <PlayArrow className="w-4 h-4" />
-                                {isLoading ? 'Starting...' : 'Start Stream'}
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center space-x-2">
+                                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                                        <span>Starting...</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <PlayArrow className="w-4 h-4 lg:w-5 lg:h-5" />
+                                        Start Stream
+                                    </>
+                                )}
                             </button>
                         </div>
                     </div>
@@ -1107,4 +1427,4 @@ const LiveStream = () => {
     );
 };
 
-export default LiveStream;
+export default LiveStreamManagement;
