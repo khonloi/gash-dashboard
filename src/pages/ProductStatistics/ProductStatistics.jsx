@@ -323,29 +323,17 @@ export default function ProductStatistics() {
      Render
      =========================== */
   return (
-    <div className="min-h-screen bg-gray-50 p-8" ref={printRef}>
+    <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6" ref={printRef}>
       {/* HEADER */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-        className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-3xl p-6 md:p-8 text-white shadow-xl mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-      >
-        <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-0">📊 Product Statistics</h1>
-          {/* description intentionally left out as requested */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">📊 Product Statistics</h1>
         </div>
-
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
-            <FaFilter />
-            <span className="text-white text-sm">Filters</span>
-          </div>
-
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="bg-white text-gray-800 font-semibold px-4 py-2 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-300"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Select period"
           >
             <option value="month">This Month</option>
@@ -357,7 +345,7 @@ export default function ProductStatistics() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-white text-gray-800 font-semibold px-4 py-2 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-300"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Category"
           >
             {categories.map((c, idx) => (
@@ -370,7 +358,7 @@ export default function ProductStatistics() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-white text-gray-800 font-semibold px-4 py-2 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-300"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Status"
           >
             <option value="all">All Status</option>
@@ -383,15 +371,13 @@ export default function ProductStatistics() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleExportExcel}
-            className="bg-white text-purple-700 px-4 py-2 rounded-xl shadow-md font-semibold flex items-center gap-2"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
             title="Export Excel"
           >
-            <FaFileExport /> Export
+            <FaFileExport /> <span className="font-medium">Export</span>
           </motion.button>
-
-          
         </div>
-      </motion.div>
+      </div>
 
       {/* STAT CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -438,9 +424,9 @@ export default function ProductStatistics() {
       </div>
 
       {/* CHARTS + TOP PRODUCTS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Main charts - large left area (span 2 columns) */}
-        <div className="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl border border-gray-100">
+        <div className="lg:col-span-2 backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-gray-800">Product Overview</h3>
             <div className="text-sm text-gray-500">Period: <strong>{period}</strong></div>
@@ -580,48 +566,50 @@ export default function ProductStatistics() {
         </div>
 
         {/* Right column - Top products */}
-<div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-200">
+<div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
   <div className="flex justify-between items-center mb-3">
     <h4 className="text-lg font-semibold text-gray-800">Top Products</h4>
     <button
       onClick={handleExportTopCSV}
-      className="bg-purple-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-purple-700 transition"
+      className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
     >
       Export CSV
     </button>
   </div>
 
-  <table className="w-full text-left border-separate border-spacing-y-1">
-    <thead>
-      <tr className="text-sm text-gray-500 border-b">
-        <th className="pb-2">Product</th>
-        <th className="pb-2">SKU</th>
-        <th className="pb-2 text-center">Sold</th>
-        <th className="pb-2 text-center">Stock</th>
-      </tr>
-    </thead>
-    <tbody>
-      {(topProducts && topProducts.length ? topProducts : MOCK_TOP_PRODUCTS).map((p) => (
-        <tr
-          key={p.id}
-          className="border-b last:border-0 hover:bg-gray-50 transition"
-        >
-          <td className="py-2 font-medium text-gray-800">{p.name}</td>
-          <td className="py-2 text-sm text-gray-600">{p.sku ?? "-"}</td>
-          <td className="py-2 text-center text-blue-600 font-semibold">{p.sold ?? p.sales ?? 0}</td>
-          <td
-            className={`py-2 text-center font-semibold ${
-              (p.stock ?? p.quantity ?? 0) <= 5 ? "text-red-600" : "text-gray-700"
-            }`}
-          >
-            {p.stock ?? p.quantity ?? 0}
-          </td>
+  <div className="overflow-x-auto">
+    <table className="w-full min-w-[400px]">
+      <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+        <tr>
+          <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Product</th>
+          <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">SKU</th>
+          <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Sold</th>
+          <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Stock</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {(topProducts && topProducts.length ? topProducts : MOCK_TOP_PRODUCTS).map((p) => (
+          <tr
+            key={p.id}
+            className="border-b-2 border-gray-200/40 hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300"
+          >
+            <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm font-medium text-gray-800">{p.name}</td>
+            <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">{p.sku ?? "-"}</td>
+            <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm text-blue-600 font-semibold">{p.sold ?? p.sales ?? 0}</td>
+            <td
+              className={`px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold ${
+                (p.stock ?? p.quantity ?? 0) <= 5 ? "text-red-600" : "text-gray-700"
+              }`}
+            >
+              {p.stock ?? p.quantity ?? 0}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 
-  <p className="text-sm text-gray-500 mt-3">
+  <p className="text-xs lg:text-sm text-gray-500 mt-3">
     Showing top {(topProducts && topProducts.length) ? topProducts.length : MOCK_TOP_PRODUCTS.length} products.
   </p>
 </div>
@@ -648,7 +636,8 @@ function AnimatedStatCard({ title, value, icon, bgIcon = "bg-gray-100", gradient
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay }}
       whileHover={{ scale: 1.02 }}
-      className="bg-white rounded-2xl p-4 shadow-md border border-gray-100"
+      className="backdrop-blur-xl rounded-xl border p-4 shadow-md"
+      style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
     >
       <div className="flex items-start justify-between">
         <div className={`w-14 h-14 ${bgIcon} rounded-xl flex items-center justify-center`}>{icon}</div>
