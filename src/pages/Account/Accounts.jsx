@@ -330,7 +330,6 @@ export default function Accounts() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
                 <div className="flex-1 min-w-0">
                     <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">Account Management</h1>
-                    <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage user accounts and permissions</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
                     <div className="bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-md px-2 lg:px-4 py-1 lg:py-2 rounded-xl border-2 border-yellow-400/50 shadow-md">
@@ -368,17 +367,17 @@ export default function Accounts() {
                             </button>
                         </div>
                     </div>
+                    <div className="mb-3 lg:mb-4">
+                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search Accounts</label>
+                        <input
+                            type="text"
+                            placeholder="Search by username, email, name..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                        />
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
-                        <div>
-                            <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search Accounts</label>
-                            <input
-                                type="text"
-                                placeholder="Search by username, email, name..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                            />
-                        </div>
                         <div>
                             <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Role</label>
                             <select

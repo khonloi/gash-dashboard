@@ -123,6 +123,8 @@ const Api = {
         getById: (variantId) => axiosClient.get(`/new-variants/get-variant-detail/${variantId}`).then(response => response.data),
         // Create variant (restricted to manager/admin)
         create: (data) => axiosClient.post('/new-variants/create-variant', data).then(response => response.data),
+        // Bulk create variants (restricted to manager/admin)
+        bulkCreate: (data) => axiosClient.post('/new-variants/bulk-create-variants', data).then(response => response.data),
         // Update variant (restricted to manager/admin)
         update: (variantId, data) => axiosClient.put(`/new-variants/update-variant/${variantId}`, data).then(response => response.data),
         // Delete variant (restricted to manager/admin)
@@ -203,6 +205,8 @@ const Api = {
         update: (orderId, data) => axiosClient.put(`/orders/admin/update/${orderId}`, data).then(response => response.data),
         // Cancel order
         cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}).then(response => response.data),
+        // Debug: Generate random orders (only when ENABLE_DEBUG_ORDERS=true)
+        generateDebugOrders: (count) => axiosClient.post("/orders/debug/generate-orders", { count }).then(response => response.data),
     },
 
     // ==== Feedback ====
@@ -268,6 +272,30 @@ const Api = {
         getMessages: (params = {}) => axiosClient.get("/chat/messages", { params }),
         sendMessage: (data) => axiosClient.post("/chat/messages", data),
         getConversations: (params = {}) => axiosClient.get("/chat/conversations", { params }),
+    },
+
+    // ==== Passkeys ====
+    passkeys: {
+        // Generate registration options
+        generateRegistrationOptions: (token) => axiosClient.post('/passkeys/register/generate', {}, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Verify registration
+        verifyRegistration: (data, token) => axiosClient.post('/passkeys/register/verify', data, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Generate authentication options
+        generateAuthenticationOptions: (username) => axiosClient.post('/passkeys/auth/generate', { username }),
+        // Verify authentication
+        verifyAuthentication: (data) => axiosClient.post('/passkeys/auth/verify', data),
+        // Get user's passkeys
+        getUserPasskeys: (token) => axiosClient.get('/passkeys/list', {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Delete a passkey
+        deletePasskey: (passkeyId, token) => axiosClient.delete(`/passkeys/${passkeyId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
     },
 
     // ==== Livestream ====
