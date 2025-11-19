@@ -10,6 +10,7 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import { io } from "socket.io-client"; // 🧩 SOCKET ADDED
+import Loading from "../components/Loading";
 
 export default function Notifications() {
   const [tab, setTab] = useState("notifications");
@@ -578,12 +579,11 @@ export default function Notifications() {
 
           {loadingList ? (
           <div className="flex-1 flex items-center justify-center p-6">
-            <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
-              <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-              <p className="text-gray-600 font-medium">
-                Loading notifications...
-              </p>
-            </div>
+            <Loading
+              type="page"
+              size="medium"
+              message="Loading notifications..."
+            />
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex-1 flex items-center justify-center p-6">
@@ -665,8 +665,11 @@ export default function Notifications() {
             ))}
             {displayedItems < filtered.length && (
               <li className="px-4 lg:px-6 py-4 text-center">
-                <div className="w-6 h-6 border-2 border-gray-300 border-t-amber-500 rounded-full animate-spin mx-auto"></div>
-                <p className="text-sm text-gray-500 mt-2">Loading more notifications...</p>
+                <Loading
+                  type="default"
+                  size="small"
+                  message="Loading more notifications..."
+                />
               </li>
           )}
         </ul>
@@ -773,7 +776,7 @@ export default function Notifications() {
               >
                 {sending ? (
                   <>
-                    <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                    <Loading type="inline" size="small" message="" className="mr-1" />
                     Sending...
                   </>
                 ) : (
@@ -933,7 +936,7 @@ export default function Notifications() {
                 >
                   {sending ? (
                     <>
-                      <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                      <Loading type="inline" size="small" message="" className="mr-1" />
                       Sending...
                     </>
                   ) : (
@@ -1196,7 +1199,7 @@ export default function Notifications() {
                 >
                   {savingTemplate ? (
                     <>
-                      <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                      <Loading type="inline" size="small" message="" className="mr-1" />
                       Saving...
                     </>
                   ) : (

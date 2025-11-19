@@ -1103,12 +1103,11 @@ const ProductSpecifications = () => {
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
               {/* ── LOADING ── */}
               {loading ? (
-                <>
-                  <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-                  <p className="text-gray-600 font-medium">
-                    Loading {activeTab}...
-                  </p>
-                </>
+                <Loading
+                  type="page"
+                  size="medium"
+                  message={`Loading ${activeTab}...`}
+                />
               ) : (
                 /* ── NO ITEMS ── */
                 <>
@@ -1387,7 +1386,7 @@ const ProductSpecifications = () => {
               >
                 {loading ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    <Loading type="inline" size="small" message="" className="mr-1" />
                     <span>Processing...</span>
                   </div>
                 ) : (
@@ -1455,7 +1454,7 @@ const ProductSpecifications = () => {
               >
                 {loading ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    <Loading type="inline" size="small" message="" className="mr-1" />
                     <span>Processing...</span>
                   </div>
                 ) : (

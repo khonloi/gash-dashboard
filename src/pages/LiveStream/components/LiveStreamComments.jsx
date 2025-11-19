@@ -4,6 +4,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import io from 'socket.io-client';
 import Api from '../../../common/SummaryAPI';
 import { useToast } from '../../../hooks/useToast';
+import Loading from '../../../components/Loading';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -106,7 +107,7 @@ const CommentInput = ({ onSendComment, isSending }) => {
                     className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:bg-gray-300 text-white p-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg disabled:shadow-none"
                 >
                     {isSending ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <Loading type="inline" size="small" message="" className="mr-0" />
                     ) : (
                         <Send className="w-4 h-4" />
                     )}

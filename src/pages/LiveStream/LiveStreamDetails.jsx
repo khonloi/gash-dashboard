@@ -245,7 +245,7 @@ const LiveStreamDetails = () => {
                         >
                             {isRefreshing ? (
                                 <>
-                                    <div className="animate-spin rounded-full h-3 w-3 lg:h-4 lg:w-4 border-2 border-white border-t-transparent"></div>
+                                    <Loading type="inline" size="small" message="" className="mr-1" />
                                     <span className="font-medium">Loading...</span>
                                 </>
                             ) : (

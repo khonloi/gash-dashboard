@@ -10,6 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 import Api from "../common/SummaryAPI";
 import { useToast } from "../hooks/useToast";
 import { startRegistration } from "@simplewebauthn/browser";
+import Loading from "../components/Loading";
 
 // Import modal
 import EditProfileModal from "../components/EditProfileModal";
@@ -391,12 +392,11 @@ const Profile = () => {
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
               {/* ── LOADING ── */}
               {loading ? (
-                <>
-                  <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-                  <p className="text-gray-600 font-medium">
-                    Loading your profile...
-                  </p>
-                </>
+                <Loading
+                  type="page"
+                  size="medium"
+                  message="Loading your profile..."
+                />
               ) : error ? (
                 /* ── NETWORK ERROR ── */
                 <div className="flex flex-col items-center space-y-3">

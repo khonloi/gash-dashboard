@@ -740,12 +740,11 @@ const Products = () => {
 
             {/* ── LOADING ── */}
             {loading ? (
-              <>
-                <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-                <p className="text-gray-600 font-medium">
-                  Loading products...
-                </p>
-              </>
+              <Loading
+                type="page"
+                size="medium"
+                message="Loading products..."
+              />
             ) : error ? (
 
               /* ── NETWORK ERROR ── */

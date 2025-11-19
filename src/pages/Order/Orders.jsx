@@ -4,6 +4,7 @@ import OrderDetails from "./OrderDetails";
 import UpdateOrderStatusModal from "../../components/UpdateOrderStatusModal";
 import UploadRefundProofModal from "../../components/UploadRefundProofModal";
 import DebugOrderModal from "../../components/DebugOrderModal";
+import Loading from "../../components/Loading";
 import React, {
   useState,
   useEffect,
@@ -922,12 +923,12 @@ const Orders = () => {
   // Show loading state while auth is being verified
   if (isAuthLoading) {
     return (
-      <div className="products-container">
-        <div className="products-loading" role="status" aria-live="polite">
-          <div className="products-progress-bar"></div>
-          <p>Verifying authentication...</p>
-        </div>
-      </div>
+      <Loading
+        type="auth"
+        size="medium"
+        message="Verifying authentication..."
+        fullScreen
+      />
     );
   }
 
@@ -1147,12 +1148,12 @@ const Orders = () => {
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
               {/* ── LOADING ── */}
               {loading ? (
-                <>
-                  <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-                  <p className="text-gray-600 font-medium">
-                    Loading orders...
-                  </p>
-                </>
+                <Loading
+                  type="page"
+                  size="medium"
+                  message="Loading orders..."
+                  className="py-2"
+                />
               ) : error ? (
                 /* ── NETWORK ERROR ── */
                 <div className="flex flex-col items-center space-y-3">
