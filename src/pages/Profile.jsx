@@ -10,6 +10,8 @@ import { AuthContext } from "../context/AuthContext";
 import Api from "../common/SummaryAPI";
 import { useToast } from "../hooks/useToast";
 import { startRegistration } from "@simplewebauthn/browser";
+import Loading from "../components/Loading";
+import DeleteConfirmModal from "../components/DeleteConfirmModal";
 
 // Import modal
 import EditProfileModal from "../components/EditProfileModal";
@@ -27,6 +29,9 @@ const Profile = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [passkeys, setPasskeys] = useState([]);
   const [isSettingUpPasskey, setIsSettingUpPasskey] = useState(false);
+  const [passkeyToDelete, setPasskeyToDelete] = useState(null);
+  const [showDeletePasskeyModal, setShowDeletePasskeyModal] = useState(false);
+  const [isDeletingPasskey, setIsDeletingPasskey] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     name: "",
@@ -357,27 +362,41 @@ const Profile = () => {
     }
   }, [showToast, fetchPasskeys]);
 
-  const handleDeletePasskey = useCallback(async (passkeyId) => {
-    if (!window.confirm('Are you sure you want to delete this passkey?')) {
-      return;
-    }
+  const handleDeletePasskey = useCallback((passkeyId) => {
+    setPasskeyToDelete(passkeyId);
+    setShowDeletePasskeyModal(true);
+  }, []);
+
+  const confirmDeletePasskey = useCallback(async () => {
+    if (!passkeyToDelete) return;
 
     try {
+      setIsDeletingPasskey(true);
       const token = localStorage.getItem('token');
       if (!token) {
         showToast('Please log in again', 'error', 3000);
         return;
       }
 
-      await Api.passkeys.deletePasskey(passkeyId, token);
+      await Api.passkeys.deletePasskey(passkeyToDelete, token);
       showToast('Biometric authentication removed successfully!', 'success', 2000);
       fetchPasskeys();
+      setShowDeletePasskeyModal(false);
+      setPasskeyToDelete(null);
     } catch (err) {
       console.error('Delete passkey error:', err);
       const errorMsg = err.response?.data?.message || 'Failed to remove biometric authentication';
       showToast(errorMsg, 'error', 3000);
+    } finally {
+      setIsDeletingPasskey(false);
     }
-  }, [showToast, fetchPasskeys]);
+  }, [passkeyToDelete, showToast, fetchPasskeys]);
+
+  const cancelDeletePasskey = useCallback(() => {
+    if (isDeletingPasskey) return;
+    setShowDeletePasskeyModal(false);
+    setPasskeyToDelete(null);
+  }, [isDeletingPasskey]);
 
   if (!user) {
     return <div className="w-full h-full"></div>;
@@ -391,12 +410,11 @@ const Profile = () => {
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
               {/* ── LOADING ── */}
               {loading ? (
-                <>
-                  <div className="w-8 h-8 border-4 rounded-full animate-spin" style={{ borderColor: '#FCEFCB', borderTopColor: '#E9A319' }}></div>
-                  <p className="text-gray-600 font-medium">
-                    Loading your profile...
-                  </p>
-                </>
+                <Loading
+                  type="page"
+                  size="medium"
+                  message="Loading your profile..."
+                />
               ) : error ? (
                 /* ── NETWORK ERROR ── */
                 <div className="flex flex-col items-center space-y-3">
@@ -714,6 +732,22 @@ const Profile = () => {
       {showChangePassword && (
         <ChangePasswordModal handleCancel={() => setShowChangePassword(false)} />
       )}
+
+      <DeleteConfirmModal
+        isOpen={showDeletePasskeyModal && !!passkeyToDelete}
+        title="Remove Biometric Authentication"
+        message={
+          <>
+            Are you sure you want to remove this biometric device?
+            <br />
+            <span className="text-sm text-gray-500">You will need to set it up again to use biometric login.</span>
+          </>
+        }
+        onConfirm={confirmDeletePasskey}
+        onCancel={cancelDeletePasskey}
+        confirmText="Remove"
+        isLoading={isDeletingPasskey}
+      />
     </div>
   );
 };
