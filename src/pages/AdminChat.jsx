@@ -785,126 +785,169 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                   </div>
                 </div>
 
-                {/* MESSAGES */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-gray-50 to-gray-100">
-                  {loadingMessages ? (
-                    <div className="flex items-center justify-center h-full">
-                      <Loading
-                        type="default"
-                        size="small"
-                        message="Loading messages..."
-                      />
-                    </div>
-                  ) : (
-                    messages.map((m, i) => {
-                      const isAdmin = String(m.senderId) === String(adminId);
-                      return (
-                        <div
-                          key={i}
-                          className={`flex ${
-                            isAdmin ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          <div
-                            className={`max-w-[75%] min-w-[100px] p-3 rounded-xl shadow-md break-all whitespace-pre-wrap transition-all duration-300
-      ${
-        isAdmin
-          ? "bg-gradient-to-r from-[#E9A319] to-[#A86523] text-white rounded-br-none"
-          : "bg-white text-gray-800 border-2 border-gray-200/60 rounded-bl-none hover:border-yellow-400/40"
-      }`}
-                          >
-                            {m.type === "image" ? (
-                              <div
-                                className="relative group cursor-pointer"
-                                onClick={() => {
-                                  const imageUrl = m.imageUrl || m.attachments;
-                                  const fullUrl = imageUrl?.startsWith('http') 
-                                    ? imageUrl 
-                                    : `${API_URL}${imageUrl?.startsWith('/') ? '' : '/'}${imageUrl}`;
-                                  setViewerImage(fullUrl);
-                                  // Reset zoom/pan when opening
-                                  setTimeout(() => {
-                                    const img =
-                                      document.querySelector("[data-scale]");
-                                    if (img) {
-                                      img.style.transform = "scale(1)";
-                                      img.dataset.scale = "1";
-                                      img.dataset.tx = "0";
-                                      img.dataset.ty = "0";
-                                    }
-                                  }, 50);
-                                }}
-                              >
-                                <img
-                                  src={
-                                    (m.imageUrl || m.attachments)?.startsWith('http')
-                                      ? (m.imageUrl || m.attachments)
-                                      : `${API_URL}${(m.imageUrl || m.attachments)?.startsWith('/') ? '' : '/'}${m.imageUrl || m.attachments}`
-                                  }
-                                  alt="sent"
-                                  className="rounded-lg border border-gray-200 max-w-[220px] max-h-[300px] object-cover transition group-hover:brightness-90"
-                                  onError={(e) => {
-                                    console.error("Image load error:", m.imageUrl || m.attachments);
-                                    e.target.style.display = "none";
-                                  }}
-                                />
-                                {/* Optional: subtle zoom icon on hover */}
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                  <div className="bg-black/50 rounded-full p-2">
-                                    <svg
-                                      className="w-8 h-8 text-white"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                      />
-                                    </svg>
-                                  </div>
-                                </div>
-                              </div>
-                            ) : (
-                              <p className="text-sm leading-relaxed break-words">
-                                {m.messageText}
-                              </p>
-                            )}
-                            <div
-                              className={`text-[10px] mt-1.5 ${
-                                isAdmin ? "text-yellow-100" : "text-gray-400"
-                              }`}
-                            >
-                              {(() => {
-                                const date = new Date(m.createdAt);
-                                const now = new Date();
-                                const isToday =
-                                  date.getDate() === now.getDate() &&
-                                  date.getMonth() === now.getMonth() &&
-                                  date.getFullYear() === now.getFullYear();
+ {/* MESSAGES */}
+<div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-gray-100">
+  {loadingMessages ? (
+    <div className="flex items-center justify-center h-full">
+      <Loading type="default" size="small" message="Loading messages..." />
+    </div>
+  ) : (
+    messages.map((m, i) => {
+      const senderId = String(m.senderId);
+      const isMe = senderId === String(adminId); // staff/admin đang login = bên phải
 
-                                if (isToday) {
-                                  return date.toLocaleTimeString("en-US", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  });
-                                }
-                                return date.toLocaleDateString("en-GB", {
-                                  weekday: "short",
-                                  day: "2-digit",
-                                  month: "short",
-                                });
-                              })()}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                  <div ref={endRef}></div>
+      // Lấy cache
+      let sender = userCacheRef.current.get(senderId);
+
+      // Nếu cache chưa có → fetch user
+      if (!sender) {
+        fetchUserDetails(senderId).then((data) => {
+          if (data) {
+            userCacheRef.current.set(senderId, data);
+            setMessages((prev) => [...prev]);
+          }
+        });
+      }
+
+      // FE ROLE MAP — không cần BE trả role
+      const roleMap = {
+        admin: "Admin",
+        manager: "Manager",
+        staff: "Staff",
+        user: "User",
+      };
+
+      // ---------------- ROLE RESOLVE ----------------
+      let resolvedRole;
+
+      if (isMe) {
+        // Nếu là chính mình
+        resolvedRole = roleMap[user?.role] || "User";
+      } else {
+        // Role từ backend
+        resolvedRole = sender?.role;
+
+        // Nếu BE không trả role thì FE fallback
+        if (!resolvedRole) {
+          const uname = sender?.username?.toLowerCase() || "";
+
+          if (uname.includes("admin")) resolvedRole = "admin";
+          else if (uname.includes("manager")) resolvedRole = "manager";
+          else if (uname.includes("staff")) resolvedRole = "staff";
+          else resolvedRole = "user";
+        }
+      }
+
+      const finalRole = resolvedRole.charAt(0).toUpperCase() + resolvedRole.slice(1);
+
+      // ---------------- NAME RESOLVE ----------------
+      let senderName;
+
+      if (isMe) {
+        senderName = `${user?.username || "You"} (${finalRole})`;
+      } else {
+        const name =
+          sender?.username ||
+          sender?.email ||
+          `User ${senderId.slice(-4)}`;
+        senderName = `${name} (${finalRole})`;
+      }
+
+      return (
+        <div
+          key={i}
+          className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+        >
+          <div className="max-w-[75%] flex flex-col gap-1">
+
+            {/* TÊN NGƯỜI GỬI */}
+            <span
+              className={`text-xs font-medium px-1 ${
+                isMe ? "text-right text-gray-400" : "text-left text-gray-500"
+              }`}
+            >
+              {senderName}
+            </span>
+
+            {/* BONG BÓNG TIN NHẮN */}
+            <div
+              className={`
+                p-3 rounded-2xl shadow-lg
+                transition-all duration-300 backdrop-blur-xl
+                ${
+                  isMe
+                    ? "bg-gradient-to-br from-[#E9A319] to-[#A86523] text-white rounded-br-md"
+                    : "bg-white border border-gray-200 text-gray-800 rounded-bl-md"
+                }
+              `}
+            >
+              {m.type === "image" ? (
+                <div
+                  className="relative cursor-pointer"
+                  onClick={() => {
+                    const imageUrl = m.imageUrl || m.attachments;
+                    const fullUrl = imageUrl?.startsWith("http")
+                      ? imageUrl
+                      : `${API_URL}${imageUrl?.startsWith("/") ? "" : "/"}${imageUrl}`;
+                    setViewerImage(fullUrl);
+                  }}
+                >
+                  <img
+                    src={
+                      (m.imageUrl || m.attachments)?.startsWith("http")
+                        ? (m.imageUrl || m.attachments)
+                        : `${API_URL}${
+                            (m.imageUrl || m.attachments)?.startsWith("/")
+                              ? ""
+                              : "/"
+                          }${m.imageUrl || m.attachments}`
+                    }
+                    alt="sent"
+                    className="rounded-xl border border-gray-200 max-w-[240px] max-h-[320px] object-cover shadow-md"
+                  />
                 </div>
+              ) : (
+                <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                  {m.messageText}
+                </p>
+              )}
+
+              {/* TIME */}
+              <div
+                className={`text-[10px] mt-1 ${
+                  isMe ? "text-yellow-100 text-right" : "text-gray-400 text-left"
+                }`}
+              >
+                {(() => {
+                  const date = new Date(m.createdAt);
+                  const now = new Date();
+                  const isToday =
+                    date.getDate() === now.getDate() &&
+                    date.getMonth() === now.getMonth() &&
+                    date.getFullYear() === now.getFullYear();
+
+                  if (isToday) {
+                    return date.toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    });
+                  }
+                  return date.toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                  });
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  )}
+
+  <div ref={endRef}></div>
+</div>
 
                 {/* INPUT */}
                 <div className="border-t border-gray-200 bg-white px-4 py-3 flex-shrink-0 relative">

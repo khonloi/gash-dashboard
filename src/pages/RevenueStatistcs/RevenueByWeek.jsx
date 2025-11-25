@@ -13,6 +13,8 @@ import {
 } from 'chart.js';
 import { FaChartLine, FaArrowUp, FaArrowDown, FaTrophy } from 'react-icons/fa';
 import SummaryAPI from "../../common/SummaryAPI";
+import Loading from "../../components/Loading";
+
 
 // Register Chart.js components
 ChartJS.register(
