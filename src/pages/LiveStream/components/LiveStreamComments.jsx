@@ -469,8 +469,9 @@ const LiveStreamComments = ({ liveId, hostId, isVisible, onToggle }) => {
 
         if (dataLiveId === currentLiveId && data?.comment) {
             setComments(prev => {
+                // Only update the pinned comment, preserve isPinned status of others
                 const updated = prev.map(c =>
-                    c._id?.toString?.() === data.comment._id?.toString?.() ? { ...c, isPinned: true } : { ...c, isPinned: false }
+                    c._id?.toString?.() === data.comment._id?.toString?.() ? { ...c, isPinned: true } : c
                 );
                 return updated.sort((a, b) => {
                     if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
@@ -486,14 +487,53 @@ const LiveStreamComments = ({ liveId, hostId, isVisible, onToggle }) => {
         const currentLiveId = liveId?.toString?.() || liveId;
 
         if (dataLiveId === currentLiveId && data?.commentId) {
+            const DEBUG = import.meta.env.DEV || import.meta.env.VITE_DEBUG === 'true';
+            if (DEBUG) {
+                console.log('📌 Handling comment:unpinned event:', {
+                    commentId: data.commentId,
+                    liveId: dataLiveId,
+                    currentLiveId
+                });
+            }
+
             setComments(prev => {
-                const updated = prev.map(c =>
-                    c._id?.toString?.() === data.commentId?.toString?.() ? { ...c, isPinned: false } : c
-                );
+                // Normalize commentId for comparison
+                const unpinnedCommentId = data.commentId?.toString?.() || data.commentId;
+
+                const updated = prev.map(c => {
+                    const commentId = c._id?.toString?.() || c._id;
+                    if (commentId === unpinnedCommentId) {
+                        if (DEBUG) console.log('✅ Unpinning comment:', commentId);
+                        return { ...c, isPinned: false };
+                    }
+                    return c;
+                });
+
+                // Check if any comment was actually updated
+                const wasUpdated = prev.some(c => {
+                    const commentId = c._id?.toString?.() || c._id;
+                    return commentId === unpinnedCommentId && c.isPinned === true;
+                });
+
+                if (DEBUG && !wasUpdated) {
+                    console.warn('⚠️ Comment not found or already unpinned:', unpinnedCommentId, {
+                        existingComments: prev.map(c => ({
+                            _id: c._id?.toString?.() || c._id,
+                            isPinned: c.isPinned
+                        }))
+                    });
+                }
+
                 return updated.sort((a, b) => {
                     if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
                     return new Date(a.createdAt) - new Date(b.createdAt);
                 });
+            });
+        } else if (import.meta.env.DEV) {
+            console.warn('⚠️ comment:unpinned event data mismatch:', {
+                dataLiveId,
+                currentLiveId,
+                hasCommentId: !!data?.commentId
             });
         }
     }, [liveId]);

@@ -334,11 +334,35 @@ const LiveStreamProducts = ({ liveId }) => {
 
     // Pin product
     const handlePin = async (liveProduct) => {
-        if (!liveProduct?._id) return;
+        if (!liveProduct?._id) {
+            showToast('Product ID is missing', 'error');
+            return;
+        }
+        if (!liveId) {
+            showToast('Live ID is missing', 'error');
+            return;
+        }
         try {
             setIsSubmitting(true);
             setError('');
-            await Api.livestream.pinProduct(liveProduct._id, { liveId });
+            // Ensure liveProductId is a string (handle ObjectId objects)
+            const liveProductId = typeof liveProduct._id === 'string'
+                ? liveProduct._id
+                : (liveProduct._id?.toString?.() || String(liveProduct._id));
+            // Ensure liveId is a string
+            const liveIdStr = typeof liveId === 'string'
+                ? liveId
+                : (liveId?.toString?.() || String(liveId));
+
+            // Validate ObjectId format
+            const isObjectId = (v) => /^[a-fA-F0-9]{24}$/.test(v);
+            if (!isObjectId(liveProductId) || !isObjectId(liveIdStr)) {
+                setError('Invalid product ID or live ID format');
+                showToast('Invalid product ID or live ID format', 'error');
+                return;
+            }
+
+            await Api.livestream.pinProduct(liveProductId, { liveId: liveIdStr });
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
             showToast(`Product pinned successfully`, 'success');
             await loadLiveProducts();
@@ -354,11 +378,35 @@ const LiveStreamProducts = ({ liveId }) => {
 
     // Unpin product
     const handleUnpin = async (liveProduct) => {
-        if (!liveProduct?._id) return;
+        if (!liveProduct?._id) {
+            showToast('Product ID is missing', 'error');
+            return;
+        }
+        if (!liveId) {
+            showToast('Live ID is missing', 'error');
+            return;
+        }
         try {
             setIsSubmitting(true);
             setError('');
-            await Api.livestream.unpinProduct(liveProduct._id, { liveId });
+            // Ensure liveProductId is a string (handle ObjectId objects)
+            const liveProductId = typeof liveProduct._id === 'string'
+                ? liveProduct._id
+                : (liveProduct._id?.toString?.() || String(liveProduct._id));
+            // Ensure liveId is a string
+            const liveIdStr = typeof liveId === 'string'
+                ? liveId
+                : (liveId?.toString?.() || String(liveId));
+
+            // Validate ObjectId format
+            const isObjectId = (v) => /^[a-fA-F0-9]{24}$/.test(v);
+            if (!isObjectId(liveProductId) || !isObjectId(liveIdStr)) {
+                setError('Invalid product ID or live ID format');
+                showToast('Invalid product ID or live ID format', 'error');
+                return;
+            }
+
+            await Api.livestream.unpinProduct(liveProductId, { liveId: liveIdStr });
             const productName = getProductName(liveProduct.productId || liveProduct.product || {});
             showToast(`Product unpinned successfully`, 'success');
             await loadLiveProducts();
@@ -510,7 +558,7 @@ const LiveStreamProducts = ({ liveId }) => {
                             className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-700 text-white rounded-lg hover:from-emerald-600 hover:to-emerald-800 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-1.5 whitespace-nowrap transform hover:scale-105 disabled:transform-none"
                             title="Add to livestream"
                         >
-                        {isSubmitting ? (
+                            {isSubmitting ? (
                                 <Loading type="inline" size="small" message="" className="mr-1" />
                             ) : (
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
