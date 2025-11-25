@@ -22,6 +22,14 @@ const LiveStreamProducts = ({ liveId }) => {
 
     const hasLiveId = useMemo(() => !!liveId, [liveId]);
 
+    // Filter to show only active products in dropdown
+    const activeProducts = useMemo(() => {
+        return allProducts.filter(p => {
+            const status = p?.productStatus || p?.status;
+            return status === 'active';
+        });
+    }, [allProducts]);
+
     // Helper: Extract array from API response
     const extractArray = (resp) => {
         if (!resp) return [];
@@ -553,7 +561,7 @@ const LiveStreamProducts = ({ liveId }) => {
 
             // Backend returns: { success: true/false, message: string, data?: object }
             if (response?.success === true) {
-                const productName = allProducts.find(p => (p?._id || p?.id) === selectedProductId)?.productName || 'Unknown';
+                const productName = activeProducts.find(p => (p?._id || p?.id) === selectedProductId)?.productName || 'Unknown';
                 showToast(`Product added successfully`, 'success');
                 setSelectedProductId('');
                 // Reload products to show the newly added product
@@ -788,7 +796,9 @@ const LiveStreamProducts = ({ liveId }) => {
                             </button>
                         )}
                         {searchQuery && (
-                            <p className="mt-1 text-xs text-gray-500">{allProducts.length} result{allProducts.length !== 1 ? 's' : ''}</p>
+                            <p className="mt-1 text-xs text-gray-500">
+                                {activeProducts.length} active result{activeProducts.length !== 1 ? 's' : ''}
+                            </p>
                         )
                         }
                     </div>
@@ -800,13 +810,13 @@ const LiveStreamProducts = ({ liveId }) => {
                             <button
                                 type="button"
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                disabled={!hasLiveId || isSubmitting || allProducts.length === 0}
+                                disabled={!hasLiveId || isSubmitting || activeProducts.length === 0}
                                 className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-left focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-h-[38px] hover:border-gray-400 transition-colors text-sm"
                             >
                                 <div className="flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
                                     {selectedProductId ? (
                                         (() => {
-                                            const selected = allProducts.find(p => (p?._id || p?.id) === selectedProductId);
+                                            const selected = activeProducts.find(p => (p?._id || p?.id) === selectedProductId);
                                             const imageUrl = selected ? getMainImageUrl(selected) : null;
                                             const name = selected ? getProductName(selected) : 'Select a product';
                                             return (
@@ -826,9 +836,9 @@ const LiveStreamProducts = ({ liveId }) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
-                            {isDropdownOpen && allProducts.length > 0 && (
+                            {isDropdownOpen && activeProducts.length > 0 && (
                                 <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-xl max-h-64 overflow-y-auto">
-                                    {allProducts.map((p) => {
+                                    {activeProducts.map((p) => {
                                         const id = p?._id || p?.id;
                                         const name = getProductName(p);
                                         const imageUrl = getMainImageUrl(p);
