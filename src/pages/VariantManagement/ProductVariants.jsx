@@ -188,6 +188,11 @@ const ProductVariants = () => {
       let errorMessage = "Failed to deactivate variant";
       if (err.response?.data?.message) {
         errorMessage = err.response.data.message;
+
+        // Improve error message for active orders
+        if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
+          errorMessage = "Cannot delete variant because it still contains active orders.";
+        }
       } else if (err.response?.status === 403) {
         errorMessage = "Access denied. Only admin and manager can deactivate variants";
       } else if (err.response?.status === 404) {
@@ -196,11 +201,18 @@ const ProductVariants = () => {
         errorMessage = "Server error. Please try again later";
       } else if (err.message) {
         errorMessage = `Failed to deactivate variant: ${err.message}`;
+
+        // Improve error message for active orders
+        if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
+          errorMessage = "Cannot delete variant because it still contains active orders.";
+        }
       }
+      // Only show toast, don't set error state (error state is for fetch operations)
       showToast(errorMessage, "error");
     } finally {
       setShowDeleteConfirm(false);
       setVariantToDelete(null);
+      // Note: No error state to clear here as we don't use error state for delete operations
     }
   };
 
