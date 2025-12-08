@@ -84,11 +84,11 @@ const Feedbacks = () => {
       );
 
       const sortedFeedbacks = feedbacksData.sort((a, b) => {
-        const dateA = a.order?.orderDate
-          ? new Date(a.order.orderDate)
+        const dateA = a.feedback?.created_at
+          ? new Date(a.feedback.created_at)
           : new Date(0);
-        const dateB = b.order?.orderDate
-          ? new Date(b.order.orderDate)
+        const dateB = b.feedback?.created_at
+          ? new Date(b.feedback.created_at)
           : new Date(0);
         return dateB - dateA;
       });
@@ -181,18 +181,18 @@ const Feedbacks = () => {
       }
 
       // Date filters
-      const orderDate = feedback.order?.orderDate
-        ? new Date(feedback.order.orderDate)
+      const feedbackDate = feedback.feedback?.created_at
+        ? new Date(feedback.feedback.created_at)
         : null;
-      if (orderDate) {
+      if (feedbackDate) {
         if (
           filterSettings.startDate &&
-          orderDate < new Date(filterSettings.startDate)
+          feedbackDate < new Date(filterSettings.startDate)
         )
           return false;
         if (
           filterSettings.endDate &&
-          orderDate > new Date(filterSettings.endDate)
+          feedbackDate > new Date(filterSettings.endDate)
         )
           return false;
       } else if (filterSettings.startDate || filterSettings.endDate) {
@@ -629,7 +629,7 @@ const Feedbacks = () => {
                       Product Name
                     </th>
                     <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Order Date
+                      Feedback Date
                     </th>
                     <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
                       Rating
@@ -682,12 +682,10 @@ const Feedbacks = () => {
                           {feedback.product?.product_name || "N/A"}
                         </td>
 
-                        {/* Order Date */}
+                        {/* Feedback Date */}
                         <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">
-                          {feedback.order?.orderDate
-                            ? new Date(
-                              feedback.order.orderDate
-                            ).toLocaleDateString()
+                          {feedback.feedback?.created_at
+                            ? new Date(feedback.feedback.created_at).toLocaleDateString()
                             : "N/A"}
                         </td>
 
