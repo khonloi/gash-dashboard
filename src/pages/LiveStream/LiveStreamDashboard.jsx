@@ -1624,6 +1624,17 @@ const LiveStreamDashboard = () => {
             return;
         }
 
+        // Check if user is the owner (host)
+        const isOwner = currentLivestream.hostId && (
+            (typeof currentLivestream.hostId === 'object' && (currentLivestream.hostId._id === user?._id || currentLivestream.hostId.id === user?._id)) ||
+            (typeof currentLivestream.hostId === 'string' && currentLivestream.hostId === user?._id)
+        );
+
+        if (!isOwner) {
+            showToast('Only the livestream owner can end the stream', 'error');
+            return;
+        }
+
         // Check if livestream is already ended
         if (currentLivestream.status === 'ended') {
             showToast('Livestream is already ended.', 'info');
@@ -2088,7 +2099,7 @@ const LiveStreamDashboard = () => {
                                     <svg className="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                     </svg>
-                                    Engagement
+                                    Reaction
                                 </h3>
                                 <div className="flex-1 min-h-0 overflow-hidden">
                                     <LiveStreamReactions liveId={currentLivestream._id} />
@@ -2146,8 +2157,8 @@ const LiveStreamDashboard = () => {
                                         Products Management
                                     </h3>
                                 </div>
-                                <div className="flex-1 overflow-y-auto">
-                                    <div className="p-3">
+                                <div className="flex-1 min-h-0 overflow-hidden">
+                                    <div className="p-3 h-full">
                                         <LiveStreamProducts liveId={currentLivestream._id} />
                                     </div>
                                 </div>
@@ -2166,8 +2177,8 @@ const LiveStreamDashboard = () => {
                                     Products Management
                                 </h3>
                             </div>
-                            <div className="flex-1 overflow-y-auto">
-                                <div className="p-3">
+                            <div className="flex-1 min-h-0 overflow-hidden">
+                                <div className="p-3 h-full">
                                     <LiveStreamProducts liveId={currentLivestream._id} />
                                 </div>
                             </div>
