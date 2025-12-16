@@ -269,7 +269,7 @@ const Profile = () => {
           .then((response) => {
             const imageUrl = response.data?.url || response.data?.imageUrl;
             if (imageUrl) {
-              showToast("Image uploaded successfully!", "success", 2000);
+              showToast("Image uploaded successfully", "success", 2000);
               updateProfileWithImage(imageUrl);
             } else {
               showToast(
@@ -351,7 +351,7 @@ const Profile = () => {
 
       await Api.passkeys.verifyRegistration(verifyData, token);
 
-      showToast('Passkey authentication set up successfully!', 'success', 2000);
+      showToast('Passkey authentication set up successfully', 'success', 2000);
       fetchPasskeys();
     } catch (err) {
       console.error('Passkey setup error:', err);
@@ -379,7 +379,7 @@ const Profile = () => {
       }
 
       await Api.passkeys.deletePasskey(passkeyToDelete, token);
-      showToast('Passkey authentication removed successfully!', 'success', 2000);
+      showToast('Passkey authentication removed successfully', 'success', 2000);
       fetchPasskeys();
       setShowDeletePasskeyModal(false);
       setPasskeyToDelete(null);

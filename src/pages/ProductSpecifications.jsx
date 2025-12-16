@@ -755,7 +755,7 @@ const ProductSpecifications = () => {
         }
         return item;
       }));
-      showToast(response.message || `${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`, 'success');
+      showToast(response.message || `${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully`, 'success');
       if (editingItem) {
         const editingId = editingItem._id || editingItem.id;
         if (editingId === id) {

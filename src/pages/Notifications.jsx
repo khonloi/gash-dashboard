@@ -201,7 +201,7 @@ export default function Notifications() {
 
 
       const res = await axios.post("http://localhost:5000/notifications/admin/create", payload);
-      showToast("Notification sent successfully!", "success");
+      showToast("Notification sent successfully", "success");
       setNewNotification({ title: "", message: "", recipient: "all", userId: "" });
       // reset selections
       setSelectedUsers([]);
@@ -358,7 +358,7 @@ export default function Notifications() {
         message: newTemplate.message,
         type: "system",
       });
-      showToast("Template created successfully!", "success");
+      showToast("Template created successfully", "success");
       setShowCreateTemplate(false);
       setNewTemplate({ name: "", title: "", message: "" });
       fetchTemplates();
