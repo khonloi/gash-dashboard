@@ -1,89 +1,176 @@
-// Notifications.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  FiSend,
+  FiPlus,
   FiTrash2,
+  FiSend,
   FiEdit2,
-  FiSave,
   FiX,
-  FiSettings,
-  FiBell,
-  FiUsers,
+  FiFileText,
 } from "react-icons/fi";
+import { io } from "socket.io-client"; // 🧩 SOCKET ADDED
+import Loading from "../components/Loading";
+import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import { useToast } from "../hooks/useToast";
+
+const MAX_TITLE_LENGTH = 100;
+const MAX_MESSAGE_LENGTH = 500;
+const MAX_TEMPLATE_NAME_LENGTH = 100;
+const MAX_SEARCH_LENGTH = 50;
 
 export default function Notifications() {
-  // notifications list from backend
+  const { showToast } = useToast();
+  const [tab, setTab] = useState("notifications");
   const [notifications, setNotifications] = useState([]);
-  // new notification form
-  const [newNotification, setNewNotification] = useState({
-    title: "",
-    message: "",
-    recipient: "all", // 'all' | 'single'
-    userId: "",
-  });
-
-  // preferences for notification categories
-  const [preferences, setPreferences] = useState({
-    system: true,
-    order: true,
-    promotion: true,
-  });
-
-  // templates and editing state
-  const [templates, setTemplates] = useState([
-    {
-      id: 1,
-      name: "Promotion",
-      title: "🎁 New Offer",
-      message: "Get 10% off your order today — limited time only!",
-    },
-    {
-      id: 2,
-      name: "Order Update",
-      title: "📦 Order Update",
-      message: "Your order is being processed and will ship soon.",
-    },
-  ]);
-  const [editingTemplate, setEditingTemplate] = useState(null);
-
-  // loading & UI states
+  const [templates, setTemplates] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
+
+  const [showFilters, setShowFilters] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showEditTemplate, setShowEditTemplate] = useState(false);
+  const [showCreateTemplate, setShowCreateTemplate] = useState(false);
+
+  const [filterType, setFilterType] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [sending, setSending] = useState(false);
   const [savingTemplate, setSavingTemplate] = useState(false);
 
-  // Fetch notifications once at mount
+  // Infinite scroll state
+  const [displayedItems, setDisplayedItems] = useState(10); // Number of items to display initially
+  const itemsPerLoad = 10; // Number of items to load each time
+  const scrollContainerRef = useRef(null);
+
+  const [newNotification, setNewNotification] = useState({
+    title: "",
+    message: "",
+    recipient: "all",
+    userId: "",
+    // selectedUsers will be stored separately in stateSelectedUsers
+  });
+
+  const [newTemplate, setNewTemplate] = useState({
+    name: "",
+    title: "",
+    message: "",
+  });
+
+  const [editingTemplate, setEditingTemplate] = useState(null);
+
+  // ===== Select Users Modal state =====
+  const [showSelectUsersModal, setShowSelectUsersModal] = useState(false);
+  const [users, setUsers] = useState([]); // accounts list
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [usersError, setUsersError] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]); // array of user _id
+  const [selectAll, setSelectAll] = useState(false);
+  const [searchUser, setSearchUser] = useState("");
+  const [notificationToDelete, setNotificationToDelete] = useState(null);
+  const [notificationDeleteMessage, setNotificationDeleteMessage] = useState("");
+  const [showNotificationConfirm, setShowNotificationConfirm] = useState(false);
+  const [notificationDeleteLoading, setNotificationDeleteLoading] = useState(false);
+  const [templateToDelete, setTemplateToDelete] = useState(null);
+  const [showTemplateConfirm, setShowTemplateConfirm] = useState(false);
+  const [templateDeleteLoading, setTemplateDeleteLoading] = useState(false);
+
+  // 🧩 SOCKET ADDED — kết nối realtime admin (1 lần)
+  const [socket, setSocket] = useState(null);
   useEffect(() => {
-    fetchNotifications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    try {
+      const baseURL = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "");
+      const s = io(baseURL, {
+        transports: ["websocket", "polling"],
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+        withCredentials: true,
+      });
+      setSocket(s);
+
+      s.on("connect", () => console.log("🔌 Admin socket connected:", s.id));
+      s.on("connect_error", (err) => console.warn("⚠️ Admin socket connect_error:", err.message));
+      s.on("disconnect", (reason) => console.warn("⚠️ Admin socket disconnected:", reason));
+
+      return () => {
+        if (s && s.disconnect) s.disconnect();
+      };
+    } catch (err) {
+      console.error("Failed to init admin socket:", err);
+    }
   }, []);
 
-  // ---------------------------
-  // API calls
-  // ---------------------------
+  // ===== FETCH =====
+  useEffect(() => {
+    fetchNotifications();
+    fetchTemplates();
+  }, []);
+
   const fetchNotifications = async () => {
     try {
       setLoadingList(true);
       const res = await axios.get("http://localhost:5000/notifications/admin/all");
-      // Expecting an array response as in original code
-      setNotifications(Array.isArray(res.data) ? res.data : res.data || []);
+      setNotifications(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Failed to load notifications:", err);
-      // fallback to empty list
       setNotifications([]);
     } finally {
       setLoadingList(false);
     }
   };
 
-  const handleSendNotification = async () => {
-    // client-side validation
-    if (!newNotification.title.trim() || !newNotification.message.trim()) {
-      return alert("Please enter both title and message.");
+  const fetchTemplates = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/notifications/admin/templates");
+      setTemplates(res.data || []);
+    } catch (err) {
+      console.error("Failed to load templates:", err);
+      setTemplates([]);
     }
-    if (newNotification.recipient === "single" && !newNotification.userId.trim()) {
-      return alert("Please enter the recipient user ID.");
+  };
+
+  // ===== FETCH ACCOUNTS (for Select Users modal) =====
+  const fetchAccountsForSelect = async () => {
+    try {
+      setUsersLoading(true);
+      setUsersError("");
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:5000/accounts", {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
+      // Expecting array of accounts
+      const data = Array.isArray(res.data) ? res.data : Array.isArray(res.data?.data) ? res.data.data : [];
+      setUsers(data);
+      // If previously selected ids exist, keep them selected (if still present)
+      if (selectedUsers.length > 0) {
+        const existingSelected = data.filter((u) => selectedUsers.includes(u._id)).map((u) => u._id);
+        setSelectedUsers(existingSelected);
+        setSelectAll(existingSelected.length === data.length && data.length > 0);
+      } else {
+        setSelectAll(false);
+      }
+    } catch (err) {
+      console.error("Failed to load accounts:", err);
+      setUsers([]);
+      setUsersError("Failed to load accounts. Check your token and network.");
+      setSelectAll(false);
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
+  // ===== CREATE NOTIFICATION =====
+  const handleSendNotification = async () => {
+    const titleTrimmed = newNotification.title?.trim();
+    const messageTrimmed = newNotification.message?.trim();
+    
+    if (!titleTrimmed || !messageTrimmed) {
+      return showToast("Please enter both title and message.", "error");
+    }
+    if (titleTrimmed.length > MAX_TITLE_LENGTH) {
+      return showToast(`Title must be at most ${MAX_TITLE_LENGTH} characters.`, "error");
+    }
+    if (messageTrimmed.length > MAX_MESSAGE_LENGTH) {
+      return showToast(`Message must be at most ${MAX_MESSAGE_LENGTH} characters.`, "error");
     }
 
     try {
@@ -91,475 +178,1225 @@ export default function Notifications() {
       const payload = {
         title: newNotification.title,
         message: newNotification.message,
-        userId: newNotification.recipient === "all" ? null : newNotification.userId,
         type: "system",
       };
 
-      await axios.post("http://localhost:5000/notifications/admin/create", payload);
+      if (newNotification.recipient === "all") {
+        payload.recipientType = "all";
+      } else if (newNotification.recipient === "single") {
+        payload.recipientType = "specific";
+        const userId = newNotification.userId?.trim();
+        if (!userId) {
+          showToast("Please enter the user ID for single recipient.", "error");
+          setSending(false);
+          return;
+        }
+        if (userId.length > 50) {
+          showToast("User ID is too long (max 50 characters).", "error");
+          setSending(false);
+          return;
+        }
+        payload.userId = userId;
+      } else if (newNotification.recipient === "multiple") {
+        payload.recipientType = "multiple";
+        payload.userIds = newNotification.userId
+          .split(",")
+          .map((u) => u.trim())
+          .filter((u) => u);
+        if (!payload.userIds.length) {
+          showToast("Please enter at least one user ID.", "error");
+          setSending(false);
+          return;
+        }
+        if (payload.userIds.length > 1000) {
+          showToast("Too many user IDs (max 1000).", "error");
+          setSending(false);
+          return;
+        }
+        for (const id of payload.userIds) {
+          if (id.length > 50) {
+            showToast("One or more user IDs are too long (max 50 characters each).", "error");
+            setSending(false);
+            return;
+          }
+        }
+      } else if (newNotification.recipient === "specific") {
+  // admin chọn nhiều user => gửi kiểu "multiple"
+  payload.recipientType = "multiple";
+  payload.userIds = selectedUsers.slice(); // array of _id
+  if (!payload.userIds || payload.userIds.length === 0) {
+    showToast("Please select at least one user.", "error");
+    setSending(false);
+    return;
+  }
+}
 
-      alert("Notification sent successfully.");
-      // reset form
+
+      const res = await axios.post("http://localhost:5000/notifications/admin/create", payload);
+      showToast("Notification sent successfully", "success");
       setNewNotification({ title: "", message: "", recipient: "all", userId: "" });
-      // refresh list
+      // reset selections
+      setSelectedUsers([]);
+      setSelectAll(false);
       fetchNotifications();
+
+      // 🧩 SOCKET EMIT
+      try {
+        if (socket && socket.connected) {
+          socket.emit("adminSentNotification", res.data);
+          console.log("📡 adminSentNotification emitted:", res.data);
+        } else {
+          console.warn("⚠️ Admin socket not connected — cannot emit realtime");
+        }
+      } catch (emitErr) {
+        console.error("Error emitting adminSentNotification:", emitErr);
+      }
     } catch (err) {
-      console.error("Send notification failed:", err.response?.data || err.message);
-      alert("Failed to send notification.");
+      console.error(err);
+      showToast("Failed to send notification.", "error");
     } finally {
       setSending(false);
     }
   };
 
-  const handleDeleteNotification = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this notification?");
-    if (!confirmed) return;
+  // ===== DELETE NOTIFICATION =====
+  const handleDeleteNotification = (notification) => {
+    if (!notification) return;
+    const deleteCount = notification.notificationIds?.length || 1;
+    const message = deleteCount > 1
+      ? `Delete this notification group (${deleteCount} notifications)?`
+      : "Delete this notification?";
+    setNotificationToDelete(notification);
+    setNotificationDeleteMessage(message);
+    setShowNotificationConfirm(true);
+  };
 
+  const confirmDeleteNotification = useCallback(async () => {
+    if (!notificationToDelete) return;
+    setNotificationDeleteLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/notifications/admin/${id}`);
-      // refresh list
+      const idsToDelete = notificationToDelete.notificationIds || [notificationToDelete._id];
+      await Promise.all(
+        idsToDelete.map(id => axios.delete(`http://localhost:5000/notifications/admin/${id}`))
+      );
+
+      try {
+        if (socket && socket.connected) {
+          idsToDelete.forEach(id => {
+            socket.emit("adminDeletedNotification", { notificationId: id });
+          });
+          console.log("📡 adminDeletedNotification emitted for", idsToDelete.length, "notification(s)");
+        } else {
+          console.warn("⚠️ Admin socket not connected — cannot emit realtime deletion");
+        }
+      } catch (emitErr) {
+        console.error("Error emitting adminDeletedNotification:", emitErr);
+      }
+
       fetchNotifications();
+      setShowNotificationConfirm(false);
+      setNotificationToDelete(null);
+      setNotificationDeleteMessage("");
     } catch (err) {
-      console.error("Failed to delete notification:", err);
-      alert("Failed to delete notification.");
+      console.error(err);
+      showToast("Failed to delete notification(s).", "error");
+    } finally {
+      setNotificationDeleteLoading(false);
     }
+  }, [notificationToDelete, socket, fetchNotifications]);
+
+  const cancelDeleteNotification = () => {
+    if (notificationDeleteLoading) return;
+    setShowNotificationConfirm(false);
+    setNotificationToDelete(null);
+    setNotificationDeleteMessage("");
   };
 
-  // Save preferences locally (keeps original behavior)
-  const handleSavePreferences = () => {
-    // you can replace this with API call if you want server persistence
-    alert("Notification preferences saved.");
-    console.log("Preferences saved:", preferences);
+  // ===== TEMPLATE =====
+  const applyTemplateToForm = (template) => {
+      setNewNotification({
+        title: template.title || "",
+        message: template.message || "",
+      recipient: "all",
+        userId: "",
+      });
+    // Reset selected users when applying template
+    setSelectedUsers([]);
+    setSelectAll(false);
   };
 
-  // Templates operations (local state)
-  const handleStartEditTemplate = (template) => {
-    // create a shallow copy to edit
+  const handleEditTemplate = (template) => {
     setEditingTemplate({ ...template });
+    setShowEditTemplate(true);
   };
 
-  const handleCancelEditTemplate = () => {
-    setEditingTemplate(null);
-  };
-
-  const handleSaveTemplate = () => {
+  const handleSaveTemplate = async () => {
     if (!editingTemplate) return;
-    if (!editingTemplate.name.trim() || !editingTemplate.title.trim() || !editingTemplate.message.trim()) {
-      return alert("Please fill template name, title and message.");
+    
+    const nameTrimmed = editingTemplate.name?.trim();
+    const titleTrimmed = editingTemplate.title?.trim();
+    const messageTrimmed = editingTemplate.message?.trim();
+    
+    if (!nameTrimmed || !titleTrimmed || !messageTrimmed) {
+      return showToast("Please fill all fields.", "error");
     }
-
-    setSavingTemplate(true);
+    if (nameTrimmed.length > MAX_TEMPLATE_NAME_LENGTH) {
+      return showToast(`Template name must be at most ${MAX_TEMPLATE_NAME_LENGTH} characters.`, "error");
+      return;
+    }
+    if (titleTrimmed.length > MAX_TITLE_LENGTH) {
+      return showToast(`Title must be at most ${MAX_TITLE_LENGTH} characters.`, "error");
+      return;
+    }
+    if (messageTrimmed.length > MAX_MESSAGE_LENGTH) {
+      return showToast(`Message must be at most ${MAX_MESSAGE_LENGTH} characters.`, "error");
+      return;
+    }
+    
     try {
-      setTemplates((prev) => prev.map((t) => (t.id === editingTemplate.id ? editingTemplate : t)));
-      alert("Template updated.");
-      setEditingTemplate(null);
+      await axios.patch(
+        `http://localhost:5000/notifications/admin/templates/${editingTemplate._id}`,
+        {
+          name: editingTemplate.name,
+          title: editingTemplate.title,
+          message: editingTemplate.message,
+          type: editingTemplate.type || "system",
+        }
+      );
+      showToast("Template updated!", "success");
+      setShowEditTemplate(false);
+      fetchTemplates();
     } catch (err) {
-      console.error("Failed to save template:", err);
-      alert("Failed to save template.");
+      console.error(err);
+      showToast("Failed to update template.", "error");
+    }
+  };
+
+  const handleDeleteTemplate = (template) => {
+    if (!template) return;
+    setTemplateToDelete(template);
+    setShowTemplateConfirm(true);
+  };
+
+  const confirmDeleteTemplate = useCallback(async () => {
+    if (!templateToDelete) return;
+    setTemplateDeleteLoading(true);
+    try {
+      await axios.delete(`http://localhost:5000/notifications/admin/templates/${templateToDelete._id}`);
+      fetchTemplates();
+      setShowTemplateConfirm(false);
+      setTemplateToDelete(null);
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to delete template.", "error");
+    } finally {
+      setTemplateDeleteLoading(false);
+    }
+  }, [templateToDelete, fetchTemplates]);
+
+  const cancelDeleteTemplate = () => {
+    if (templateDeleteLoading) return;
+    setShowTemplateConfirm(false);
+    setTemplateToDelete(null);
+  };
+
+  const handleCreateTemplate = async () => {
+    const nameTrimmed = newTemplate.name?.trim();
+    const titleTrimmed = newTemplate.title?.trim();
+    const messageTrimmed = newTemplate.message?.trim();
+    
+    if (!nameTrimmed || !titleTrimmed || !messageTrimmed) {
+      return showToast("Please fill all fields.", "error");
+    }
+    if (nameTrimmed.length > MAX_TEMPLATE_NAME_LENGTH) {
+      return showToast(`Template name must be at most ${MAX_TEMPLATE_NAME_LENGTH} characters.`, "error");
+    }
+    if (titleTrimmed.length > MAX_TITLE_LENGTH) {
+      return showToast(`Title must be at most ${MAX_TITLE_LENGTH} characters.`, "error");
+    }
+    if (messageTrimmed.length > MAX_MESSAGE_LENGTH) {
+      return showToast(`Message must be at most ${MAX_MESSAGE_LENGTH} characters.`, "error");
+    }
+    try {
+      setSavingTemplate(true);
+      await axios.post("http://localhost:5000/notifications/admin/templates", {
+        name: newTemplate.name,
+        title: newTemplate.title,
+        message: newTemplate.message,
+        type: "system",
+      });
+      showToast("Template created successfully", "success");
+      setShowCreateTemplate(false);
+      setNewTemplate({ name: "", title: "", message: "" });
+      fetchTemplates();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to create template.", "error");
     } finally {
       setSavingTemplate(false);
     }
   };
 
-  // Quick apply template to new notification form
-  const applyTemplateToForm = (template) => {
-    setNewNotification((prev) => ({
-      ...prev,
-      title: template.title,
-      message: template.message,
-    }));
+  // ===== Select Users modal helpers =====
+  const toggleUserSelection = (userId) => {
+    setSelectedUsers((prev) => {
+      if (prev.includes(userId)) {
+        return prev.filter((id) => id !== userId);
+      } else {
+        return [...prev, userId];
+      }
+    });
   };
 
-  // Simple helper: small skeleton cards for loading
-  const Skeleton = ({ className = "" }) => (
-    <div className={`animate-pulse bg-gray-100 rounded-md ${className}`} />
-  );
+  useEffect(() => {
+    // update selectAll when selectedUsers or users changes
+    if (!users || users.length === 0) {
+      setSelectAll(false);
+      return;
+    }
+    setSelectAll(selectedUsers.length === users.length && users.length > 0);
+  }, [selectedUsers, users]);
 
-  // --------------
-  // Render
-  // --------------
+  const handleToggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedUsers([]);
+      setSelectAll(false);
+    } else {
+      const allIds = users.map((u) => u._id);
+      setSelectedUsers(allIds);
+      setSelectAll(true);
+    }
+  };
+
+  const openSelectUsersModal = () => {
+    setShowSelectUsersModal(true);
+    // fetch accounts when opening
+    fetchAccountsForSelect();
+  };
+
+  const closeSelectUsersModal = () => {
+    setShowSelectUsersModal(false);
+  };
+
+  const confirmSelectUsers = () => {
+    // copy selectedUsers into newNotification as well if needed
+    // but we keep selectedUsers state as source of truth
+    setShowSelectUsersModal(false);
+  };
+
+  // ===== FILTER + GROUP =====
+  // Group notifications by title + message + createdAt (rounded to nearest second) to show as single items
+  const groupedNotifications = notifications.reduce((acc, n) => {
+    // Round createdAt to nearest second for grouping
+    const createdAtRound = new Date(n.createdAt);
+    createdAtRound.setMilliseconds(0);
+    const groupKey = `${n.title}|${n.message}|${createdAtRound.getTime()}`;
+    
+    if (!acc.has(groupKey)) {
+      // Store the notification with recipient count and all IDs in the group
+      acc.set(groupKey, {
+        ...n,
+        recipientCount: 1,
+        recipients: n.userId ? [n.userId] : [],
+        notificationIds: [n._id], // Track all notification IDs in this group
+        isAllUsers: !n.userId // Track if this is sent to all users
+      });
+    } else {
+      // Increment recipient count and collect recipients
+      const existing = acc.get(groupKey);
+      existing.recipientCount += 1;
+      existing.notificationIds.push(n._id); // Add this notification ID to the group
+      if (n.userId) {
+        // Avoid duplicate recipients
+        const recipientId = typeof n.userId === 'object' ? n.userId._id : n.userId;
+        if (!existing.recipients.find(r => {
+          const rId = typeof r === 'object' ? r._id : r;
+          return rId === recipientId;
+        })) {
+          existing.recipients.push(n.userId);
+        }
+      } else {
+        existing.isAllUsers = true;
+      }
+    }
+    return acc;
+  }, new Map());
+
+  const uniqueNotifications = Array.from(groupedNotifications.values());
+
+  const filtered = uniqueNotifications.filter((n) => {
+    const matchType = filterType ? n.type === filterType : true;
+    const matchKeyword = searchKeyword
+      ? n.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      : true;
+    return matchType && matchKeyword;
+  });
+
+  // Check if any filters are active
+  const hasActiveFilters = () => {
+    return searchKeyword || filterType !== '';
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setFilterType("");
+    setSearchKeyword("");
+    setDisplayedItems(10); // Reset to initial display count
+  };
+
+  // Toggle filters
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
+
+  // Get items to display (infinite scroll)
+  const currentItems = filtered.slice(0, displayedItems);
+
+  // Infinite scroll handler
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer || displayedItems >= filtered.length) return;
+
+    let isLoading = false;
+
+    const handleScroll = () => {
+      if (isLoading || displayedItems >= filtered.length) return;
+
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      // Load more when user is within 100px of bottom
+      if (scrollHeight - scrollTop - clientHeight < 100) {
+        isLoading = true;
+        setDisplayedItems(prev => {
+          const next = Math.min(prev + itemsPerLoad, filtered.length);
+          // Reset loading flag after state update
+          setTimeout(() => {
+            isLoading = false;
+          }, 100);
+          return next;
+        });
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [displayedItems, filtered.length, itemsPerLoad]);
+
+  // Reset displayed items when filters change
+  useEffect(() => {
+    setDisplayedItems(10);
+  }, [filterType, searchKeyword]);
+
+
+  // ===== UI =====
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Page header */}
-      <motion.div
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-        className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6"
-      >
-        <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 flex items-center gap-3">
-            <FiBell className="text-indigo-600" /> Notifications Management
+    <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">
+            Notification Management
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Manage system notifications, templates and delivery preferences.
-          </p>
         </div>
-
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
+          <div className="bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-md px-2 lg:px-4 py-1 lg:py-2 rounded-xl border-2 border-yellow-400/50 shadow-md">
+            <span className="text-xs lg:text-sm font-semibold text-gray-700">
+              {filtered.length} notification{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
           <button
-            onClick={fetchNotifications}
-            className="bg-white border border-gray-200 px-3 py-2 rounded-lg shadow-sm text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
+            onClick={toggleFilters}
+            aria-label="Toggle filters"
           >
-            Refresh
+            <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+            </svg>
+            <span className="font-medium hidden sm:inline">{showFilters ? "Hide Filters" : "Show Filters"}</span>
+            <span className="font-medium sm:hidden">Filters</span>
+          </button>
+          <button
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            onClick={() => setShowCreateTemplate(true)}
+          >
+            <FiFileText />
+            <span className="font-medium">Create Template</span>
           </button>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Grid layout: left = form + preferences + templates, right = list */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT COLUMN */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
-          {/* Send Notification card */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.05 }}
-            className="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
-                  <FiSend />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-800">Send New Notification</h2>
-                  <p className="text-sm text-gray-500">Compose and deliver messages to users.</p>
-                </div>
-              </div>
-              <div className="text-sm text-gray-400">Status: <strong className="text-gray-700">{sending ? "Sending..." : "Ready"}</strong></div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-600 mb-1">Title</span>
-                <input
-                  className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  placeholder="Enter notification title"
-                  value={newNotification.title}
-                  onChange={(e) => setNewNotification({ ...newNotification, title: e.target.value })}
-                />
-              </label>
-
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-600 mb-1">Recipient</span>
-                <select
-                  className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  value={newNotification.recipient}
-                  onChange={(e) => setNewNotification({ ...newNotification, recipient: e.target.value })}
-                >
-                  <option value="all">All users</option>
-                  <option value="single">Specific user</option>
-                </select>
-              </label>
-            </div>
-
-            {newNotification.recipient === "single" && (
-              <div className="mt-3">
-                <label className="flex flex-col">
-                  <span className="text-sm text-gray-600 mb-1">User ID</span>
-                  <input
-                    className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    placeholder="Enter user ID"
-                    value={newNotification.userId}
-                    onChange={(e) => setNewNotification({ ...newNotification, userId: e.target.value })}
-                  />
-                </label>
-              </div>
-            )}
-
-            <div className="mt-3">
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-600 mb-1">Message</span>
-                <textarea
-                  rows="4"
-                  className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  placeholder="Write your notification message..."
-                  value={newNotification.message}
-                  onChange={(e) => setNewNotification({ ...newNotification, message: e.target.value })}
-                />
-              </label>
-            </div>
-
-            <div className="mt-4 flex items-center gap-3">
+      {/* Filter Section */}
+      {showFilters && (
+        <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="flex items-center justify-between mb-3 lg:mb-4">
+              <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
+            <div className="flex items-center gap-2">
               <button
-                onClick={() => {
-                  // quick validation done inside handleSendNotification
-                  handleSendNotification();
+                onClick={clearFilters}
+                disabled={!hasActiveFilters()}
+                className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
+                aria-label="Clear all filters"
+              >
+                Clear
+              </button>
+            </div>
+            </div>
+            <div className="mb-3 lg:mb-4">
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search by title...</label>
+              <input
+                type="text"
+                placeholder="Search by title..."
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                value={searchKeyword}
+                onChange={(e) => {
+                  const trimmed = e.target.value.slice(0, MAX_SEARCH_LENGTH);
+                  setSearchKeyword(trimmed);
+                  setDisplayedItems(10);
                 }}
-                disabled={sending}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold shadow-sm ${
-                  sending ? "bg-indigo-300 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-                }`}
-              >
-                <FiSend />
-                {sending ? "Sending..." : "Send Notification"}
-              </button>
-
-              <div className="ml-auto flex items-center gap-2">
-                <span className="text-sm text-gray-500">Apply template:</span>
+                maxLength={MAX_SEARCH_LENGTH}
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+              <div>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Type</label>
                 <select
-                  className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                  value={filterType}
                   onChange={(e) => {
-                    const id = Number(e.target.value);
-                    const t = templates.find((tpl) => tpl.id === id);
-                    if (t) applyTemplateToForm(t);
+                    setFilterType(e.target.value);
+                    setDisplayedItems(10); // Reset to initial display count
                   }}
-                  defaultValue=""
                 >
-                  <option value="">-- choose template --</option>
-                  {templates.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                    </option>
-                  ))}
+                  <option value="">All Types</option>
+                  <option value="system">System</option>
+                  <option value="order">Order</option>
+                  <option value="promotion">Promotion</option>
                 </select>
               </div>
             </div>
-          </motion.div>
+          </div>
+        )}
 
-          {/* Preferences card */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.08 }}
-            className="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-yellow-50 text-yellow-600 rounded-lg flex items-center justify-center">
-                  <FiSettings />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Notification Preferences</h3>
-                  <p className="text-sm text-gray-500">Toggle which categories you want to receive.</p>
-                </div>
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        {/* LEFT: Notification List */}
+        <div className="lg:w-1/3 backdrop-blur-xl rounded-xl border overflow-hidden flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="backdrop-blur-sm border-b px-4 lg:px-6 py-3 lg:py-4 flex justify-between items-center" style={{ borderColor: '#A86523' }}>
+            <h2 className="text-lg lg:text-xl font-semibold text-gray-800">
+              Sent Notifications
+            </h2>
+          </div>
+
+          {loadingList ? (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <Loading
+              type="page"
+              size="medium"
+              message="Loading notifications..."
+            />
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
+              <div className="w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+              </div>
+              <div className="text-center">
+                <h3 className="text-base font-medium text-gray-900">No notifications found</h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  {notifications.length === 0
+                    ? "Get started by creating your first notification"
+                    : "Try adjusting your search or filter criteria"}
+                </p>
               </div>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <label className="flex items-center gap-2 p-3 border rounded-lg">
-                <input
-                  type="checkbox"
-                  checked={preferences.system}
-                  onChange={(e) => setPreferences({ ...preferences, system: e.target.checked })}
-                />
-                <div>
-                  <div className="text-sm font-medium">System</div>
-                  <div className="text-xs text-gray-500">Critical system alerts</div>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-2 p-3 border rounded-lg">
-                <input
-                  type="checkbox"
-                  checked={preferences.order}
-                  onChange={(e) => setPreferences({ ...preferences, order: e.target.checked })}
-                />
-                <div>
-                  <div className="text-sm font-medium">Order</div>
-                  <div className="text-xs text-gray-500">Order updates and shipment</div>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-2 p-3 border rounded-lg">
-                <input
-                  type="checkbox"
-                  checked={preferences.promotion}
-                  onChange={(e) => setPreferences({ ...preferences, promotion: e.target.checked })}
-                />
-                <div>
-                  <div className="text-sm font-medium">Promotion</div>
-                  <div className="text-xs text-gray-500">Marketing & discount messages</div>
-                </div>
-              </label>
-            </div>
-
-            <div className="mt-4 flex items-center gap-3">
-              <button
-                onClick={handleSavePreferences}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 shadow-sm"
+          </div>
+          ) : (
+          <ul ref={scrollContainerRef} className="notification-list-container divide-y divide-gray-100 flex-1 overflow-y-auto" style={{ maxHeight: '52em' }}>
+            {currentItems.map((n) => (
+              <li
+                key={n._id}
+                className="flex items-start justify-between px-4 lg:px-6 py-3 lg:py-4 hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40"
               >
-                <FiSave /> Save Preferences
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Templates card */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.11 }}
-            className="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-pink-50 text-pink-600 rounded-lg flex items-center justify-center">
-                  <FiEdit2 />
+                {/* Left side */}
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-gray-900">{n.title}</h3>
+                      <span className="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full capitalize">
+                        {n.type || "system"}
+                      </span>
+                    </div>
+                  <p className="text-gray-600 text-sm line-clamp-1 mt-1">{n.message}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      To:{" "}
+                      {n.isAllUsers || (!n.userId && !n.recipients?.length)
+                        ? "All Users"
+                        : n.recipientCount > 1
+                        ? `${n.recipientCount} users`
+                        : n.recipients?.[0]
+                        ? (typeof n.recipients[0] === 'object' 
+                            ? n.recipients[0].fullName || n.recipients[0].username || n.recipients[0].email || "Unknown"
+                            : "User")
+                        : n.userId
+                        ? (typeof n.userId === 'object'
+                            ? n.userId.fullName || n.userId.username || n.userId.email || "Unknown"
+                            : "User")
+                        : "Unknown"}
+                    </p>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Notification Templates</h3>
-                  <p className="text-sm text-gray-500">Manage reusable templates for messages.</p>
-                </div>
-              </div>
-            </div>
 
-            {editingTemplate ? (
-              <div className="space-y-3">
-                <label className="flex flex-col text-sm">
-                  <span className="text-gray-600 mb-1">Template Name</span>
-                  <input
-                    className="border border-gray-200 rounded-lg px-3 py-2"
-                    value={editingTemplate.name}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, name: e.target.value })}
-                  />
-                </label>
-
-                <label className="flex flex-col text-sm">
-                  <span className="text-gray-600 mb-1">Title</span>
-                  <input
-                    className="border border-gray-200 rounded-lg px-3 py-2"
-                    value={editingTemplate.title}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value })}
-                  />
-                </label>
-
-                <label className="flex flex-col text-sm">
-                  <span className="text-gray-600 mb-1">Message</span>
-                  <textarea
-                    rows="4"
-                    className="border border-gray-200 rounded-lg px-3 py-2"
-                    value={editingTemplate.message}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, message: e.target.value })}
-                  />
-                </label>
-
-                <div className="flex items-center gap-2">
+                {/* Right side (time + delete) */}
+                <div className="flex flex-col items-end text-right gap-2 ml-4">
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                    {new Date(n.createdAt).toLocaleDateString("en-GB", {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
                   <button
-                    onClick={handleSaveTemplate}
-                    disabled={savingTemplate}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white ${
-                      savingTemplate ? "bg-indigo-300 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-                    }`}
+                    onClick={() => handleDeleteNotification(n)}
+                    className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700"
+                    title={n.notificationIds?.length > 1 ? `Delete notification group (${n.notificationIds.length} notifications)` : "Delete notification"}
                   >
-                    <FiSave /> {savingTemplate ? "Saving..." : "Save Template"}
-                  </button>
-
-                  <button
-                    onClick={handleCancelEditTemplate}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50"
-                  >
-                    <FiX /> Cancel
+                    <FiTrash2 className="w-3 h-3 lg:w-4 lg:h-4" />
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <ul className="divide-y divide-gray-100">
-                  {templates.map((t) => (
-                    <li key={t.id} className="py-3 flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-semibold text-gray-800">{t.name}</div>
-                        <div className="text-sm text-gray-600">{t.title}</div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleStartEditTemplate(t)}
-                          className="text-sm inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100"
-                        >
-                          <FiEdit2 /> Edit
-                        </button>
-                        <button
-                          onClick={() => applyTemplateToForm(t)}
-                          className="text-sm inline-flex items-center gap-2 px-3 py-1 rounded-md bg-gray-50 text-gray-700 hover:bg-gray-100"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </motion.div>
+              </li>
+            ))}
+            {displayedItems < filtered.length && (
+              <li className="px-4 lg:px-6 py-4 text-center">
+                <Loading
+                  type="default"
+                  size="small"
+                  message="Loading more notifications..."
+                />
+              </li>
+          )}
+        </ul>
+        )}
         </div>
 
-        {/* RIGHT COLUMN - Notifications list */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.14 }}
-            className="bg-white rounded-2xl p-4 shadow-md border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
-                  <FiUsers />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Notifications</h3>
-                  <p className="text-xs text-gray-500">Recently sent system messages</p>
-                </div>
+        {/* RIGHT: Create Notification Form */}
+        <div className="lg:w-2/3 backdrop-blur-xl rounded-xl border overflow-hidden flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="backdrop-blur-sm border-b px-4 lg:px-6 py-3 lg:py-4" style={{ borderColor: '#A86523' }}>
+            <h2 className="text-lg lg:text-xl font-semibold text-gray-800">
+              Create Notification
+            </h2>
+          </div>
+          <div className="p-4 lg:p-6 flex flex-col flex-1 overflow-y-auto">
+            <div className="flex flex-col gap-4">
+              <div>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Title ({newNotification.title?.length || 0}/{MAX_TITLE_LENGTH})</label>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                  value={newNotification.title}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })
+                  }
+                  maxLength={MAX_TITLE_LENGTH}
+                />
+              </div>
+              <div>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Message ({newNotification.message?.length || 0}/{MAX_MESSAGE_LENGTH})</label>
+                <textarea
+                  placeholder="Message"
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
+                  value={newNotification.message}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })
+                  }
+                  maxLength={MAX_MESSAGE_LENGTH}
+                />
+              </div>
+              <div>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Recipient</label>
+                <select
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                  value={newNotification.recipient}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, recipient: e.target.value })
+                  }
+                >
+                  <option value="all">All Users</option>
+                  <option value="single">Single User (by ID)</option>
+                  <option value="multiple">Multiple Users (by IDs)</option>
+                  <option value="specific">Specific Users (choose)</option>
+                </select>
               </div>
 
-              <div className="text-sm text-gray-500">{loadingList ? "Loading..." : `${notifications.length} total`}</div>
-            </div>
-
-            {/* list */}
-            <div className="max-h-[60vh] overflow-auto">
-              {loadingList ? (
-                <div className="space-y-3">
-                  <SkeletonItem />
-                  <SkeletonItem />
-                  <SkeletonItem />
+              {(newNotification.recipient === "single" ||
+                newNotification.recipient === "multiple") && (
+                <div>
+                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                    {newNotification.recipient === "single" ? "User ID" : "User IDs (comma-separated)"}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={
+                      newNotification.recipient === "single"
+                        ? "Enter user ID"
+                        : "Enter multiple IDs, separated by commas"
+                    }
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={newNotification.userId}
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, userId: e.target.value })
+                    }
+                  />
                 </div>
-              ) : notifications.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">No notifications yet.</div>
-              ) : (
-                <ul className="space-y-3">
-                  {notifications.map((n) => (
-                    <li key={n._id || `${n.title}_${Math.random()}`} className="flex items-start justify-between gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                      <div>
-                        <div className="text-sm font-semibold text-gray-800">{n.title}</div>
-                        <div className="text-sm text-gray-600 mt-1">{n.message}</div>
-                        <div className="text-xs text-gray-400 mt-2">
-                          Recipient: {n.userId ? `User ID ${n.userId}` : "All users"} • Type: {n.type ?? "system"}
-                        </div>
-                        <div className="text-xs text-gray-300 mt-1">{n.createdAt ? new Date(n.createdAt).toLocaleString() : ""}</div>
-                      </div>
+              )}
 
-                      <div className="flex flex-col items-center gap-2">
-                        <button
-                          onClick={() => handleDeleteNotification(n._id)}
-                          title="Delete notification"
-                          className="p-2 rounded-md text-red-600 hover:bg-red-50"
-                        >
-                          <FiTrash2 />
-                        </button>
+              {newNotification.recipient === "specific" && (
+                <div>
+                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Select Users</label>
+                  <div className="flex items-center gap-3">
+                <button
+                      onClick={openSelectUsersModal}
+                      className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                >
+                      Select Users
+                </button>
+                    <div className="text-sm text-gray-700">
+                      {selectedUsers.length > 0 ? (
+                        <span>{selectedUsers.length} user{selectedUsers.length > 1 ? "s" : ""} selected</span>
+                      ) : (
+                        <span className="text-gray-400">No users selected</span>
+                      )}
+              </div>
+            </div>
+        </div>
+              )}
+
+              <button
+                onClick={handleSendNotification}
+                disabled={sending}
+                className={`mt-2 bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] text-white px-4 py-3 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
+                  sending ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+              >
+                {sending ? (
+                  <>
+                    <Loading type="inline" size="small" message="" className="mr-1" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <FiSend /> Send Notification
+                  </>
+                )}
+              </button>
+          </div>
+
+            {/* Templates Section */}
+            <div className="mt-6 pt-6 border-t" style={{ borderColor: '#A86523' }}>
+              <h3 className="text-base font-semibold text-gray-800 mb-3">Templates</h3>
+                  {templates.length === 0 ? (
+                <p className="text-sm text-gray-500 text-center py-4">No templates found.</p>
+                  ) : (
+                <div className="space-y-3 max-h-[300px] overflow-y-auto">
+                  {templates.map((t) => (
+                    <div
+                      key={t._id}
+                      className="p-3 border-2 border-gray-200/60 rounded-xl hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300"
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm text-gray-900 truncate">{t.name || "(unnamed)"}</h4>
+                          <p className="text-xs text-gray-600 mt-1 line-clamp-1">{t.title}</p>
+                        </div>
+                        <div className="flex gap-1 shrink-0">
+                            <button
+                              onClick={() => applyTemplateToForm(t)}
+                            className="p-1.5 rounded-lg transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
+                            title="Apply template"
+                            >
+                            <FiSend className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => handleEditTemplate(t)}
+                            className="p-1.5 rounded-lg transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
+                              title="Edit template"
+                            >
+                            <FiEdit2 className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteTemplate(t)}
+                            className="p-1.5 rounded-lg transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700"
+                              title="Delete template"
+                            >
+                            <FiTrash2 className="w-3 h-3" />
+                            </button>
+                          </div>
                       </div>
-                    </li>
+                    </div>
                   ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* === Modals === */}
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-6 rounded-xl w-full max-w-lg shadow-xl relative"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+            >
+              <button
+                onClick={() => setShowCreate(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              >
+                <FiX size={20} />
+              </button>
+
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <FiSend /> Create Notification
+              </h2>
+
+              <div className="flex flex-col gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Title ({newNotification.title?.length || 0}/{MAX_TITLE_LENGTH})
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={newNotification.title}
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })
+                    }
+                    maxLength={MAX_TITLE_LENGTH}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Message ({newNotification.message?.length || 0}/{MAX_MESSAGE_LENGTH})
+                  </label>
+                  <textarea
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
+                    value={newNotification.message}
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })
+                    }
+                    maxLength={MAX_MESSAGE_LENGTH}
+                  />
+                </div>
+                <select
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                  value={newNotification.recipient}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, recipient: e.target.value })
+                  }
+                >
+                  <option value="all">All Users</option>
+                  <option value="single">Single User</option>
+                  <option value="multiple">Multiple Users</option>
+                  <option value="specific">Specific Users (choose)</option>
+                </select>
+
+                {(newNotification.recipient === "single" ||
+                  newNotification.recipient === "multiple") && (
+                  <input
+                    type="text"
+                    placeholder={
+                      newNotification.recipient === "single"
+                        ? "Enter user ID"
+                        : "Enter multiple IDs, separated by commas"
+                    }
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={newNotification.userId}
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, userId: e.target.value })
+                    }
+                  />
+                )}
+
+                {newNotification.recipient === "specific" && (
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={openSelectUsersModal}
+                      className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                    >
+                      Select Users
+                    </button>
+                    <div className="text-sm text-gray-700">
+                      {selectedUsers.length > 0 ? (
+                        <span>{selectedUsers.length} user{selectedUsers.length > 1 ? "s" : ""} selected</span>
+                      ) : (
+                        <span className="text-gray-400">No users selected</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={handleSendNotification}
+                  disabled={sending}
+                  className={`mt-2 bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
+                    sending ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {sending ? (
+                    <>
+                      <Loading type="inline" size="small" message="" className="mr-1" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <FiSend /> Send Notification
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Select Users Modal (popup B) */}
+<AnimatePresence>
+  {showSelectUsersModal && (
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-60"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-2xl shadow-xl relative backdrop-blur-xl border"
+        style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+        initial={{ scale: 0.95 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.95 }}
+      >
+        <button
+          onClick={closeSelectUsersModal}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+        >
+          <FiX size={20} />
+        </button>
+
+        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          Select Users
+        </h2>
+
+        {/* Search input */}
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="Search users by name, username, or email..."
+            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+            value={searchUser}
+            onChange={(e) => setSearchUser(e.target.value.slice(0, MAX_SEARCH_LENGTH))}
+            maxLength={MAX_SEARCH_LENGTH}
+          />
+        </div>
+
+        {/* Select All checkbox */}
+        {users.length > 0 && (
+          <label className="flex items-center gap-2 mb-2 font-medium">
+            <input
+              type="checkbox"
+              checked={
+                users.length > 0 && selectedUsers.length === users.length
+              }
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedUsers(users.map((u) => u._id));
+                } else {
+                  setSelectedUsers([]);
+                }
+              }}
+              className="w-4 h-4"
+            />
+            <span>Select All</span>
+          </label>
+        )}
+
+        {/* Filtered user list */}
+        {(() => {
+          const filteredUsers = users.filter(
+            (u) =>
+              u.fullName?.toLowerCase().includes(searchUser.toLowerCase()) ||
+              u.username?.toLowerCase().includes(searchUser.toLowerCase()) ||
+              u.email?.toLowerCase().includes(searchUser.toLowerCase())
+          );
+
+          return (
+            <div className="max-h-80 overflow-y-auto border rounded-lg p-2">
+              {usersLoading ? (
+                <div className="p-4 text-center text-gray-500">
+                  Loading accounts...
+                </div>
+              ) : usersError ? (
+                <div className="p-4 text-center text-red-500">{usersError}</div>
+              ) : filteredUsers.length === 0 ? (
+                <div className="p-4 text-center text-gray-500">No users found.</div>
+              ) : (
+                <ul className="space-y-2">
+                  {filteredUsers.map((u) => {
+                    const displayName =
+                      u.name || u.fullName || u.username || u.email || "Unknown";
+                    return (
+                      <li
+                        key={u._id}
+                        className="flex items-center justify-between p-2 hover:bg-gray-50 rounded"
+                      >
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="checkbox"
+                            checked={selectedUsers.includes(u._id)}
+                            onChange={() => toggleUserSelection(u._id)}
+                            className="w-4 h-4"
+                          />
+                          <div className="text-sm">
+                            <div className="font-medium">{u.username}</div>
+                            <div className="text-xs text-gray-500">
+                              {displayName !== u.username ? displayName : u.email}
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
-          </motion.div>
+          );
+        })()}
+
+        <div className="mt-4 flex justify-end gap-3">
+          <button
+            onClick={closeSelectUsersModal}
+            className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={confirmSelectUsers}
+            className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            Confirm ({selectedUsers.length})
+          </button>
         </div>
-      </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
+      {/* === Edit Template Modal === */}
+      <AnimatePresence>
+        {showEditTemplate && editingTemplate && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-lg shadow-xl relative backdrop-blur-xl border"
+              style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+            >
+              <button
+                onClick={() => setShowEditTemplate(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              >
+                <FiX size={20} />
+              </button>
+
+              <h2 className="text-xl font-semibold mb-4">
+                Edit Template
+              </h2>
+
+              <div className="flex flex-col gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Template Name ({editingTemplate.name?.length || 0}/{MAX_TEMPLATE_NAME_LENGTH})
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={editingTemplate.name || ""}
+                    onChange={(e) => setEditingTemplate({ ...editingTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
+                    maxLength={MAX_TEMPLATE_NAME_LENGTH}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Title ({editingTemplate.title?.length || 0}/{MAX_TITLE_LENGTH})
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={editingTemplate.title || ""}
+                    onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
+                    maxLength={MAX_TITLE_LENGTH}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Message ({editingTemplate.message?.length || 0}/{MAX_MESSAGE_LENGTH})
+                  </label>
+                  <textarea
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
+                    value={editingTemplate.message || ""}
+                    onChange={(e) => setEditingTemplate({ ...editingTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
+                    maxLength={MAX_MESSAGE_LENGTH}
+                  />
+                </div>
+                <button
+                  onClick={handleSaveTemplate}
+                  className="mt-2 bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105"
+                >
+                  <FiEdit2 /> Update Template
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* === Create Template Modal === */}
+      <AnimatePresence>
+        {showCreateTemplate && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-lg shadow-xl relative backdrop-blur-xl border"
+              style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+            >
+              <button
+                onClick={() => setShowCreateTemplate(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              >
+                <FiX size={20} />
+              </button>
+
+              <h2 className="text-xl font-semibold mb-4">
+                Create Template
+              </h2>
+
+              <div className="flex flex-col gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Template Name ({newTemplate.name?.length || 0}/{MAX_TEMPLATE_NAME_LENGTH})
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={newTemplate.name}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
+                    maxLength={MAX_TEMPLATE_NAME_LENGTH}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Title ({newTemplate.title?.length || 0}/{MAX_TITLE_LENGTH})
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                    value={newTemplate.title}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
+                    maxLength={MAX_TITLE_LENGTH}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Message ({newTemplate.message?.length || 0}/{MAX_MESSAGE_LENGTH})
+                  </label>
+                  <textarea
+                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
+                    value={newTemplate.message}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
+                    maxLength={MAX_MESSAGE_LENGTH}
+                  />
+                </div>
+                <button
+                  onClick={handleCreateTemplate}
+                  disabled={savingTemplate}
+                  className={`mt-2 bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
+                    savingTemplate ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {savingTemplate ? (
+                    <>
+                      <Loading type="inline" size="small" message="" className="mr-1" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <FiPlus /> Save Template
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <DeleteConfirmModal
+        isOpen={showNotificationConfirm && !!notificationToDelete}
+        title="Delete Notification"
+        message={notificationDeleteMessage}
+        onConfirm={confirmDeleteNotification}
+        onCancel={cancelDeleteNotification}
+        confirmText="Delete"
+        isLoading={notificationDeleteLoading}
+      />
+
+      <DeleteConfirmModal
+        isOpen={showTemplateConfirm && !!templateToDelete}
+        title="Delete Template"
+        message={
+          templateToDelete ? (
+            <>
+              Are you sure you want to delete template{" "}
+              <span className="font-semibold text-gray-900">{templateToDelete.name || templateToDelete.title}</span>?
+            </>
+          ) : null
+        }
+        onConfirm={confirmDeleteTemplate}
+        onCancel={cancelDeleteTemplate}
+        confirmText="Delete"
+        isLoading={templateDeleteLoading}
+      />
     </div>
   );
-
-  
-
-  function SkeletonItem() {
-    return (
-      <div className="flex gap-3 p-3 items-start">
-        <div className="w-10 h-10 rounded-md bg-gray-100 animate-pulse" />
-        <div className="flex-1 space-y-2">
-          <div className="h-3 bg-gray-100 rounded w-3/4 animate-pulse" />
-          <div className="h-3 bg-gray-100 rounded w-full animate-pulse" />
-          <div className="h-2 bg-gray-100 rounded w-1/2 animate-pulse mt-2" />
-        </div>
-      </div>
-    );
-  }
 }

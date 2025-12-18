@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../components/Loading";
+import { useToast } from "../../hooks/useToast";
 import {
   FaUsers,
   FaUserCheck,
@@ -54,6 +55,7 @@ import axios from "axios";
  */
 
 const CustomerStatistics = () => {
+  const { showToast } = useToast();
   const { user, isAuthLoading } = useContext(AuthContext);
   const printRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -224,14 +226,14 @@ const CustomerStatistics = () => {
       link.remove();
     } catch (err) {
       console.error("Export Excel error:", err);
-      alert("❌ Failed to export Excel");
+      showToast("Failed to export Excel", "error");
     }
   };
 
   // Export Top Customers as CSV (client-side)
   const handleExportCSV = () => {
     if (!topCustomers || topCustomers.length === 0) {
-      alert("No data to export");
+      showToast("No data to export", "info");
       return;
     }
     const header = ["Name", "Email", "Orders", "Total Spent"];
@@ -281,25 +283,20 @@ const CustomerStatistics = () => {
   const COLORS = ["#10B981", "#EF4444", "#3B82F6"];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8" ref={printRef}>
+    <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6" ref={printRef}>
       {/* Header */}
-      <motion.div
-        className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 text-white shadow-lg mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
-        initial={{ opacity: 0, y: -24 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="flex-1">
-          <h1 className="text-4xl font-extrabold mb-2 tracking-wide">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">
             👥 Customer Statistics
           </h1>
-      
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
           <select
             value={timeFilter}
             onChange={(e) => setTimeFilter(e.target.value)}
-            className="bg-white text-gray-700 font-semibold px-4 py-2 rounded-xl shadow-md focus:ring-2 focus:ring-indigo-300 transition-all"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
           >
             <option value="month">This Month</option>
             <option value="quarter">This Quarter</option>
@@ -311,11 +308,11 @@ const CustomerStatistics = () => {
             onClick={() => setChartView((v) => (v === "bar" ? "pie" : v === "pie" ? "donut" : "bar"))}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-white text-blue-700 px-4 py-2 rounded-xl shadow-md font-semibold hover:shadow-lg flex items-center gap-2"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
             title="Toggle chart view (Bar → Pie → Donut)"
           >
             {chartView === "bar" ? <FaChartPie /> : chartView === "pie" ? <FaChartBar /> : <FaChartPie />}
-            <span>
+            <span className="font-medium">
               {chartView === "bar" ? "Pie" : chartView === "pie" ? "Donut" : "Bar"}
             </span>
           </motion.button>
@@ -323,37 +320,37 @@ const CustomerStatistics = () => {
           <motion.button
             onClick={handleExportExcel}
             whileHover={{ scale: 1.04 }}
-            className="bg-white text-blue-700 px-4 py-2 rounded-xl shadow-md font-semibold hover:shadow-lg flex items-center gap-2"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
             title="Export Excel"
           >
             <FaFileExport />
-            Excel
+            <span className="font-medium">Excel</span>
           </motion.button>
 
           <motion.button
             onClick={handleExportCSV}
             whileHover={{ scale: 1.04 }}
-            className="bg-white text-blue-700 px-4 py-2 rounded-xl shadow-md font-semibold hover:shadow-lg flex items-center gap-2"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
             title="Export Top Customers CSV"
           >
             <FaDownload />
-            CSV
+            <span className="font-medium">CSV</span>
           </motion.button>
 
           <motion.button
             onClick={handlePrint}
             whileHover={{ scale: 1.04 }}
-            className="bg-white text-blue-700 px-4 py-2 rounded-xl shadow-md font-semibold hover:shadow-lg flex items-center gap-2"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
             title="Print dashboard"
           >
             <FaPrint />
-            Print
+            <span className="font-medium">Print</span>
           </motion.button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
         <StatCard
           title="Total Customers"
           value={stats.totalCustomers}
@@ -393,9 +390,9 @@ const CustomerStatistics = () => {
       </div>
 
       {/* Main Charts + Small Pie + Top Customers */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Large Chart area (span 2 col on large screens) */}
-        <div className="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl border border-gray-100">
+        <div className="lg:col-span-2 backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-gray-800">Customer Overview</h3>
             <p className="text-sm text-gray-500">Period: <strong>{timeFilter}</strong></p>
@@ -482,8 +479,8 @@ const CustomerStatistics = () => {
         </div>
 
         {/* Right Column: Small Donut + Top Customers */}
-        <div className="flex flex-col gap-6">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="flex flex-col gap-4 lg:gap-6">
+          <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
             <h4 className="text-lg font-semibold mb-3">Active vs Inactive</h4>
             <div style={{ height: 220 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -523,19 +520,19 @@ const CustomerStatistics = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+          <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+  <h4 className="text-lg lg:text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
     🏆 Top Customers
   </h4>
 
   <div className="overflow-x-auto">
-    <table className="min-w-full border-separate border-spacing-y-2">
-      <thead>
-        <tr className="bg-gray-100 text-gray-600 text-sm uppercase tracking-wide">
-          <th className="px-4 py-2 text-left rounded-l-xl">Name</th>
-          <th className="px-4 py-2 text-left">Email</th>
-          <th className="px-4 py-2 text-center">Orders</th>
-          <th className="px-4 py-2 text-center rounded-r-xl">Spent ($)</th>
+    <table className="w-full min-w-[500px]">
+      <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+        <tr>
+          <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Name</th>
+          <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Email</th>
+          <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Orders</th>
+          <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Spent ($)</th>
         </tr>
       </thead>
       <tbody>
@@ -543,12 +540,12 @@ const CustomerStatistics = () => {
           topCustomers.map((c, index) => (
             <tr
               key={c.id || index}
-              className="bg-white hover:bg-blue-50 transition-all duration-150 shadow-sm rounded-xl border-b border-gray-100"
+              className="border-b-2 border-gray-200/40 hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300"
             >
-              <td className="px-4 py-3 font-medium text-gray-800">{c.name}</td>
-              <td className="px-4 py-3 text-gray-600 text-sm">{c.email}</td>
-              <td className="px-4 py-3 text-center font-semibold text-blue-600">{c.orders}</td>
-              <td className="px-4 py-3 text-center font-semibold text-gray-700">
+              <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm font-medium text-gray-800">{c.name}</td>
+              <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">{c.email}</td>
+              <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold text-blue-600">{c.orders}</td>
+              <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold text-gray-700">
                 ${c.spent?.toLocaleString() || 0}
               </td>
             </tr>
@@ -557,7 +554,7 @@ const CustomerStatistics = () => {
           <tr>
             <td
               colSpan="4"
-              className="py-4 text-center text-gray-500 italic bg-gray-50 rounded-xl"
+              className="py-4 text-center text-gray-500 italic"
             >
               No top customers available
             </td>
@@ -567,10 +564,10 @@ const CustomerStatistics = () => {
     </table>
   </div>
 
-  <div className="mt-5 flex justify-end">
+  <div className="mt-4 lg:mt-5 flex justify-end">
     <button
       onClick={handleExportCSV}
-      className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg flex items-center gap-2 transition-all"
+      className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] rounded-xl shadow-lg hover:shadow-xl flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
     >
       <FaDownload className="text-sm" /> Export CSV
     </button>
@@ -600,7 +597,8 @@ const StatCard = ({ title, value, icon, bgIcon, gradient, sparkData, trend }) =>
 
   return (
     <motion.div
-      className="bg-white rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+      className="backdrop-blur-xl rounded-xl border p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+      style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex items-start justify-between gap-2">

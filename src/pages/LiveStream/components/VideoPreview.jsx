@@ -22,159 +22,129 @@ const VideoPreview = ({
     livekitError
 }) => {
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Live Video</h2>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden h-full flex flex-col">
+            {/* Video Container */}
+            <div className="bg-gradient-to-br from-gray-900 to-black relative flex-1 min-h-[280px] flex items-center justify-center">
+                <div className="flex justify-center items-center p-3 w-full h-full">
+                    <div className="relative bg-black rounded-lg overflow-hidden shadow-lg border-2 border-gray-800" style={{ width: 'min(280px, 85vw)', aspectRatio: '9/16' }}>
+                        <video
+                            ref={localVideoRef}
+                            autoPlay
+                            muted={true}
+                            playsInline
+                            controls={false}
+                            className="w-full h-full object-cover"
+                            style={{ backgroundColor: '#000' }}
+                        />
 
-            <div className="flex justify-center mb-4">
-                <div className="relative bg-black rounded-lg overflow-hidden" style={{ width: '300px', aspectRatio: '9/16' }}>
-                    <video
-                        ref={localVideoRef}
-                        autoPlay
-                        muted
-                        playsInline
-                        controls={false}
-                        className="w-full h-full object-cover"
-                        style={{ backgroundColor: '#000' }}
-                    />
+                        {/* LIVE Badge */}
+                        {/* <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                            <div className="flex items-center gap-1.5 bg-gradient-to-r from-red-600 to-red-700 text-white px-2.5 py-1 rounded-lg shadow-lg shadow-red-500/50 backdrop-blur-sm">
+                                <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                                <span className="text-xs font-bold uppercase tracking-wide">LIVE</span>
+                            </div>
+                        </div> */}
 
-                    <div className="absolute top-4 left-4 flex items-center gap-2">
-                        <div className="flex items-center gap-2 bg-red-600 text-white px-2 py-1 rounded">
-                            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium">LIVE</span>
-                        </div>
+                        {/* Media Status Indicators */}
+                        {/* <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md backdrop-blur-sm ${isVideoPlaying
+                                ? 'bg-green-500/90 text-white'
+                                : 'bg-red-500/90 text-white'
+                                }`}>
+                                <span className="text-xs">{isVideoPlaying ? '📹' : '🚫'}</span>
+                                <span>{isVideoPlaying ? 'VIDEO' : 'OFF'}</span>
+                            </div>
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md backdrop-blur-sm ${isAudioPlaying
+                                ? 'bg-green-500/90 text-white'
+                                : 'bg-red-500/90 text-white'
+                                }`}>
+                                <span className="text-xs">{isAudioPlaying ? '🎤' : '🚫'}</span>
+                                <span>{isAudioPlaying ? 'AUDIO' : 'OFF'}</span>
+                            </div>
+                        </div> */}
+
+                        {/* Video Resolution */}
+                        {videoDimensions.width > 0 && (
+                            <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md text-white px-2 py-1 rounded text-[10px] font-mono font-semibold shadow-md">
+                                {videoDimensions.width}×{videoDimensions.height}
+                            </div>
+                        )}
+
+                        {/* Fullscreen Button */}
+                        <button
+                            onClick={onToggleFullscreen}
+                            className="absolute bottom-3 right-3 bg-gradient-to-r from-gray-800/90 to-black/90 backdrop-blur-md text-white p-1.5 rounded-lg hover:from-gray-700/90 hover:to-gray-900/90 transition-all duration-200 shadow-md hover:shadow-lg"
+                        >
+                            {isFullscreen ? <FullscreenExit className="w-4 h-4" /> : <Fullscreen className="w-4 h-4" />}
+                        </button>
                     </div>
+                </div>
+            </div>
 
-                    <div className="absolute top-4 right-16 flex flex-col gap-1">
-                        <div className={`px-2 py-1 rounded text-xs ${isVideoPlaying ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                            }`}>
-                            {isVideoPlaying ? '📹 Video ON' : '📹 Video OFF'}
-                        </div>
-                        <div className={`px-2 py-1 rounded text-xs ${isAudioPlaying ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                            }`}>
-                            {isAudioPlaying ? '🎤 Audio ON' : '🎤 Audio OFF'}
-                        </div>
-                    </div>
-
-                    {videoDimensions.width > 0 && (
-                        <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
-                            {videoDimensions.width}x{videoDimensions.height}
-                        </div>
-                    )}
+            {/* Controls Section */}
+            <div className="p-2.5 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+                {/* Primary Controls */}
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
+                    <button
+                        onClick={onToggleVideo}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 shadow-md hover:shadow-lg ${isVideoPlaying
+                            ? 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 hover:from-gray-300 hover:to-gray-400'
+                            : 'bg-gradient-to-r from-red-500 to-red-700 text-white hover:from-red-600 hover:to-red-800'
+                            }`}
+                    >
+                        {isVideoPlaying ? 'Turn Off Video' : 'Turn On Video'}
+                    </button>
 
                     <button
-                        onClick={onToggleFullscreen}
-                        className="absolute top-4 right-4 bg-black bg-opacity-50 text-white p-2 rounded hover:bg-opacity-70 transition-colors"
+                        onClick={onToggleAudio}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 shadow-md hover:shadow-lg ${isAudioPlaying
+                            ? 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 hover:from-gray-300 hover:to-gray-400'
+                            : 'bg-gradient-to-r from-red-500 to-red-700 text-white hover:from-red-600 hover:to-red-800'
+                            }`}
                     >
-                        {isFullscreen ? <FullscreenExit className="w-5 h-5" /> : <Fullscreen className="w-5 h-5" />}
+                        {isAudioPlaying ? 'Turn Off Mic' : 'Turn On Mic'}
                     </button>
+
                 </div>
-            </div>
 
-            <div className="flex items-center justify-center gap-4">
-                <button
-                    onClick={onToggleVideo}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                    {isVideoPlaying ? 'Tắt Video' : 'Bật Video'}
-                </button>
-
-                <button
-                    onClick={onToggleAudio}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                    {isAudioPlaying ? 'Tắt Mic' : 'Bật Mic'}
-                </button>
-
-                <button
-                    onClick={onCheckLiveKit}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                    Check LiveKit
-                </button>
-
-                <button
-                    onClick={onRefresh}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                    Refresh
-                </button>
-            </div>
-
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Trạng thái Media</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <span className="font-medium">Video:</span>
-                        <span className={`ml-2 px-2 py-1 rounded text-xs ${isVideoPlaying ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                {/* Status Grid */}
+                {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-3 border-t border-gray-300">
+                    <div className="text-center p-2 bg-white rounded-lg border border-gray-200">
+                        <div className="text-[10px] font-semibold text-gray-500 mb-1.5 uppercase">Video</div>
+                        <div className={`inline-flex px-2.5 py-1 rounded-lg text-[10px] font-bold ${isVideoPlaying
+                            ? 'bg-green-500 text-white'
+                            : 'bg-red-500 text-white'
                             }`}>
-                            {isVideoPlaying ? 'Đang phát' : 'Đã dừng'}
-                        </span>
+                            {isVideoPlaying ? 'ON' : 'OFF'}
+                        </div>
                     </div>
-                    <div>
-                        <span className="font-medium">Audio:</span>
-                        <span className={`ml-2 px-2 py-1 rounded text-xs ${isAudioPlaying ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    <div className="text-center p-2 bg-white rounded-lg border border-gray-200">
+                        <div className="text-[10px] font-semibold text-gray-500 mb-1.5 uppercase">Audio</div>
+                        <div className={`inline-flex px-2.5 py-1 rounded-lg text-[10px] font-bold ${isAudioPlaying
+                            ? 'bg-green-500 text-white'
+                            : 'bg-red-500 text-white'
                             }`}>
-                            {isAudioPlaying ? 'Đang phát' : 'Đã dừng'}
-                        </span>
+                            {isAudioPlaying ? 'ON' : 'OFF'}
+                        </div>
                     </div>
-                    {videoDimensions.width > 0 && (
-                        <>
-                            <div>
-                                <span className="font-medium">Kích thước:</span>
-                                <span className="ml-2 text-gray-600">{videoDimensions.width}x{videoDimensions.height}</span>
+                </div> */}
+
+                {/* Error Messages */}
+                {(mediaError || livekitError) && (
+                    <div className="mt-4 space-y-2">
+                        {mediaError && (
+                            <div className="p-3 bg-red-50 border border-red-300 text-red-700 rounded-lg text-xs">
+                                <strong className="font-bold">Media Error:</strong> {mediaError}
                             </div>
-                            <div>
-                                <span className="font-medium">Tỷ lệ:</span>
-                                <span className="ml-2 text-gray-600">
-                                    {(videoDimensions.width / videoDimensions.height).toFixed(2)}:1
-                                </span>
+                        )}
+                        {livekitError && (
+                            <div className="p-3 bg-red-50 border border-red-300 text-red-700 rounded-lg text-xs">
+                                <strong className="font-bold">LiveKit Error:</strong> {livekitError}
                             </div>
-                        </>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
-
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                <h3 className="text-sm font-medium text-blue-900 mb-2">LiveKit Status</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <span className="font-medium">Connection:</span>
-                        <span className={`ml-2 px-2 py-1 rounded text-xs ${connectionState === 'connected' ? 'bg-green-100 text-green-800' :
-                            connectionState === 'connecting' ? 'bg-yellow-100 text-yellow-800' :
-                                connectionState === 'error' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-                            }`}>
-                            {connectionState}
-                        </span>
-                    </div>
-                    <div>
-                        <span className="font-medium">Publishing:</span>
-                        <span className={`ml-2 px-2 py-1 rounded text-xs ${isPublishing ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                            }`}>
-                            {isPublishing ? 'Active' : 'Inactive'}
-                        </span>
-                    </div>
-                    <div>
-                        <span className="font-medium">Viewers:</span>
-                        <span className="ml-2 text-gray-600">{remoteParticipants.length}</span>
-                    </div>
-                    <div>
-                        <span className="font-medium">Room:</span>
-                        <span className="ml-2 text-gray-600">{currentLivestream?.roomName || 'N/A'}</span>
-                    </div>
-                </div>
-            </div>
-
-            {mediaError && (
-                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <strong>Media Error:</strong> {mediaError}
-                </div>
-            )}
-
-            {livekitError && (
-                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <strong>LiveKit Error:</strong> {livekitError}
-                </div>
-            )}
         </div>
     );
 };

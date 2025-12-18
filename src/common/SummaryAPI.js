@@ -25,6 +25,7 @@ const Api = {
             formData.append("image", file);
             return axiosClient.post("/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
+                timeout: 60000, // 60 seconds for image upload
             });
         },
         multiple: (files) => {
@@ -34,6 +35,7 @@ const Api = {
             });
             return axiosClient.post("/upload/multiple", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
+                timeout: 120000, // 120 seconds for multiple images upload
             });
         },
     },
@@ -57,6 +59,8 @@ const Api = {
         search: (params = {}) => axiosClient.get("/accounts/search", { params }).then(response => response.data),
         // Get single account by ID (Admin or self)
         getById: (userId) => axiosClient.get(`/accounts/${userId}`).then(response => response.data),
+        // Get account order statistics (Admin, manager, or self)
+        getOrderStatistics: (userId) => axiosClient.get(`/accounts/${userId}/order-statistics`).then(response => response.data),
         // Create a new account (Admin only)
         create: (data) => axiosClient.post("/accounts", data).then(response => response.data),
         // Update an account (Admin or self)
@@ -76,20 +80,20 @@ const Api = {
     },
 
     // ==== Products ====
-    products: {
-        // Get single product (old API - deprecated)
-        getProduct: (productId) => axiosClient.get(`/products/${productId}`),
-        // Get product variants (old API - deprecated)
-        getVariants: (productId) => axiosClient.get(`/variants?pro_id=${productId}`),
-        // Get product feedbacks
-        getFeedbacks: (productId) => axiosClient.get(`/order-details/product/${productId}`),
-        search: (query) => {
-            const sanitizedQuery = query.trim().replace(/[<>]/g, "");
-            return axiosClient.get("/products/search", {
-                params: { q: sanitizedQuery },
-            });
-        },
-    },
+    // products: {
+    //     // Get single product (old API - deprecated)
+    //     getProduct: (productId) => axiosClient.get(`/products/${productId}`),
+    //     // Get product variants (old API - deprecated)
+    //     getVariants: (productId) => axiosClient.get(`/variants?pro_id=${productId}`),
+    //     // Get product feedbacks
+    //     getFeedbacks: (productId) => axiosClient.get(`/order-details/product/${productId}`),
+    //     search: (query) => {
+    //         const sanitizedQuery = query.trim().replace(/[<>]/g, "");
+    //         return axiosClient.get("/products/search", {
+    //             params: { q: sanitizedQuery },
+    //         });
+    //     },
+    // },
 
     // ==== New Products ====
     newProducts: {
@@ -119,6 +123,8 @@ const Api = {
         getById: (variantId) => axiosClient.get(`/new-variants/get-variant-detail/${variantId}`).then(response => response.data),
         // Create variant (restricted to manager/admin)
         create: (data) => axiosClient.post('/new-variants/create-variant', data).then(response => response.data),
+        // Bulk create variants (restricted to manager/admin)
+        bulkCreate: (data) => axiosClient.post('/new-variants/bulk-create-variants', data).then(response => response.data),
         // Update variant (restricted to manager/admin)
         update: (variantId, data) => axiosClient.put(`/new-variants/update-variant/${variantId}`, data).then(response => response.data),
         // Delete variant (restricted to manager/admin)
@@ -193,10 +199,14 @@ const Api = {
         search: (params = {}) => axiosClient.get("/orders/search", { params }).then(response => response.data),
         // Get order details by ID
         getDetails: (orderId) => axiosClient.get(`/orders/get-order-by-id/${orderId}`).then(response => response.data),
+        // Get orders by user/account ID
+        getUserOrders: (accId) => axiosClient.get(`/orders/user/${accId}`).then(response => response.data),
         // Update order (status, payment, refund) - Admin endpoint
         update: (orderId, data) => axiosClient.put(`/orders/admin/update/${orderId}`, data).then(response => response.data),
         // Cancel order
         cancel: (orderId) => axiosClient.patch(`/orders/${orderId}/cancel`, {}).then(response => response.data),
+        // Debug: Generate random orders (only when ENABLE_DEBUG_ORDERS=true)
+        generateDebugOrders: (count) => axiosClient.post("/orders/debug/generate-orders", { count }).then(response => response.data),
     },
 
     // ==== Feedback ====
@@ -264,24 +274,77 @@ const Api = {
         getConversations: (params = {}) => axiosClient.get("/chat/conversations", { params }),
     },
 
+    // ==== Passkeys ====
+    passkeys: {
+        // Generate registration options
+        generateRegistrationOptions: (token) => axiosClient.post('/passkeys/register/generate', {}, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Verify registration
+        verifyRegistration: (data, token) => axiosClient.post('/passkeys/register/verify', data, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Generate authentication options
+        generateAuthenticationOptions: (username) => axiosClient.post('/passkeys/auth/generate', { username }),
+        // Verify authentication
+        verifyAuthentication: (data) => axiosClient.post('/passkeys/auth/verify', data),
+        // Get user's passkeys
+        getUserPasskeys: (token) => axiosClient.get('/passkeys/list', {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+        // Delete a passkey
+        deletePasskey: (passkeyId, token) => axiosClient.delete(`/passkeys/${passkeyId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        }),
+    },
+
     // ==== Livestream ====
     livestream: {
+        // ==== Livestream Management ====
         // Start livestream (admin/manager only)
         start: (data) => axiosClient.post("/livestream/start", data).then(response => response.data),
         // End livestream (admin/manager only)
         end: (livestreamId) => axiosClient.put("/livestream/end", { livestreamId }).then(response => response.data),
         // Get host livestreams (admin/manager only)
-        getHost: () => axiosClient.get("/livestream/host").then(response => response.data),
-        // Get live streams (authenticated users)
-        getLive: () => axiosClient.get("/livestream/live").then(response => response.data),
-        // View/Join livestream (authenticated users)
-        view: (data) => axiosClient.post("/livestream/view", data).then(response => response.data),
+        getHost: () => axiosClient.get("/livestream/my-livestream").then(response => response.data),
         // Get host token (admin/manager only)
-        getToken: (data) => axiosClient.post("/livestream/token", data).then(response => response.data),
-        // Get all livestreams (with pagination)
-        getAll: (params) => axiosClient.get("/livestream/all", { params }).then(response => response.data),
-        // Get specific livestream details
-        getById: (livestreamId) => axiosClient.get(`/livestream/${livestreamId}`).then(response => response.data),
+        getToken: (data) => axiosClient.post("/livestream/host-token", data).then(response => response.data),
+        // Get all livestreams (admin/manager only)
+        getAll: (params) => axiosClient.get("/livestream/all-livestream", { params }).then(response => response.data),
+        // Get specific livestream details (admin/manager only)
+        getById: (livestreamId) => axiosClient.get(`/livestream/livestream-by-id/${livestreamId}`).then(response => response.data),
+
+        // ==== Livestream Comments ====
+        // Add comment to livestream
+        addComment: (data) => axiosClient.post("/livestream-comments/add-comment", data).then(response => response.data),
+        // Get comments for a livestream (User - only non-deleted comments)
+        getComments: (liveId, params = {}) => axiosClient.get(`/livestream-comments/comments/${liveId}`, { params }).then(response => response.data),
+        // Get comments for a livestream (Admin - all comments, including deleted)
+        getAdminComments: (liveId, params = {}) => axiosClient.get(`/livestream-comments/admin/comments/${liveId}`, { params }).then(response => response.data),
+        // Hide/Delete comment (Sender hoặc Admin/Manager)
+        hideComment: (commentId) => axiosClient.delete(`/livestream-comments/${commentId}/hide-comment`).then(response => response.data),
+        // Pin comment (Admin only)
+        pinComment: (commentId, liveId) => axiosClient.post(`/livestream-comments/${commentId}/pin-comment`, { liveId }).then(response => response.data),
+        // Remove pin from comment (Admin only)
+        unpinComment: (commentId, liveId) => axiosClient.post(`/livestream-comments/${commentId}/unpin-comment`, { liveId }).then(response => response.data),
+
+        // ==== Livestream Products ====
+        // Add product to livestream (Admin only)
+        addProduct: (data) => axiosClient.post("/livestream-products/add-live-product", data).then(response => response.data),
+        // Remove product from livestream (Admin only)
+        removeProduct: (data) => axiosClient.post("/livestream-products/remove-live-product", data).then(response => response.data),
+        // Pin product (Admin only)
+        pinProduct: (liveProductId, data) => axiosClient.post(`/livestream-products/${liveProductId}/pin-live-product`, data).then(response => response.data),
+        // Remove pin from product (Admin only)
+        unpinProduct: (liveProductId, data) => axiosClient.post(`/livestream-products/${liveProductId}/unpin-live-product`, data).then(response => response.data),
+        // Get all active products in a livestream (User và Admin dùng chung - chỉ active products)
+        getLiveProducts: (liveId) => axiosClient.get(`/livestream-products/${liveId}/live-products`).then(response => response.data),
+        // Get all live products including removed (Admin only)
+        getAllLiveProductsForAdmin: (liveId) => axiosClient.get(`/livestream-products/${liveId}/live-products/all`).then(response => response.data),
+
+        // ==== Livestream Reactions ====
+        // Get reaction counts for a livestream
+        getReactions: (liveId) => axiosClient.get(`/livestream-reactions/reactions/${liveId}`).then(response => response.data),
     },
 };
 

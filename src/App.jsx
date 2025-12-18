@@ -7,30 +7,23 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+
+// Context & Providers
 import { AuthProvider, AuthContext } from "./context/AuthContext.jsx";
 import { ToastProvider } from "./components/Toast.jsx";
 
 // ==== Import các component hiện có ====
-import Products from "./pages/Product/Products.jsx";
-import ProductVariants from "./pages/Variant/ProductVariants.jsx";
+import Products from "./pages/ProductManagement/Products.jsx";
+import ProductVariants from "./pages/VariantManagement/ProductVariants.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Orders from "./pages/Order/Orders.jsx";
-import ProductSpecifications from "./pages/ProductSpecifications/ProductSpecifications.jsx";
-
-// Component to redirect to categories tab in ProductSpecifications
-const CategoriesRedirect = () => {
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    navigate('/product-specifications?tab=categories', { replace: true });
-  }, [navigate]);
-  return null;
-};
+import ProductSpecifications from "./pages/ProductSpecifications.jsx";
 import Accounts from "./pages/Account/Accounts.jsx";
 import Feedbacks from "./pages/Feedback/Feedbacks.jsx";
 import Bills from "./pages/Bills/Bill.jsx";
 import Layout from "./pages/Layout.jsx";
-import Vouchers from "./pages/Voucher/Vouchers.jsx";
+import Vouchers from "./pages/VoucherManagement/Vouchers.jsx";
 import AdminChat from "./pages/AdminChat.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
@@ -40,19 +33,28 @@ import RevenueStatistics from "./pages/RevenueStatistcs/RevenueStatistics.jsx";
 import OrderStatistics from "./pages/OrderStatistics/OrderStatistics.jsx";
 import CustomerStatistics from "./pages/CustomerStatistics/CustomerStatistics.jsx";
 import ProductStatistics from "./pages/ProductStatistics/ProductStatistics.jsx";
-import LiveStream from "./pages/LiveStream/LiveStream.jsx";
+import LiveStreamManagement from "./pages/LiveStream/LiveStreamManagement.jsx";
 import LiveStreamDashboard from "./pages/LiveStream/LiveStreamDashboard.jsx";
+import LiveStreamDetails from "./pages/LiveStream/LiveStreamDetails.jsx";
+import LiveStreamControl from "./pages/LiveStream/LiveStreamControl.jsx";
 
+// Redirect to categories tab
+const CategoriesRedirect = () => {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    navigate("/product-specifications?tab=categories", { replace: true });
+  }, [navigate]);
+  return null;
+};
 
-// ===============================
-// ProtectedRoute (chặn người không có quyền)
-// ===============================
+// Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { user, isAuthLoading } = React.useContext(AuthContext);
   const location = useLocation();
 
   if (isAuthLoading) {
-    return null;
+    // You can replace this with a spinner later
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
   if (!user || !["admin", "manager"].includes(user.role)) {
@@ -62,23 +64,22 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// ===============================
-// App Component
-// ===============================
+// Main App Component
 const App = () => {
   return (
     <Router>
-      <AuthProvider>
-        <ToastProvider>
+      {/* ToastProvider must be OUTSIDE AuthProvider so AuthContext can use showToast */}
+      <ToastProvider>
+        <AuthProvider>
           <Layout>
             <Routes>
-              {/* ==== Public routes ==== */}
+              {/* Public Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/otp-verification" element={<OTPVerification />} />
               <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* ==== Protected Routes ==== */}
+              {/* Protected Routes */}
               <Route
                 path="/"
                 element={
@@ -96,6 +97,30 @@ const App = () => {
                 }
               />
               <Route
+                path="/variants"
+                element={
+                  <ProtectedRoute>
+                    <ProductVariants />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute>
+                    <Orders />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/bills"
+                element={
+                  <ProtectedRoute>
+                    <Bills />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/feedbacks"
                 element={
                   <ProtectedRoute>
@@ -103,6 +128,64 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/accounts"
+                element={
+                  <ProtectedRoute>
+                    <Accounts />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/specifications"
+                element={
+                  <ProtectedRoute>
+                    <ProductSpecifications />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/categories"
+                element={
+                  <ProtectedRoute>
+                    <CategoriesRedirect />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/vouchers"
+                element={
+                  <ProtectedRoute>
+                    <Vouchers />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <ProtectedRoute>
+                    <Notifications />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <AdminChat />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Statistics */}
               <Route
                 path="/statistics/revenue"
                 element={
@@ -135,110 +218,44 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/bills"
-                element={
-                  <ProtectedRoute>
-                    <Bills />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/accounts"
-                element={
-                  <ProtectedRoute>
-                    <Accounts />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/specifications"
-                element={
-                  <ProtectedRoute>
-                    <ProductSpecifications />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/variants"
-                element={
-                  <ProtectedRoute>
-                    <ProductVariants />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/categories"
-                element={
-                  <ProtectedRoute>
-                    <CategoriesRedirect />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <ProtectedRoute>
-                    <Orders />
-                  </ProtectedRoute>
-                }
-              />
 
-              <Route
-                path="/vouchers"
-                element={
-                  <ProtectedRoute>
-                    <Vouchers />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/notifications"
-                element={
-                  <ProtectedRoute>
-                    <Notifications />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/chat"
-                element={
-                  <ProtectedRoute>
-                    <AdminChat />
-                  </ProtectedRoute>
-                }
-              />
-
+              {/* Live Stream */}
               <Route
                 path="/livestream"
                 element={
                   <ProtectedRoute>
-                    <LiveStream />
+                    <LiveStreamManagement />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/livestream/:livestreamId"
+                path="/manage-livestream/:livestreamId"
                 element={
                   <ProtectedRoute>
                     <LiveStreamDashboard />
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/livestream/details/:livestreamId"
+                element={
+                  <ProtectedRoute>
+                    <LiveStreamDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/livestream-control/:livestreamId"
+                element={
+                  <ProtectedRoute>
+                    <LiveStreamControl />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Layout>
-        </ToastProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ToastProvider>
     </Router>
   );
 };

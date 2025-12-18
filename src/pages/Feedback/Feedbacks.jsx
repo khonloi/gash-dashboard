@@ -1,622 +1,929 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import Api from '../../common/SummaryAPI';
-import FeedbackDetail from './FeedbackDetail';
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { ToastContext } from "../../context/ToastContext";
+import Api from "../../common/SummaryAPI";
+import FeedbackDetail from "./FeedbackDetail";
+import Loading from "../../components/Loading";
 
 const Feedbacks = () => {
   const { user, isAuthLoading } = useContext(AuthContext);
-  const [feedbacks, setFeedbacks] = useState([]);
-  const [editingFeedbackId, setEditingFeedbackId] = useState(null);
-  const [editFormData, setEditFormData] = useState({ feedback_details: '' });
-  const [newFeedbackForm, setNewFeedbackForm] = useState({ order_id: '', variant_id: '', feedback_details: '', UnitPrice: '', Quantity: '' });
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [searchParams, setSearchParams] = useState({
-    startDate: '',
-    endDate: '',
-    productId: '',
-    username: ''
-  });
-  const [showFilters, setShowFilters] = useState(false);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(null);
-  const [orders, setOrders] = useState([]);
-  const [variants, setVariants] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(20);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedFeedbackId, setSelectedFeedbackId] = useState(null);
-  const [statistics, setStatistics] = useState(null);
+  const { showToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
+  const [selectedFeedbackId, setSelectedFeedbackId] = useState(null);
+  const [uniqueProductNames, setUniqueProductNames] = useState([]);
 
-  // Auto-dismiss toast
+  // Filter states
+  const [filters, setFilters] = useState({
+    startDate: "",
+    endDate: "",
+    productName: "",
+    ratingFilter: "",
+    statusFilter: "",
+  });
+  const [showFilters, setShowFilters] = useState(true);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Helper function to extract error message
+  const getErrorMessage = (err, defaultMessage) => {
+    if (err.response?.data?.message) {
+      return err.response.data.message;
+    } else if (err.response?.status === 403) {
+      return "Access denied. Only admin and manager can perform this action";
+    } else if (err.response?.status === 401) {
+      return "You are not authorized to perform this action";
+    } else if (err.response?.status === 404) {
+      return "Resource not found";
+    } else if (err.response?.status >= 500) {
+      return "Server error. Please try again later";
+    } else if (err.message) {
+      return err.message;
+    }
+    return defaultMessage;
+  };
+
+  // Fetch feedbacks without parameters
+  const fetchFeedbacks = useCallback(async () => {
+    if (!user?._id) {
+      setError("User not authenticated");
+      return;
+    }
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await Api.feedback.getAll();
+
+      let feedbacksData = [];
+      if (Array.isArray(response)) {
+        feedbacksData = response;
+      } else if (response?.data?.feedbacks) {
+        feedbacksData = response.data.feedbacks;
+      } else {
+        throw new Error("Unexpected response format");
+      }
+
+      // Filter out invalid feedback entries and feedbacks with no rating and no content
+      feedbacksData = feedbacksData.filter(
+        (feedback) => {
+          // Basic validation
+          if (!feedback.order?._id || !feedback.variant?.variant_id || !feedback.customer?._id) {
+            return false;
+          }
+          // Filter out feedbacks with no rating and no content
+          const hasRating = feedback.feedback?.rating !== null && feedback.feedback?.rating !== undefined && feedback.feedback.rating >= 1 && feedback.feedback.rating <= 5;
+          const hasContent = feedback.feedback?.content && feedback.feedback.content.trim() !== '';
+          return hasRating || hasContent;
+        }
+      );
+
+      const sortedFeedbacks = feedbacksData.sort((a, b) => {
+        const dateA = a.order?.orderDate
+          ? new Date(a.order.orderDate)
+          : new Date(0);
+        const dateB = b.order?.orderDate
+          ? new Date(b.order.orderDate)
+          : new Date(0);
+        return dateB - dateA;
+      });
+
+      setFeedbacks(sortedFeedbacks);
+      setFilteredFeedbacks(sortedFeedbacks);
+
+      if (sortedFeedbacks.length === 0) {
+        showToast("No feedback found for the given criteria", "info");
+      }
+    } catch (err) {
+      console.error("Fetch feedbacks error:", err);
+      const errorMessage = getErrorMessage(err, "Failed to fetch feedbacks");
+      setError(errorMessage);
+      showToast(errorMessage, "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [user, showToast]);
+
+  // Fetch data
+  const fetchData = useCallback(async () => {
+    await fetchFeedbacks();
+  }, [fetchFeedbacks]);
+
+  // Handle authentication state and fetch data
   useEffect(() => {
-    if (toast) {
-      const timer = setTimeout(() => setToast(null), 3000);
-      return () => clearTimeout(timer);
+    if (isAuthLoading) {
+      return;
     }
-  }, [toast]);
-
-  // Fetch feedbacks with search parameters
-const fetchFeedbacks = useCallback(async () => {
-  if (!user?._id) {
-    setError('User not authenticated');
-    return;
-  }
-  setLoading(true);
-  setError('');
-
-  try {
-    const { startDate, endDate, productId, username } = searchParams;
-    const params = {};
-    if (startDate) params.startDate = startDate;
-    if (endDate) params.endDate = endDate;
-    if (productId) params.productId = productId;
-    if (username) params.username = username;
-
-    const response = await Api.feedback.getAll(params);
-    console.log('Full API response:', response);
-
-    let feedbacksData = [];
-    if (Array.isArray(response)) {
-      feedbacksData = response;
-    } else if (response?.data?.feedbacks) {
-      feedbacksData = response.data.feedbacks;
-    } else {
-      throw new Error('Unexpected response format');
+    if (!user && !localStorage.getItem("token")) {
+      navigate("/login", { replace: true });
+    } else if (user) {
+      fetchData();
     }
+  }, [user, isAuthLoading, navigate, fetchData]);
 
-    console.log('Extracted feedbacksData:', feedbacksData);
+  useEffect(() => {
+    // Only show products that have feedback (all products in feedbacks list have feedback)
+    const productMap = new Map();
 
-    // Filter out invalid feedback entries
-    feedbacksData = feedbacksData.filter(feedback => 
-      feedback.order?._id && feedback.variant?.variant_id && feedback.customer?._id
-    );
+    feedbacks.forEach((fb) => {
+      const productName = fb.product?.product_name || fb.product?.productName;
 
-    const sortedFeedbacks = feedbacksData.sort((a, b) => {
-      const dateA = a.order?.orderDate ? new Date(a.order.orderDate) : new Date(0);
-      const dateB = b.order?.orderDate ? new Date(b.order.orderDate) : new Date(0);
-      return dateB - dateA;
+      if (productName) {
+        // All products in feedbacks list have feedback, so include them all
+        if (!productMap.has(productName)) {
+          productMap.set(productName, productName);
+        }
+      }
     });
 
-    setFeedbacks(sortedFeedbacks);
-    console.log('Final sorted feedbacks:', sortedFeedbacks);
+    const names = Array.from(productMap.values()).sort();
 
-    if (response?.data?.statistics) {
-      setStatistics(response.data.statistics);
-    }
+    setUniqueProductNames(names);
+  }, [feedbacks]);
 
-    if (sortedFeedbacks.length === 0) {
-      setToast({ type: 'info', message: 'No feedback found for the given criteria' });
-    }
-  } catch (err) {
-    const errorMessage = err.response?.data?.message || err.message || 'Failed to load feedbacks. Please try again later.';
-    setError(errorMessage);
-    setToast({ type: 'error', message: errorMessage });
-    console.error('Fetch feedbacks error:', err);
-  } finally {
-    setLoading(false);
-  }
-}, [user, searchParams]);
-
-  // Fetch orders, variants, products, and users for dropdowns
-  const fetchOrders = useCallback(async () => {
-    try {
-      const response = await Api.orders.getAll();
-      setOrders(response || []);
-    } catch (err) {
-      console.error('Fetch orders error:', err);
-      setOrders([]);
-    }
-  }, []);
-
-  const fetchVariants = useCallback(async () => {
-    try {
-      const response = await Api.newVariants.getAll();
-      setVariants(response || []);
-    } catch (err) {
-      console.error('Fetch variants error:', err);
-      setVariants([]);
-    }
-  }, []);
-
-  const fetchProducts = useCallback(async () => {
-    try {
-      const response = await Api.newProducts.getAll();
-      setProducts(response || []);
-    } catch (err) {
-      console.error('Fetch products error:', err);
-      setProducts([]);
-    }
-  }, []);
-
-  const fetchUsers = useCallback(async () => {
-    try {
-      const response = await Api.accounts.getAll();
-      setUsers(response || []);
-    } catch (err) {
-      console.error('Fetch users error:', err);
-      setUsers([]);
-    }
-  }, []);
-
-  // Load data on component mount
-  useEffect(() => {
-    if (user?._id) {
-      fetchFeedbacks();
-      fetchOrders();
-      fetchVariants();
-      fetchProducts();
-      fetchUsers();
-    }
-  }, [user, fetchFeedbacks, fetchOrders, fetchVariants, fetchProducts, fetchUsers]);
-
-  // Handle field changes
-  const handleFieldChange = (e, formType, fieldName) => {
-    const value = e.target.value;
-    if (formType === 'search') {
-      setSearchParams(prev => ({ ...prev, [fieldName]: value }));
-    } else if (formType === 'edit') {
-      setEditFormData(prev => ({ ...prev, [fieldName]: value }));
-    } else if (formType === 'new') {
-      setNewFeedbackForm(prev => ({ ...prev, [fieldName]: value }));
-    }
-  };
-
-  // Create new feedback
-  const createFeedback = async (e) => {
-    e.preventDefault();
-    try {
-      await Api.orderDetails.create(newFeedbackForm);
-      setToast({ type: 'success', message: 'Feedback created successfully' });
-      setNewFeedbackForm({ order_id: '', variant_id: '', feedback_details: '', UnitPrice: '', Quantity: '' });
-      setShowAddForm(false);
-      fetchFeedbacks();
-    } catch (err) {
-      setToast({ type: 'error', message: err.message || 'Failed to create feedback' });
-    }
-  };
-
-  // Update feedback
-  const updateFeedback = async (e) => {
-    e.preventDefault();
-    try {
-      await Api.orderDetails.update(editingFeedbackId, editFormData);
-      setToast({ type: 'success', message: 'Feedback updated successfully' });
-      setEditingFeedbackId(null);
-      setEditFormData({ feedback_details: '' });
-      fetchFeedbacks();
-    } catch (err) {
-      setToast({ type: 'error', message: err.message || 'Failed to update feedback' });
-    }
-  };
-
-  // Toggle delete feedback
-  const toggleDeleteFeedback = async (feedback, isDeleted) => {
-    try {
-      if (isDeleted) {
-        await Api.feedback.delete(feedback._id);
-        setToast({ type: 'success', message: 'Feedback deleted successfully' });
-      } else {
-        await Api.feedback.restore(feedback._id);
-        setToast({ type: 'success', message: 'Feedback restored successfully' });
+  // Apply filters to feedbacks
+  const applyFilters = useCallback((feedbacksList, filterSettings) => {
+    return feedbacksList.filter((feedback) => {
+      // Product name filter (string match)
+      if (filterSettings.productName) {
+        const feedbackName = (
+          feedback.product?.product_name ||
+          feedback.product?.productName ||
+          ""
+        ).toLowerCase();
+        if (!feedbackName.includes(filterSettings.productName.toLowerCase())) {
+          return false;
+        }
       }
-      fetchFeedbacks();
+
+      // Rating filter
+      if (
+        filterSettings.ratingFilter &&
+        feedback.feedback?.rating !== parseInt(filterSettings.ratingFilter)
+      ) {
+        return false;
+      }
+
+      // Status filter
+      if (filterSettings.statusFilter) {
+        const isDeleted = feedback.feedback?.is_deleted || false;
+        if (
+          (filterSettings.statusFilter === "active" && isDeleted) ||
+          (filterSettings.statusFilter === "deleted" && !isDeleted)
+        ) {
+          return false;
+        }
+      }
+
+      // Date filters
+      const orderDate = feedback.order?.orderDate
+        ? new Date(feedback.order.orderDate)
+        : null;
+      if (orderDate) {
+        if (
+          filterSettings.startDate &&
+          orderDate < new Date(filterSettings.startDate)
+        )
+          return false;
+        if (
+          filterSettings.endDate &&
+          orderDate > new Date(filterSettings.endDate)
+        )
+          return false;
+      } else if (filterSettings.startDate || filterSettings.endDate) {
+        return false;
+      }
+
+      return true;
+    });
+  }, []);
+
+  // Update filtered feedbacks when feedbacks or filters change
+  useEffect(() => {
+    setFilteredFeedbacks(applyFilters(feedbacks, filters));
+    setCurrentPage(1);
+  }, [feedbacks, filters, applyFilters]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredFeedbacks.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  // Calculate which pages to show (max 5 pages)
+  const getVisiblePages = () => {
+    const maxVisible = 5;
+    if (totalPages <= maxVisible) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(totalPages, start + maxVisible - 1);
+
+    if (end - start < maxVisible - 1) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  };
+
+  const visiblePages = getVisiblePages();
+  const currentFeedbacks = filteredFeedbacks.slice(startIndex, endIndex);
+
+  // Handle page change
+  const handlePageChange = useCallback((page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  }, [totalPages]);
+
+  // Handle previous/next page
+  const handlePreviousPage = useCallback(() => {
+    handlePageChange(currentPage - 1);
+  }, [currentPage, handlePageChange]);
+
+  const handleNextPage = useCallback(() => {
+    handlePageChange(currentPage + 1);
+  }, [currentPage, handlePageChange]);
+
+  // Handle first/last page
+  const handleFirstPage = useCallback(() => {
+    handlePageChange(1);
+  }, [handlePageChange]);
+
+  const handleLastPage = useCallback(() => {
+    handlePageChange(totalPages);
+  }, [totalPages, handlePageChange]);
+
+  // Handle filter changes
+  const handleFilterChange = useCallback((field, value) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  }, []);
+
+  // Clear all filters
+  const clearFilters = useCallback(() => {
+    setFilters({
+      startDate: "",
+      endDate: "",
+      productName: "",
+      ratingFilter: "",
+      statusFilter: "",
+    });
+  }, []);
+
+  // Toggle filter visibility
+  const toggleFilters = useCallback(() => {
+    setShowFilters((prev) => !prev);
+  }, []);
+
+  // Toggle delete feedback — OPTIMIZED (no full reload)
+  const toggleDeleteFeedback = async (feedbackId, currentDeletedState) => {
+    const newDeletedState = !currentDeletedState;
+
+    // Optimistically update UI
+    setFilteredFeedbacks((prev) =>
+      prev.map((fb) =>
+        fb._id === feedbackId
+          ? {
+            ...fb,
+            feedback: {
+              ...fb.feedback,
+              is_deleted: newDeletedState,
+            },
+          }
+          : fb
+      )
+    );
+
+    setFeedbacks((prev) =>
+      prev.map((fb) =>
+        fb._id === feedbackId
+          ? {
+            ...fb,
+            feedback: {
+              ...fb.feedback,
+              is_deleted: newDeletedState,
+            },
+          }
+          : fb
+      )
+    );
+
+    try {
+      if (newDeletedState) {
+        await Api.feedback.delete(feedbackId);
+        showToast("Feedback deleted successfully", "success");
+      } else {
+        await Api.feedback.restore(feedbackId);
+        showToast("Feedback restored successfully", "success");
+      }
     } catch (err) {
-      setToast({ type: 'error', message: err.message || 'Failed to update feedback' });
+      // Revert on error
+      setFilteredFeedbacks((prev) =>
+        prev.map((fb) =>
+          fb._id === feedbackId
+            ? {
+              ...fb,
+              feedback: {
+                ...fb.feedback,
+                is_deleted: currentDeletedState,
+              },
+            }
+            : fb
+        )
+      );
+
+      setFeedbacks((prev) =>
+        prev.map((fb) =>
+          fb._id === feedbackId
+            ? {
+              ...fb,
+              feedback: {
+                ...fb.feedback,
+                is_deleted: currentDeletedState,
+              },
+            }
+            : fb
+        )
+      );
+
+      const defaultMessage = newDeletedState
+        ? "Failed to delete feedback"
+        : "Failed to restore feedback";
+      const errorMessage = getErrorMessage(err, defaultMessage);
+      showToast(errorMessage, "error");
     }
   };
-
-  // Toggle filters
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
-  };
-
-  // Clear search
-  const clearSearch = useCallback(() => {
-    setSearchParams({ startDate: '', endDate: '', productId: '', username: '' });
-    fetchFeedbacks();
-  }, [fetchFeedbacks]);
 
   // Retry fetching data
   const handleRetry = useCallback(() => {
-    fetchFeedbacks();
-  }, [fetchFeedbacks]);
+    fetchData();
+  }, [fetchData]);
 
-  // Handle view detail
-  const handleViewDetail = (feedback) => {
+  // Show feedback details in popup
+  const handleShowDetails = useCallback((feedback) => {
     setSelectedFeedbackId(feedback._id);
-    setShowDetailModal(true);
-  };
+    setShowDetailsModal(true);
+  }, []);
 
-  // Close modal
-  const closeDetailModal = () => {
-    setShowDetailModal(false);
+  // Close details modal
+  const handleCloseDetailsModal = useCallback(() => {
+    setShowDetailsModal(false);
     setSelectedFeedbackId(null);
-  };
+  }, []);
 
-  // Pagination calculations
-  const totalPages = Math.ceil(feedbacks.length / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const currentFeedbacks = feedbacks.slice(startIndex, endIndex);
-
-  // Pagination handlers
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  // Check if there are active filters
-  const hasActiveFilters = () => {
-    return searchParams.startDate || searchParams.endDate || searchParams.productId || searchParams.username;
-  };
-
-  // Show loading spinner while checking authentication
-  if (isAuthLoading) {
+  // Check if any filters are active
+  const hasActiveFilters = useCallback(() => {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
+      filters.startDate ||
+      filters.endDate ||
+      filters.productName ||
+      filters.ratingFilter ||
+      filters.statusFilter
     );
-  }
+  }, [filters]);
 
-  // Redirect if not authenticated or not admin/manager
-  if (!user || !['admin', 'manager'].includes(user.role)) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h1>
-          <p className="text-gray-600">You don't have permission to access this page.</p>
-        </div>
-      </div>
-    );
-  }
+  // Check if feedback is deleted
+  const isFeedbackDeleted = useCallback((feedback) => {
+    return feedback.feedback?.is_deleted || false;
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6 xl:p-8">
-      {/* Toast Notification */}
-      {toast && (
-        <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${toast.type === 'success' ? 'bg-green-500 text-white' :
-          toast.type === 'error' ? 'bg-red-500 text-white' :
-            toast.type === 'info' ? 'bg-blue-500 text-white' :
-              'bg-gray-500 text-white'
-          }`}>
-          {toast.message}
+    <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">
+            Feedback Management
+          </h1>
         </div>
-      )}
-
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-6">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 truncate">Feedback Management</h1>
-            <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage and review customer feedbacks</p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
+          <div className="bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-md px-2 lg:px-4 py-1 lg:py-2 rounded-xl border-2 border-yellow-400/50 shadow-md">
+            <span className="text-xs lg:text-sm font-semibold text-gray-700">
+              {filteredFeedbacks.length} feedback
+              {filteredFeedbacks.length !== 1 ? "s" : ""}
+            </span>
           </div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 flex-shrink-0">
-            <div className="bg-gray-50 px-2 lg:px-4 py-1 lg:py-2 rounded-lg border border-gray-200">
-              <span className="text-xs lg:text-sm font-medium text-gray-700">
-                {feedbacks.length} feedback{feedbacks.length !== 1 ? 's' : ''}
-              </span>
-            </div>
-            <button
-              className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-6 py-1.5 lg:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-xs lg:text-base"
-              onClick={toggleFilters}
-              aria-label="Toggle filters"
+          <button
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
+            onClick={toggleFilters}
+            aria-label="Toggle filters"
+          >
+            <svg
+              className="w-3 h-3 lg:w-4 lg:h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg className="w-3 h-3 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-              </svg>
-              <span className="font-medium hidden sm:inline">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
-              <span className="font-medium sm:hidden">Filters</span>
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+              />
+            </svg>
+            <span className="font-medium hidden sm:inline">
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </span>
+            <span className="font-medium sm:hidden">Filters</span>
+          </button>
         </div>
       </div>
 
-      {/* Statistics Section */}
-      {statistics && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
-          <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Feedback Statistics</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-            {/* Total Feedbacks */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 lg:p-6 border border-blue-200">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs lg:text-sm font-medium text-blue-700 mb-1">Total Feedbacks</p>
-                  <p className="text-2xl lg:text-3xl font-bold text-blue-900">{statistics.total_feedbacks}</p>
-                </div>
-                <div className="p-2 lg:p-3 bg-blue-200 rounded-xl flex-shrink-0">
-                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* Average Rating */}
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 lg:p-6 border border-yellow-200">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs lg:text-sm font-medium text-yellow-700 mb-1">Average Rating</p>
-                  <p className="text-2xl lg:text-3xl font-bold text-yellow-900">{statistics.average_rating?.toFixed(1)}/5</p>
-                </div>
-                <div className="p-2 lg:p-3 bg-yellow-200 rounded-xl flex-shrink-0">
-                  <svg className="w-5 h-5 lg:w-7 lg:h-7 text-yellow-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6" role="alert" aria-live="assertive">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3 flex-1">
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-            <div className="ml-3">
+      {/* Filter Section */}
+      {showFilters && (
+        <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="flex items-center justify-between mb-3 lg:mb-4">
+            <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
+            <div className="flex items-center gap-2">
               <button
-                className="bg-red-100 hover:bg-red-200 text-red-800 px-3 py-1 rounded-lg text-sm font-medium transition-colors duration-200"
-                onClick={handleRetry}
-                aria-label="Retry loading feedbacks"
+                onClick={clearFilters}
+                disabled={!hasActiveFilters()}
+                className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
+                aria-label="Clear all filters"
               >
-                Retry
+                Clear
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Loading State */}
-      {loading && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6" role="status" aria-live="polite">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="ml-3 text-gray-600">Loading feedbacks...</p>
-          </div>
-        </div>
-      )}
-
-      {/* Feedbacks List */}
-      {!loading && feedbacks.length === 0 && !error ? (
-        <div className="flex flex-col items-center justify-center py-16 px-4" role="status">
-          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-            <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No feedbacks found</h3>
-          <p className="text-gray-500 text-center mb-6">There are no feedbacks matching your current filters.</p>
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
-            onClick={() => navigate('/')}
-            aria-label="Continue shopping"
-          >
-            Continue Shopping
-          </button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          {/* Table Header */}
-          <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-2 sm:px-4 lg:px-6 xl:px-8 py-3 lg:py-4 xl:py-6 border-b border-gray-200">
-            <div className="grid grid-cols-12 gap-2 lg:gap-4 xl:gap-6 text-xs lg:text-sm font-semibold text-gray-800">
-              <div className="col-span-1">#</div>
-              <div className="col-span-3 lg:col-span-2">Customer</div>
-              <div className="col-span-2">Rating</div>
-              <div className="col-span-4 lg:col-span-5">Content</div>
-              <div className="col-span-2">Actions</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                Start Date
+              </label>
+              <input
+                type="date"
+                value={filters.startDate}
+                onChange={(e) =>
+                  handleFilterChange("startDate", e.target.value)
+                }
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              />
+            </div>
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                End Date
+              </label>
+              <input
+                type="date"
+                value={filters.endDate}
+                onChange={(e) => handleFilterChange("endDate", e.target.value)}
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              />
+            </div>
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                Product Name
+              </label>
+              <select
+                value={filters.productName}
+                onChange={(e) =>
+                  handleFilterChange("productName", e.target.value)
+                }
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              >
+                <option value="">
+                  All Products ({uniqueProductNames.length})
+                </option>
+                {uniqueProductNames.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                Rating
+              </label>
+              <select
+                value={filters.ratingFilter}
+                onChange={(e) =>
+                  handleFilterChange("ratingFilter", e.target.value)
+                }
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              >
+                <option value="">All Ratings</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                Status
+              </label>
+              <select
+                value={filters.statusFilter}
+                onChange={(e) =>
+                  handleFilterChange("statusFilter", e.target.value)
+                }
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              >
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="deleted">Deleted</option>
+              </select>
             </div>
           </div>
-
-          {/* Table Body */}
-          <div className="divide-y divide-gray-200">
-            {currentFeedbacks.map((feedback, index) => (
-              <div key={feedback._id} className="px-2 sm:px-4 lg:px-6 xl:px-8 py-3 lg:py-4 xl:py-6 hover:bg-gray-50 transition-all duration-200">
-                <div className="grid grid-cols-12 gap-2 lg:gap-4 xl:gap-6 items-center">
-                  {/* Index */}
-                  <div className="col-span-1">
-                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-gray-600">
-                        {startIndex + index + 1}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Customer */}
-                  <div className="col-span-3 lg:col-span-2">
-                    <div className="flex items-center space-x-1 lg:space-x-2 xl:space-x-4">
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
-                        {feedback.customer?.image ? (
-                          <img
-                            src={feedback.customer.image}
-                            alt={feedback.customer.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <svg className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs lg:text-sm font-semibold text-gray-900 truncate">
-                          {feedback.customer?.name || 'Unknown User'}
-                        </div>
-                        <div className="text-xs text-gray-500 font-medium truncate">
-                          @{feedback.customer?.username || 'N/A'}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Rating */}
-                  <div className="col-span-2">
-                    {feedback.feedback?.has_rating ? (
-                      <div className="flex flex-col lg:flex-row lg:items-center space-y-1 lg:space-y-0 lg:space-x-2">
-                        <div className="flex items-center space-x-1">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <svg
-                              key={star}
-                              className={`w-3 h-3 lg:w-4 lg:h-4 ${star <= (feedback.feedback.rating || 0)
-                                ? 'text-yellow-400'
-                                : 'text-gray-300'
-                                }`}
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ))}
-                        </div>
-                        <span className="text-xs lg:text-sm font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-full">
-                          {feedback.feedback.rating}/5
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-xs lg:text-sm text-gray-400 bg-gray-50 px-2 lg:px-3 py-1 rounded-full">No rating</span>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="col-span-4 lg:col-span-5">
-                    {feedback.feedback?.has_content && feedback.feedback.content ? (
-                      <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg lg:rounded-xl p-2 lg:p-3 xl:p-4">
-                        <p className="text-gray-800 text-xs lg:text-sm leading-relaxed font-medium line-clamp-2">
-                          "{feedback.feedback.content}"
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-lg lg:rounded-xl p-2 lg:p-3 xl:p-4">
-                        <p className="text-gray-500 text-xs lg:text-sm italic">No feedback content provided</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="col-span-2">
-                    <div className="flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
-                      {/* View Detail Button */}
-                      <button
-                        onClick={() => handleViewDetail(feedback)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 border border-blue-200 hover:border-blue-300 flex-shrink-0"
-                        aria-label="View feedback details"
-                        title="View Details"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </button>
-
-                      {/* Delete/Restore Button */}
-                      {(user?.role === 'admin' || user?.role === 'manager' || feedback.customer?._id === user?._id) && (
-                        <button
-                          onClick={() => toggleDeleteFeedback(feedback, !feedback.feedback?.is_deleted)}
-                          className={`p-2 rounded-lg transition-all duration-200 border flex-shrink-0 ${feedback.feedback?.is_deleted
-                            ? 'bg-green-100 text-green-700 hover:bg-green-200 border-green-200 hover:border-green-300'
-                            : 'bg-red-100 text-red-700 hover:bg-red-200 border-red-200 hover:border-red-300'
-                            }`}
-                          aria-label={`${feedback.feedback?.is_deleted ? 'Restore' : 'Delete'} feedback`}
-                          title={`${feedback.feedback?.is_deleted ? 'Restore' : 'Delete'} feedback`}
-                        >
-                          {feedback.feedback?.is_deleted ? (
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                          ) : (
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          )}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
-      )}
+      )
+      }
+
+      {/* Unified State: Loading / Empty / Error */}
+      {
+        isAuthLoading || loading || filteredFeedbacks.length === 0 || error ? (
+          <div
+            className="backdrop-blur-xl rounded-xl border p-6"
+            style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+            role="status"
+          >
+            <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
+              {/* ── LOADING ── */}
+              {isAuthLoading || loading ? (
+                <Loading
+                  type="page"
+                  size="medium"
+                  message="Loading feedbacks..."
+                />
+              ) : error ? (
+                /* ── NETWORK ERROR ── */
+                <div className="flex flex-col items-center space-y-3">
+                  <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-7 h-7 text-red-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="text-center">
+                    <h3 className="text-base font-medium text-gray-900">
+                      Network Error
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">{error}</p>
+                  </div>
+
+                  <button
+                    onClick={handleRetry}
+                    className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                  >
+                    Retry
+                  </button>
+                </div>
+              ) : (
+                /* ── NO FEEDBACKS ── */
+                <>
+                  <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-7 h-7 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="text-center">
+                    <h3 className="text-base font-medium text-gray-900">No feedbacks available</h3>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Feedbacks Table - Only when data exists */
+          <div className="backdrop-blur-xl rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="overflow-x-auto">
+              <table className="w-full table-fixed min-w-[1200px]">
+                {/* ---------- HEADER ---------- */}
+                <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+                  <tr>
+                    <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      #
+                    </th>
+                    <th className="w-[15%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Customer
+                    </th>
+                    <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Product Name
+                    </th>
+                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Order Date
+                    </th>
+                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Rating
+                    </th>
+                    <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Content
+                    </th>
+                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Status
+                    </th>
+                    <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentFeedbacks.map((feedback, index) => {
+                    const deleted = isFeedbackDeleted(feedback);
+                    return (
+                      <tr
+                        key={feedback._id}
+                        className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40`}
+                      >
+                        {/* # */}
+                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                          {startIndex + index + 1}
+                        </td>
+
+                        {/* Customer */}
+                        <td className="px-2 lg:px-4 py-3">
+                          <div className="flex items-center space-x-2">
+                            <img
+                              src={feedback.customer?.image || ""}
+                              alt={feedback.customer?.name || "Customer"}
+                              className="w-8 h-8 rounded-full object-cover"
+                            />
+                            <div>
+                              <div className="text-xs lg:text-sm font-medium text-gray-900">
+                                {feedback.customer?.name || "N/A"}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                @{feedback.customer?.username || "N/A"}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Product Name */}
+                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 truncate">
+                          {feedback.product?.product_name || "N/A"}
+                        </td>
+
+                        {/* Order Date */}
+                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">
+                          {feedback.order?.orderDate
+                            ? new Date(
+                              feedback.order.orderDate
+                            ).toLocaleDateString()
+                            : "N/A"}
+                        </td>
+
+                        {/* Rating */}
+                        <td className="px-2 lg:px-4 py-3">
+                          <div className="flex items-center">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <svg
+                                key={star}
+                                className={`w-4 h-4 ${star <= (feedback.feedback?.rating || 0)
+                                  ? "text-yellow-400"
+                                  : "text-gray-300"
+                                  }`}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ))}
+                          </div>
+                        </td>
+
+                        {/* Content */}
+                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                          <div className="truncate">
+                            {feedback.feedback?.content
+                              ? `${feedback.feedback.content.substring(0, 80)}${feedback.feedback.content.length > 80
+                                ? "..."
+                                : ""
+                              }`
+                              : "N/A"}
+                          </div>
+                        </td>
+
+                        {/* Status */}
+                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${deleted
+                              ? "bg-red-600 text-white"
+                              : "bg-gradient-to-r from-green-400 to-emerald-500 text-white"
+                              }`}
+                          >
+                            {deleted ? "deleted" : "active"}
+                          </span>
+                        </td>
+
+                        {/* Actions */}
+                        <td className="px-2 lg:px-4 py-3">
+                          <div className="flex justify-center items-center space-x-1">
+                            {/* View Button */}
+                            <button
+                              onClick={() => handleShowDetails(feedback)}
+                              className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
+                              aria-label={`View details for feedback ${feedback._id}`}
+                              title="View Details"
+                            >
+                              <svg
+                                className="w-3 h-3 lg:w-4 lg:h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                />
+                              </svg>
+                            </button>
+
+                            {/* Delete/Restore Button */}
+                            <button
+                              onClick={() =>
+                                toggleDeleteFeedback(feedback._id, deleted)
+                              }
+                              className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${deleted
+                                ? "text-white bg-green-600 hover:bg-green-700 border-green-600 hover:border-green-700"
+                                : "text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700"
+                                }`}
+                              aria-label={`${deleted ? "Restore" : "Delete"
+                                } feedback ${feedback._id}`}
+                              title={`${deleted ? "Restore" : "Delete"} Feedback`}
+                            >
+                              <svg
+                                className="w-3 h-3 lg:w-4 lg:h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                {deleted ? (
+                                  // Restore icon
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                  />
+                                ) : (
+                                  // Delete icon
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                )}
+                              </svg>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      }
 
       {/* Pagination */}
-      {feedbacks.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 mt-3 sm:mt-4 lg:mt-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 lg:gap-4">
-            <div className="text-xs lg:text-sm text-gray-700">
-              Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, feedbacks.length)}</span> of <span className="font-medium">{feedbacks.length}</span> feedbacks
-            </div>
-            <div className="flex items-center space-x-1 lg:space-x-2">
-              <button
-                className="px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                aria-label="Previous page"
-              >
-                <span className="hidden sm:inline">Previous</span>
-                <span className="sm:hidden">Prev</span>
-              </button>
-              <div className="flex items-center space-x-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    className={`px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-                      }`}
-                    onClick={() => handlePageChange(page)}
-                    aria-label={`Page ${page}`}
-                  >
-                    {page}
-                  </button>
-                ))}
+      {
+        filteredFeedbacks.length > 0 && (
+          <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-gray-700">
+                Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
+                <span className="font-medium">
+                  {Math.min(endIndex, filteredFeedbacks.length)}
+                </span>{" "}
+                of <span className="font-medium">{filteredFeedbacks.length}</span>{" "}
+                feedbacks
               </div>
-              <button
-                className="px-2 lg:px-3 py-1.5 lg:py-2 text-xs lg:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                aria-label="Next page"
-              >
-                <span className="hidden sm:inline">Next</span>
-                <span className="sm:hidden">Next</span>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleFirstPage}
+                  disabled={currentPage === 1}
+                  className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                  aria-label="First page"
+                  title="First page"
+                >
+                  First
+                </button>
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                  aria-label="Previous page"
+                >
+                  Previous
+                </button>
+
+                <div className="flex items-center space-x-1">
+                  {totalPages > 5 && visiblePages[0] > 1 && (
+                    <>
+                      <button
+                        className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                        onClick={() => handlePageChange(1)}
+                        aria-label="Page 1"
+                      >
+                        1
+                      </button>
+                      {visiblePages[0] > 2 && (
+                        <span className="px-2 text-gray-500">...</span>
+                      )}
+                    </>
+                  )}
+                  {visiblePages.map(page => (
+                    <button
+                      key={page}
+                      className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === page
+                        ? 'text-white border-transparent bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A] hover:from-[#A86523] hover:via-[#8B4E1A] hover:to-[#6B3D14]'
+                        : 'text-gray-600 bg-white border border-gray-300 hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300'
+                        }`}
+                      onClick={() => handlePageChange(page)}
+                      aria-label={`Page ${page}`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  {totalPages > 5 && visiblePages[visiblePages.length - 1] < totalPages && (
+                    <>
+                      {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
+                        <span className="px-2 text-gray-500">...</span>
+                      )}
+                      <button
+                        className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
+                        onClick={() => handlePageChange(totalPages)}
+                        aria-label={`Page ${totalPages}`}
+                      >
+                        {totalPages}
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                  aria-label="Next page"
+                >
+                  Next
+                </button>
+                <button
+                  onClick={handleLastPage}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
+                  aria-label="Last page"
+                  title="Last page"
+                >
+                  Last
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-      {/* Feedback Detail Modal */}
+      {/* Feedback Details Modal */}
       <FeedbackDetail
         feedbackId={selectedFeedbackId}
-        isOpen={showDetailModal}
-        onClose={closeDetailModal}
+        isOpen={showDetailsModal}
+        onClose={handleCloseDetailsModal}
       />
-    </div>
+    </div >
   );
 };
 
