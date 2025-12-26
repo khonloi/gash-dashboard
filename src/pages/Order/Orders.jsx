@@ -12,7 +12,7 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ToastContext } from "../../context/ToastContext";
 import { io } from "socket.io-client";
@@ -75,6 +75,8 @@ const Orders = () => {
     setShowOrderDetails(false);
     setSelectedOrder(null);
     setAutoOpenRefundModal(false);
+    // Reset auto-open flag when modal closes
+    hasAutoOpenedRef.current = false;
   };
 
   const { user, isAuthLoading } = useContext(AuthContext);
@@ -116,9 +118,12 @@ const Orders = () => {
   const [rowsPerPage] = useState(10);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dateFilterError, setDateFilterError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const socketRef = useRef(null);
+  const hasAutoOpenedRef = useRef(false); // Track if we've already auto-opened from URL
 
   const orderStatusOptions = [
     { value: "pending", label: "Pending" },
@@ -372,7 +377,7 @@ const Orders = () => {
         // Check if order status update is allowed
         if (!isOrderStatusUpdateAllowed(originalOrder.order_status, originalOrder.payment_method, originalOrder.pay_status)) {
           showToast(
-            "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders",
+            "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders, or refunded orders",
             "error"
           );
           return;
@@ -475,6 +480,34 @@ const Orders = () => {
   );
 
   const handleFilterChange = useCallback((field, value) => {
+    if (field === 'startDate') {
+      setFilters((prev) => {
+        const next = { ...prev, startDate: value };
+        if (next.endDate && value && next.endDate < value) {
+          setDateFilterError('Start date cannot be later than end date');
+        } else {
+          setDateFilterError('');
+        }
+        return next;
+      });
+      setCurrentPage(1);
+      return;
+    }
+
+    if (field === 'endDate') {
+      setFilters((prev) => {
+        const next = { ...prev, endDate: value };
+        if (next.startDate && value && value < next.startDate) {
+          setDateFilterError('End date cannot be earlier than start date');
+        } else {
+          setDateFilterError('');
+        }
+        return next;
+      });
+      setCurrentPage(1);
+      return;
+    }
+
     setFilters((prev) => ({ ...prev, [field]: value }));
     setCurrentPage(1);
   }, []);
@@ -506,6 +539,61 @@ const Orders = () => {
     }
   }, [user, isAuthLoading, navigate, fetchOrders]);
 
+  // Reset auto-open flag when orderId is removed from URL or when modal closes
+  useEffect(() => {
+    const orderIdFromUrl = searchParams.get("orderId");
+    if (!orderIdFromUrl) {
+      hasAutoOpenedRef.current = false;
+    }
+  }, [searchParams]);
+
+  // Auto-open Order Details modal when orderId is in URL
+  useEffect(() => {
+    const orderIdFromUrl = searchParams.get("orderId");
+
+    // Only auto-open once and if we have orders loaded
+    if (orderIdFromUrl && orders.length > 0 && !hasAutoOpenedRef.current && !showOrderDetails) {
+      // Find order in the list
+      const foundOrder = orders.find((order) => order._id === orderIdFromUrl);
+
+      if (foundOrder) {
+        // Order found in list, open modal
+        handleViewOrderDetails(foundOrder, false);
+        hasAutoOpenedRef.current = true;
+        // Clean up URL parameter
+        searchParams.delete("orderId");
+        setSearchParams(searchParams, { replace: true });
+      } else {
+        // Order not in list, fetch it separately
+        const fetchOrderDetails = async () => {
+          try {
+            const response = await Api.orders.getDetails(orderIdFromUrl);
+            if (response?.success && response?.data) {
+              handleViewOrderDetails(response.data, false);
+              hasAutoOpenedRef.current = true;
+              // Clean up URL parameter
+              searchParams.delete("orderId");
+              setSearchParams(searchParams, { replace: true });
+            } else {
+              showToast("Order not found", "error");
+              // Clean up URL parameter even if not found
+              searchParams.delete("orderId");
+              setSearchParams(searchParams, { replace: true });
+            }
+          } catch (error) {
+            console.error("Error fetching order details:", error);
+            showToast("Failed to load order details", "error");
+            // Clean up URL parameter on error
+            searchParams.delete("orderId");
+            setSearchParams(searchParams, { replace: true });
+          }
+        };
+
+        fetchOrderDetails();
+      }
+    }
+  }, [orders, searchParams, setSearchParams, showOrderDetails, showToast, handleViewOrderDetails]);
+
   useEffect(() => {
     if (!user?._id) return;
 
@@ -525,7 +613,7 @@ const Orders = () => {
 
     // Connect and authenticate
     socket.on("connect", () => {
-      console.log("✅ Dashboard Orders Socket connected:", socket.id);
+      console.log("Dashboard Orders Socket connected:", socket.id);
       // Emit user connection
       socket.emit("userConnected", user._id);
       // Also authenticate with token
@@ -590,7 +678,7 @@ const Orders = () => {
     });
 
     socket.on("connect_error", (err) => {
-      console.error("❌ Dashboard Orders Socket connection error:", err.message);
+      console.error("Dashboard Orders Socket connection error:", err.message);
     });
 
     socket.on("disconnect", (reason) => {
@@ -685,7 +773,7 @@ const Orders = () => {
       )
     ) {
       showToast(
-        "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders",
+        "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders, or refunded orders",
         "error"
       );
       return;
@@ -817,7 +905,7 @@ const Orders = () => {
       )
     ) {
       showToast(
-        "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders",
+        "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders, or refunded orders",
         "error"
       );
       return;
@@ -898,7 +986,7 @@ const Orders = () => {
     } catch (err) {
       // Extract error message from response
       let errorMessage = "Failed to update order";
-      
+
       if (err?.response?.data?.message) {
         errorMessage = err.response.data.message;
       } else if (err?.message) {
@@ -906,7 +994,7 @@ const Orders = () => {
       } else if (!err.response) {
         errorMessage = "Failed to update order. Please try again later.";
       }
-      
+
       showToast(errorMessage, "error");
       setUpdateError(errorMessage);
       if (err?.response?.data) {
@@ -1134,6 +1222,11 @@ const Orders = () => {
                 className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
               />
             </div>
+            {dateFilterError && (
+              <div className="col-span-full text-sm text-red-600 bg-red-50 border border-red-100 rounded p-2 mt-2">
+                {dateFilterError}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1397,7 +1490,7 @@ const Orders = () => {
                                     order.payment_method,
                                     order.pay_status
                                   )
-                                    ? "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders"
+                                    ? "Order status cannot be updated for cancelled or delivered orders, or VNPAY unpaid orders, or refunded orders"
                                     : shouldDisableUpdate(
                                       order.payment_method,
                                       order.order_status,

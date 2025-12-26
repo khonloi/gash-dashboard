@@ -46,7 +46,7 @@ const ProductVariantList = ({
 
         try {
             await Api.newVariants.delete(variantId);
-            showToast("Variant deleted successfully!", "success");
+            showToast("Variant deleted successfully", "success");
             setShowDeleteConfirm(false);
             setVariantToDelete(null);
 
@@ -55,12 +55,19 @@ const ProductVariantList = ({
                 onVariantDeleted();
             }
         } catch (err) {
-            const errorMessage = err.response?.data?.message || err.message || 'Failed to delete variant';
-            setError(errorMessage);
+            let errorMessage = err.response?.data?.message || err.message || 'Failed to delete variant';
+
+            // Improve error message for active orders
+            if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
+                errorMessage = "Cannot delete variant because it still contains active orders";
+            }
+
+            // Only show toast, don't set error state (error state is for fetch operations)
             showToast(errorMessage, "error");
             console.error("Delete variant error:", err);
         } finally {
             setLoading(false);
+            setError(''); // Clear any previous error state
         }
     }, [variantToDelete, onVariantDeleted, showToast]);
 
