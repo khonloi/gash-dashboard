@@ -587,8 +587,10 @@ const LiveStreamComments = ({ liveId, hostId, isVisible, onToggle }) => {
         const joinRoom = () => {
             if (socket.connected && !isJoined) {
                 isJoined = true;
+                // Join both rooms for compatibility (backend may emit to either)
                 socket.emit('joinLivestreamRoom', liveIdStr);
-                if (DEBUG) console.log('✅ Joined livestream room for comments:', liveIdStr);
+                socket.emit('joinLiveProductRoom', liveIdStr);
+                if (DEBUG) console.log('✅ Joined livestream rooms for comments:', liveIdStr);
             }
         };
 

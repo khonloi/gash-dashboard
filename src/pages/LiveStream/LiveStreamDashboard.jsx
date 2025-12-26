@@ -783,7 +783,6 @@ const LiveStreamDashboard = () => {
                                 .some(pub => pub.track?.id === audioTrack.id || pub.source === 'microphone');
 
                             if (existingByTrackId) {
-                                console.log('ℹ️ Track already published (by ID), enabling it');
                                 const existingPub = Array.from(room.localParticipant.audioTrackPublications.values())
                                     .find(pub => pub.track?.id === audioTrack.id || pub.source === 'microphone');
                                 if (existingPub?.track) {

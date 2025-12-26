@@ -613,7 +613,6 @@ const Orders = () => {
 
     // Connect and authenticate
     socket.on("connect", () => {
-      console.log("Dashboard Orders Socket connected:", socket.id);
       // Emit user connection
       socket.emit("userConnected", user._id);
       // Also authenticate with token
@@ -627,7 +626,6 @@ const Orders = () => {
     socket.on("orderUpdated", (payload) => {
       const updatedOrder = payload.order || payload; // backend sends { userId, order }
 
-      console.log("📦 Order updated via Socket.IO in dashboard:", updatedOrder._id);
 
       setOrders((prevOrders) => {
         const existingIndex = prevOrders.findIndex((o) => o._id === updatedOrder._id);
@@ -846,7 +844,6 @@ const Orders = () => {
       }
 
       const response = await Api.orders.update(selectedOrderForRefund._id, updateData);
-      console.log("Refund Update Response:", response);
 
       // Update local orders state
       const updatedData = response?.data || response;

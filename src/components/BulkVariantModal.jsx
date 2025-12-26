@@ -32,7 +32,6 @@ const BulkVariantModal = ({
         if (!file) return '';
         try {
             const response = await Api.upload.image(file);
-            console.log('Upload response:', response);
 
             // Try different possible response structures
             const imageUrl = response.data?.url ||
@@ -261,10 +260,7 @@ const BulkVariantModal = ({
                 sizeIds: bulkForm.selectedSizeIds,
             };
 
-            console.log('Creating bulk variants with data:', bulkData);
-
             const response = await Api.newVariants.bulkCreate(bulkData);
-            console.log('Bulk variant creation response:', response);
 
             const message = response.data?.message || response.message || `${bulkForm.selectedSizeIds.length} variant(s) added successfully`;
             showToast(message, "success");

@@ -74,7 +74,6 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
         setError("");
         try {
             const response = await Api.orders.getDetails(order._id);
-            console.log("Order Details Response:", response);
 
             // Lưu toàn bộ dữ liệu order từ API
             const orderData = response?.data || response;
@@ -289,7 +288,6 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
             }
 
             const response = await Api.orders.update(currentOrder._id, updateData);
-            console.log("Refund Update Response:", response);
 
             // Update local state
             const updatedData = response?.data || response;

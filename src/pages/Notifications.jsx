@@ -87,8 +87,8 @@ export default function Notifications() {
       });
       setSocket(s);
 
-      s.on("connect", () => console.log("🔌 Admin socket connected:", s.id));
-      s.on("connect_error", (err) => console.warn("⚠️ Admin socket connect_error:", err.message));
+      s.on("connect", () => {});
+      s.on("connect_error", () => {});
       s.on("disconnect", (reason) => console.warn("⚠️ Admin socket disconnected:", reason));
 
       return () => {
@@ -244,7 +244,6 @@ export default function Notifications() {
       try {
         if (socket && socket.connected) {
           socket.emit("adminSentNotification", res.data);
-          console.log("📡 adminSentNotification emitted:", res.data);
         } else {
           console.warn("⚠️ Admin socket not connected — cannot emit realtime");
         }
@@ -285,7 +284,6 @@ export default function Notifications() {
           idsToDelete.forEach(id => {
             socket.emit("adminDeletedNotification", { notificationId: id });
           });
-          console.log("📡 adminDeletedNotification emitted for", idsToDelete.length, "notification(s)");
         } else {
           console.warn("⚠️ Admin socket not connected — cannot emit realtime deletion");
         }

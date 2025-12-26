@@ -244,25 +244,17 @@ const ProductModal = ({
                 if (attempt > 0) {
                     // Wait before retry with exponential backoff
                     const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-                    console.log(`Retrying upload (attempt ${attempt + 1}/${retries + 1}) after ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
 
                 const response = await Api.upload.image(file);
-                console.log('Upload response:', response);
 
                 // Backend returns: { success: true, url: '...', filename: '...' }
                 // axiosClient returns full response object, so URL is at response.data.url
                 const imageUrl = response.data?.url;
 
                 if (!imageUrl) {
-                    console.error('No image URL found in response:', response);
                     if (attempt === retries) {
-                        console.error('Response structure:', {
-                            data: response.data,
-                            status: response.status,
-                            statusText: response.statusText
-                        });
                         return '';
                     }
                     continue; // Retry
@@ -271,28 +263,18 @@ const ProductModal = ({
                 return imageUrl;
             } catch (err) {
                 const isLastAttempt = attempt === retries;
-                console.error(`Upload error (attempt ${attempt + 1}/${retries + 1}):`, err);
 
                 if (isLastAttempt) {
-                    console.error('Upload error details:', {
-                        message: err.message,
-                        response: err.response?.data,
-                        status: err.response?.status,
-                        statusText: err.response?.statusText,
-                        code: err.code
-                    });
                     return '';
                 }
 
                 // If it's a network error, retry
                 if (err.code === 'ECONNABORTED' || err.code === 'ERR_NETWORK' || !err.response) {
-                    console.warn('Network error detected, will retry...');
                     continue;
                 }
 
                 // If it's a server error (5xx), retry
                 if (err.response?.status >= 500) {
-                    console.warn('Server error detected, will retry...');
                     continue;
                 }
 
@@ -309,11 +291,7 @@ const ProductModal = ({
 
         // Try multiple upload first
         try {
-            console.log('Starting upload multiple images:', files.length, 'files');
             const response = await Api.upload.multiple(files);
-            console.log('Upload multiple response:', response);
-            console.log('Response data:', response.data);
-            console.log('Response data.files:', response.data?.files);
 
             // Backend returns: { success: true, files: [{ url: '...', filename: '...' }, ...] }
             // axiosClient returns full response object, so files are at response.data.files
@@ -322,47 +300,23 @@ const ProductModal = ({
             if (uploadedFiles && uploadedFiles.length > 0) {
                 // Extract URLs from the files array
                 const imageUrls = uploadedFiles.map(file => file.url).filter(url => url);
-                console.log('Extracted image URLs:', imageUrls);
-                console.log('Total URLs extracted:', imageUrls.length);
 
                 if (imageUrls.length === files.length) {
                     return imageUrls;
-                } else {
-                    console.warn(`Uploaded ${imageUrls.length} out of ${files.length} images via multiple API, falling back to single upload`);
                 }
-            } else {
-                console.warn('No files found in multiple upload response, falling back to single upload');
             }
-        } catch (err) {
-            console.warn('Upload multiple error, falling back to single upload:', err);
-            console.warn('Upload error details:', {
-                message: err.message,
-                response: err.response?.data,
-                status: err.response?.status,
-                statusText: err.response?.statusText
-            });
+        } catch {
+            // Fall through to single upload
         }
 
         // Fallback: Upload files one by one with retry
-        console.log('Falling back to single image upload');
         const uploadedUrls = [];
-        const failedFiles = [];
 
         for (let i = 0; i < files.length; i++) {
-            console.log(`Uploading image ${i + 1}/${files.length}...`);
             const url = await uploadSingleImage(files[i], 2); // 2 retries
             if (url) {
                 uploadedUrls.push(url);
-                console.log(`✓ Successfully uploaded image ${i + 1}/${files.length}`);
-            } else {
-                failedFiles.push(i + 1);
-                console.error(`✗ Failed to upload image ${i + 1}/${files.length} after retries`);
             }
-        }
-
-        console.log(`Successfully uploaded ${uploadedUrls.length} out of ${files.length} images`);
-        if (failedFiles.length > 0) {
-            console.warn(`Failed images: ${failedFiles.join(', ')}`);
         }
 
         return uploadedUrls;

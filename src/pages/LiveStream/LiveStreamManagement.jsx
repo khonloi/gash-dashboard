@@ -107,9 +107,7 @@ const LiveStreamManagement = () => {
         if (showStartForm && !currentLivestream && streamRef.current) {
             // Restart stream with new device
             const timer = setTimeout(() => {
-                startMediaStream().catch(error => {
-                    console.error('Error restarting stream with new device:', error);
-                });
+                startMediaStream().catch(() => {});
             }, 300);
             return () => clearTimeout(timer);
         }
@@ -131,7 +129,6 @@ const LiveStreamManagement = () => {
                 tempStream.getTracks().forEach(track => track.stop());
             } catch (permError) {
                 // Permission denied or device not available - continue anyway
-                console.warn('Permission request failed, device labels may be missing:', permError);
             }
 
             // Now enumerate devices - labels should be available if permission was granted
@@ -149,8 +146,7 @@ const LiveStreamManagement = () => {
                 setSelectedMicrophone(prev => prev || microphones[0].deviceId);
             }
 
-        } catch (error) {
-            console.error('Error setting up media devices:', error);
+        } catch {
             setMediaError('Unable to access media devices');
         }
     }, []);
@@ -238,8 +234,7 @@ const LiveStreamManagement = () => {
                     setTimeout(() => {
                         checkMediaStatus();
                     }, 500);
-                } catch (playError) {
-                    console.error('Error playing preview video:', playError);
+                } catch {
                 }
             }
 
@@ -336,8 +331,7 @@ const LiveStreamManagement = () => {
                     // Restart stream to get audio track
                     try {
                         await startMediaStream();
-                    } catch (error) {
-                        console.error('Error restarting stream for audio:', error);
+                    } catch {
                         setIsAudioEnabled(false);
                         setIsAudioPlaying(false);
                     }
@@ -356,8 +350,7 @@ const LiveStreamManagement = () => {
             // No stream exists but audio is being enabled - start stream
             try {
                 await startMediaStream();
-            } catch (error) {
-                console.error('Error starting stream for audio:', error);
+            } catch {
                 setIsAudioEnabled(false);
                 setIsAudioPlaying(false);
             }
@@ -370,7 +363,6 @@ const LiveStreamManagement = () => {
     // Connect to LiveKit
     const connectToLiveKit = async (roomName, hostToken) => {
         try {
-            console.log('Connecting to LiveKit room:', roomName);
             setLivekitError(null);
             setConnectionState('connecting');
 
@@ -408,7 +400,6 @@ const LiveStreamManagement = () => {
             const newRoom = new Room(roomOptions);
 
             newRoom.on(RoomEvent.Connected, async () => {
-                console.log('Connected to LiveKit room');
                 setIsConnected(true);
                 setConnectionState('connected');
                 setLocalParticipant(newRoom.localParticipant);
@@ -437,8 +428,7 @@ const LiveStreamManagement = () => {
                 }, 1000); // Wait 1 second for connection to stabilize
             });
 
-            newRoom.on(RoomEvent.Disconnected, (reason) => {
-                console.log('Disconnected from LiveKit room:', reason);
+            newRoom.on(RoomEvent.Disconnected, () => {
                 setIsConnected(false);
                 setConnectionState('disconnected');
                 setLocalParticipant(null);
@@ -472,7 +462,6 @@ const LiveStreamManagement = () => {
             };
 
             newRoom.on(RoomEvent.ParticipantConnected, (participant) => {
-                console.log('👤 Participant connected:', participant.identity);
                 setRemoteParticipants(prev => [...prev, participant]);
             });
 
@@ -489,15 +478,12 @@ const LiveStreamManagement = () => {
             await Promise.race([connectPromise, timeoutPromise]);
             setRoom(newRoom);
 
-            console.log('🎉 Successfully connected to LiveKit room');
-
             return newRoom;
         } catch (error) {
             // Restore original console.error in case of error
             if (typeof originalConsoleError !== 'undefined') {
             }
 
-            console.error('Error connecting to LiveKit:', error);
             setLivekitError(error.message);
             setConnectionState('error');
 
@@ -520,8 +506,6 @@ const LiveStreamManagement = () => {
     const disconnectFromLiveKit = async () => {
         if (room) {
             try {
-                console.log('🔌 Disconnecting from LiveKit...');
-
                 // Stop publishing first
                 if (room.localParticipant) {
                     try {
@@ -534,9 +518,7 @@ const LiveStreamManagement = () => {
                         for (const audioTrack of audioTracks) {
                             await room.localParticipant.unpublishTrack(audioTrack.track);
                         }
-                        console.log('📤 Stopped publishing tracks');
-                    } catch (error) {
-                        console.warn('⚠️ Error stopping tracks:', error);
+                    } catch {
                     }
                 }
 
@@ -550,9 +532,7 @@ const LiveStreamManagement = () => {
                 setLocalParticipant(null);
                 setRemoteParticipants([]);
                 setIsPublishing(false);
-                console.log('Disconnected from LiveKit');
-            } catch (error) {
-                console.error('Error disconnecting from LiveKit:', error);
+            } catch {
                 // Force cleanup even if disconnect fails
                 setRoom(null);
                 setIsConnected(false);
@@ -567,18 +547,14 @@ const LiveStreamManagement = () => {
     // Publish media to LiveKit
     const publishMediaToLiveKit = async () => {
         if (!room || !isConnected) {
-            console.log('Not connected to LiveKit room yet');
             return;
         }
 
         if (!streamRef.current) {
-            console.log('No media stream available');
             return;
         }
 
         try {
-            console.log('📤 Publishing media to LiveKit...');
-
             const videoTrack = streamRef.current.getVideoTracks()[0];
             const audioTrack = streamRef.current.getAudioTracks()[0];
 
@@ -591,9 +567,7 @@ const LiveStreamManagement = () => {
             }
 
             setIsPublishing(true);
-            console.log('🎉 Media published successfully');
         } catch (error) {
-            console.error('Error publishing media:', error);
             setLivekitError(error.message);
         }
     };
@@ -745,11 +719,6 @@ const LiveStreamManagement = () => {
             return;
         }
 
-        // Debug: Check user authentication and role
-        console.log('🔍 User info:', user);
-        console.log('🔍 User role:', user?.role);
-        console.log('🔍 Is admin/manager:', user?.role === 'admin' || user?.role === 'manager');
-
         // Check if user is authenticated
         if (!user) {
             showToast('Bạn cần đăng nhập để thực hiện chức năng này', 'error');
@@ -786,29 +755,17 @@ const LiveStreamManagement = () => {
                 }
             };
 
-            console.log('🎥 Requesting media with constraints (both required):', constraints);
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
             streamRef.current = stream;
-            console.log('Media stream obtained:', {
-                videoTracks: stream.getVideoTracks().length,
-                audioTracks: stream.getAudioTracks().length
-            });
 
-            // Debug: Log request data
             const requestData = {
                 title: startForm.title,
                 description: startForm.description
             };
-            console.log('📤 Sending livestream start request:', requestData);
-            console.log('📤 API URL:', import.meta.env.VITE_API_URL || 'http://localhost:5000');
-            console.log('📤 Auth token:', localStorage.getItem('token') ? 'Present' : 'Missing');
 
             const response = await Api.livestream.start(requestData);
-            console.log('📤 Start livestream response:', response);
 
             if (response.success) {
-                console.log('📤 Livestream started successfully:', response.data);
-
                 // Get livestream ID for navigation
                 const livestreamId = response.data.livestreamId || response.data._id;
 
@@ -846,8 +803,6 @@ const LiveStreamManagement = () => {
                 stopMediaStream();
             }
         } catch (error) {
-            console.error('Error starting livestream:', error);
-
             // Provide specific error messages based on error type
             let errorMessage = "Failed to start livestream";
             const blankFields = {};
@@ -953,8 +908,7 @@ const LiveStreamManagement = () => {
             } else {
                 showToast(response.message || 'Unable to stop livestream', 'error');
             }
-        } catch (error) {
-            console.error('Error ending livestream:', error);
+        } catch {
             showToast('Error stopping livestream', 'error');
         } finally {
             setIsLoading(false);
@@ -974,17 +928,7 @@ const LiveStreamManagement = () => {
 
     // Check LiveKit status
     const checkLiveKitStatus = () => {
-        const status = {
-            room: !!room,
-            isConnected,
-            connectionState,
-            roomName: room?.name,
-            participants: room?.participants?.size || 0,
-            localParticipant: !!room?.localParticipant,
-            videoTracks: room?.localParticipant?.videoTrackPublications?.size || 0,
-            audioTracks: room?.localParticipant?.audioTrackPublications?.size || 0
-        };
-        console.log('📊 LiveKit Status:', status);
+        // LiveKit status check - used for debugging
     };
 
     // Toggle LiveKit publishing
@@ -1002,7 +946,6 @@ const LiveStreamManagement = () => {
         try {
             if (isPublishing) {
                 // Unpublish
-                console.log('🛑 Manually unpublishing media...');
                 const videoTracks = Array.from(room.localParticipant.videoTrackPublications.values());
                 const audioTracks = Array.from(room.localParticipant.audioTrackPublications.values());
 
@@ -1017,25 +960,21 @@ const LiveStreamManagement = () => {
                 showToast('Stopped publishing', 'success');
             } else {
                 // Re-publish
-                console.log('🔄 Re-publishing media...');
                 const videoTrack = streamRef.current.getVideoTracks()[0];
                 const audioTrack = streamRef.current.getAudioTracks()[0];
 
                 if (videoTrack && videoTrack.readyState === 'live') {
                     await room.localParticipant.publishTrack(videoTrack, { name: 'camera' });
-                    console.log('📹 Video track re-published');
                 }
 
                 if (audioTrack && audioTrack.readyState === 'live') {
                     await room.localParticipant.publishTrack(audioTrack, { name: 'microphone' });
-                    console.log('🎤 Audio track re-published');
                 }
 
                 setIsPublishing(true);
                 showToast('Started publishing', 'success');
             }
         } catch (error) {
-            console.error('Error toggling publishing:', error);
             showToast('Error toggling publishing', 'error');
             setLivekitError(error.message);
         }
@@ -1048,8 +987,7 @@ const LiveStreamManagement = () => {
                 .then(() => {
                     checkMediaStatus();
                 })
-                .catch((error) => {
-                    console.error('Video play() failed:', error);
+                .catch(() => {
                 });
         }
     };

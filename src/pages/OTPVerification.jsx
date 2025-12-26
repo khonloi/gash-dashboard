@@ -9,8 +9,7 @@ if (!import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
   console.error("EmailJS Public Key is missing. Please check .env file.");
 } else {
   emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  console.log(
-    "EmailJS initialized with Public Key:",
+  // EmailJS initialized with Public Key:
     import.meta.env.VITE_EMAILJS_PUBLIC_KEY
   );
 }
@@ -113,7 +112,6 @@ const OTPVerification = () => {
           import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
           templateParams
         );
-        console.log('EmailJS Success (Resend):', emailjsResponse);
 
         setSuccess(
           type === 'forgot-password'

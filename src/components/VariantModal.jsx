@@ -36,7 +36,6 @@ const VariantModal = ({
         if (!file) return '';
         try {
             const response = await Api.upload.image(file);
-            console.log('Upload response:', response);
 
             // Try different possible response structures
             const imageUrl = response.data?.url ||
@@ -46,13 +45,11 @@ const VariantModal = ({
                 response.data;
 
             if (!imageUrl) {
-                console.error('No image URL found in response:', response);
                 return '';
             }
 
             return imageUrl;
         } catch (err) {
-            console.error('Upload error:', err);
             // For create mode, use fallback; for edit mode, return empty
             if (!isEditMode && file) {
                 try {
@@ -62,8 +59,7 @@ const VariantModal = ({
                         reader.onload = (e) => resolve(e.target.result);
                         reader.readAsDataURL(file);
                     });
-                } catch (fallbackErr) {
-                    console.error('Fallback image creation failed:', fallbackErr);
+                } catch {
                     return '';
                 }
             }
@@ -74,18 +70,8 @@ const VariantModal = ({
     // Initialize form when variant changes (edit mode)
     useEffect(() => {
         if (isEditMode && variant && isOpen) {
-            console.log('=== INITIALIZING EDIT VARIANT ===');
-            console.log('Variant data:', variant);
-            console.log('Variant productColorId:', variant.productColorId);
-            console.log('Variant productSizeId:', variant.productSizeId);
-            console.log('Colors available:', colors);
-            console.log('Sizes available:', sizes);
-
             const colorId = variant.productColorId?._id || variant.productColorId || '';
             const sizeId = variant.productSizeId?._id || variant.productSizeId || '';
-
-            console.log('Extracted color ID:', colorId);
-            console.log('Extracted size ID:', sizeId);
 
             setVariantForm({
                 productColorId: colorId,
@@ -303,15 +289,7 @@ const VariantModal = ({
                     variantStatus: variantForm.variantStatus,
                 };
 
-                console.log('Updating variant with backend-compatible data:', updateData);
-                console.log('Colors available:', colors);
-                console.log('Sizes available:', sizes);
-                console.log('Selected color ID:', variantForm.productColorId);
-                console.log('Selected size ID:', variantForm.productSizeId);
-                console.log('Product ID:', product?._id);
-
                 const response = await Api.newVariants.update(variant._id, updateData);
-                console.log('Variant update response:', response);
 
                 showToast("Product variant edited successfully", "success");
 
@@ -343,15 +321,7 @@ const VariantModal = ({
                     variantStatus: variantForm.variantStatus,
                 };
 
-                console.log('Creating variant with backend-compatible data:', variantData);
-                console.log('Colors available:', colors);
-                console.log('Sizes available:', sizes);
-                console.log('Selected color ID:', variantForm.productColorId);
-                console.log('Selected size ID:', variantForm.productSizeId);
-                console.log('Product ID:', product._id);
-
                 const response = await Api.newVariants.create(variantData);
-                console.log('Variant creation response:', response);
 
                 // Check if variant was updated (duplicate) or created (new)
                 const message = response.data?.message || response.message || "Product variant added successfully";
@@ -381,10 +351,6 @@ const VariantModal = ({
                 }, 1500);
             }
         } catch (err) {
-            console.error(`${isEditMode ? 'Update' : 'Create'} variant error:`, err);
-            console.error("Error response:", err.response);
-            console.error("Error response data:", err.response?.data);
-
             let errorMessage = `Failed to ${isEditMode ? 'update' : 'create'} variant`;
 
             if (err.response?.data?.message) {
