@@ -9,9 +9,6 @@ if (!import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
   console.error("EmailJS Public Key is missing. Please check .env file.");
 } else {
   emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  // EmailJS initialized with Public Key:
-    import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-  );
 }
 
 const OTPVerification = () => {
