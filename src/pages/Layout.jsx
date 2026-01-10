@@ -116,8 +116,8 @@ const Layout = ({ children }) => {
 
     // Statistics submenu (có ở admin & manager)
     const statisticsSubmenu = [
-      { label: "Customer", to: "/statistics/customer", icon: Group },
-      { label: "Product", to: "/statistics/product", icon: Inventory },
+      // { label: "Customer", to: "/statistics/customer", icon: Group },
+      // { label: "Product", to: "/statistics/product", icon: Inventory },
       { label: "Order", to: "/statistics/order", icon: Assignment },
     ];
 
