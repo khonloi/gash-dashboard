@@ -1,0 +1,210 @@
+[{
+  "_id": {
+    "$oid": "69159ea643cae6104072af73"
+  },
+  "categoryName": "Shorts",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af74"
+  },
+  "categoryName": "Dress",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af76"
+  },
+  "categoryName": "Jacket",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af77"
+  },
+  "categoryName": "Sweater",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7a"
+  },
+  "categoryName": "High Heels",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af81"
+  },
+  "categoryName": "Hair Accessories",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af84"
+  },
+  "categoryName": "Underwear",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af71"
+  },
+  "categoryName": "Shirt",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af78"
+  },
+  "categoryName": "Sneakers",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7c"
+  },
+  "categoryName": "Handbag",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af82"
+  },
+  "categoryName": "Hat",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "6918299c5d2c4dddbdd59727"
+  },
+  "categoryName": "Blazer",
+  "isDeleted": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:19:56.146Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:19:56.146Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af72"
+  },
+  "categoryName": "Jeans",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7e"
+  },
+  "categoryName": "Wallet",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7f"
+  },
+  "categoryName": "Watch",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af80"
+  },
+  "categoryName": "Sunglasses",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af83"
+  },
+  "categoryName": "Socks",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af86"
+  },
+  "categoryName": "Sportswear",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af87"
+  },
+  "categoryName": "Swimwear",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af88"
+  },
+  "categoryName": "Old Category",
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "6916cc2182ece642cea14336"
+  },
+  "categoryName": "Trousers",
+  "isDeleted": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:28:49.129Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:28:49.129Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af70"
+  },
+  "categoryName": "T-Shirt",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af75"
+  },
+  "categoryName": "Skirt",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af79"
+  },
+  "categoryName": "Sandals",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7b"
+  },
+  "categoryName": "Flip Flops",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ea643cae6104072af7d"
+  },
+  "categoryName": "Backpack",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "691c296d7955d6c884b04f51"
+  },
+  "categoryName": "Shoes",
+  "isDeleted": false,
+  "createdAt": {
+    "$date": "2025-11-18T08:08:13.981Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T08:08:13.981Z"
+  },
+  "__v": 0
+}]

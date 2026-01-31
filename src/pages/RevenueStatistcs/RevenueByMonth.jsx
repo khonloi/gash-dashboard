@@ -600,7 +600,7 @@ const RevenueByMonth = ({ user }) => {
     };
 
     const getAvailableYears = () => {
-        // Always return 10 most recent years (2016-2025)
+        // Always return 10 most recent years (2016-2026)
         const currentYear = new Date().getFullYear();
         const years = [];
 

@@ -1,0 +1,2159 @@
+[{
+  "_id": {
+    "$oid": "6916b62104b0d55b6a46d275"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mekz6izfludic4.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631ed"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099890/gash_app/ggwtrabkcv5lc42vqpmt.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.398Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.401Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631ef"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099888/gash_app/arzeqnvvdmr6una9eiav.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.406Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.407Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631f3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099890/gash_app/culfszoorld7dkwxg70t.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.412Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.413Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631f9"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099890/gash_app/s2i6uxybyacmajbdgnwe.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.424Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13ee9"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100756/gash_app/sjdh7lkwgdecctl6rukg.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.028Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.028Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13eed"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100756/gash_app/vdyvi4jrhn4dnw7uw4at.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.035Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.035Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea1425e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101350/gash_app/ajxgmic18z8qqmc1w2dm.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.526Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea14266"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101350/gash_app/gxh1oxbdmpvpcfct2nnw.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.529Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.529Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d091b2cfc385e1bda1b8"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763102858/gash_app/j11cvt2irb8wegr9535n.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:47:45.185Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:47:45.185Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d091b2cfc385e1bda1c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d091b2cfc385e1bda1ba"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763102858/gash_app/k1vt5ly6yn5nxqnbo19y.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:47:45.187Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:47:45.187Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d091b2cfc385e1bda1c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d091b2cfc385e1bda1c0"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763102859/gash_app/cugpnhbmhzmhmopt4hfo.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:47:45.192Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:47:45.193Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d091b2cfc385e1bda1c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d65d31f17b1aa4db52c8"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763104347/gash_app/kx7nbpjwu2vhtkqfulcs.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T07:12:29.280Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:12:29.280Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d65d31f17b1aa4db52ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c004"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105720/gash_app/uxrkuomzs9pub3rh56kp.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.368Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.368Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c008"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105721/gash_app/hlbzbixejepxdsit3xvl.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.371Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.371Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c00c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105719/gash_app/pwc2lups49z1yqf4duyy.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.375Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.375Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183730bc4af928d63213bb"
+  },
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194671/gash_app/ounbyarovrgavupmhew8.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:17:52.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:17:52.953Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2f2"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196137/gash_app/aoz5szphumocnmalx04i.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.181Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.181Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2fa"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196137/gash_app/velswah3easqvx7njc9e.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.198Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.199Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e119"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201946/gash_app/p5icv17lq3axr4fi2q2y.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.742Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.743Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e11b"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201944/gash_app/jmqslojcechc3sfvbxml.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.746Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.746Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a10"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202379/gash_app/zxpwvvo91ohl8kay3ce6.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.432Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.433Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a12"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202379/gash_app/a0yrvmfjprl234687xxt.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.435Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.435Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d27b"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mef83w5m7biaf2.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d27c"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mef82h8c9jpc10.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631f1"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099888/gash_app/e0j11ovbbsljkmzsvral.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.410Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.410Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631f5"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099890/gash_app/wvgek5xnmsaq5qkpynvg.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.416Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.418Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c4f34945cd9a5d8631f7"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763099889/gash_app/nrjrfdyis7ecxtqm2txk.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T05:58:11.420Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T05:58:11.421Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c4f34945cd9a5d8631fb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13ef3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100756/gash_app/rxslxhgbkqvy1mlhhzw1.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.044Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.044Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea14264"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101350/gash_app/yjcor0wylvtirtwtferw.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.529Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.529Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d091b2cfc385e1bda1be"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763102860/gash_app/lrhb1xjb89rcspw8akoy.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-14T06:47:45.190Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:47:45.190Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d091b2cfc385e1bda1c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d65d31f17b1aa4db52c4"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763104346/gash_app/iyblsw7zpiq2pcfwdgxp.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:12:29.275Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:12:29.276Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d65d31f17b1aa4db52ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d65d31f17b1aa4db52ca"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763104348/gash_app/uif9aisgpsvs5ewwcgjx.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:12:29.282Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:12:29.282Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d65d31f17b1aa4db52ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d65d31f17b1aa4db52cc"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763104346/gash_app/eli2rwqovmrn3qscdkpm.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:12:29.284Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:12:29.284Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d65d31f17b1aa4db52ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd59659"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191038/gash_app/xitm5hi6jze9h4gcnr7x.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.290Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.291Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd5965f"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191038/gash_app/ssbz5fksiexxjj7z4jbu.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.304Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.305Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd59661"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191038/gash_app/v9pmvfbuhaiqyqq0olta.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.309Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.310Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "691836f7bc4af928d6320cb1"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194614/gash_app/d1zhg92jpvilo5rrbl1p.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T08:16:55.513Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:16:55.515Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183730bc4af928d63213b9"
+  },
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194671/gash_app/tce7tgyysuewlcmxmhwy.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:17:52.952Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:17:52.953Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222ac"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194970/gash_app/xuv9inreqzcauiuvj7x1.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.813Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222ae"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194970/gash_app/xki116x9x3speib8iv88.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.818Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.819Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2fc"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196136/gash_app/qbyugao7jp11pqchl9ik.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.202Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.202Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183e7bef9cc2d8dc359408"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196532/gash_app/q7dfrfjrqqxqwvcagava.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:48:59.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:48:59.434Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183e7bef9cc2d8dc359410"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183e7bef9cc2d8dc35940a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196537/gash_app/hcptqrhlddejuzznxnkr.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T08:48:59.439Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:48:59.439Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183e7bef9cc2d8dc359410"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183e7bef9cc2d8dc35940e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196537/gash_app/sgihonpiehnmhyohottr.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:48:59.446Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:48:59.447Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183e7bef9cc2d8dc359410"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918433419aab47cf7f5514c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763197747/gash_app/vzuzkz0wnxhv4by3xm3z.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T09:09:08.414Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T09:09:08.415Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918433419aab47cf7f55152"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e121"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201945/gash_app/bv7cd5h7vi0731dllsxm.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.757Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.757Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a08"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202378/gash_app/uticebawrrafppxznkvi.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.421Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.422Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d277"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mef82h9fva4ide.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d27a"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mef83w5pips579.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13eeb"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100755/gash_app/fldfqtmynk5ftsstuxct.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.032Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.033Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea1425a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101350/gash_app/no6havd8l0tig3iozg59.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.523Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.524Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d091b2cfc385e1bda1bc"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763102862/gash_app/gqmfnsg3yativib2tmw8.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:47:45.188Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:47:45.188Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d091b2cfc385e1bda1c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c000"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105719/gash_app/wipvjwdr7pxjvennqfll.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.365Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.366Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c00a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105721/gash_app/yfznull38ymirwlnhwuq.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.373Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.374Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c00e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105720/gash_app/jqjtdolrtkoupvudyhvh.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.376Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.377Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd59657"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191039/gash_app/dlunmd3jopg3eqtjgwwb.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.258Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.269Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd5965d"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191039/gash_app/eedxvoxoll2peayarann.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.301Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.301Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd59663"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191038/gash_app/l0mpd6soumb2y1iozdwf.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.313Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.313Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183730bc4af928d63213b7"
+  },
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194671/gash_app/dygcqpfsdu9tm9bffr9z.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:17:52.951Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:17:52.952Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69183730bc4af928d63213bd"
+  },
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194672/gash_app/cntr83upyikwbd0vmefv.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:17:52.954Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:17:52.954Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222b2"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194972/gash_app/ewzgo0gxwuvtzt3ytavr.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.825Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.826Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2ee"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196136/gash_app/c7bxztdovvyrybt303pq.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.171Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.172Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2f4"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196139/gash_app/kgjovy8i1azwgljevcw9.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.186Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.186Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2f6"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196136/gash_app/saqbu96fgcorlrumjbrf.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.190Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.191Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e115"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201944/gash_app/ya6j3dpcm8terf0etgi1.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.729Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.732Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e123"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201945/gash_app/xtzwjcnkhxv7tc52quuq.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.760Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a02"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202377/gash_app/ygjgxbebtp3g8bsg67oh.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.412Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.413Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a06"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202378/gash_app/ged8y6xsznl89bdigqsn.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.419Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a0c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202378/gash_app/lgs4mpsgewyuw1x2fipf.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.426Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.426Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a0e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202378/gash_app/s4vpu3vuboog7g80tfrf.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.429Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.430Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d276"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mef82h8dfoqr57.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d278"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mekz6iz2nhtxa0.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916b6cd04b0d55b6a46d279"
+  },
+  "imageUrl": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mekz6iz5kufa77.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T08:46:00.000Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916b4b404b0d55b6a46d26e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13eef"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100756/gash_app/xmab0a2hi5l8akgbypwa.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.037Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.038Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13ef1"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100757/gash_app/hsvi4la2tpxnzyux3lyd.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.041Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.042Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916c85682ece642cea13ef5"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763100756/gash_app/pvxuqejfivwdhaiagl6b.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:12:38.045Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:12:38.046Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916c85682ece642cea13ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea1425c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101351/gash_app/k56k9jp8zbp9iaesspcc.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.525Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.525Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea14260"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101350/gash_app/mqjzm8vqdbzuduqnwemg.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.527Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916caa882ece642cea14262"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763101351/gash_app/hcbstwbtppbikqxwjiui.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T06:22:32.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T06:22:32.528Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916caa882ece642cea14268"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916d65d31f17b1aa4db52c6"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763104346/gash_app/hv1zptu6hqquryjxjlvv.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:12:29.279Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:12:29.279Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916d65d31f17b1aa4db52ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8bffe"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105720/gash_app/mhtfuqzl8qqvr1uyxf6w.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.361Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.362Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c002"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105720/gash_app/z6nl2xrwyef7matf6ctk.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.367Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.367Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916dbba65fb7e564ad8c006"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763105720/gash_app/vmop1ojc6jcdagp876k6.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-14T07:35:22.370Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T07:35:22.370Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6916dbba65fb7e564ad8c010"
+  }
+},
+{
+  "_id": {
+    "$oid": "691829005d2c4dddbdd5965b"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763191038/gash_app/xdeyuwdevdw3gdizkywn.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T07:17:20.297Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:17:20.297Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691829005d2c4dddbdd59665"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183730bc4af928d63213b5"
+  },
+  "productId": {
+    "$oid": "691836f7bc4af928d6320cb3"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194671/gash_app/ck0yvspjl4wnwyrxdtqk.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:17:52.950Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:17:52.950Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222b0"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194971/gash_app/h3pzzax6osfe01wxkcfy.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.821Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.822Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222b4"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194972/gash_app/wzeh4jqcw5lsgdesttv4.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.829Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.830Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918385dbc4af928d63222b6"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763194973/gash_app/iowitipi6kqjgv8hqzps.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:22:53.834Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:22:53.834Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918385dbc4af928d63222b8"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2f0"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196137/gash_app/xzguq3ivxcxbu8ewt8dh.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.178Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.179Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2f8"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196137/gash_app/cjpwn9ptqu1xb9jya6lx.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.193Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.194Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183cedef9cc2d8dc34e2fe"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196137/gash_app/kgriceetgoks4ag8wj5y.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:42:21.206Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:42:21.207Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183cedef9cc2d8dc34e300"
+  }
+},
+{
+  "_id": {
+    "$oid": "69183e7bef9cc2d8dc35940c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763196536/gash_app/dwmnfzjmz8lzowbo0kev.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T08:48:59.443Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T08:48:59.443Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69183e7bef9cc2d8dc359410"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918433419aab47cf7f5514a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763197747/gash_app/xxa6iou9wzcrw0vz7ziv.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T09:09:08.410Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T09:09:08.411Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918433419aab47cf7f55152"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918433419aab47cf7f5514e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763197747/gash_app/n7jf8jeiztoeuvdly8de.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-15T09:09:08.420Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T09:09:08.421Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918433419aab47cf7f55152"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918433419aab47cf7f55150"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763197747/gash_app/zk4zfqggk4potabfmnph.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T09:09:08.424Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T09:09:08.424Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918433419aab47cf7f55152"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e117"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201944/gash_app/peshyastlt3ddpeifqpa.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.739Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.739Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e11d"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201944/gash_app/pzptpjbsc5wflt9yoipc.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.750Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918539aa17ac3f26c21e11f"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763201945/gash_app/fdchlezfcfjqcltoklau.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:19:06.753Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:19:06.754Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918539aa17ac3f26c21e125"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a04"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202377/gash_app/iganndvhepqsxlzgqpzy.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.417Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.417Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918554ca17ac3f26c226a0a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763202379/gash_app/bqu9ljj3y1qjnwszomxy.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-15T10:26:20.424Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T10:26:20.424Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "6918554ca17ac3f26c226a14"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a4031a"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463699/gash_app/wsu0xqjyry7rkafndwoj.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.563Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.565Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a4031c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463698/gash_app/emqbuefpxstveh6ffubq.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.620Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.621Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a4031e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463699/gash_app/j2ellsaxeiion9iqmjdo.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.675Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.676Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a40320"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463700/gash_app/ybfcvezdhc7zknsgvovs.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.726Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.726Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a40322"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463700/gash_app/xj7ipsnqjjnj1tqqcd2p.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.776Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.776Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a40324"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463700/gash_app/ve2v9hpyk43v7dvgossv.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.825Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.825Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a40326"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463700/gash_app/d3gqkxktl0unl6qgcgrn.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.876Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.876Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691c52188e87687df7a40328"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763463701/gash_app/immvrbbxjfshlpycozcj.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-18T11:01:44.926Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-18T11:01:44.927Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691c52188e87687df7a4032a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d83bd1830b2aeb5f8fa08"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763541948/gash_app/b8h6dy91iymr66px2oie.png",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-19T08:45:49.870Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T08:45:49.871Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d83bd1830b2aeb5f8fa0a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e2991d5b3083237c191"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544614/gash_app/ahziqjip11k6ptktuk6g.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:30:17.866Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:30:17.867Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e2a91d5b3083237c199"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e2991d5b3083237c193"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544614/gash_app/goh1ksttyjggo6wpi4af.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:30:17.931Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:30:17.932Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e2a91d5b3083237c199"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e2991d5b3083237c195"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544614/gash_app/qy2wlj8ltl9acbbmwxir.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:30:17.993Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:30:17.993Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e2a91d5b3083237c199"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e2a91d5b3083237c197"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544614/gash_app/pezdyog9obc8j6pdq4nn.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-19T09:30:18.054Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:30:18.055Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e2a91d5b3083237c199"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e8e91d5b3083237c911"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544715/gash_app/hq0l1dcw8gl1oyhdhmq4.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:31:58.973Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:31:58.973Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e8f91d5b3083237c919"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e8f91d5b3083237c913"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544716/gash_app/zwkvus000chb8ltgwd3l.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:31:59.035Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:31:59.035Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e8f91d5b3083237c919"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e8f91d5b3083237c915"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544716/gash_app/ayghad5xh12kabbv576l.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:31:59.095Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:31:59.095Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e8f91d5b3083237c919"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8e8f91d5b3083237c917"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544716/gash_app/sayyphvel61j7taw3yp2.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-19T09:31:59.156Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:31:59.156Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8e8f91d5b3083237c919"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8f6f91d5b3083237d252"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544939/gash_app/xudcn2a72jcwjreqciis.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:35:43.598Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:35:43.599Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8f6f91d5b3083237d25a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8f6f91d5b3083237d254"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544940/gash_app/pk8snbtcafvxgnipjija.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:35:43.659Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:35:43.659Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8f6f91d5b3083237d25a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8f6f91d5b3083237d256"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544939/gash_app/chdbxny9einoa6wmlkp2.webp",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-11-19T09:35:43.713Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:35:43.713Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8f6f91d5b3083237d25a"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d8f6f91d5b3083237d258"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763544939/gash_app/jpjgbtfbwtqbg40iegjk.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-19T09:35:43.767Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T09:35:43.767Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "691d8f6f91d5b3083237d25a"
+  }
+},
+{
+  "_id": {
+    "$oid": "692034eda95dfcdb10d1bc09"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1763718379/gash_app/jgwkhte3ow0ouxftqamz.png",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-11-21T09:46:21.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-21T09:46:21.773Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "692034eda95dfcdb10d1bc0f"
+  }
+},
+{
+  "_id": {
+    "$oid": "69355df6fd1d089af43a5e15"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1765105141/gash_app/fdzpaaqbtuwrlji9nlqm.webp",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-12-07T10:59:02.210Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-07T10:59:02.210Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69355df6fd1d089af43a5e17"
+  }
+},
+{
+  "_id": {
+    "$oid": "69366e3b412dba60fcd6f04c"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1765174837/gash_app/enpo8auqtrovs2fwa5sn.jpg",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-12-08T06:20:43.311Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T06:20:43.311Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69366e3b412dba60fcd6f052"
+  }
+},
+{
+  "_id": {
+    "$oid": "69366e3b412dba60fcd6f04e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1765174837/gash_app/zcyzmnfqbemyurlxd8hn.jpg",
+  "isMain": true,
+  "createdAt": {
+    "$date": "2025-12-08T06:20:43.365Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T06:20:43.365Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69366e3b412dba60fcd6f052"
+  }
+},
+{
+  "_id": {
+    "$oid": "69366e3b412dba60fcd6f050"
+  },
+  "imageUrl": "https://res.cloudinary.com/dsevkup6t/image/upload/v1765174840/gash_app/w0kr1ustuwanoico2fhg.jpg",
+  "isMain": false,
+  "createdAt": {
+    "$date": "2025-12-08T06:20:43.415Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T06:20:43.415Z"
+  },
+  "__v": 0,
+  "productId": {
+    "$oid": "69366e3b412dba60fcd6f052"
+  }
+}]

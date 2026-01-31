@@ -1,0 +1,2144 @@
+[{
+  "_id": {
+    "$oid": "6915980143cae6104072aec4"
+  },
+  "username": "nguyen_van_a",
+  "name": "Nguyễn Văn An",
+  "email": "nguyenvana@gmail.com",
+  "phone": "0987654321",
+  "address": "123 Đường Láng, Hà Nội",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-03-15T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-07T13:01:50.958Z"
+  },
+  "__v": 2,
+  "passkeys": [
+    {
+      "credentialID": "NELyZoUFVGDx1y2sFs257w",
+      "credentialPublicKey": "pQECAyYgASFYIOWuz5xT6PHp09P3_-iLs8T0HE_v7_6Fne3kupUR9Go0IlggZ2WPdXyeIkNW-OSi1RgUOLSE4JYbSnno_a8Km49Upkc",
+      "counter": 0,
+      "deviceType": "desktop",
+      "backedUp": true,
+      "_id": {
+        "$oid": "692a5d73c9a88ab2e53718e3"
+      },
+      "createdAt": {
+        "$date": "2025-11-29T02:41:55.580Z"
+      }
+    }
+  ],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aec7"
+  },
+  "username": "pham_minh_d",
+  "name": "Phạm Minh Đức",
+  "email": "phamminhd@gmail.com",
+  "phone": "0976543210",
+  "address": "321 Trần Phú, Hải Phòng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1995-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-04T00:00:00.000Z",
+  "updatedAt": "2025-01-04T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aec8"
+  },
+  "username": "hoang_thi_e",
+  "name": "Hoàng Thị Lan",
+  "email": "hoangthie@gmail.com",
+  "phone": "0901234567",
+  "address": "654 Bạch Đằng, Cần Thơ",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1993-09-18T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-05T00:00:00.000Z",
+  "updatedAt": "2025-01-05T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aecd"
+  },
+  "username": "ly_van_k",
+  "name": "Lý Văn Khánh",
+  "email": "lyvank@gmail.com",
+  "phone": "0914567890",
+  "address": "470 Trần Hưng Đạo, Đà Lạt",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-06-20T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-10T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-11-29T03:42:11.566Z"
+  },
+  "__v": 3,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed5"
+  },
+  "username": "lam_quang_s",
+  "name": "Lâm Quang Sơn",
+  "email": "lamquangs@gmail.com",
+  "phone": "0982345678",
+  "address": "458 Trần Quốc Toàn, Thái Nguyên",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1987-12-15T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-18T00:00:00.000Z",
+  "updatedAt": "2025-01-18T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee2"
+  },
+  "username": "ngo_thi_gg",
+  "name": "Ngô Thị Giang",
+  "email": "ngothigg@gmail.com",
+  "phone": "0950123456",
+  "address": "781 Trần Phú, Tuyên Quang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-02-02T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-31T00:00:00.000Z",
+  "updatedAt": "2025-01-31T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee6"
+  },
+  "username": "cao_thi_kk",
+  "name": "Cao Thị Lan",
+  "email": "caothikk@gmail.com",
+  "phone": "0938901234",
+  "address": "225 Hùng Vương, Gia Lai",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1993-12-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-04T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-11-23T04:17:42.723Z"
+  },
+  "__v": 1,
+  "passkeys": [
+    {
+      "credentialID": "1K2R8pLG1zZ4674Surfw2Q",
+      "credentialPublicKey": "pQECAyYgASFYIK2vBDE6CdMhTXh6DXhX8CSzm9MQZPWv-t87GgOpCy0bIlggYgXI2CNDb7DJqJP3Xj2l6UI9UhXWCiDLew233IsbM94",
+      "counter": 0,
+      "deviceType": "desktop",
+      "backedUp": true,
+      "_id": {
+        "$oid": "69228ae6803b377bf180f6a9"
+      },
+      "createdAt": {
+        "$date": "2025-11-23T04:17:42.719Z"
+      }
+    }
+  ],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee7"
+  },
+  "username": "phan_quang_ll",
+  "name": "Phan Quang Long",
+  "email": "phanquangll@gmail.com",
+  "phone": "0950123456",
+  "address": "336 Trần Hưng Đạo, Đắk Lắk",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1989-06-06T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-05T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:20.784Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeed"
+  },
+  "username": "tran_thi_rr",
+  "name": "Trần Thị Rạng",
+  "email": "tranthirr@gmail.com",
+  "phone": "0972345678",
+  "address": "992 Lê Thánh Tông, Tây Ninh",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-01-01T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-11T00:00:00.000Z",
+  "updatedAt": "2025-02-11T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef1"
+  },
+  "username": "vu_thi_vv",
+  "name": "Vũ Thị Vân",
+  "email": "vuthivv@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Tiền Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-04-04T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-02-15T00:00:00.000Z",
+  "updatedAt": "2025-02-15T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef5"
+  },
+  "username": "ly_thi_zz",
+  "name": "Lý Thị Zương",
+  "email": "lythizz@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1990-12-12T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-02-19T00:00:00.000Z",
+  "updatedAt": "2025-02-19T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef6"
+  },
+  "username": "ngo_van_aaa",
+  "name": "Ngô Văn An",
+  "email": "ngovanaaa@gmail.com",
+  "phone": "0950123456",
+  "address": "981 Lê Quý Đôn, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-01-01T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-20T00:00:00.000Z",
+  "updatedAt": "2025-02-20T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aefc"
+  },
+  "username": "huynh_van_ggg",
+  "name": "Huỳnh Văn Giang",
+  "email": "huynhvanggg@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-01-01T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-26T00:00:00.000Z",
+  "updatedAt": "2025-02-26T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af01"
+  },
+  "username": "tran_thi_lll",
+  "name": "Trần Thị Mai",
+  "email": "tranthilll@gmail.com",
+  "phone": "0972345678",
+  "address": "092 Nguyễn Huệ, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-11-11T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-03T00:00:00.000Z",
+  "updatedAt": "2025-03-03T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af03"
+  },
+  "username": "pham_thi_nnn",
+  "name": "Phạm Thị Oanh",
+  "email": "phamthinnn@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-03-03T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-05T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:43.415Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af06"
+  },
+  "username": "dang_van_qqq",
+  "name": "Đặng Văn Rạng",
+  "email": "dangvanqqq@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-09-09T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-08T00:00:00.000Z",
+  "updatedAt": "2025-03-08T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af08"
+  },
+  "username": "do_quang_sss",
+  "name": "Đỗ Quang Thúy",
+  "email": "doquangsss@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1994-01-01T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-10T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-06T09:59:49.584Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af0a"
+  },
+  "username": "ngo_van_uuu",
+  "name": "Ngô Văn Vân",
+  "email": "ngovanuuu@gmail.com",
+  "phone": "0950123456",
+  "address": "981 Lê Quý Đôn, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-12T00:00:00.000Z",
+  "updatedAt": "2025-03-12T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af11"
+  },
+  "username": "huynh_quang_aaaa",
+  "name": "Huỳnh Quang Bình",
+  "email": "huynh.quang.aaaa@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-04-04T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-18T00:00:00.000Z",
+  "updatedAt": "2025-03-18T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af13"
+  },
+  "username": "mai_van_cccc",
+  "name": "Mai Văn Đạt",
+  "email": "mai.van.cccc@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1994-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-03-20T00:00:00.000Z",
+  "updatedAt": "2025-03-20T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1a"
+  },
+  "username": "vu_thi_jjjj",
+  "name": "Vũ Thị Lan",
+  "email": "vu.thi.jjjj@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-10-10T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-03-27T00:00:00.000Z",
+  "updatedAt": "2025-03-27T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af20"
+  },
+  "username": "duong_van_pppp",
+  "name": "Dương Văn Rạng",
+  "email": "duong.van.pppp@gmail.com",
+  "phone": "0972345678",
+  "address": "092 Nguyễn Huệ, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-10-10T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-04-02T00:00:00.000Z",
+  "updatedAt": "2025-04-02T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af21"
+  },
+  "username": "truong_quang_qqqq",
+  "name": "Trương Quang Sơn",
+  "email": "truong.quang.qqqq@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Lê Thánh Tông, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-12-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-04-03T00:00:00.000Z",
+  "updatedAt": "2025-04-03T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af22"
+  },
+  "username": "vo_thi_rrrr",
+  "name": "Võ Thị Thúy",
+  "email": "vo.thi.rrrr@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-02-02T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "suspended",
+  "createdAt": "2025-04-04T00:00:00.000Z",
+  "updatedAt": "2025-04-04T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af23"
+  },
+  "username": "cao_van_ssss",
+  "name": "Cao Văn Út",
+  "email": "cao.van.ssss@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-04-04T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-04-05T00:00:00.000Z",
+  "updatedAt": "2025-04-05T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af28"
+  },
+  "username": "ton_van_xxxx",
+  "name": "Tôn Văn Zũng",
+  "email": "ton.van.xxxx@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-02-02T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-04-10T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:54.870Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6916ce8eb2cfc385e1bd9f58"
+  },
+  "username": "nguyenminhkhoi3913",
+  "name": "Nguyễn Minh Khôi",
+  "email": "nguyenminhkhoi3913@gmail.com",
+  "password": "$2a$10$5po.6GT10HVItpxE3mgL0..w4X/sS/X1NGKJYyUirpmL8XNTnTy6q",
+  "accountImage": "https://res.cloudinary.com/dsevkup6t/accountImage/upload/v1763553416/gash_app/ugyrnwt6w2x5zgls35ed.jpg",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": {
+    "$date": "2025-11-14T06:39:10.844Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T05:15:35.047Z"
+  },
+  "__v": 2,
+  "googleId": "114203377411565549527",
+  "passkeys": [
+    {
+      "credentialID": "a58H-IH8jHlhY4yAFTAuxKyBmM6DoTDhXOr1SP0TzGM",
+      "credentialPublicKey": "pQECAyYgASFYIKt3IQUJOXaIMH6GEka9CYS-HXAf5jTVPKKSwqWbCaW5Ilgg-KmpJcH5uT8n8MX__dJkdHmsrQFSXqWWDRn0_RTNdIM",
+      "counter": 33,
+      "deviceType": "desktop",
+      "backedUp": false,
+      "_id": {
+        "$oid": "691b63e311a299a1427007ad"
+      },
+      "createdAt": {
+        "$date": "2025-11-17T18:05:23.617Z"
+      }
+    }
+  ],
+  "requireAuthForCheckout": false,
+  "address": "asasasasasas",
+  "dob": {
+    "$date": "2003-10-19T00:00:00.000Z"
+  },
+  "gender": "Male",
+  "phone": "0987654321"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aecc"
+  },
+  "username": "do_thi_i",
+  "name": "Đỗ Thị Mai",
+  "email": "dothii@gmail.com",
+  "phone": "0890123456",
+  "address": "369 Nguyễn Văn Cừ, Quy Nhơn",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-02-14T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-01-09T00:00:00.000Z",
+  "updatedAt": "2025-01-09T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed0"
+  },
+  "username": "truong_thi_n",
+  "name": "Trương Thị Oanh",
+  "email": "truongthin@gmail.com",
+  "phone": "0981234567",
+  "address": "803 Nguyễn Tất Thành, Pleiku",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1997-11-11T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-13T00:00:00.000Z",
+  "updatedAt": "2025-01-13T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed1"
+  },
+  "username": "vo_van_o",
+  "name": "Võ Văn Phúc",
+  "email": "vovanp@gmail.com",
+  "phone": "0903456789",
+  "address": "914 Võ Văn Tần, Long Xuyên",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1985-03-19T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "suspended",
+  "createdAt": "2025-01-14T00:00:00.000Z",
+  "updatedAt": "2025-01-14T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed7"
+  },
+  "username": "ton_van_u",
+  "name": "Tôn Văn Út",
+  "email": "tonvanu@gmail.com",
+  "phone": "0926789012",
+  "address": "670 Đinh Tiên Hoàng, Nam Định",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-04-04T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-20T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:57.065Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed8"
+  },
+  "username": "nguyen_thi_v",
+  "name": "Nguyễn Thị Vân",
+  "email": "nguyenthiv@gmail.com",
+  "phone": "0948901234",
+  "address": "781 Lê Quý Đôn, Hạ Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-10-10T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-21T00:00:00.000Z",
+  "updatedAt": "2025-01-21T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed9"
+  },
+  "username": "tran_van_x",
+  "name": "Trần Văn Xuân",
+  "email": "tranvanx@gmail.com",
+  "phone": "0960123456",
+  "address": "892 Phạm Hùng, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-02-28T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-22T00:00:00.000Z",
+  "updatedAt": "2025-01-22T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aedd"
+  },
+  "username": "vu_quang_bb",
+  "name": "Vũ Quang Bình",
+  "email": "vuquangbb@gmail.com",
+  "phone": "0949012345",
+  "address": "236 Lê Thánh Tông, Yên Bái",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1989-07-07T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-26T00:00:00.000Z",
+  "updatedAt": "2025-01-26T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aedf"
+  },
+  "username": "bui_van_dd",
+  "name": "Bùi Văn Đạt",
+  "email": "buivandd@gmail.com",
+  "phone": "0984567890",
+  "address": "458 Trần Khánh Dư, Hà Tĩnh",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1987-01-01T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-28T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:10.830Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeec"
+  },
+  "username": "nguyen_van_qq",
+  "name": "Nguyễn Văn Quân",
+  "email": "nguyenvanqq@gmail.com",
+  "phone": "0950123456",
+  "address": "881 Trần Cao Vân, Bình Thuận",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-11-11T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-10T00:00:00.000Z",
+  "updatedAt": "2025-02-10T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeee"
+  },
+  "username": "le_van_ss",
+  "name": "Lê Văn Sơn",
+  "email": "levanss@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Nguyễn Thị Minh Khai, Đồng Nai",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-12T00:00:00.000Z",
+  "updatedAt": "2025-02-12T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeef"
+  },
+  "username": "pham_thi_tt",
+  "name": "Phạm Thị Thúy",
+  "email": "phamthitt@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Bình Phước",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-07-07T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-13T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:45.330Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef2"
+  },
+  "username": "dang_quang_ww",
+  "name": "Đặng Quang Việt",
+  "email": "dangquangww@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, Bến Tre",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-06-06T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-16T00:00:00.000Z",
+  "updatedAt": "2025-02-16T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aefe"
+  },
+  "username": "mai_van_iii",
+  "name": "Mai Văn In",
+  "email": "maivaniii@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1994-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-02-28T00:00:00.000Z",
+  "updatedAt": "2025-02-28T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af07"
+  },
+  "username": "admin3",
+  "name": "Admin III of GASH",
+  "email": "buithirrr@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1986-11-11T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "active",
+  "createdAt": "2025-03-09T00:00:00.000Z",
+  "updatedAt": "2025-03-09T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af0b"
+  },
+  "username": "duong_thi_vvv",
+  "name": "Dương Thị Việt",
+  "email": "duongthivvv@gmail.com",
+  "phone": "0972345678",
+  "address": "092 Nguyễn Huệ, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-07-07T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-13T00:00:00.000Z",
+  "updatedAt": "2025-03-13T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1b"
+  },
+  "username": "dang_quang_kkkk",
+  "name": "Đặng Quang Mai",
+  "email": "dang.quang.kkkk@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-12-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-28T00:00:00.000Z",
+  "updatedAt": "2025-03-28T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af26"
+  },
+  "username": "lam_van_vvvv",
+  "name": "Lâm Văn Xuân",
+  "email": "lam.van.vvvv@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-10-10T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-04-08T00:00:00.000Z",
+  "updatedAt": "2025-04-08T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aec5"
+  },
+  "username": "tran_thi_b",
+  "name": "Trần Thị Bình",
+  "email": "tranthib@gmail.com",
+  "phone": "0912345678",
+  "address": "456 Nguyễn Huệ, TP.HCM",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-07-22T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-02T00:00:00.000Z",
+  "updatedAt": "2025-01-02T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aec6"
+  },
+  "username": "le_huu_c",
+  "name": "Lê Hữu Cường",
+  "email": "lehuuc@gmail.com",
+  "phone": "0934567890",
+  "address": "789 Lê Lợi, Đà Nẵng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-11-10T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-03T00:00:00.000Z",
+  "updatedAt": "2025-01-03T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed3"
+  },
+  "username": "phan_van_q",
+  "name": "Phan Văn Quang",
+  "email": "phanvanq@gmail.com",
+  "phone": "0947890123",
+  "address": "236 Hai Bà Trưng, Phan Thiết",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1989-09-30T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "active",
+  "createdAt": "2025-01-16T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:28.861Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed6"
+  },
+  "username": "mai_thi_t",
+  "name": "Mai Thị Thảo",
+  "email": "maithit@gmail.com",
+  "phone": "0904567890",
+  "address": "569 Nguyễn Tri Phương, Việt Trì",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1995-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-01-19T00:00:00.000Z",
+  "updatedAt": "2025-01-19T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aede"
+  },
+  "username": "dang_thi_cc",
+  "name": "Đặng Thị Cúc",
+  "email": "dangthicc@gmail.com",
+  "phone": "0961234567",
+  "address": "347 Phạm Ngũ Lão, Thái Bình",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1991-09-09T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-27T00:00:00.000Z",
+  "updatedAt": "2025-01-27T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee3"
+  },
+  "username": "duong_van_hh",
+  "name": "Dương Văn Hùng",
+  "email": "duongvanhh@gmail.com",
+  "phone": "0972345678",
+  "address": "892 Nguyễn Huệ, Bắc Ninh",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-08-08T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-01T00:00:00.000Z",
+  "updatedAt": "2025-02-01T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee5"
+  },
+  "username": "vo_quang_jj",
+  "name": "Võ Quang Kiên",
+  "email": "voquangjj@gmail.com",
+  "phone": "0916789012",
+  "address": "114 Nguyễn Thị Minh Khai, Phú Yên",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-10-10T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "suspended",
+  "createdAt": "2025-02-03T00:00:00.000Z",
+  "updatedAt": "2025-02-03T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee8"
+  },
+  "username": "huynh_thi_mm",
+  "name": "Huỳnh Thị Mai",
+  "email": "huynhthimm@gmail.com",
+  "phone": "0972345678",
+  "address": "447 Lê Hồng Phong, Lâm Đồng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1991-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-06T00:00:00.000Z",
+  "updatedAt": "2025-02-06T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeeb"
+  },
+  "username": "ton_thi_pp",
+  "name": "Tôn Thị Phương",
+  "email": "tonthipp@gmail.com",
+  "phone": "0938901234",
+  "address": "770 Nguyễn Văn Cừ, Ninh Thuận",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1990-09-09T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-09T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:58.823Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef0"
+  },
+  "username": "hoang_van_uu",
+  "name": "Hoàng Văn Út",
+  "email": "hoangvanuu@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, Long An",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-02-02T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-14T00:00:00.000Z",
+  "updatedAt": "2025-02-14T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef3"
+  },
+  "username": "bui_thi_xx",
+  "name": "Bùi Thị Xuân",
+  "email": "buithixx@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1986-08-08T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-17T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:14.627Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef7"
+  },
+  "username": "duong_thi_bbb",
+  "name": "Dương Thị Bình",
+  "email": "duongthibbb@gmail.com",
+  "phone": "0972345678",
+  "address": "092 Nguyễn Huệ, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-03-03T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-21T00:00:00.000Z",
+  "updatedAt": "2025-02-21T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef9"
+  },
+  "username": "vo_thi_ddd",
+  "name": "Võ Thị Đào",
+  "email": "vothiddd@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-07-07T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "suspended",
+  "createdAt": "2025-02-23T00:00:00.000Z",
+  "updatedAt": "2025-02-23T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aefb"
+  },
+  "username": "phan_thi_fff",
+  "name": "Phan Thị Phượng",
+  "email": "phanthifff@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-11-11T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-02-25T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:25.011Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeff"
+  },
+  "username": "ton_thi_jjj",
+  "name": "Tôn Thị Kiều",
+  "email": "tonthijjj@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1990-07-07T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-01T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:00.569Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af04"
+  },
+  "username": "hoang_quang_ooo",
+  "name": "Hoàng Quang Phương",
+  "email": "hoangquangooo@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-06T00:00:00.000Z",
+  "updatedAt": "2025-03-06T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af0c"
+  },
+  "username": "truong_van_www",
+  "name": "Trương Văn Xuân",
+  "email": "truongvanwww@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Lê Thánh Tông, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-09-09T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-14T00:00:00.000Z",
+  "updatedAt": "2025-03-14T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af0d"
+  },
+  "username": "vo_thi_xxx",
+  "name": "Võ Thị Yên",
+  "email": "vothixxx@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-11-11T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "suspended",
+  "createdAt": "2025-03-15T00:00:00.000Z",
+  "updatedAt": "2025-03-15T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af0e"
+  },
+  "username": "cao_van_yyy",
+  "name": "Cao Văn Zũng",
+  "email": "caovanyyy@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-01-01T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-16T00:00:00.000Z",
+  "updatedAt": "2025-03-16T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af10"
+  },
+  "username": "phan_thi_zzz",
+  "name": "Phan Thị Ánh",
+  "email": "phan.thi.zzz@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-02-02T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-17T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:26.962Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af15"
+  },
+  "username": "nguyen_thi_eeee",
+  "name": "Nguyễn Thị Phượng",
+  "email": "nguyen.thi.eeee@gmail.com",
+  "phone": "0950123456",
+  "address": "981 Lê Quý Đôn, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-12-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-22T00:00:00.000Z",
+  "updatedAt": "2025-03-22T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af18"
+  },
+  "username": "pham_thi_hhhh",
+  "name": "Phạm Thị In",
+  "email": "pham.thi.hhhh@gmail.com",
+  "phone": "0916789012",
+  "address": "214 Trần Khánh Dư, Cà Mau",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-06-06T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-25T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:41.338Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1e"
+  },
+  "username": "ly_quang_nnnn",
+  "name": "Lý Quang Phương",
+  "email": "ly.quang.nnnn@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-06-06T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-03-31T00:00:00.000Z",
+  "updatedAt": "2025-03-31T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1f"
+  },
+  "username": "ngo_thi_oooo",
+  "name": "Ngô Thị Quỳnh",
+  "email": "ngo.thi.oooo@gmail.com",
+  "phone": "0950123456",
+  "address": "981 Lê Quý Đôn, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-04-01T00:00:00.000Z",
+  "updatedAt": "2025-04-01T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af27"
+  },
+  "username": "mai_thi_wwww",
+  "name": "Mai Thị Yên",
+  "email": "mai.thi.wwww@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-12-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-04-09T00:00:00.000Z",
+  "updatedAt": "2025-04-09T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aec9"
+  },
+  "username": "vu_van_f",
+  "name": "Vũ Văn Phong",
+  "email": "vuvanf@gmail.com",
+  "phone": "0923456789",
+  "address": "987 Hùng Vương, Nha Trang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1987-12-30T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-06T00:00:00.000Z",
+  "updatedAt": "2025-01-06T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeca"
+  },
+  "username": "dang_thi_g",
+  "name": "Đặng Thị Hương",
+  "email": "dangthig@gmail.com",
+  "phone": "0945678901",
+  "address": "147 Phan Bội Châu, Huế",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1991-04-12T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-07T00:00:00.000Z",
+  "updatedAt": "2025-01-07T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aecb"
+  },
+  "username": "admin2",
+  "name": "Admin II of GASH",
+  "email": "buiquangh@gmail.com",
+  "phone": "0967890123",
+  "address": "258 Lê Hồng Phong, Vũng Tàu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1989-08-25T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "active",
+  "createdAt": "2025-01-08T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-11-19T14:52:44.196Z"
+  },
+  "__v": 1,
+  "passkeys": [
+    {
+      "credentialID": "BF5uf0lxyiIAUx8j0As2jDwSuZQH9JUOZcBrkIku0RY",
+      "credentialPublicKey": "pQECAyYgASFYIImP63UtndczntLNt1iJSiuBGcspueivzJsbN8hITLnZIlggQ7xIepDVoyabzRJSlTPzLyqYMRhRmyS4aS-h-ATFqJI",
+      "counter": 3,
+      "deviceType": "desktop",
+      "backedUp": false,
+      "_id": {
+        "$oid": "691c2f65c5c3418a734725c8"
+      },
+      "createdAt": {
+        "$date": "2025-11-18T08:33:41.668Z"
+      }
+    }
+  ],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aece"
+  },
+  "username": "ngo_thi_l",
+  "name": "Ngô Thị Ngọc",
+  "email": "ngothil@gmail.com",
+  "phone": "0936789012",
+  "address": "581 Phạm Văn Đồng, Vinh",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1996-10-03T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-11T00:00:00.000Z",
+  "updatedAt": "2025-01-11T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aecf"
+  },
+  "username": "duong_quang_m",
+  "name": "Dương Quang Minh",
+  "email": "duongquangm@gmail.com",
+  "phone": "0958901234",
+  "address": "692 Lê Đại Hành, Biên Hòa",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-01-27T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-12T00:00:00.000Z",
+  "updatedAt": "2025-01-12T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed2"
+  },
+  "username": "cao_thi_p",
+  "name": "Cao Thị Quỳnh",
+  "email": "caothip@gmail.com",
+  "phone": "0925678901",
+  "address": "125 Nguyễn Thái Học, Buôn Ma Thuột",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1993-07-07T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-15T00:00:00.000Z",
+  "updatedAt": "2025-01-15T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aed4"
+  },
+  "username": "huynh_thi_r",
+  "name": "Huỳnh Thị Hồng",
+  "email": "huynhthir@gmail.com",
+  "phone": "0969012345",
+  "address": "347 Lê Văn Sỹ, Rạch Giá",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1991-05-23T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-17T00:00:00.000Z",
+  "updatedAt": "2025-01-17T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeda"
+  },
+  "username": "le_thi_y",
+  "name": "Lê Thị Yến",
+  "email": "lethiy@gmail.com",
+  "phone": "0983456789",
+  "address": "903 Nguyễn Công Trứ, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-06-16T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-23T00:00:00.000Z",
+  "updatedAt": "2025-01-23T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aedb"
+  },
+  "username": "pham_van_z",
+  "name": "Phạm Văn Zũng",
+  "email": "phamvanz@gmail.com",
+  "phone": "0905678901",
+  "address": "014 Trần Cao Vân, Bắc Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-11-21T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-01-24T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:47.428Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aedc"
+  },
+  "username": "hoang_thi_aa",
+  "name": "Hoàng Thị Ánh",
+  "email": "hoangthiaa@gmail.com",
+  "phone": "0927890123",
+  "address": "125 Nguyễn Du, Lào Cai",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1993-03-03T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-25T00:00:00.000Z",
+  "updatedAt": "2025-01-25T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee0"
+  },
+  "username": "do_thi_ee",
+  "name": "Đỗ Thị Em",
+  "email": "dothiee@gmail.com",
+  "phone": "0906789012",
+  "address": "569 Nguyễn Văn Linh, Quảng Ngãi",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1995-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-01-29T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T06:06:47.821Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee1"
+  },
+  "username": "ly_quang_ff",
+  "name": "Lý Quang Phước",
+  "email": "lyquangff@gmail.com",
+  "phone": "0928901234",
+  "address": "670 Lê Lợi, Kon Tum",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-11-11T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-30T00:00:00.000Z",
+  "updatedAt": "2025-01-30T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee4"
+  },
+  "username": "truong_thi_ii",
+  "name": "Trương Thị In",
+  "email": "truongthiii@gmail.com",
+  "phone": "0994567890",
+  "address": "003 Lê Lai, Ninh Bình",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-04-04T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-02T00:00:00.000Z",
+  "updatedAt": "2025-02-02T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aee9"
+  },
+  "username": "lam_van_nn",
+  "name": "Lâm Văn Nam",
+  "email": "lamvannn@gmail.com",
+  "phone": "0994567890",
+  "address": "558 Nguyễn Tất Thành, Bình Định",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1987-03-03T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-02-07T00:00:00.000Z",
+  "updatedAt": "2025-02-07T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aeea"
+  },
+  "username": "mai_quang_oo",
+  "name": "Mai Quang Oanh",
+  "email": "maiquangoo@gmail.com",
+  "phone": "0916789012",
+  "address": "669 Phạm Văn Đồng, Khánh Hòa",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1995-07-07T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-02-08T00:00:00.000Z",
+  "updatedAt": "2025-02-08T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef4"
+  },
+  "username": "do_van_yy",
+  "name": "Đỗ Văn Yên",
+  "email": "dovanyy@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, Trà Vinh",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1994-10-10T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-02-18T00:00:00.000Z",
+  "updatedAt": "2025-02-18T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aef8"
+  },
+  "username": "truong_van_ccc",
+  "name": "Trương Văn Cường",
+  "email": "truongvanccc@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Lê Thánh Tông, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-05-05T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-22T00:00:00.000Z",
+  "updatedAt": "2025-02-22T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aefa"
+  },
+  "username": "cao_quang_eee",
+  "name": "Cao Quang Em",
+  "email": "caoquangem@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-09-09T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-02-24T00:00:00.000Z",
+  "updatedAt": "2025-02-24T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072aefd"
+  },
+  "username": "lam_thi_hhh",
+  "name": "Lâm Thị Hoa",
+  "email": "lamthihhh@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1986-03-03T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-02-27T00:00:00.000Z",
+  "updatedAt": "2025-02-27T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af00"
+  },
+  "username": "nguyen_quang_kkk",
+  "name": "Nguyễn Quang Long",
+  "email": "nguyenquangkkk@gmail.com",
+  "phone": "0950123456",
+  "address": "981 Lê Quý Đôn, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-09-09T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-02T00:00:00.000Z",
+  "updatedAt": "2025-03-02T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af02"
+  },
+  "username": "le_van_mmm",
+  "name": "Lê Văn Nam",
+  "email": "levanmmm@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Lê Thánh Tông, Vĩnh Long",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-01-01T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-04T00:00:00.000Z",
+  "updatedAt": "2025-03-04T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af05"
+  },
+  "username": "vu_thi_ppp",
+  "name": "Vũ Thị Quỳnh",
+  "email": "vuthippp@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1988-07-07T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-03-07T00:00:00.000Z",
+  "updatedAt": "2025-03-07T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6915980143cae6104072af09"
+  },
+  "username": "ly_thi_ttt",
+  "name": "Lý Thị Út",
+  "email": "lythittt@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1990-03-03T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-03-11T00:00:00.000Z",
+  "updatedAt": "2025-03-11T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af12"
+  },
+  "username": "lam_thi_bbbb",
+  "name": "Lâm Thị Cúc",
+  "email": "lam.thi.bbbb@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Đồng Tháp",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1986-06-06T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-03-19T00:00:00.000Z",
+  "updatedAt": "2025-03-19T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af14"
+  },
+  "username": "ton_quang_dddd",
+  "name": "Tôn Quang Em",
+  "email": "ton.quang.dddd@gmail.com",
+  "phone": "0938901234",
+  "address": "870 Trần Phú, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-10-10T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-21T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:02.418Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af16"
+  },
+  "username": "tran_van_ffff",
+  "name": "Trần Văn Giang",
+  "email": "tran.van.ffff@gmail.com",
+  "phone": "0972345678",
+  "address": "092 Nguyễn Huệ, Kiên Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1992-02-02T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-23T00:00:00.000Z",
+  "updatedAt": "2025-03-23T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af17"
+  },
+  "username": "le_quang_gggg",
+  "name": "Lê Quang Hoa",
+  "email": "le.quang.gggg@gmail.com",
+  "phone": "0994567890",
+  "address": "103 Lê Thánh Tông, Bạc Liêu",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-04-04T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-24T00:00:00.000Z",
+  "updatedAt": "2025-03-24T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af19"
+  },
+  "username": "hoang_van_iiii",
+  "name": "Hoàng Văn Kiên",
+  "email": "hoang.van.iiii@gmail.com",
+  "phone": "0938901234",
+  "address": "325 Nguyễn Du, Hậu Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-03-26T00:00:00.000Z",
+  "updatedAt": "2025-03-26T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1c"
+  },
+  "username": "bui_van_llll",
+  "name": "Bùi Văn Nam",
+  "email": "bui.van.llll@gmail.com",
+  "phone": "0994567890",
+  "address": "658 Trần Hưng Đạo, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1986-02-02T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-03-29T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:01:00.572Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af1d"
+  },
+  "username": "do_thi_mmmm",
+  "name": "Đỗ Thị Oanh",
+  "email": "do.thi.mmmm@gmail.com",
+  "phone": "0916789012",
+  "address": "769 Nguyễn Văn Linh, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1994-04-04T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "suspended",
+  "createdAt": "2025-03-30T00:00:00.000Z",
+  "updatedAt": "2025-03-30T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af24"
+  },
+  "username": "phan_quang_tttt",
+  "name": "Phan Quang Vân",
+  "email": "phan.quang.tttt@gmail.com",
+  "phone": "0950123456",
+  "address": "436 Lê Lai, Sóc Trăng",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1988-06-06T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "inactive",
+  "createdAt": "2025-04-06T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-08T05:02:23.094Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691598f443cae6104072af25"
+  },
+  "username": "huynh_thi_uuuu",
+  "name": "Huỳnh Thị Việt",
+  "email": "huynh.thi.uuuu@gmail.com",
+  "phone": "0972345678",
+  "address": "547 Hùng Vương, An Giang",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Female",
+  "dob": "1992-08-08T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "inactive",
+  "createdAt": "2025-04-07T00:00:00.000Z",
+  "updatedAt": "2025-04-07T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "69183809bc4af928d632227e"
+  },
+  "username": "khoinmce171346",
+  "name": "Nguyen Minh Khoi (K17 CT)",
+  "email": "khoinmce171346@fpt.edu.vn",
+  "password": "$2a$10$4uQfbq.WzjvF7/dp1./sC.hlRmUod1dVBV6JVIg0wK0iYSNB1SKAW",
+  "accountImage": "https://lh3.googleusercontent.com/a/ACg8ocJk35dNJSfJoqu1W7rKiLPPM8iDCnTaDzPN9vlV6bTF4J_mVguq=s96-c",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": {
+    "$date": "2025-11-15T08:21:29.105Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-02T12:09:43.051Z"
+  },
+  "__v": 5,
+  "googleId": "101630344005486552046",
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691b617c8e68be928ea9a384"
+  },
+  "username": "admin",
+  "name": "Admin I of GASH",
+  "email": "admin.gash@email.com",
+  "phone": "0987654321",
+  "address": "Gash Republic",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://res.cloudinary.com/dsevkup6t/accountImage/upload/v1765108041/gash_app/tgkngagwjcillkhktnfw.jpg",
+  "gender": "Male",
+  "dob": "1990-03-15T00:00:00.000Z",
+  "role": "admin",
+  "accountStatus": "active",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-12-07T11:47:23.362Z"
+  },
+  "__v": 3,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691b61938e68be928ea9a385"
+  },
+  "username": "staff",
+  "name": "Staff I of GASH",
+  "email": "staff.gash@email.com",
+  "phone": "0987654321",
+  "address": "Gash Republic",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-03-15T00:00:00.000Z",
+  "role": "manager",
+  "accountStatus": "active",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": {
+    "$date": "2025-11-18T10:08:28.432Z"
+  },
+  "__v": 1,
+  "passkeys": [],
+  "requireAuthForCheckout": false
+},
+{
+  "_id": {
+    "$oid": "691b61b08e68be928ea9a386"
+  },
+  "username": "user",
+  "name": "User I of GASH",
+  "email": "user.gash@email.com",
+  "phone": "0987654321",
+  "address": "Gash Republic",
+  "password": "$2b$10$wKAfuRlKlp0xneqy/ZuTJ.M/6fJinQbRJG0YWsQ/85tcPosL0j14e",
+  "accountImage": "https://i.redd.it/1to4yvt3i88c1.png",
+  "gender": "Male",
+  "dob": "1990-03-15T00:00:00.000Z",
+  "role": "user",
+  "accountStatus": "active",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z"
+},
+{
+  "_id": {
+    "$oid": "6920347de5ff5e748901ddc9"
+  },
+  "username": "slayerhellman",
+  "name": "Slayer Hellman",
+  "email": "slayerhellman@mailfance.com",
+  "phone": "0987654321",
+  "address": "slayerhellman",
+  "password": "$2a$10$him3uwl78Fj0RHCAMhkg9uO4EYPQaCScAkLjK7IYPMIh/rKAOEfJW",
+  "accountImage": "http://localhost:4000/default-pfp.jpg",
+  "role": "user",
+  "accountStatus": "active",
+  "requireAuthForCheckout": false,
+  "passkeys": [
+    {
+      "credentialID": "irOOlS5QhxDoOsZvzRBM-3EAUVwk4L0mEBv0_0zsGMg",
+      "credentialPublicKey": "pQECAyYgASFYIKm_yBXsSMQUPS2YPwR0KmgLRuPBIfqMAOhQMi94Zpg6IlggMMe3x1gR_e3Rkj3newIX1pxrkdN_8n8YEQEZHX2vltk",
+      "counter": 1,
+      "deviceType": "desktop",
+      "backedUp": false,
+      "_id": {
+        "$oid": "6920348be5ff5e748901dde8"
+      },
+      "createdAt": {
+        "$date": "2025-11-21T09:44:43.709Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-21T09:44:29.078Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-21T09:45:18.240Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "693304f3692df15cd70981b0"
+  },
+  "username": "thanhthienabc",
+  "name": "Tenky Thiên",
+  "email": "thanhthienabc@gmail.com",
+  "password": "$2a$10$TvacWpnD9gbaXvG0xd9sLuJp3gwqceZbeDC.U6scd.7tHQe5eKKqS",
+  "accountImage": "https://lh3.googleusercontent.com/a/ACg8ocKEl_bl9oKcmsIDkKNDmxXiqJ2tI8SEnsOWPaNXs5R9-IR3tmYq=s96-c",
+  "role": "user",
+  "accountStatus": "active",
+  "googleId": "100584759633654172556",
+  "requireAuthForCheckout": false,
+  "passkeys": [],
+  "createdAt": {
+    "$date": "2025-12-05T16:14:43.887Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-05T16:14:43.887Z"
+  },
+  "__v": 0
+}]

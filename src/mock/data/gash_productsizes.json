@@ -1,0 +1,122 @@
+[{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af60"
+  },
+  "productSizeName": "M",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af61"
+  },
+  "productSizeName": "L",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af65"
+  },
+  "productSizeName": "35",
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-11-24T07:21:42.931Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af68"
+  },
+  "productSizeName": "38",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af6a"
+  },
+  "productSizeName": "40",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af5f"
+  },
+  "productSizeName": "S",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af62"
+  },
+  "productSizeName": "XL",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af63"
+  },
+  "productSizeName": "XXL",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af64"
+  },
+  "productSizeName": "XXXL",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af66"
+  },
+  "productSizeName": "36",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "6918436c19aab47cf7f5542b"
+  },
+  "productSizeName": "43",
+  "isDeleted": false,
+  "createdAt": {
+    "$date": "2025-11-15T09:10:04.435Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T09:10:04.435Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af5e"
+  },
+  "productSizeName": "XS",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af67"
+  },
+  "productSizeName": "37",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af6b"
+  },
+  "productSizeName": "41",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af6c"
+  },
+  "productSizeName": "42",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159dbd43cae6104072af69"
+  },
+  "productSizeName": "39",
+  "isDeleted": false
+}]

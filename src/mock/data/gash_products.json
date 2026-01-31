@@ -1,0 +1,1381 @@
+[
+  {
+    "_id": {
+      "$oid": "69183e7bef9cc2d8dc359410"
+    },
+    "productName": "Denim Jacket",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af76"
+    },
+    "productImageIds": [
+      {
+        "$oid": "69183e7bef9cc2d8dc359408"
+      },
+      {
+        "$oid": "69183e7bef9cc2d8dc35940a"
+      },
+      {
+        "$oid": "69183e7bef9cc2d8dc35940c"
+      },
+      {
+        "$oid": "69183e7bef9cc2d8dc35940e"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69183e9eef9cc2d8dc359b3d"
+      },
+      {
+        "$oid": "69183e9eef9cc2d8dc359b3e"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h3 data-start=\"88\" data-end=\"111\"><p data-start=\"171\" data-end=\"427\">A classic wardrobe essential, the Denim Jacket features a durable, high-quality jean fabric that delivers both comfort and longevity. Designed with a modern silhouette and clean stitching details, this jacket offers a refined take on everyday streetwear.</p>\n<p data-start=\"429\" data-end=\"750\">Versatile and easy to style, it pairs effortlessly with T-shirts, hoodies, or shirts, allowing you to create countless outfits from casual daywear to relaxed weekend looks. Whether you’re heading out for coffee, walking around the city, or meeting friends, this denim jacket brings a bold, confident edge to any outfit.</p>\n<p data-start=\"752\" data-end=\"968\">Crafted to be worn throughout the year, it provides just the right amount of layering, making it suitable for cool mornings, breezy evenings, or transitional weather. A must-have piece that never goes out of style.</p>\n</h3><h3 data-start=\"970\" data-end=\"990\"><strong data-start=\"974\" data-end=\"990\">Key Features</strong></h3><h3 data-start=\"88\" data-end=\"111\">\n<ul data-start=\"991\" data-end=\"1199\">\n<li data-start=\"991\" data-end=\"1032\">\n<p data-start=\"993\" data-end=\"1032\">Premium denim material for durability</p>\n</li>\n<li data-start=\"1033\" data-end=\"1058\">\n<p data-start=\"1035\" data-end=\"1058\">Modern, versatile fit</p>\n</li>\n<li data-start=\"1059\" data-end=\"1105\">\n<p data-start=\"1061\" data-end=\"1105\">Reinforced stitching for long-lasting wear</p>\n</li>\n<li data-start=\"1106\" data-end=\"1151\">\n<p data-start=\"1108\" data-end=\"1151\">Comfortable layering for multiple seasons</p>\n</li>\n<li data-start=\"1152\" data-end=\"1199\">\n<p data-start=\"1154\" data-end=\"1199\">Easy to pair with different clothing styles</p>\n</li>\n</ul>\n</h3><h3 data-start=\"1201\" data-end=\"1218\"><strong data-start=\"1205\" data-end=\"1218\">Ideal For</strong></h3><h3 data-start=\"88\" data-end=\"111\">\n<ul data-start=\"1219\" data-end=\"1310\">\n<li data-start=\"1219\" data-end=\"1234\">\n<p data-start=\"1221\" data-end=\"1234\">Casual wear</p>\n</li>\n<li data-start=\"1235\" data-end=\"1257\">\n<p data-start=\"1237\" data-end=\"1257\">Street style looks</p>\n</li>\n<li data-start=\"1258\" data-end=\"1278\">\n<p data-start=\"1260\" data-end=\"1278\">Daily activities</p>\n</li>\n<li data-start=\"1279\" data-end=\"1310\">\n<p data-start=\"1281\" data-end=\"1310\">Outdoor and weekend outfits</p>\n</li>\n</ul></h3></header><footer>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T08:48:59.450Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-07T10:04:44.684Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6918554ca17ac3f26c226a14"
+    },
+    "productName": "Oxford Shirt",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6918554ca17ac3f26c226a02"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a04"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a06"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a08"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a0a"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a0c"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a0e"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a10"
+      },
+      {
+        "$oid": "6918554ca17ac3f26c226a12"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69185569a17ac3f26c226e30"
+      },
+      {
+        "$oid": "69185569a17ac3f26c226e31"
+      },
+      {
+        "$oid": "69185569a17ac3f26c226e32"
+      },
+      {
+        "$oid": "6918559fa17ac3f26c228804"
+      },
+      {
+        "$oid": "6918559fa17ac3f26c228805"
+      },
+      {
+        "$oid": "6918559fa17ac3f26c228806"
+      },
+      {
+        "$oid": "691855b1a17ac3f26c2290fe"
+      },
+      {
+        "$oid": "691855b1a17ac3f26c2290ff"
+      },
+      {
+        "$oid": "691855b1a17ac3f26c229100"
+      },
+      {
+        "$oid": "691855eba17ac3f26c22aaae"
+      },
+      {
+        "$oid": "691855eba17ac3f26c22aaaf"
+      },
+      {
+        "$oid": "691855eba17ac3f26c22aab0"
+      }
+    ],
+    "description": "Oxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford ShirtOxford Shirt",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T10:26:20.438Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-15T10:28:59.303Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916c4f34945cd9a5d8631fb"
+    },
+    "productName": "Cotton Polo Shirt",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916c4f34945cd9a5d8631ed"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631ef"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631f1"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631f3"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631f5"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631f7"
+      },
+      {
+        "$oid": "6916c4f34945cd9a5d8631f9"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916c55f4945cd9a5d863224"
+      },
+      {
+        "$oid": "69182da9bc4af928d62e3e46"
+      },
+      {
+        "$oid": "69182da9bc4af928d62e3e47"
+      },
+      {
+        "$oid": "69182da9bc4af928d62e3e48"
+      },
+      {
+        "$oid": "69182dedbc4af928d62e5c0c"
+      },
+      {
+        "$oid": "69182dedbc4af928d62e5c0d"
+      },
+      {
+        "$oid": "69182dedbc4af928d62e5c0e"
+      },
+      {
+        "$oid": "69182ec1bc4af928d62eb612"
+      },
+      {
+        "$oid": "69182ee8bc4af928d62ec938"
+      },
+      {
+        "$oid": "69182ee8bc4af928d62ec939"
+      },
+      {
+        "$oid": "69182ee8bc4af928d62ec93a"
+      },
+      {
+        "$oid": "69182f77bc4af928d62efd6e"
+      },
+      {
+        "$oid": "69182f77bc4af928d62efd6f"
+      },
+      {
+        "$oid": "69182f77bc4af928d62efd70"
+      },
+      {
+        "$oid": "69182f98bc4af928d62f0aa4"
+      },
+      {
+        "$oid": "69182f98bc4af928d62f0aa5"
+      },
+      {
+        "$oid": "69182f98bc4af928d62f0aa6"
+      },
+      {
+        "$oid": "6918331dbc4af928d630e7aa"
+      },
+      {
+        "$oid": "6918331dbc4af928d630e7ab"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1><p data-start=\"176\" data-end=\"439\">A clean and timeless staple, the Cotton Polo Shirt is crafted from soft, breathable cotton for everyday comfort. Designed with a classic collar and button–placket, it delivers a smart yet relaxed look suitable for both casual occasions and semi–formal settings.</p>\n<p data-start=\"441\" data-end=\"772\">The natural cotton fabric provides excellent ventilation and moisture absorption, helping you stay cool throughout busy days or warm weather. With a modern, easy-to-wear fit, this polo layers effortlessly with jackets, chinos, or denim, making it a versatile piece you can style for the office, weekend outings, or everyday wear.</p>\n<p data-start=\"774\" data-end=\"898\">Durable stitching and quality fabric ensure long-lasting shape and color, making it an essential addition to any wardrobe.</p>\n</h1><h3 data-start=\"900\" data-end=\"920\"><strong data-start=\"904\" data-end=\"920\">Key Features</strong></h3><h1>\n<ul data-start=\"921\" data-end=\"1115\">\n<li data-start=\"921\" data-end=\"956\">\n<p data-start=\"923\" data-end=\"956\">Soft and breathable 100% cotton</p>\n</li>\n<li data-start=\"957\" data-end=\"995\">\n<p data-start=\"959\" data-end=\"995\">Classic collar with button placket</p>\n</li>\n<li data-start=\"996\" data-end=\"1023\">\n<p data-start=\"998\" data-end=\"1023\">Comfortable regular fit</p>\n</li>\n<li data-start=\"1024\" data-end=\"1068\">\n<p data-start=\"1026\" data-end=\"1068\">Durable stitching and long-lasting color</p>\n</li>\n<li data-start=\"1069\" data-end=\"1115\">\n<p data-start=\"1071\" data-end=\"1115\">Suitable for casual and smart-casual looks</p>\n</li>\n</ul>\n</h1><h3 data-start=\"1117\" data-end=\"1134\"><strong data-start=\"1121\" data-end=\"1134\">Ideal For</strong></h3><h1>\n<ul data-start=\"1135\" data-end=\"1245\">\n<li data-start=\"1135\" data-end=\"1149\">\n<p data-start=\"1137\" data-end=\"1149\">Daily wear</p>\n</li>\n<li data-start=\"1150\" data-end=\"1188\">\n<p data-start=\"1152\" data-end=\"1188\">Office and business-casual outfits</p>\n</li>\n<li data-start=\"1189\" data-end=\"1211\">\n<p data-start=\"1191\" data-end=\"1211\">Outdoor activities</p>\n</li>\n<li data-start=\"1212\" data-end=\"1245\">\n<p data-start=\"1214\" data-end=\"1245\">Weekend and social gatherings</p>\n</li>\n</ul></h1></header><footer>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T05:58:11.430Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:31:59.754Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916c85682ece642cea13ef7"
+    },
+    "productName": "Khaki Shorts",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af73"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916c85682ece642cea13ee9"
+      },
+      {
+        "$oid": "6916c85682ece642cea13eeb"
+      },
+      {
+        "$oid": "6916c85682ece642cea13eed"
+      },
+      {
+        "$oid": "6916c85682ece642cea13eef"
+      },
+      {
+        "$oid": "6916c85682ece642cea13ef1"
+      },
+      {
+        "$oid": "6916c85682ece642cea13ef3"
+      },
+      {
+        "$oid": "6916c85682ece642cea13ef5"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916c92382ece642cea141c1"
+      },
+      {
+        "$oid": "69183359bc4af928d6310091"
+      },
+      {
+        "$oid": "69183359bc4af928d6310092"
+      },
+      {
+        "$oid": "69183359bc4af928d6310093"
+      },
+      {
+        "$oid": "69183373bc4af928d6310c6d"
+      },
+      {
+        "$oid": "69183373bc4af928d6310c6e"
+      },
+      {
+        "$oid": "69183373bc4af928d6310c6f"
+      },
+      {
+        "$oid": "69183397bc4af928d6311a05"
+      },
+      {
+        "$oid": "69183397bc4af928d6311a06"
+      },
+      {
+        "$oid": "69183397bc4af928d6311a07"
+      },
+      {
+        "$oid": "691833aebc4af928d63123d5"
+      },
+      {
+        "$oid": "691833aebc4af928d63123d6"
+      },
+      {
+        "$oid": "691833aebc4af928d63123d7"
+      },
+      {
+        "$oid": "691833d9bc4af928d63134f3"
+      },
+      {
+        "$oid": "691833d9bc4af928d63134f4"
+      },
+      {
+        "$oid": "691833d9bc4af928d63134f5"
+      },
+      {
+        "$oid": "69183fe2563ef8285e6d02a9"
+      },
+      {
+        "$oid": "69183fe2563ef8285e6d02aa"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Khaki Shorts</h1>\n    <p class=\"tagline\">A versatile warm-weather staple designed for comfort, durability, and everyday wear.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      These khaki shorts offer a clean, understated look suitable for casual outings, travel, and relaxed work environments. \n      Their neutral tone pairs easily with a wide range of tops, while the lightweight construction helps maintain comfort \n      in warm conditions.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Classic khaki with a matte, refined finish</li>\n      <li><strong>Length:</strong> Typically mid-thigh to knee length, depending on style</li>\n      <li><strong>Waistband:</strong> Fixed waistband with belt loops for adjustable styling</li>\n      <li><strong>Closure:</strong> Button or snap front with a zipper fly</li>\n      <li><strong>Pockets:</strong> Two front slash pockets and two back welt or buttoned pockets</li>\n      <li><strong>Fit:</strong> Available in regular, relaxed, or slim profiles</li>\n      <li><strong>Stitching:</strong> Reinforced seams for added durability</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      Commonly made from cotton twill or a cotton-blend fabric that balances breathability with structure. \n      Some options incorporate elastane for additional flexibility.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Machine wash with similar colors.</li>\n      <li>Use mild detergent; avoid bleach.</li>\n      <li>Tumble dry on low heat or line dry to retain shape.</li>\n      <li>Iron on medium setting if needed.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      Designed to fit true to size. The waistband sits comfortably at the natural waist, and the cut typically provides \n      ease of movement without appearing bulky. Reviewing the specific size chart is recommended for precise measurements.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with a cotton polo or crew-neck T-shirt for a relaxed daytime look.</li>\n      <li>Combine with a lightweight button-down shirt for a polished casual outfit.</li>\n      <li>Match with neutral sneakers, sandals, or loafers depending on the occasion.</li>\n      <li>Use a coordinating belt to complete the ensemble.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for warm weather and outdoor activities. Available in various cuts and fabric blends depending on retailer \n      and intended use. Product details may differ slightly between manufacturers.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Specifications may vary by brand; consult the retailer’s product page for exact details.</small></p>\n  </footer>\n</article>\n",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T06:12:38.050Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:35:57.798Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691836f7bc4af928d6320cb3"
+    },
+    "productName": "Floral Hawaiian Shirt - Green",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691836f7bc4af928d6320cb1"
+      },
+      {
+        "$oid": "69183730bc4af928d63213b5"
+      },
+      {
+        "$oid": "69183730bc4af928d63213b7"
+      },
+      {
+        "$oid": "69183730bc4af928d63213b9"
+      },
+      {
+        "$oid": "69183730bc4af928d63213bb"
+      },
+      {
+        "$oid": "69183730bc4af928d63213bd"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69183722bc4af928d63210c8"
+      },
+      {
+        "$oid": "69183722bc4af928d63210c9"
+      },
+      {
+        "$oid": "69183722bc4af928d63210ca"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Basic Sneakers</h1>\n    <p class=\"tagline\">Clean, versatile everyday sneakers designed for comfort, durability, and effortless casual style.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      These basic sneakers offer a timeless silhouette built for daily wear and all-day comfort. \n      Constructed with a lightweight upper and cushioned sole, they provide reliable support while \n      maintaining a clean, minimalist look that pairs easily with a wide range of outfits.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Upper:</strong> Lightweight synthetic or textile material for breathability</li>\n      <li><strong>Closure:</strong> Classic lace-up design for adjustable fit</li>\n      <li><strong>Sole:</strong> Cushioned midsole with durable rubber outsole</li>\n      <li><strong>Design:</strong> Minimal low-profile silhouette</li>\n      <li><strong>Fit:</strong> Comfortable standard fit suitable for daily use</li>\n      <li><strong>Insole:</strong> Soft padded footbed for added comfort</li>\n      <li><strong>Outsole:</strong> Textured grip for everyday traction</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> Synthetic leather or textile upper with rubber sole. \n      Designed for lightweight comfort and long-lasting wear.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Wipe clean with a damp cloth.</li>\n      <li>Use mild soap for stubborn stains.</li>\n      <li>Avoid machine washing to preserve structure.</li>\n      <li>Air dry away from direct heat.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      True to size with a standard everyday fit. Suitable for regular foot widths. \n      Recommended to size up if wearing thick socks or for extended walking comfort.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with jeans and a T-shirt for a classic casual look.</li>\n      <li>Wear with chinos and a polo for smart-casual outfits.</li>\n      <li>Match with shorts and a hoodie for relaxed weekends.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for everyday wear, commuting, and casual outings. Designed for versatility \n      and comfort across multiple seasons.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T08:16:55.523Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:33:50.097Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6918385dbc4af928d63222b8"
+    },
+    "productName": "Floral Hawaiian Shirt - Navy Blue",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6918385dbc4af928d63222ac"
+      },
+      {
+        "$oid": "6918385dbc4af928d63222ae"
+      },
+      {
+        "$oid": "6918385dbc4af928d63222b0"
+      },
+      {
+        "$oid": "6918385dbc4af928d63222b2"
+      },
+      {
+        "$oid": "6918385dbc4af928d63222b4"
+      },
+      {
+        "$oid": "6918385dbc4af928d63222b6"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69183882bc4af928d6322805"
+      },
+      {
+        "$oid": "69183882bc4af928d6322806"
+      },
+      {
+        "$oid": "69183882bc4af928d6322807"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Navy Blue Hawaiian Shirt</h1>\n    <p class=\"tagline\">A rich, island-inspired button-up with subtle tropical motifs — versatile for beach days and evening outings.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This navy blue Hawaiian shirt delivers refined aloha style with a deep, sophisticated tone. \n      Crafted from lightweight, breathable rayon, it features a tonal floral and palm print that \n      subtly emerges in the weave. The relaxed camp collar and genuine coconut buttons maintain \n      classic vacation charm with elevated wearability.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Deep navy blue with tone-on-tone tropical print</li>\n      <li><strong>Closure:</strong> Full coconut button placket (6–7 buttons)</li>\n      <li><strong>Collar:</strong> Soft camp collar with internal stay for structure</li>\n      <li><strong>Pockets:</strong> Single left-chest patch pocket (print-matched)</li>\n      <li><strong>Fit:</strong> Relaxed fit — roomy through chest and shoulders</li>\n      <li><strong>Cuffs & Hem:</strong> Clean short sleeves; straight hem with side vents</li>\n      <li><strong>Seams:</strong> French seams for durability and smooth interior</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 100% rayon (viscose) — silky drape, excellent \n      breathability, and quick-dry properties. Pre-shrunk for consistent fit.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Machine wash cold, gentle cycle with like colors.</li>\n      <li>Mild detergent only; avoid bleach to preserve depth of color.</li>\n      <li>Tumble dry low or hang dry in shade; embrace natural texture.</li>\n      <li>Steam on low heat if desired; do not iron directly on print.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      True to size with a relaxed, untucked silhouette. Size down for a neater look or up \n      for an oversized vacation vibe. Model wears size Medium; length falls just below hip.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Wear open over a white crewneck tee with linen shorts for daytime ease.</li>\n      <li>Button fully and tuck into beige chinos with espadrilles for smart resort style.</li>\n      <li>Layer under a lightweight khaki field jacket for cooler tropical evenings.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Perfect for travel, summer events, and casual offices in warm climates. Available in \n      multiple sizes; refer to size chart for exact measurements. Returns per retailer policy.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T08:22:53.840Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:34:07.807Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69183cedef9cc2d8dc34e300"
+    },
+    "productName": "Wool Polo Shirt",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "69183cedef9cc2d8dc34e2ee"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2f0"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2f2"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2f4"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2f6"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2f8"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2fa"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2fc"
+      },
+      {
+        "$oid": "69183cedef9cc2d8dc34e2fe"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69183d0bef9cc2d8dc34e8eb"
+      },
+      {
+        "$oid": "69183d0bef9cc2d8dc34e8ec"
+      },
+      {
+        "$oid": "69183d0bef9cc2d8dc34e8ed"
+      },
+      {
+        "$oid": "69183d1fef9cc2d8dc34f644"
+      },
+      {
+        "$oid": "69183d1fef9cc2d8dc34f645"
+      },
+      {
+        "$oid": "69183d1fef9cc2d8dc34f646"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Wool Polo Shirt</h1>\n    <p class=\"tagline\">A refined, merino wool polo with natural temperature regulation — elevated casual wear for year-round comfort.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This wool polo shirt combines the polished look of a classic collar with the performance of premium merino. \n      Knitted from ultra-fine, mulesing-free merino wool, it offers exceptional softness, breathability, \n      and odor resistance. The ribbed collar and three-button placket deliver smart-casual versatility \n      suitable for office, travel, or weekend outings.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Navy, charcoal, or olive (heathered options available)</li>\n      <li><strong>Closure:</strong> Three-button placket with mother-of-pearl or resin buttons</li>\n      <li><strong>Collar:</strong> Rib-knit polo collar with tipping detail</li>\n      <li><strong>Pockets:</strong> None — clean, minimalist front</li>\n      <li><strong>Fit:</strong> Tailored fit — gently tapered through body</li>\n      <li><strong>Cuffs & Hem:</strong> Ribbed cuffs and hem for secure, polished finish</li>\n      <li><strong>Seams:</strong> Fully fashioned knit with linked shoulder seams</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 100% extrafine merino wool (17.5–18.5 micron; ~180–200 gsm). \n      Naturally breathable, moisture-wicking, and machine-washable.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Machine wash cold on wool/delicate cycle; use wool-safe detergent.</li>\n      <li>Wash inside out in mesh bag to protect buttons.</li>\n      <li>Reshape and dry flat; do not tumble dry or wring.</li>\n      <li>Steam on low heat if needed; avoid direct iron contact.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      True to size with a modern tailored cut. For a relaxed fit, size up. \n      Model wears size Medium; length designed for tucked or untucked wear.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with tailored chinos and leather sneakers for smart-casual Fridays.</li>\n      <li>Layer under a lightweight blazer with wool trousers for business travel.</li>\n      <li>Wear with dark denim and suede loafers for refined weekend style.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for transitional seasons and air-conditioned environments. Available in multiple \n      colors and sizes; check size chart for chest and sleeve measurements. Returns per retailer policy.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T08:42:21.211Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-15T08:43:11.473Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6918539aa17ac3f26c21e125"
+    },
+    "productName": "Felt Trench Coat",
+    "categoryId": {
+      "$oid": "6918299c5d2c4dddbdd59727"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6918539aa17ac3f26c21e115"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e117"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e119"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e11b"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e11d"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e11f"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e121"
+      },
+      {
+        "$oid": "6918539aa17ac3f26c21e123"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "691853bda17ac3f26c21e6a6"
+      },
+      {
+        "$oid": "691853bda17ac3f26c21e6a7"
+      },
+      {
+        "$oid": "691853bda17ac3f26c21e6a8"
+      },
+      {
+        "$oid": "691853d9a17ac3f26c21f489"
+      },
+      {
+        "$oid": "691853d9a17ac3f26c21f48a"
+      },
+      {
+        "$oid": "691853d9a17ac3f26c21f48b"
+      },
+      {
+        "$oid": "69185401a17ac3f26c220705"
+      },
+      {
+        "$oid": "69185401a17ac3f26c220706"
+      },
+      {
+        "$oid": "69185401a17ac3f26c220707"
+      },
+      {
+        "$oid": "691854d3a17ac3f26c226329"
+      },
+      {
+        "$oid": "691854d3a17ac3f26c22632a"
+      },
+      {
+        "$oid": "691854d3a17ac3f26c22632b"
+      }
+    ],
+    "description": "A timeless pair of denim jeans made from mid-weight fabric for comfort and durability. Designed with a modern fit suitable for everyday wear, work, or outdoor activities.",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T10:19:06.766Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:33:26.451Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916b4b404b0d55b6a46d26e"
+    },
+    "productName": "Khaki Zip-up Jacket",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af76"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916b62104b0d55b6a46d275"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d276"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d277"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d278"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d279"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d27a"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d27b"
+      },
+      {
+        "$oid": "6916b6cd04b0d55b6a46d27c"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Khaki Zip-Up Jacket</h1>\n    <p class=\"tagline\">A clean, versatile jacket with a modern fit — perfect for layering year-round.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This khaki zip-up jacket blends minimal design with practical details. Constructed from a soft, durable fabric\n      with a subtle matte finish, it offers comfortable everyday wear while maintaining a polished, contemporary look.\n      The full-length zipper and stand collar make it easy to adapt to changing temperatures.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Khaki (neutral, warm tone)</li>\n      <li><strong>Closure:</strong> Full-length metal or molded zipper with a smooth pull</li>\n      <li><strong>Collar:</strong> Stand collar for wind protection and a streamlined silhouette</li>\n      <li><strong>Pockets:</strong> Two front welt or zippered pockets (hidden seam options available)</li>\n      <li><strong>Fit:</strong> Modern/regular fit — slightly tapered through the body for clean lines</li>\n      <li><strong>Cuffs & Hem:</strong> Elasticized or ribbed cuffs with a straight hem for secure fit</li>\n      <li><strong>Seams:</strong> Reinforced stitching at high-stress points for durability</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 60% cotton, 35% polyester, 5% elastane (blend may vary by style).\n      The fabric provides breathability, slight stretch, and wrinkle resistance.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Machine wash cold with like colors.</li>\n      <li>Use mild detergent; avoid bleach.</li>\n      <li>Tumble dry low or hang to dry to preserve shape.</li>\n      <li>Cool iron if needed; avoid ironing over zippers.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      Designed to fit true to size. For a more relaxed look, consider sizing up one size.\n      The model in product photos typically wears their usual size and the jacket sits at hip length.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Dress it up with a button-down shirt and chinos for smart-casual occasions.</li>\n      <li>Layer over a lightweight sweater or tee for a casual weekend outfit.</li>\n      <li>Pair with dark denim or tailored joggers to keep the look modern and balanced.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for transitional weather and travel. Available in multiple sizes; consider checking the product's\n      specific size chart if you are between sizes. Returns and warranty policies depend on the retailer.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>\n",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-09-11T08:46:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:37:54.846Z"
+    },
+    "__v": 0,
+    "productVariantIds": [
+      {
+        "$oid": "6916bab604b0d55b6a46d2b3"
+      },
+      {
+        "$oid": "6916bab604b0d55b6a46d2b4"
+      },
+      {
+        "$oid": "6916bab604b0d55b6a46d2b5"
+      },
+      {
+        "$oid": "6916bab604b0d55b6a46d2b6"
+      },
+      {
+        "$oid": "6916bc2c04b0d55b6a46d2c7"
+      },
+      {
+        "$oid": "6916bc2c04b0d55b6a46d2c8"
+      },
+      {
+        "$oid": "6916bc2c04b0d55b6a46d2c9"
+      },
+      {
+        "$oid": "6916bc2c04b0d55b6a46d2ca"
+      },
+      {
+        "$oid": "6916bd6a04b0d55b6a46d2d3"
+      },
+      {
+        "$oid": "6916bd6a04b0d55b6a46d2d4"
+      },
+      {
+        "$oid": "6916bd6a04b0d55b6a46d2d5"
+      },
+      {
+        "$oid": "6916bd6a04b0d55b6a46d2d6"
+      },
+      {
+        "$oid": "6916be3e04b0d55b6a46d2dd"
+      },
+      {
+        "$oid": "6916be3e04b0d55b6a46d2de"
+      },
+      {
+        "$oid": "6916be3e04b0d55b6a46d2df"
+      },
+      {
+        "$oid": "6916be3e04b0d55b6a46d2d0"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6916dbba65fb7e564ad8c010"
+    },
+    "productName": "Linen Short Sleeves Shirt",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916dbba65fb7e564ad8bffe"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c000"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c002"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c004"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c006"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c008"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c00a"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c00c"
+      },
+      {
+        "$oid": "6916dbba65fb7e564ad8c00e"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916dbea65fb7e564ad8c019"
+      },
+      {
+        "$oid": "6918348abc4af928d6315219"
+      },
+      {
+        "$oid": "6918348abc4af928d631521a"
+      },
+      {
+        "$oid": "6918348abc4af928d631521b"
+      },
+      {
+        "$oid": "691834c1bc4af928d6316a25"
+      },
+      {
+        "$oid": "691834c1bc4af928d6316a26"
+      },
+      {
+        "$oid": "691834c1bc4af928d6316a27"
+      },
+      {
+        "$oid": "691834ddbc4af928d631752b"
+      },
+      {
+        "$oid": "691834ddbc4af928d631752c"
+      },
+      {
+        "$oid": "691834ddbc4af928d631752d"
+      },
+      {
+        "$oid": "69183500bc4af928d63181d6"
+      },
+      {
+        "$oid": "69183500bc4af928d63181d7"
+      },
+      {
+        "$oid": "691c2a097955d6c884b05fef"
+      },
+      {
+        "$oid": "691c2a097955d6c884b05ff0"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Linen Short Sleeves Shirt</h1>\n    <p class=\"tagline\">A breezy, button-down shirt with a soft collar and relaxed fit — essential for effortless summer style.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This short-sleeve linen shirt offers casual comfort with refined details. Made from lightweight, \n      garment-washed linen, it provides exceptional breathability and a naturally rumpled texture that \n      enhances with wear. The camp collar and mother-of-pearl buttons add subtle sophistication to its laid-back design.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> White, sky blue, or natural (additional colors may vary)</li>\n      <li><strong>Closure:</strong> Full button placket with genuine mother-of-pearl buttons</li>\n      <li><strong>Collar:</strong> Soft camp collar (loop option available)</li>\n      <li><strong>Pockets:</strong> Single patch chest pocket (optional)</li>\n      <li><strong>Fit:</strong> Relaxed fit — straight cut with side gussets for movement</li>\n      <li><strong>Cuffs & Hem:</strong> Clean short sleeves; curved shirttail hem</li>\n      <li><strong>Seams:</strong> French seams throughout for durability and clean finish</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 100% linen (pre-washed for softness; ~140-160 gsm). \n      Highly breathable, quick-drying, and naturally antibacterial.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Machine wash cold, gentle cycle with like colors.</li>\n      <li>Use mild detergent; skip fabric softener.</li>\n      <li>Tumble dry low or hang dry; embrace natural wrinkles.</li>\n      <li>Steam if desired; avoid high heat ironing.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      True to size with a relaxed body. Size up for an oversized, vacation-ready look. \n      Model wears usual size; shirt length designed for untucked wear.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Wear open over a plain tank with swim trunks for beach-to-bar transitions.</li>\n      <li>Button up and tuck into tailored shorts with loafers for smart resort attire.</li>\n      <li>Layer under a lightweight blazer for evening dinners in warm climates.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Great for vacations, weekends, and casual offices. Available in multiple sizes and colors; \n      check size chart for exact measurements. Returns and warranty per retailer policy.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T07:35:22.380Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-07T09:59:49.849Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691829005d2c4dddbdd59665"
+    },
+    "productName": "Linen Blazer",
+    "categoryId": {
+      "$oid": "6918299c5d2c4dddbdd59727"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691829005d2c4dddbdd59657"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd59659"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd5965b"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd5965d"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd5965f"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd59661"
+      },
+      {
+        "$oid": "691829005d2c4dddbdd59663"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6918293a5d2c4dddbdd5967e"
+      },
+      {
+        "$oid": "6918403e563ef8285e6d2823"
+      },
+      {
+        "$oid": "6918403e563ef8285e6d2824"
+      },
+      {
+        "$oid": "69184056563ef8285e6d34d8"
+      },
+      {
+        "$oid": "69184056563ef8285e6d34d9"
+      },
+      {
+        "$oid": "69184056563ef8285e6d34da"
+      },
+      {
+        "$oid": "69184084563ef8285e6d49c4"
+      },
+      {
+        "$oid": "69184084563ef8285e6d49c5"
+      },
+      {
+        "$oid": "69184084563ef8285e6d49c6"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Linen Blazer</h1>\n    <p class=\"tagline\">A lightweight, breathable blazer with a relaxed yet refined silhouette — ideal for warm-weather sophistication.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This linen blazer combines natural texture with tailored elegance. Crafted from premium linen fabric with a soft, airy hand-feel, \n      it delivers effortless style and ventilation for spring and summer occasions. The unstructured design and notch lapel create \n      a modern, laid-back profile without sacrificing polish.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Natural linen (soft beige/ivory tone; additional shades may vary)</li>\n      <li><strong>Closure:</strong> Two-button front with genuine horn or corozo buttons</li>\n      <li><strong>Collar:</strong> Classic notch lapel with subtle pick-stitching</li>\n      <li><strong>Pockets:</strong> Patch pockets at hips; single welt chest pocket</li>\n      <li><strong>Fit:</strong> Relaxed tailored fit — unstructured shoulders for comfort</li>\n      <li><strong>Cuffs & Hem:</strong> Functional button cuffs; straight hem with side vents</li>\n      <li><strong>Seams:</strong> Half-lined interior with bound seams for breathability</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 100% linen (European flax; weight ~180-220 gsm). \n      Naturally breathable, moisture-wicking, and develops a desirable lived-in patina over time.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Dry clean recommended to maintain structure.</li>\n      <li>Spot clean with damp cloth; avoid soaking.</li>\n      <li>Steam on low heat to remove wrinkles; do not iron directly.</li>\n      <li>Store on a padded hanger to preserve shape.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      Runs true to size with a relaxed shoulder and tapered waist. For a more casual drape, size up. \n      The model typically wears their usual size; jacket length hits at mid-hip.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with a crisp white tee and tailored shorts for resort-ready elegance.</li>\n      <li>Layer over a lightweight knit polo and chinos for business-casual settings.</li>\n      <li>Combine with linen trousers in a matching tone for a tonal summer suit.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Perfect for weddings, garden parties, and travel. Available in multiple sizes; consult the size chart \n      for chest and sleeve measurements if between sizes. Returns and warranty per retailer policy.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T07:17:20.321Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:39:17.398Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916caa882ece642cea14268"
+    },
+    "productName": "Twill Dress Pants",
+    "categoryId": {
+      "$oid": "6916cc2182ece642cea14336"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916caa882ece642cea1425a"
+      },
+      {
+        "$oid": "6916caa882ece642cea1425c"
+      },
+      {
+        "$oid": "6916caa882ece642cea1425e"
+      },
+      {
+        "$oid": "6916caa882ece642cea14260"
+      },
+      {
+        "$oid": "6916caa882ece642cea14262"
+      },
+      {
+        "$oid": "6916caa882ece642cea14264"
+      },
+      {
+        "$oid": "6916caa882ece642cea14266"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916cae682ece642cea1429d"
+      },
+      {
+        "$oid": "6918356cbc4af928d631ab1f"
+      },
+      {
+        "$oid": "6918356cbc4af928d631ab20"
+      },
+      {
+        "$oid": "6918356cbc4af928d631ab21"
+      },
+      {
+        "$oid": "69183587bc4af928d631b7e7"
+      },
+      {
+        "$oid": "69183587bc4af928d631b7e8"
+      },
+      {
+        "$oid": "69183587bc4af928d631b7e9"
+      },
+      {
+        "$oid": "691835b6bc4af928d631cffa"
+      },
+      {
+        "$oid": "691835b6bc4af928d631cffb"
+      },
+      {
+        "$oid": "691835b6bc4af928d631cffc"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Twill Dress Pants</h1>\n    <p class=\"tagline\">Refined trousers crafted from smooth twill fabric, designed for professional and polished settings.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      These twill dress pants feature a clean, structured silhouette that balances comfort with sophistication. \n      The tightly woven twill fabric provides a subtle diagonal texture, offering both durability and a polished appearance. \n      Suitable for office wear, formal events, and elevated everyday outfits, they serve as a versatile component in a modern wardrobe.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Fabric:</strong> Smooth twill with a refined weave for durability and drape</li>\n      <li><strong>Rise:</strong> Standard mid-rise waist for balanced comfort and structure</li>\n      <li><strong>Closure:</strong> Button or hook-and-bar front with a zipper fly</li>\n      <li><strong>Pockets:</strong> Two front slash pockets and two back welt or buttoned pockets</li>\n      <li><strong>Fit Options:</strong> Classic, tailored, or slim-leg silhouettes</li>\n      <li><strong>Construction:</strong> Pressed creases and reinforced stitching for a crisp finish</li>\n      <li><strong>Hem:</strong> Available in finished or unfinished hems for custom tailoring</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      Typically made from cotton-blend or synthetic-blend twill that maintains structure while offering ease of movement. \n      Some styles incorporate elastane for added stretch and comfort throughout the day.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Dry clean recommended for optimal shape and longevity.</li>\n      <li>If machine washable, use gentle cycles and cold water.</li>\n      <li>Hang dry or tumble dry on low heat if permitted by the care label.</li>\n      <li>Iron on medium to high heat to maintain the crease.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      Designed to fit true to size with a structured waistband and clean leg line. Tailored and slim styles \n      provide a closer fit through the thigh and taper toward the ankle, while classic cuts offer more room. \n      Inseam lengths vary and may require hemming for a precise fit.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with a dress shirt and blazer for a professional ensemble.</li>\n      <li>Wear with a fine-knit sweater for a refined smart-casual look.</li>\n      <li>Coordinate with leather shoes such as oxfords, loafers, or derbies.</li>\n      <li>Choose subtle accessories like a matching belt to complete the outfit.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for office environments, formal gatherings, and events requiring a polished appearance. \n      Fabric blends, weights, and finishes can vary by manufacturer, so reviewing the product’s detailed specifications \n      is recommended for exact information.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Details may differ depending on the brand and specific model.</small></p>\n  </footer>\n</article>\n",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T06:22:32.530Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-15T08:11:34.239Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916d091b2cfc385e1bda1c2"
+    },
+    "productName": "Denim Jeans",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af72"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916d091b2cfc385e1bda1b8"
+      },
+      {
+        "$oid": "6916d091b2cfc385e1bda1ba"
+      },
+      {
+        "$oid": "6916d091b2cfc385e1bda1bc"
+      },
+      {
+        "$oid": "6916d091b2cfc385e1bda1be"
+      },
+      {
+        "$oid": "6916d091b2cfc385e1bda1c0"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916d0d9b2cfc385e1bda1d5"
+      },
+      {
+        "$oid": "691840c2563ef8285e6d657e"
+      },
+      {
+        "$oid": "691840c2563ef8285e6d657f"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Denim Jeans</h1>\n    <p class=\"tagline\">A timeless, mid-weight denim jean with a comfortable stretch — built for everyday wear and lasting durability.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      These classic denim jeans combine heritage craftsmanship with modern comfort. Made from premium cotton-rich denim \n      with a touch of elastane, they offer a structured yet flexible fit that moves with you. The mid-rise waist and \n      subtle whiskering deliver an authentic, worn-in look from day one.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Medium indigo wash (fading at thighs and knees)</li>\n      <li><strong>Closure:</strong> Button fly with branded metal shank button</li>\n      <li><strong>Waist:</strong> Mid-rise with belt loops and reinforced bar tacks</li>\n      <li><strong>Pockets:</strong> Five-pocket styling — two scoop front, coin pocket, two patch back</li>\n      <li><strong>Fit:</strong> Slim-straight — tapered through thigh, straight from knee</li>\n      <li><strong>Hem:</strong> Clean hem with slight break; inseam options available</li>\n      <li><strong>Seams:</strong> Double-needle stitching and rivets at stress points</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 98% cotton, 2% elastane (12.5 oz rigid-stretch denim). \n      Retains shape while providing all-day comfort and minimal bagging.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Wash inside out in cold water; minimal detergent.</li>\n      <li>Avoid bleach and fabric softener to preserve color.</li>\n      <li>Tumble dry low or hang dry; wash sparingly to maintain fade.</li>\n      <li>Iron on reverse if needed; avoid direct heat on hardware.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      True to size with a mid-rise and moderate stretch. For a relaxed fit, size up. \n      Model wears waist 32 with 32\" inseam; leg opening suits most footwear.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Pair with a white tee and sneakers for effortless weekend style.</li>\n      <li>Layer under a leather jacket and boots for rugged sophistication.</li>\n      <li>Cuff the hem and wear with a knit polo for smart-casual balance.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Ideal for year-round wear and travel. Available in multiple washes and inseams; \n      use the size chart for waist and thigh measurements. Returns per retailer policy.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T06:47:45.195Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:26:36.863Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6916d65d31f17b1aa4db52ce"
+    },
+    "productName": "Leather Jacket",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af76"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6916d65d31f17b1aa4db52c4"
+      },
+      {
+        "$oid": "6916d65d31f17b1aa4db52c6"
+      },
+      {
+        "$oid": "6916d65d31f17b1aa4db52c8"
+      },
+      {
+        "$oid": "6916d65d31f17b1aa4db52ca"
+      },
+      {
+        "$oid": "6916d65d31f17b1aa4db52cc"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6916d69d31f17b1aa4db52ef"
+      },
+      {
+        "$oid": "691851cba17ac3f26c219bec"
+      },
+      {
+        "$oid": "691851cba17ac3f26c219bed"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h1>Leather Jacket</h1>\n    <p class=\"tagline\">A sleek, supple leather jacket with a minimalist design — the ultimate blend of edge and refinement.</p>\n  </header>\n\n  <section class=\"overview\">\n    <h2>Overview</h2>\n    <p>\n      This leather jacket is crafted from premium full-grain cowhide with a soft, broken-in feel. \n      The asymmetric zip closure and streamlined silhouette offer a modern take on the iconic biker style, \n      while the satin lining ensures smooth layering and comfort in cooler seasons.\n    </p>\n  </section>\n\n  <section class=\"features\">\n    <h2>Key Features</h2>\n    <ul>\n      <li><strong>Color:</strong> Deep black (semi-aniline finish with natural grain)</li>\n      <li><strong>Closure:</strong> Off-center YKK zipper with leather pull</li>\n      <li><strong>Collar:</strong> Notch lapel with snap closure for adjustable styling</li>\n      <li><strong>Pockets:</strong> Two zippered hand pockets; interior welt pocket</li>\n      <li><strong>Fit:</strong> Tailored fit — fitted through body with articulated sleeves</li>\n      <li><strong>Cuffs & Hem:</strong> Zippered cuffs; straight hem with adjustable side tabs</li>\n      <li><strong>Seams:</strong> Tonal stitching and reinforced elbow panels</li>\n    </ul>\n  </section>\n\n  <section class=\"materials-care\">\n    <h2>Materials & Care</h2>\n    <p>\n      <strong>Typical composition:</strong> 100% full-grain cowhide leather (1.0–1.2 mm thick); \n      polyester satin lining. Ages beautifully with a rich patina over time.\n    </p>\n    <h3>Care Instructions</h3>\n    <ul>\n      <li>Professional leather clean only.</li>\n      <li>Condition with leather balm every 6–12 months.</li>\n      <li>Store on wide hanger in breathable garment bag; avoid direct sunlight.</li>\n      <li>Spot clean with damp cloth; never machine wash.</li>\n    </ul>\n  </section>\n\n  <section class=\"sizing\">\n    <h2>Fit & Sizing</h2>\n    <p>\n      Runs slightly small; size up for layering. Model wears size Medium; \n      jacket length hits at hip with room for light sweaters underneath.\n    </p>\n  </section>\n\n  <section class=\"styling\">\n    <h2>Styling Tips</h2>\n    <ul>\n      <li>Throw over a hoodie and denim for urban streetwear.</li>\n      <li>Wear with a merino crewneck and chinos for elevated casual.</li>\n      <li>Pair with black boots and slim trousers for evening edge.</li>\n    </ul>\n  </section>\n\n  <section class=\"additional-info\">\n    <h2>Additional Information</h2>\n    <p>\n      Perfect for fall, winter, and transitional weather. Available in limited sizes; \n      check shoulder and chest measurements on size chart. Warranty per retailer.\n    </p>\n  </section>\n\n  <footer>\n    <p class=\"disclaimer\"><small>Product details may vary by manufacturer. Refer to the specific product page for exact materials and measurements.</small></p>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-14T07:12:29.286Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:38:13.458Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6918433419aab47cf7f55152"
+    },
+    "productName": "Leather Loafers",
+    "categoryId": {
+      "$oid": "691c296d7955d6c884b04f51"
+    },
+    "productImageIds": [
+      {
+        "$oid": "6918433419aab47cf7f5514a"
+      },
+      {
+        "$oid": "6918433419aab47cf7f5514c"
+      },
+      {
+        "$oid": "6918433419aab47cf7f5514e"
+      },
+      {
+        "$oid": "6918433419aab47cf7f55150"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "6918439a19aab47cf7f55af0"
+      },
+      {
+        "$oid": "6918439a19aab47cf7f55af1"
+      },
+      {
+        "$oid": "6918439a19aab47cf7f55af2"
+      },
+      {
+        "$oid": "6918439a19aab47cf7f55af3"
+      },
+      {
+        "$oid": "6918439a19aab47cf7f55af4"
+      },
+      {
+        "$oid": "6918439a19aab47cf7f55af5"
+      }
+    ],
+    "description": "Leather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather LoafersLeather Loafers",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-15T09:09:08.428Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-18T08:08:23.748Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691c52188e87687df7a4032a"
+    },
+    "productName": "Floral Hawaiian Shirt - Off White",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691c52188e87687df7a4031a"
+      },
+      {
+        "$oid": "691c52188e87687df7a4031c"
+      },
+      {
+        "$oid": "691c52188e87687df7a4031e"
+      },
+      {
+        "$oid": "691c52188e87687df7a40320"
+      },
+      {
+        "$oid": "691c52188e87687df7a40322"
+      },
+      {
+        "$oid": "691c52188e87687df7a40324"
+      },
+      {
+        "$oid": "691c52188e87687df7a40326"
+      },
+      {
+        "$oid": "691c52188e87687df7a40328"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "691c52418e87687df7a405b4"
+      },
+      {
+        "$oid": "691c52418e87687df7a405b5"
+      },
+      {
+        "$oid": "691c52418e87687df7a405b6"
+      }
+    ],
+    "description": "Floral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off WhiteFloral Hawaiian Shirt - Off White",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-18T11:01:44.980Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:34:23.254Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691d83bd1830b2aeb5f8fa0a"
+    },
+    "productName": "WAG Shirt",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691d83bd1830b2aeb5f8fa08"
+      }
+    ],
+    "productVariantIds": [],
+    "description": "<p dir=\"auto\" style=\"white-space-collapse: preserve;\"><strong>WAG Shirt – Biểu tượng sức mạnh của những chiến binh Free Fire!</strong></p>\n<p dir=\"auto\" style=\"white-space-collapse: preserve;\">- Bạn là tuyển thủ Free Fire đam mê những trận chiến khốc liệt trên Đấu Trường Sinh Tồn? Bạn tự hào là fan hâm mộ của đội tuyển WAG – \"ông lớn\" eSports Việt Nam với lượng fan đông đảo nhất, sở hữu lối chơi mạnh mẽ, kỹ năng bắn góc hẹp đỉnh cao và vô số thành tích chói lọi tại FFWS ASIA FALL INDO 2024? Áo WAG Shirt chính là \"vũ khí\" thời trang không thể thiếu, được thiết kế dành riêng cho các tuyển thủ chuyên nghiệp và cộng đồng game thủ cuồng nhiệt!</p>\n<p dir=\"auto\" style=\"white-space-collapse: preserve;\"><strong>Thiết kế đỉnh cao, truyền cảm hứng chiến đấu:</strong></p>\n<strong>- Màu sắc chủ đạo:</strong> Trắng tinh khôi tượng trưng cho sự tinh anh, kết hợp họa tiết logo WAG sắc nét in 3D sống động ở ngực trước và lưng áo – hình ảnh gấu chiến binh hung tợn, sẵn sàng \"booyah\" mọi đối thủ. Phù hợp hoàn hảo với phong cách Free Fire: năng động, mạnh mẽ nhưng vẫn thoải mái cho những buổi stream dài hơi hay tập luyện marathon.<br><strong>- Chất liệu premium:</strong> 100% cotton cao cấp, mềm mịn, thoáng khí, hút mồ hôi nhanh chóng. Trọng lượng nhẹ chỉ 180gsm, không xù lông sau nhiều lần giặt, đảm bảo bạn luôn \"cool ngầu\" ngay cả trong những trận đấu căng thẳng kéo dài 10 phút. Cổ tròn bo sát, tay ngắn vừa vặn, size từ XS (9kg) đến XXL (99kg) – phù hợp cho cả nam và nữ tuyển thủ.<br><strong>- Chi tiết cá nhân hóa:</strong> Miễn phí in tên tuyển thủ (như WAG.ALAN hay WAG.CALM), số áo may mắn và logo đội tuyển. Hình in HD sắc nét, bền màu lên đến 50 lần giặt, không phai mờ dù bạn \"xả thân\" trên chiến trường ảo.<br>\n<p dir=\"auto\" style=\"white-space-collapse: preserve;\"><strong>Lý do WAG Shirt là \"must-have\" cho tuyển thủ Free Fire:</strong></p>\n<ul dir=\"auto\">\n<li><strong>- Tôn vinh tinh thần đội tuyển:</strong> WAG không chỉ là đội tuyển hàng đầu Việt Nam với các ngôi sao như THANHNHA (nay là HLV), Xbor hay CALM, mà còn là biểu tượng của sự kiên cường và chiến thắng. Mặc WAG Shirt, bạn như đang khoác lên mình \"bộ giáp\" của những nhà vô địch, sẵn sàng chinh phục Free Fire World Cup hay bất kỳ giải đấu nào.</li>\n<li><strong>- Đa năng cho lối sống game thủ:</strong> Thoải mái mặc khi thi đấu, tập gym, đi sự kiện eSports hay chill với bạn bè. Kết hợp với quần short FF hoặc hoodie WAG để tạo set đồ hoàn hảo.</li>\n<li><strong>- Cam kết chất lượng từ nhà sản xuất:</strong> Sản xuất tại Việt Nam với công nghệ in tiên tiến, miễn phí vận chuyển toàn quốc. Đặt từ 15 áo trở lên còn được ưu đãi thiết kế độc quyền!</li>\n</ul>\n<p dir=\"auto\" style=\"white-space-collapse: preserve;\">Hãy biến WAG Shirt thành \"báu vật\" trong tủ đồ của bạn – nơi mỗi đường may là lời nhắc nhở: \"Chơi hết mình, chiến thắng tất cả!\"</p>",
+    "productStatus": "discontinued",
+    "createdAt": {
+      "$date": "2025-11-19T08:45:49.928Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-08T05:41:28.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691d8e2a91d5b3083237c199"
+    },
+    "productName": "Basic Sneakers",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af78"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691d8e2991d5b3083237c191"
+      },
+      {
+        "$oid": "691d8e2991d5b3083237c193"
+      },
+      {
+        "$oid": "691d8e2991d5b3083237c195"
+      },
+      {
+        "$oid": "691d8e2a91d5b3083237c197"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "691d8e5291d5b3083237c3b2"
+      },
+      {
+        "$oid": "691d8e5291d5b3083237c3b3"
+      },
+      {
+        "$oid": "691d8e5291d5b3083237c3b4"
+      },
+      {
+        "$oid": "691d8e5291d5b3083237c3b5"
+      },
+      {
+        "$oid": "691d8e5291d5b3083237c3b6"
+      },
+      {
+        "$oid": "691d8e5291d5b3083237c3b7"
+      }
+    ],
+    "description": "<article class=\"product-description\" lang=\"en\">\n  <header>\n    <h3 data-start=\"88\" data-end=\"111\"><p data-start=\"171\" data-end=\"427\">Designed for everyday comfort and effortless style, the Basic Sneakers feature a lightweight construction and breathable materials that keep your feet comfortable throughout the day. The clean, minimal design delivers a timeless look suitable for a wide range of outfits.</p>\n<p data-start=\"429\" data-end=\"750\">Easy to wear and simple to style, these sneakers pair seamlessly with jeans, shorts, or casual trousers. Whether you’re heading to class, running errands, or meeting friends, they provide a relaxed yet polished appearance.</p>\n<p data-start=\"752\" data-end=\"968\">Built for daily use, the cushioned sole and flexible structure support natural movement, making them ideal for long walks and extended wear. A reliable footwear essential that fits effortlessly into any casual wardrobe.</p>\n</h3><h3 data-start=\"970\" data-end=\"990\"><strong data-start=\"974\" data-end=\"990\">Key Features</strong></h3><h3 data-start=\"88\" data-end=\"111\">\n<ul data-start=\"991\" data-end=\"1199\">\n<li data-start=\"991\" data-end=\"1032\">\n<p data-start=\"993\" data-end=\"1032\">Lightweight and breathable materials</p>\n</li>\n<li data-start=\"1033\" data-end=\"1058\">\n<p data-start=\"1035\" data-end=\"1058\">Comfortable cushioned sole</p>\n</li>\n<li data-start=\"1059\" data-end=\"1105\">\n<p data-start=\"1061\" data-end=\"1105\">Durable outsole for daily wear</p>\n</li>\n<li data-start=\"1106\" data-end=\"1151\">\n<p data-start=\"1108\" data-end=\"1151\">Flexible design for natural movement</p>\n</li>\n<li data-start=\"1152\" data-end=\"1199\">\n<p data-start=\"1154\" data-end=\"1199\">Minimal style easy to match outfits</p>\n</li>\n</ul>\n</h3><h3 data-start=\"1201\" data-end=\"1218\"><strong data-start=\"1205\" data-end=\"1218\">Ideal For</strong></h3><h3 data-start=\"88\" data-end=\"111\">\n<ul data-start=\"1219\" data-end=\"1310\">\n<li data-start=\"1219\" data-end=\"1234\">\n<p data-start=\"1221\" data-end=\"1234\">Everyday casual wear</p>\n</li>\n<li data-start=\"1235\" data-end=\"1257\">\n<p data-start=\"1237\" data-end=\"1257\">Walking and commuting</p>\n</li>\n<li data-start=\"1258\" data-end=\"1278\">\n<p data-start=\"1260\" data-end=\"1278\">School or campus use</p>\n</li>\n<li data-start=\"1279\" data-end=\"1310\">\n<p data-start=\"1281\" data-end=\"1310\">Relaxed weekend activities</p>\n</li>\n</ul></h3></header><footer>\n  </footer>\n</article>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-19T09:30:18.118Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:26:56.914Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691d8e8f91d5b3083237c919"
+    },
+    "productName": "Leather Oxford Shoes",
+    "categoryId": {
+      "$oid": "691c296d7955d6c884b04f51"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691d8e8e91d5b3083237c911"
+      },
+      {
+        "$oid": "691d8e8f91d5b3083237c913"
+      },
+      {
+        "$oid": "691d8e8f91d5b3083237c915"
+      },
+      {
+        "$oid": "691d8e8f91d5b3083237c917"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "691d8eaf91d5b3083237cab9"
+      },
+      {
+        "$oid": "691d8eaf91d5b3083237caba"
+      },
+      {
+        "$oid": "691d8eaf91d5b3083237cabb"
+      },
+      {
+        "$oid": "691d8eaf91d5b3083237cabc"
+      },
+      {
+        "$oid": "691d8eaf91d5b3083237cabd"
+      },
+      {
+        "$oid": "691d8eaf91d5b3083237cabe"
+      }
+    ],
+    "description": "Leather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford ShoesLeather Oxford Shoes",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-19T09:31:59.219Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-19T09:32:31.585Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691d8f6f91d5b3083237d25a"
+    },
+    "productName": "Cotton Boxer Underwear",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af84"
+    },
+    "productImageIds": [
+      {
+        "$oid": "691d8f6f91d5b3083237d252"
+      },
+      {
+        "$oid": "691d8f6f91d5b3083237d254"
+      },
+      {
+        "$oid": "691d8f6f91d5b3083237d256"
+      },
+      {
+        "$oid": "691d8f6f91d5b3083237d258"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "691d8fa591d5b3083237d626"
+      },
+      {
+        "$oid": "691d8fa591d5b3083237d627"
+      },
+      {
+        "$oid": "691d8fa591d5b3083237d628"
+      },
+      {
+        "$oid": "691d8fa591d5b3083237d629"
+      },
+      {
+        "$oid": "691d8fc291d5b3083237da43"
+      },
+      {
+        "$oid": "691d8fc291d5b3083237da44"
+      },
+      {
+        "$oid": "691d8fc291d5b3083237da45"
+      },
+      {
+        "$oid": "691d8fc291d5b3083237da46"
+      },
+      {
+        "$oid": "691d8fd791d5b3083237dcf7"
+      },
+      {
+        "$oid": "691d8fd791d5b3083237dcf8"
+      },
+      {
+        "$oid": "691d8fd791d5b3083237dcf9"
+      },
+      {
+        "$oid": "691d8fd791d5b3083237dcfa"
+      }
+    ],
+    "description": "<p data-start=\"187\" data-end=\"457\">Experience everyday comfort with our Cotton Boxer Underwear, designed for softness, breathability, and long-lasting wear. Made from premium cotton fabric, these boxers provide a smooth and natural feel against the skin, helping you stay comfortable throughout the day.</p>\n<p data-start=\"459\" data-end=\"772\">With a relaxed fit and flexible waistband, they offer excellent support while allowing easy movement, whether you’re at work, traveling, or relaxing at home. The lightweight material helps wick away moisture and maintain ventilation, ensuring a fresh and comfortable wearing experience in any weather condition.</p>\n<p data-start=\"774\" data-end=\"926\">Ideal for daily use, these cotton boxers are a simple yet essential choice for men looking for both comfort and quality in their underwear collection.</p>\n<h3 data-start=\"928\" data-end=\"948\"><strong data-start=\"932\" data-end=\"948\">Key Features</strong></h3>\n<ul data-start=\"949\" data-end=\"1133\">\n<li data-start=\"949\" data-end=\"978\">\n<p data-start=\"951\" data-end=\"978\">Soft 100% cotton material</p>\n</li>\n<li data-start=\"979\" data-end=\"1015\">\n<p data-start=\"981\" data-end=\"1015\">Breathable and moisture-friendly</p>\n</li>\n<li data-start=\"1016\" data-end=\"1055\">\n<p data-start=\"1018\" data-end=\"1055\">Flexible waistband for a secure fit</p>\n</li>\n<li data-start=\"1056\" data-end=\"1094\">\n<p data-start=\"1058\" data-end=\"1094\">Smooth feel and gentle on the skin</p>\n</li>\n<li data-start=\"1095\" data-end=\"1133\">\n<p data-start=\"1097\" data-end=\"1133\">Comfortable support for daily wear</p>\n</li>\n</ul>\n<h3 data-start=\"1135\" data-end=\"1154\"><strong data-start=\"1139\" data-end=\"1154\">Perfect For</strong></h3>\n<ul data-start=\"1155\" data-end=\"1248\">\n<li data-start=\"1155\" data-end=\"1171\">\n<p data-start=\"1157\" data-end=\"1171\">Everyday use</p>\n</li>\n<li data-start=\"1172\" data-end=\"1199\">\n<p data-start=\"1174\" data-end=\"1199\">Work &amp; active lifestyle</p>\n</li>\n<li data-start=\"1200\" data-end=\"1232\">\n<p data-start=\"1202\" data-end=\"1232\">Casual wear and home comfort</p>\n</li>\n<li data-start=\"1233\" data-end=\"1248\">\n<p data-start=\"1235\" data-end=\"1248\">All seasons</p></li></ul>",
+    "productStatus": "active",
+    "createdAt": {
+      "$date": "2025-11-19T09:35:43.822Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-06T09:29:52.926Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692034eda95dfcdb10d1bc0f"
+    },
+    "productName": "Basic Sneaker",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af78"
+    },
+    "productImageIds": [
+      {
+        "$oid": "692034eda95dfcdb10d1bc09"
+      }
+    ],
+    "productVariantIds": [],
+    "description": "1234567891011asdgakldfsjaglkweoieurjfoavdlkjbm kslweiofvkladjoiwekfja",
+    "productStatus": "discontinued",
+    "createdAt": {
+      "$date": "2025-11-21T09:46:21.836Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-21T10:25:56.347Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69355df6fd1d089af43a5e17"
+    },
+    "productName": "Test product",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af71"
+    },
+    "productImageIds": [
+      {
+        "$oid": "69355df6fd1d089af43a5e15"
+      }
+    ],
+    "productVariantIds": [],
+    "description": "TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST",
+    "productStatus": "discontinued",
+    "createdAt": {
+      "$date": "2025-12-07T10:59:02.276Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-08T05:48:58.617Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69366e3b412dba60fcd6f052"
+    },
+    "productName": "Raw Denim Jacket",
+    "categoryId": {
+      "$oid": "69159ea643cae6104072af76"
+    },
+    "productImageIds": [
+      {
+        "$oid": "69366e3b412dba60fcd6f04c"
+      },
+      {
+        "$oid": "69366e3b412dba60fcd6f04e"
+      },
+      {
+        "$oid": "69366e3b412dba60fcd6f050"
+      }
+    ],
+    "productVariantIds": [
+      {
+        "$oid": "69367218dd5f6669b8b134de"
+      },
+      {
+        "$oid": "69367a4960bf2f654c963db4"
+      }
+    ],
+    "description": "<div>- <b>Product Type</b>: Raw Denim</div><div><br></div><div>- <b>Style/Form</b>: Regular.</div><div><br></div><div>- Characteristics: The product has a slight shrinkage and color loss after washing.</div><div><br></div><div>- Shrinkage: 1-2%</div><div><br></div><div>- Recommended:</div><div><br></div><div><i>Limit wearing and washing with light-colored clothes.</i></div><div><i>Do not use detergents with a lot of bleach, because this will speed up the fading process and cause clothes to fade quickly.</i></div><div><i>Do not wring hard, wringing hard will break the natural fade lines of the product, creating creases due to wringing.</i></div><div><i>+Note: Each version of Copper Denim will have different parameters, you can see the product parameter table in the \"Size Selection Guide\" section. If you have any questions, please message us via fanpage or instagram for more detailed advice on product details and sizes.</i></div>",
+    "productStatus": "discontinued",
+    "createdAt": {
+      "$date": "2025-12-08T06:20:43.467Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-08T07:22:30.360Z"
+    },
+    "__v": 0
+  }
+]

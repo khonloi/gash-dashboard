@@ -1,0 +1,210 @@
+[{
+  "_id": {
+    "$oid": "69159ec743cae6104072af95"
+  },
+  "productColorName": "Pink",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9c"
+  },
+  "productColorName": "Mint Green",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9f"
+  },
+  "productColorName": "Light Gray",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa3"
+  },
+  "productColorName": "Jet Black",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa6"
+  },
+  "productColorName": "Sky Blue",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa8"
+  },
+  "productColorName": "Coffee Brown",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa9"
+  },
+  "productColorName": "Charcoal",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afab"
+  },
+  "productColorName": "Old Color",
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af8f"
+  },
+  "productColorName": "Black",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af92"
+  },
+  "productColorName": "Royal Blue",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af96"
+  },
+  "productColorName": "Yellow",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af99"
+  },
+  "productColorName": "Brown",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9a"
+  },
+  "productColorName": "Beige",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9d"
+  },
+  "productColorName": "Light Pink",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa7"
+  },
+  "productColorName": "Cherry Red",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afaa"
+  },
+  "productColorName": "Lemon Yellow",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af91"
+  },
+  "productColorName": "Navy Blue",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af93"
+  },
+  "productColorName": "Green",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af94"
+  },
+  "productColorName": "Red",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af97"
+  },
+  "productColorName": "Orange",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af98"
+  },
+  "productColorName": "Purple",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9e"
+  },
+  "productColorName": "Maroon",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af8e"
+  },
+  "productColorName": "White",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af90"
+  },
+  "productColorName": "Gray",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072af9b"
+  },
+  "productColorName": "Cream",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa0"
+  },
+  "productColorName": "Dark Gray",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa1"
+  },
+  "productColorName": "Olive Green",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa2"
+  },
+  "productColorName": "Mustard Yellow",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa4"
+  },
+  "productColorName": "Off White",
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159ec743cae6104072afa5"
+  },
+  "productColorName": "Baby Pink",
+  "isDeleted": false
+}]

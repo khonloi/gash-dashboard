@@ -1,0 +1,539 @@
+[{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af35"
+  },
+  "code": "SAVE50K",
+  "discountType": "fixed",
+  "discountValue": 50000,
+  "minOrderValue": 300000,
+  "maxDiscount": null,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-30T23:59:59.999Z",
+  "usageLimit": 50,
+  "usedCount": 50,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3e"
+  },
+  "code": "STUDENT10",
+  "discountType": "percentage",
+  "discountValue": 10,
+  "minOrderValue": 200000,
+  "maxDiscount": 20000,
+  "startDate": {
+    "$date": "2025-08-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 500,
+  "usedCount": 380,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T06:22:37.704Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af40"
+  },
+  "code": "LOYALTY15",
+  "discountType": "percentage",
+  "discountValue": 15,
+  "minOrderValue": 700000,
+  "maxDiscount": 200000,
+  "startDate": "2025-11-01T00:00:00.000Z",
+  "endDate": "2025-11-30T23:59:59.999Z",
+  "usageLimit": 300,
+  "usedCount": 210,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af42"
+  },
+  "code": "SUMMER30",
+  "discountType": "percentage",
+  "discountValue": 30,
+  "minOrderValue": 400000,
+  "maxDiscount": 120000,
+  "startDate": "2025-06-01T00:00:00.000Z",
+  "endDate": "2025-08-31T23:59:59.999Z",
+  "usageLimit": 150,
+  "usedCount": 150,
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af43"
+  },
+  "code": "BIRTHDAY20",
+  "discountType": "percentage",
+  "discountValue": 20,
+  "minOrderValue": 300000,
+  "maxDiscount": 100000,
+  "startDate": "2025-01-01T00:00:00.000Z",
+  "endDate": "2025-12-31T23:59:59.999Z",
+  "usageLimit": 1,
+  "usedCount": 1,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af45"
+  },
+  "code": "WELCOME5",
+  "discountType": "percentage",
+  "discountValue": 5,
+  "minOrderValue": 200000,
+  "maxDiscount": 200000,
+  "startDate": {
+    "$date": "2025-10-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 1000,
+  "usedCount": 890,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T04:37:06.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af47"
+  },
+  "code": "SHIPFREE100",
+  "discountType": "fixed",
+  "discountValue": 35000,
+  "minOrderValue": 100000,
+  "maxDiscount": 35000,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-30T23:59:59.999Z",
+  "usageLimit": 1000,
+  "usedCount": 723,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4b"
+  },
+  "code": "PARTNER25",
+  "discountType": "percentage",
+  "discountValue": 25,
+  "minOrderValue": 500000,
+  "maxDiscount": 200000,
+  "startDate": "2025-11-01T00:00:00.000Z",
+  "endDate": "2025-12-31T23:59:59.999Z",
+  "usageLimit": 100,
+  "usedCount": 67,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af50"
+  },
+  "code": "LIMITED88",
+  "discountType": "percentage",
+  "discountValue": 88,
+  "minOrderValue": 3000000,
+  "maxDiscount": 1500000,
+  "startDate": "2025-12-12T00:00:00.000Z",
+  "endDate": "2025-12-12T23:59:59.999Z",
+  "usageLimit": 1,
+  "usedCount": 0,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4e"
+  },
+  "code": "CASHBACK10",
+  "discountType": "percentage",
+  "discountValue": 10,
+  "minOrderValue": 100000,
+  "maxDiscount": 10000,
+  "startDate": {
+    "$date": "2025-10-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-12-01T16:59:59.999Z"
+  },
+  "usageLimit": 1000,
+  "usedCount": 877,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T04:37:18.561Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4f"
+  },
+  "code": "EXPIRED99",
+  "discountType": "fixed",
+  "discountValue": 99000,
+  "minOrderValue": 500000,
+  "maxDiscount": null,
+  "startDate": "2025-01-01T00:00:00.000Z",
+  "endDate": "2025-01-31T23:59:59.999Z",
+  "usageLimit": 10,
+  "usedCount": 10,
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af51"
+  },
+  "code": "FREEGIFT",
+  "discountType": "fixed",
+  "discountValue": 10000,
+  "minOrderValue": 1000000,
+  "maxDiscount": null,
+  "startDate": {
+    "$date": "2025-11-12T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 100,
+  "usedCount": 73,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T04:34:39.390Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af36"
+  },
+  "code": "FLASHSALE20",
+  "discountType": "percentage",
+  "discountValue": 20,
+  "minOrderValue": 500000,
+  "maxDiscount": 150000,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-13T23:59:59.999Z",
+  "usageLimit": 1,
+  "usedCount": 1,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af38"
+  },
+  "code": "VIP15OFF",
+  "discountType": "percentage",
+  "discountValue": 15,
+  "minOrderValue": 1000000,
+  "maxDiscount": 300000,
+  "startDate": "2025-11-01T00:00:00.000Z",
+  "endDate": "2025-12-01T23:59:59.999Z",
+  "usageLimit": 200,
+  "usedCount": 78,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3b"
+  },
+  "code": "XMAS25",
+  "discountType": "percentage",
+  "discountValue": 25,
+  "minOrderValue": 50000,
+  "maxDiscount": 5000,
+  "startDate": {
+    "$date": "2025-12-19T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-12-27T16:59:59.999Z"
+  },
+  "usageLimit": 1000,
+  "usedCount": 0,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T04:35:05.696Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3f"
+  },
+  "code": "SAVE20K",
+  "discountType": "fixed",
+  "discountValue": 20000,
+  "minOrderValue": 100000,
+  "maxDiscount": null,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-15T23:59:59.999Z",
+  "usageLimit": 100,
+  "usedCount": 100,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af41"
+  },
+  "code": "GIFT50K",
+  "discountType": "fixed",
+  "discountValue": 50000,
+  "minOrderValue": 200000,
+  "maxDiscount": null,
+  "startDate": {
+    "$date": "2025-11-30T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 1,
+  "usedCount": 0,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T04:35:40.341Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af44"
+  },
+  "code": "SAVE150K",
+  "discountType": "fixed",
+  "discountValue": 150000,
+  "minOrderValue": 1000000,
+  "maxDiscount": null,
+  "startDate": "2025-11-20T00:00:00.000Z",
+  "endDate": "2025-11-25T23:59:59.999Z",
+  "usageLimit": 20,
+  "usedCount": 15,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af46"
+  },
+  "code": "MEGA70OFF",
+  "discountType": "percentage",
+  "discountValue": 70,
+  "minOrderValue": 2000000,
+  "maxDiscount": 1000000,
+  "startDate": "2025-11-11T00:00:00.000Z",
+  "endDate": "2025-11-11T23:59:59.999Z",
+  "usageLimit": 1,
+  "usedCount": 1,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af48"
+  },
+  "code": "TEST123",
+  "discountType": "percentage",
+  "discountValue": 99,
+  "minOrderValue": 10000000,
+  "maxDiscount": 5000000,
+  "startDate": {
+    "$date": "2024-12-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 1,
+  "usedCount": 0,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-11-24T03:19:50.038Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af49"
+  },
+  "code": "ZERO99",
+  "discountType": "fixed",
+  "discountValue": 99000,
+  "minOrderValue": 99000,
+  "maxDiscount": null,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-13T23:59:59.999Z",
+  "usageLimit": 99,
+  "usedCount": 99,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4a"
+  },
+  "code": "OLDSTOCK50",
+  "discountType": "percentage",
+  "discountValue": 50,
+  "minOrderValue": 0,
+  "maxDiscount": null,
+  "startDate": "2025-10-01T00:00:00.000Z",
+  "endDate": "2025-10-31T23:59:59.999Z",
+  "usageLimit": 200,
+  "usedCount": 200,
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af34"
+  },
+  "code": "NEW10",
+  "discountType": "percentage",
+  "discountValue": 10,
+  "minOrderValue": 200000,
+  "maxDiscount": 20000,
+  "startDate": {
+    "$date": "2025-10-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-16T16:59:59.999Z"
+  },
+  "usageLimit": 100,
+  "usedCount": 45,
+  "isDeleted": false,
+  "updatedAt": {
+    "$date": "2025-12-08T06:49:36.195Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af37"
+  },
+  "code": "FREESHIP",
+  "discountType": "fixed",
+  "discountValue": 30000,
+  "minOrderValue": 200000,
+  "maxDiscount": 30000,
+  "startDate": "2025-11-10T00:00:00.000Z",
+  "endDate": "2025-11-20T23:59:59.999Z",
+  "usageLimit": 500,
+  "usedCount": 412,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af39"
+  },
+  "code": "WEEKEND30",
+  "discountType": "percentage",
+  "discountValue": 30,
+  "minOrderValue": 800000,
+  "maxDiscount": 200000,
+  "startDate": "2025-11-15T00:00:00.000Z",
+  "endDate": "2025-11-16T23:59:59.999Z",
+  "usageLimit": 1,
+  "usedCount": 0,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3a"
+  },
+  "code": "SAVE100K",
+  "discountType": "fixed",
+  "discountValue": 100000,
+  "minOrderValue": 600000,
+  "maxDiscount": null,
+  "startDate": "2025-11-05T00:00:00.000Z",
+  "endDate": "2025-11-25T23:59:59.999Z",
+  "usageLimit": 30,
+  "usedCount": 28,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3c"
+  },
+  "code": "FIRSTORDER",
+  "discountType": "fixed",
+  "discountValue": 40000,
+  "minOrderValue": 150000,
+  "maxDiscount": 40000,
+  "startDate": {
+    "$date": "2025-10-31T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-01-01T16:59:59.999Z"
+  },
+  "usageLimit": 2,
+  "usedCount": 1,
+  "isDeleted": true,
+  "updatedAt": {
+    "$date": "2025-12-08T06:49:59.524Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af3d"
+  },
+  "code": "BLACKFRIDAY40",
+  "discountType": "percentage",
+  "discountValue": 40,
+  "minOrderValue": 1000000,
+  "maxDiscount": 500000,
+  "startDate": "2025-11-28T00:00:00.000Z",
+  "endDate": "2025-11-30T23:59:59.999Z",
+  "usageLimit": 200,
+  "usedCount": 150,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4c"
+  },
+  "code": "SAVE75K",
+  "discountType": "fixed",
+  "discountValue": 75000,
+  "minOrderValue": 450000,
+  "maxDiscount": null,
+  "startDate": "2025-11-15T00:00:00.000Z",
+  "endDate": "2025-11-20T23:59:59.999Z",
+  "usageLimit": 80,
+  "usedCount": 62,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "69159c8b43cae6104072af4d"
+  },
+  "code": "LAUNCH18",
+  "discountType": "percentage",
+  "discountValue": 18,
+  "minOrderValue": 250000,
+  "maxDiscount": 100000,
+  "startDate": "2025-11-13T00:00:00.000Z",
+  "endDate": "2025-11-20T23:59:59.999Z",
+  "usageLimit": 500,
+  "usedCount": 389,
+  "isDeleted": false
+},
+{
+  "_id": {
+    "$oid": "691d81671830b2aeb5f8f7c4"
+  },
+  "code": "SALEVIP",
+  "discountType": "fixed",
+  "discountValue": 200000,
+  "minOrderValue": 200000,
+  "maxDiscount": null,
+  "startDate": {
+    "$date": "2025-11-18T17:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-11-20T16:59:59.999Z"
+  },
+  "usageLimit": 2,
+  "usedCount": 1,
+  "isDeleted": false,
+  "createdAt": {
+    "$date": "2025-11-19T08:35:51.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T04:35:53.004Z"
+  },
+  "__v": 0
+}]

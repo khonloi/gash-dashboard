@@ -159,7 +159,7 @@ const EditProfileModal = ({
         {/* Modal Header */}
         <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0" style={{ borderColor: '#A86523' }}>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-            Edit Profile
+            Update Profile
           </h2>
           <button
             type="button"

@@ -8,14 +8,25 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, passkeyLogin } = React.useContext(AuthContext);
+  const { user, login, passkeyLogin } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const usernameRef = useRef(null);
 
-  // Focus username input on mount
+  // Handle redirect if already logged in (important for Demo Mode)
+  useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, navigate]);
+
+  // Focus username input on mount and set defaults for demo
   useEffect(() => {
     usernameRef.current?.focus();
+    if (import.meta.env.VITE_APP_USE_MOCK === 'true') {
+      setUsername('admin');
+      setPassword('admin');
+    }
   }, []);
 
   // Handle redirect after login
@@ -53,7 +64,7 @@ const Login = () => {
 
   const handlePasskeyLogin = useCallback(async () => {
     const trimmedUsername = username.trim();
-    
+
     if (!trimmedUsername) {
       setError('Please enter your username to use passkey login.');
       usernameRef.current?.focus();

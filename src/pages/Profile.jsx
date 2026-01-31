@@ -512,7 +512,7 @@ const Profile = () => {
                         className="w-full text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
                         onClick={() => setEditMode(true)}
                       >
-                        Edit Profile
+                        Update Profile
                       </button>
                       <button
                         className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-xl transition-all duration-200 border border-gray-300 hover:border-gray-400"
@@ -725,7 +725,7 @@ const Profile = () => {
         )}
       </div>
 
-      {/* Modal Edit Profile */}
+      {/* Modal Update Profile */}
       {editMode && (
         <EditProfileModal
           formData={formData}

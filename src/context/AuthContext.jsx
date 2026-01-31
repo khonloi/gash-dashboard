@@ -29,8 +29,9 @@ export const AuthProvider = ({ children }) => {
       const now = Date.now();
       const sessionDuration = 24 * 60 * 60 * 1000; // 1 day
       const elapsed = now - parseInt(loginTime, 10);
+      const isDemoMode = import.meta.env.VITE_APP_USE_MOCK === 'true';
 
-      if (elapsed >= sessionDuration) {
+      if (elapsed >= sessionDuration && !isDemoMode) {
         handleForcedLogout('Your session has expired. You will be logged out.');
         setIsAuthLoading(false);
         return;
@@ -39,12 +40,14 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
 
       const remaining = sessionDuration - elapsed;
-      const timer = setTimeout(() => {
+      const timer = (!isDemoMode && remaining > 0) ? setTimeout(() => {
         handleForcedLogout('Your session has expired. You will be logged out.');
-      }, remaining);
+      }, remaining) : null;
 
       setIsAuthLoading(false);
-      return () => clearTimeout(timer);
+      return () => {
+        if (timer) clearTimeout(timer);
+      };
     } else {
       setIsAuthLoading(false);
     }
@@ -100,13 +103,15 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { token, account } = data;
+      const isDemoMode = import.meta.env.VITE_APP_USE_MOCK === 'true';
 
-      if (!['admin', 'manager'].includes(account.role)) {
+      if (!isDemoMode && !['admin', 'manager'].includes(account.role)) {
         showToast('Only admin or manager roles are allowed', 'error');
         return;
       }
 
       if (
+        !isDemoMode &&
         account.role !== 'admin' &&
         /^\/(accounts|statistics)/.test(window.location.pathname)
       ) {
@@ -121,9 +126,11 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('loginTime', loginTime);
       setUser(account);
 
-      setTimeout(() => {
-        handleForcedLogout('Your session has expired. You will be logged out.');
-      }, 24 * 60 * 60 * 1000);
+      if (!isDemoMode) {
+        setTimeout(() => {
+          handleForcedLogout('Your session has expired. You will be logged out.');
+        }, 24 * 60 * 60 * 1000);
+      }
 
 
       navigate('/');
@@ -135,7 +142,8 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (userData) => {
     try {
-      if (!['admin', 'manager'].includes(userData.role)) {
+      const isDemoMode = import.meta.env.VITE_APP_USE_MOCK === 'true';
+      if (!isDemoMode && !['admin', 'manager'].includes(userData.role)) {
         showToast('Only admin or manager roles are allowed', 'error');
         return;
       }
@@ -152,6 +160,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (
+        !isDemoMode &&
         account.role !== 'admin' &&
         /^\/(accounts|statistics)/.test(window.location.pathname)
       ) {
@@ -166,9 +175,11 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('loginTime', loginTime);
       setUser(account);
 
-      setTimeout(() => {
-        handleForcedLogout('Your session has expired. You will be logged out.');
-      }, 24 * 60 * 60 * 1000);
+      if (!isDemoMode) {
+        setTimeout(() => {
+          handleForcedLogout('Your session has expired. You will be logged out.');
+        }, 24 * 60 * 60 * 1000);
+      }
 
       showToast('Account created successfully', 'success');
       navigate('/');
@@ -181,7 +192,7 @@ export const AuthProvider = ({ children }) => {
   const passkeyLogin = async (username) => {
     try {
       const { startAuthentication } = await import('@simplewebauthn/browser');
-      
+
       // Step 1: Get authentication options from server
       const response = await axiosClient.post('/passkeys/auth/generate', { username });
       const { options } = response.data;
@@ -198,7 +209,8 @@ export const AuthProvider = ({ children }) => {
 
       const { token, account } = verifyResponse.data;
 
-      if (!['admin', 'manager'].includes(account.role)) {
+      const isDemoMode = import.meta.env.VITE_APP_USE_MOCK === 'true';
+      if (!isDemoMode && !['admin', 'manager'].includes(account.role)) {
         showToast('Only admin or manager roles are allowed', 'error');
         return;
       }
@@ -220,9 +232,11 @@ export const AuthProvider = ({ children }) => {
 
       showToast('Passkey logged in successfully', 'success');
 
-      setTimeout(() => {
-        handleForcedLogout('Your session has expired. You will be logged out.');
-      }, 24 * 60 * 60 * 1000);
+      if (!isDemoMode) {
+        setTimeout(() => {
+          handleForcedLogout('Your session has expired. You will be logged out.');
+        }, 24 * 60 * 60 * 1000);
+      }
 
       navigate('/');
     } catch (error) {
