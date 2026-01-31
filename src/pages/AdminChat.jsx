@@ -64,127 +64,127 @@ export default function AdminChat() {
       console.info("Socket connected:", socketRef.current.id);
     });
 
-socketRef.current.on("new_message", (msg) => {
-  try {
-    const convoId = String(
-      typeof msg.conversationId === "object"
-        ? msg.conversationId._id || msg.conversationId
-        : msg.conversationId
-    );
+    socketRef.current.on("new_message", (msg) => {
+      try {
+        const convoId = String(
+          typeof msg.conversationId === "object"
+            ? msg.conversationId._id || msg.conversationId
+            : msg.conversationId
+        );
 
-    // 1. Push message into the open chat
-    if (selectedRef.current && convoId === getId(selectedRef.current)) {
-      setMessages((prev) => [...prev, msg]);
-    }
-
-    // 2. UPDATE SIDEBAR LIVE: lastMessage + unread count
-    setConversations((prev) => {
-      const updated = prev.map((c) => {
-        if (getId(c) === convoId) {
-          return {
-            ...c,
-            lastMessage:
-              msg.messageText ||
-              (msg.type === "image" ? "Image" :
-               msg.type === "sticker" ? "Sticker" :
-               msg.type === "emoji" ? "Emoji" : "Media"),
-            unreadCount:
-              selectedRef.current && getId(selectedRef.current) === convoId
-                ? 0
-                : (c.unreadCount || 0) + 1,
-            updatedAt: new Date().toISOString(), // Update timestamp for sorting
-          };
+        // 1. Push message into the open chat
+        if (selectedRef.current && convoId === getId(selectedRef.current)) {
+          setMessages((prev) => [...prev, msg]);
         }
-        return c;
-      });
-      // Sort by updatedAt descending to bring updated conversations to top
-      return updated.sort((a, b) => {
-        const aTime = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
-        const bTime = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
-        return bTime - aTime;
-      });
+
+        // 2. UPDATE SIDEBAR LIVE: lastMessage + unread count
+        setConversations((prev) => {
+          const updated = prev.map((c) => {
+            if (getId(c) === convoId) {
+              return {
+                ...c,
+                lastMessage:
+                  msg.messageText ||
+                  (msg.type === "image" ? "Image" :
+                    msg.type === "sticker" ? "Sticker" :
+                      msg.type === "emoji" ? "Emoji" : "Media"),
+                unreadCount:
+                  selectedRef.current && getId(selectedRef.current) === convoId
+                    ? 0
+                    : (c.unreadCount || 0) + 1,
+                updatedAt: new Date().toISOString(), // Update timestamp for sorting
+              };
+            }
+            return c;
+          });
+          // Sort by updatedAt descending to bring updated conversations to top
+          return updated.sort((a, b) => {
+            const aTime = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+            const bTime = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+            return bTime - aTime;
+          });
+        });
+      } catch (err) {
+        console.error("Error handling new_message:", err);
+      }
     });
-  } catch (err) {
-    console.error("Error handling new_message:", err);
-  }
-});
 
-socketRef.current.on("conversation_updated", (updatedConvo) => {
-  try {
-    const convoId = getId(updatedConvo);
-    const updatedStaffId = updatedConvo.staffId ? getId(updatedConvo.staffId) : null;
-    const updatedStatus = updatedConvo.status;
-    const isAdmin = userRef.current?.role === 'admin';
-    
-    // Filter: Remove if closed
-    if (updatedStatus === "closed") {
-      setConversations((prev) => {
-        const filtered = prev.filter((c) => getId(c) !== convoId);
-        if (selectedRef.current && getId(selectedRef.current) === convoId) {
-          setSelected(null);
+    socketRef.current.on("conversation_updated", (updatedConvo) => {
+      try {
+        const convoId = getId(updatedConvo);
+        const updatedStaffId = updatedConvo.staffId ? getId(updatedConvo.staffId) : null;
+        const updatedStatus = updatedConvo.status;
+        const isAdmin = userRef.current?.role === 'admin';
+
+        // Filter: Remove if closed
+        if (updatedStatus === "closed") {
+          setConversations((prev) => {
+            const filtered = prev.filter((c) => getId(c) !== convoId);
+            if (selectedRef.current && getId(selectedRef.current) === convoId) {
+              setSelected(null);
+            }
+            return filtered;
+          });
+          return;
         }
-        return filtered;
-      });
-      return;
-    }
-    
-    setConversations((prev) => {
-      const exists = prev.some((c) => getId(c) === convoId);
-      let updated;
-      if (exists) {
-        // Update existing conversation
-        updated = prev.map((c) => {
-          if (getId(c) === convoId) {
+
+        setConversations((prev) => {
+          const exists = prev.some((c) => getId(c) === convoId);
+          let updated;
+          if (exists) {
+            // Update existing conversation
+            updated = prev.map((c) => {
+              if (getId(c) === convoId) {
+                // Ensure accountId is properly cached
+                let accountId = updatedConvo.accountId || c.accountId;
+                if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
+                  userCacheRef.current.set(String(accountId._id), accountId);
+                }
+
+                return {
+                  ...c,
+                  ...updatedConvo,
+                  lastMessage: updatedConvo.lastMessage || c.lastMessage,
+                  accountId: accountId,
+                  staffId: updatedStaffId || c.staffId,
+                  updatedAt: updatedConvo.updatedAt || c.updatedAt,
+                };
+              }
+              return c;
+            });
+          } else {
             // Ensure accountId is properly cached
-            let accountId = updatedConvo.accountId || c.accountId;
-            if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
+            let accountId = updatedConvo.accountId;
+            if (typeof accountId === "string") {
+              const cached = userCacheRef.current.get(accountId);
+              accountId = cached || { _id: accountId };
+            } else if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
               userCacheRef.current.set(String(accountId._id), accountId);
             }
-            
-            return {
-              ...c,
-              ...updatedConvo,
-              lastMessage: updatedConvo.lastMessage || c.lastMessage,
-              accountId: accountId,
-              staffId: updatedStaffId || c.staffId,
-              updatedAt: updatedConvo.updatedAt || c.updatedAt,
-            };
+
+            updated = [
+              {
+                ...updatedConvo,
+                lastMessage: updatedConvo.lastMessage || "New conversation",
+                unreadCount: 1,
+                status: updatedStatus || "open",
+                staffId: updatedStaffId,
+                accountId: accountId,
+              },
+              ...prev,
+            ];
           }
-          return c;
+          // Sort by updatedAt descending
+          return updated.sort((a, b) => {
+            const aTime = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+            const bTime = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+            return bTime - aTime;
+          });
         });
-      } else {
-        // Ensure accountId is properly cached
-        let accountId = updatedConvo.accountId;
-        if (typeof accountId === "string") {
-          const cached = userCacheRef.current.get(accountId);
-          accountId = cached || { _id: accountId };
-        } else if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
-          userCacheRef.current.set(String(accountId._id), accountId);
-        }
-        
-        updated = [
-          {
-            ...updatedConvo,
-            lastMessage: updatedConvo.lastMessage || "New conversation",
-            unreadCount: 1,
-            status: updatedStatus || "open",
-            staffId: updatedStaffId,
-            accountId: accountId,
-          },
-          ...prev,
-        ];
+      } catch (err) {
+        console.error("Error handling conversation_updated:", err);
       }
-      // Sort by updatedAt descending
-      return updated.sort((a, b) => {
-        const aTime = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
-        const bTime = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
-        return bTime - aTime;
-      });
     });
-  } catch (err) {
-    console.error("Error handling conversation_updated:", err);
-  }
-});
 
     socketRef.current.on("conversation_created", (convo) => {
       // Ensure accountId is properly cached
@@ -195,7 +195,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
       } else if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
         userCacheRef.current.set(String(accountId._id), accountId);
       }
-      
+
       const newConvo = {
         ...convo,
         lastMessage: convo.lastMessage || "New conversation",
@@ -204,11 +204,11 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
         staffId: convo.staffId ? getId(convo.staffId) : null,
         accountId: accountId,
       };
-      
+
       if (newConvo.status === "closed") {
         return; // Don't add closed conversations
       }
-      
+
       setConversations((prev) => {
         // Check if conversation already exists
         const exists = prev.some((c) => getId(c) === getId(newConvo));
@@ -232,18 +232,18 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
         prev.map((c) =>
           getId(c) === getId(updatedConvo)
             ? {
-                ...c,
-                ...updatedConvo,
-                staffId: updatedConvo.staffId ? getId(updatedConvo.staffId) : c.staffId,
-                accountId: (() => {
-                  // Ensure accountId is properly cached
-                  let accountId = updatedConvo.accountId || c.accountId;
-                  if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
-                    userCacheRef.current.set(String(accountId._id), accountId);
-                  }
-                  return accountId;
-                })(),
-              }
+              ...c,
+              ...updatedConvo,
+              staffId: updatedConvo.staffId ? getId(updatedConvo.staffId) : c.staffId,
+              accountId: (() => {
+                // Ensure accountId is properly cached
+                let accountId = updatedConvo.accountId || c.accountId;
+                if (accountId && typeof accountId === "object" && accountId._id && (accountId.username || accountId.email)) {
+                  userCacheRef.current.set(String(accountId._id), accountId);
+                }
+                return accountId;
+              })(),
+            }
             : c
         )
       );
@@ -318,7 +318,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
             userCacheRef.current.set(String(accountId._id), accountId);
           }
         }
-        
+
         return {
           ...c,
           lastMessage: c.lastMessage || "No message",
@@ -336,7 +336,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
         return bTime - aTime;
       });
       setConversations(sorted);
-      
+
       // Pre-fetch user details for any accountIds that are just IDs
       sorted.forEach(conv => {
         const acc = conv.accountId;
@@ -347,7 +347,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
           } else if (typeof acc === "object" && acc._id && !acc.username && !acc.email) {
             userId = String(acc._id);
           }
-          
+
           if (userId && !userCacheRef.current.has(userId)) {
             // Fetch in background
             fetchUserDetails(userId).then(userData => {
@@ -492,12 +492,12 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
   const fetchUserDetails = async (userId) => {
     if (!userId) return null;
     const userIdStr = String(userId);
-    
+
     // Check cache first
     if (userCacheRef.current.has(userIdStr)) {
       return userCacheRef.current.get(userIdStr);
     }
-    
+
     try {
       const userData = await SummaryAPI.accounts.getById(userIdStr);
       if (userData) {
@@ -513,7 +513,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
   const displayName = async (conv) => {
     const acc = conv.accountId;
     if (!acc) return "Unknown";
-    
+
     // Handle populated accountId object
     if (typeof acc === "object" && acc !== null) {
       // Check if it's a populated object with username/email
@@ -527,7 +527,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
         return `User ${String(acc._id).slice(-6)}`;
       }
     }
-    
+
     // If it's a string ID, fetch from API
     if (typeof acc === "string") {
       const userData = await fetchUserDetails(acc);
@@ -535,7 +535,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
       if (userData?.email) return userData.email;
       return `User ${acc.slice(-6)}`;
     }
-    
+
     return "Unknown User";
   };
 
@@ -543,7 +543,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
   const getDisplayName = (conv) => {
     const acc = conv.accountId;
     if (!acc) return "Unknown";
-    
+
     // Handle populated accountId object
     if (typeof acc === "object" && acc !== null) {
       if (acc.username) return acc.username;
@@ -568,7 +568,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
         return `User ${String(acc._id).slice(-6)}`;
       }
     }
-    
+
     // If it's a string ID, check cache
     if (typeof acc === "string") {
       const cached = userCacheRef.current.get(acc);
@@ -587,7 +587,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
       });
       return `User ${acc.slice(-6)}`;
     }
-    
+
     return "Unknown User";
   };
 
@@ -605,14 +605,14 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 h-[calc(100vh-3rem)]">
         {/* SIDEBAR */}
         <aside className="w-full lg:w-2/5 xl:w-1/3">
-          <div className="backdrop-blur-xl bg-white rounded-xl border p-5 flex flex-col h-full shadow-lg" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="bg-white rounded-xl border p-5 flex flex-col h-full shadow-lg" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                <FaUsers className="text-[#E9A319]" /> Active Chats
+                <FaUsers className="text-[rgb(245 158 11)]" /> Active Chats
               </h2>
               <button
                 onClick={loadConversations}
-                className="text-gray-500 hover:text-[#E9A319] transition-colors p-2 rounded-lg hover:bg-yellow-50"
+                className="text-gray-500 hover:text-[rgb(245 158 11)] transition-colors p-2 rounded-lg hover:bg-yellow-50"
                 title="Refresh"
               >
                 <FaSyncAlt />
@@ -640,11 +640,10 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                         onClick={() => {
                           loadMessages(c);
                         }}
-                        className={`cursor-pointer flex items-center justify-between p-3 rounded-xl border-2 transition-all duration-300 ${
-                          active
-                            ? "bg-gradient-to-r from-yellow-50/50 via-amber-50/50 to-orange-50/50 border-yellow-400/50 shadow-md"
-                            : "hover:bg-gradient-to-r hover:from-yellow-50/30 hover:via-amber-50/30 hover:to-orange-50/30 border-gray-200/40 hover:border-yellow-400/40"
-                        }`}
+                        className={`cursor-pointer flex items-center justify-between p-3 rounded-xl border-2 transition-all duration-300 ${active
+                          ? "bg-gradient-to-r from-yellow-50/50 via-amber-50/50 to-orange-50/50 border-yellow-400/50 shadow-md"
+                          : "hover:bg-gradient-to-r hover:from-yellow-50/30 hover:via-amber-50/30 hover:to-orange-50/30 border-gray-200/40 hover:border-yellow-400/40"
+                          }`}
                       >
                         <div className="flex items-center gap-3 flex-1">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-white flex items-center justify-center font-bold shadow-md">
@@ -686,7 +685,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
 
         {/* CHAT AREA */}
         <section className="flex-1">
-          <div className="backdrop-blur-xl bg-white rounded-xl border flex flex-col h-full overflow-hidden shadow-lg" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="bg-white rounded-xl border flex flex-col h-full overflow-hidden shadow-lg" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
             {!selected ? (
               <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
                 <FaUsers className="text-6xl text-gray-300 mb-3" />
@@ -695,7 +694,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
             ) : (
               <>
                 {/* HEADER */}
-                <div className="border-b-2 px-6 py-3 bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-sm flex items-center justify-between flex-shrink-0" style={{ borderColor: '#A86523' }}>
+                <div className="border-b-2 px-6 py-3 bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 flex items-center justify-between flex-shrink-0">
                   <div>
                     <h3 className="font-semibold text-gray-800">
                       {getDisplayName(selected)}
@@ -732,169 +731,165 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                   </div>
                 </div>
 
- {/* MESSAGES */}
-<div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-gray-100">
-  {loadingMessages ? (
-    <div className="flex items-center justify-center h-full">
-      <Loading type="default" size="small" message="Loading messages..." />
-    </div>
-  ) : (
-    messages.map((m, i) => {
-      const senderId = String(m.senderId);
-      const isMe = senderId === String(adminId); // staff/admin đang login = bên phải
+                {/* MESSAGES */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-gray-100">
+                  {loadingMessages ? (
+                    <div className="flex items-center justify-center h-full">
+                      <Loading type="default" size="small" message="Loading messages..." />
+                    </div>
+                  ) : (
+                    messages.map((m, i) => {
+                      const senderId = String(m.senderId);
+                      const isMe = senderId === String(adminId); // staff/admin đang login = bên phải
 
-      // Lấy cache
-      let sender = userCacheRef.current.get(senderId);
+                      // Lấy cache
+                      let sender = userCacheRef.current.get(senderId);
 
-      // Nếu cache chưa có → fetch user
-      if (!sender) {
-        fetchUserDetails(senderId).then((data) => {
-          if (data) {
-            userCacheRef.current.set(senderId, data);
-            setMessages((prev) => [...prev]);
-          }
-        });
-      }
+                      // Nếu cache chưa có → fetch user
+                      if (!sender) {
+                        fetchUserDetails(senderId).then((data) => {
+                          if (data) {
+                            userCacheRef.current.set(senderId, data);
+                            setMessages((prev) => [...prev]);
+                          }
+                        });
+                      }
 
-      // FE ROLE MAP — không cần BE trả role
-      const roleMap = {
-        admin: "Admin",
-        manager: "Manager",
-        staff: "Staff",
-        user: "User",
-      };
+                      // FE ROLE MAP — không cần BE trả role
+                      const roleMap = {
+                        admin: "Admin",
+                        manager: "Manager",
+                        staff: "Staff",
+                        user: "User",
+                      };
 
-      // ---------------- ROLE RESOLVE ----------------
-      let resolvedRole;
+                      // ---------------- ROLE RESOLVE ----------------
+                      let resolvedRole;
 
-      if (isMe) {
-        // Nếu là chính mình
-        resolvedRole = roleMap[user?.role] || "User";
-      } else {
-        // Role từ backend
-        resolvedRole = sender?.role;
+                      if (isMe) {
+                        // Nếu là chính mình
+                        resolvedRole = roleMap[user?.role] || "User";
+                      } else {
+                        // Role từ backend
+                        resolvedRole = sender?.role;
 
-        // Nếu BE không trả role thì FE fallback
-        if (!resolvedRole) {
-          const uname = sender?.username?.toLowerCase() || "";
+                        // Nếu BE không trả role thì FE fallback
+                        if (!resolvedRole) {
+                          const uname = sender?.username?.toLowerCase() || "";
 
-          if (uname.includes("admin")) resolvedRole = "admin";
-          else if (uname.includes("manager")) resolvedRole = "manager";
-          else if (uname.includes("staff")) resolvedRole = "staff";
-          else resolvedRole = "user";
-        }
-      }
+                          if (uname.includes("admin")) resolvedRole = "admin";
+                          else if (uname.includes("manager")) resolvedRole = "manager";
+                          else if (uname.includes("staff")) resolvedRole = "staff";
+                          else resolvedRole = "user";
+                        }
+                      }
 
-      const finalRole = resolvedRole.charAt(0).toUpperCase() + resolvedRole.slice(1);
+                      const finalRole = resolvedRole.charAt(0).toUpperCase() + resolvedRole.slice(1);
 
-      // ---------------- NAME RESOLVE ----------------
-      let senderName;
+                      // ---------------- NAME RESOLVE ----------------
+                      let senderName;
 
-      if (isMe) {
-        senderName = `${user?.username || "You"} (${finalRole})`;
-      } else {
-        const name =
-          sender?.username ||
-          sender?.email ||
-          `User ${senderId.slice(-4)}`;
-        senderName = `${name} (${finalRole})`;
-      }
+                      if (isMe) {
+                        senderName = `${user?.username || "You"} (${finalRole})`;
+                      } else {
+                        const name =
+                          sender?.username ||
+                          sender?.email ||
+                          `User ${senderId.slice(-4)}`;
+                        senderName = `${name} (${finalRole})`;
+                      }
 
-      return (
-        <div
-          key={i}
-          className={`flex ${isMe ? "justify-end" : "justify-start"}`}
-        >
-          <div className="max-w-[75%] flex flex-col gap-1">
+                      return (
+                        <div
+                          key={i}
+                          className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+                        >
+                          <div className="max-w-[75%] flex flex-col gap-1">
 
-            {/* TÊN NGƯỜI GỬI */}
-            <span
-              className={`text-xs font-medium px-1 ${
-                isMe ? "text-right text-gray-400" : "text-left text-gray-500"
-              }`}
-            >
-              {senderName}
-            </span>
+                            {/* TÊN NGƯỜI GỬI */}
+                            <span
+                              className={`text-xs font-medium px-1 ${isMe ? "text-right text-gray-400" : "text-left text-gray-500"
+                                }`}
+                            >
+                              {senderName}
+                            </span>
 
-            {/* BONG BÓNG TIN NHẮN */}
-            <div
-              className={`
+                            {/* BONG BÓNG TIN NHẮN */}
+                            <div
+                              className={`
                 p-3 rounded-2xl shadow-lg
                 transition-all duration-300 backdrop-blur-xl
-                ${
-                  isMe
-                    ? "bg-gradient-to-br from-[#E9A319] to-[#A86523] text-white rounded-br-md"
-                    : "bg-white border border-gray-200 text-gray-800 rounded-bl-md"
-                }
+                ${isMe
+                                  ? "bg-gradient-to-br from-[rgb(245 158 11)] to-[rgb(217 119 6)] text-white rounded-br-md"
+                                  : "bg-white border border-gray-200 text-gray-800 rounded-bl-md"
+                                }
               `}
-            >
-              {m.type === "image" ? (
-                <div
-                  className="relative cursor-pointer"
-                  onClick={() => {
-                    const imageUrl = m.imageUrl || m.attachments;
-                    const fullUrl = imageUrl?.startsWith("http")
-                      ? imageUrl
-                      : `${API_URL}${imageUrl?.startsWith("/") ? "" : "/"}${imageUrl}`;
-                    setViewerImage(fullUrl);
-                  }}
-                >
-                  <img
-                    src={
-                      (m.imageUrl || m.attachments)?.startsWith("http")
-                        ? (m.imageUrl || m.attachments)
-                        : `${API_URL}${
-                            (m.imageUrl || m.attachments)?.startsWith("/")
-                              ? ""
-                              : "/"
-                          }${m.imageUrl || m.attachments}`
-                    }
-                    alt="sent"
-                    className="rounded-xl border border-gray-200 max-w-[240px] max-h-[320px] object-cover shadow-md"
-                  />
+                            >
+                              {m.type === "image" ? (
+                                <div
+                                  className="relative cursor-pointer"
+                                  onClick={() => {
+                                    const imageUrl = m.imageUrl || m.attachments;
+                                    const fullUrl = imageUrl?.startsWith("http")
+                                      ? imageUrl
+                                      : `${API_URL}${imageUrl?.startsWith("/") ? "" : "/"}${imageUrl}`;
+                                    setViewerImage(fullUrl);
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      (m.imageUrl || m.attachments)?.startsWith("http")
+                                        ? (m.imageUrl || m.attachments)
+                                        : `${API_URL}${(m.imageUrl || m.attachments)?.startsWith("/")
+                                          ? ""
+                                          : "/"
+                                        }${m.imageUrl || m.attachments}`
+                                    }
+                                    alt="sent"
+                                    className="rounded-xl border border-gray-200 max-w-[240px] max-h-[320px] object-cover shadow-md"
+                                  />
+                                </div>
+                              ) : (
+                                <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                                  {m.messageText}
+                                </p>
+                              )}
+
+                              {/* TIME */}
+                              <div
+                                className={`text-[10px] mt-1 ${isMe ? "text-yellow-100 text-right" : "text-gray-400 text-left"
+                                  }`}
+                              >
+                                {(() => {
+                                  const date = new Date(m.createdAt);
+                                  const now = new Date();
+                                  const isToday =
+                                    date.getDate() === now.getDate() &&
+                                    date.getMonth() === now.getMonth() &&
+                                    date.getFullYear() === now.getFullYear();
+
+                                  if (isToday) {
+                                    return date.toLocaleTimeString("en-US", {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    });
+                                  }
+                                  return date.toLocaleDateString("en-GB", {
+                                    weekday: "short",
+                                    day: "2-digit",
+                                    month: "short",
+                                  });
+                                })()}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+
+                  <div ref={endRef}></div>
                 </div>
-              ) : (
-                <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                  {m.messageText}
-                </p>
-              )}
-
-              {/* TIME */}
-              <div
-                className={`text-[10px] mt-1 ${
-                  isMe ? "text-yellow-100 text-right" : "text-gray-400 text-left"
-                }`}
-              >
-                {(() => {
-                  const date = new Date(m.createdAt);
-                  const now = new Date();
-                  const isToday =
-                    date.getDate() === now.getDate() &&
-                    date.getMonth() === now.getMonth() &&
-                    date.getFullYear() === now.getFullYear();
-
-                  if (isToday) {
-                    return date.toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    });
-                  }
-                  return date.toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                  });
-                })()}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    })
-  )}
-
-  <div ref={endRef}></div>
-</div>
 
                 {/* INPUT */}
                 <div className="border-t border-gray-200 bg-white px-4 py-3 flex-shrink-0 relative">
@@ -902,7 +897,7 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                   {!canMessage(selected) ? (
                     <div className="flex items-center justify-center py-4 text-gray-500 text-sm">
                       <p>
-                        {user?.role === 'admin' 
+                        {user?.role === 'admin'
                           ? "You can view this conversation but cannot send messages. Only the assigned staff can message."
                           : "Please click \"Take\" button to start interacting with this conversation."}
                       </p>
@@ -910,25 +905,25 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                   ) : (
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3">
-                        <button 
+                        <button
                           onClick={() => fileInputRef.current.click()}
                           disabled={!canMessage(selected)}
                           className={`p-2 rounded-lg transition-colors ${!canMessage(selected) ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-50"}`}
                           title="Upload image"
                         >
                           <FaImage
-                            className={`${!canMessage(selected) ? "text-gray-400" : "text-gray-600 hover:text-[#E9A319]"}`}
+                            className={`${!canMessage(selected) ? "text-gray-400" : "text-gray-600 hover:text-[rgb(245 158 11)]"}`}
                             size={20}
                           />
                         </button>
-                        <button 
+                        <button
                           onClick={() => setShowEmoji(!showEmoji)}
                           disabled={!canMessage(selected)}
                           className={`p-2 rounded-lg transition-colors ${!canMessage(selected) ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-50"}`}
                           title="Add emoji"
                         >
                           <FaSmile
-                            className={`${!canMessage(selected) ? "text-gray-400" : "text-gray-600 hover:text-[#E9A319]"}`}
+                            className={`${!canMessage(selected) ? "text-gray-400" : "text-gray-600 hover:text-[rgb(245 158 11)]"}`}
                             size={20}
                           />
                         </button>
@@ -943,14 +938,13 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                         )}
                         <div className="flex-1 relative">
                           <textarea
-                            className={`w-full border-2 border-gray-300/60 rounded-xl px-4 py-2 pr-14 resize-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[40px] max-h-[120px] ${
-                              !canMessage(selected)
-                                ? "bg-gray-100 cursor-not-allowed"
-                                : ""
-                            }`}
+                            className={`w-full border-2 border-gray-300/60 rounded-xl px-4 py-2 pr-14 resize-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[40px] max-h-[120px] ${!canMessage(selected)
+                              ? "bg-gray-100 cursor-not-allowed"
+                              : ""
+                              }`}
                             placeholder={
                               !canMessage(selected)
-                                ? user?.role === 'admin' 
+                                ? user?.role === 'admin'
                                   ? "You can view but cannot send messages to this conversation..."
                                   : "Take this conversation to start chatting..."
                                 : "Type your message..."
@@ -981,17 +975,16 @@ socketRef.current.on("conversation_updated", (updatedConvo) => {
                         <button
                           onClick={handleSend}
                           disabled={
-                            !input.trim() || 
-                            input.length > 500 || 
+                            !input.trim() ||
+                            input.length > 500 ||
                             !canMessage(selected)
                           }
-                          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-md ${
-                            !input.trim() || 
-                            input.length > 500 || 
+                          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-md ${!input.trim() ||
+                            input.length > 500 ||
                             !canMessage(selected)
-                              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                              : "bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] text-white hover:shadow-lg transform hover:scale-105"
-                          }`}
+                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            : "bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] text-white hover:shadow-lg transform hover:scale-105"
+                            }`}
                         >
                           <FaPaperPlane size={18} />
                           <span>Send</span>

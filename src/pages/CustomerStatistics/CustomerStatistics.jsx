@@ -296,7 +296,7 @@ const CustomerStatistics = () => {
           <select
             value={timeFilter}
             onChange={(e) => setTimeFilter(e.target.value)}
-            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
           >
             <option value="month">This Month</option>
             <option value="quarter">This Quarter</option>
@@ -308,7 +308,7 @@ const CustomerStatistics = () => {
             onClick={() => setChartView((v) => (v === "bar" ? "pie" : v === "pie" ? "donut" : "bar"))}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
             title="Toggle chart view (Bar → Pie → Donut)"
           >
             {chartView === "bar" ? <FaChartPie /> : chartView === "pie" ? <FaChartBar /> : <FaChartPie />}
@@ -320,7 +320,7 @@ const CustomerStatistics = () => {
           <motion.button
             onClick={handleExportExcel}
             whileHover={{ scale: 1.04 }}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
             title="Export Excel"
           >
             <FaFileExport />
@@ -330,7 +330,7 @@ const CustomerStatistics = () => {
           <motion.button
             onClick={handleExportCSV}
             whileHover={{ scale: 1.04 }}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
             title="Export Top Customers CSV"
           >
             <FaDownload />
@@ -340,7 +340,7 @@ const CustomerStatistics = () => {
           <motion.button
             onClick={handlePrint}
             whileHover={{ scale: 1.04 }}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
             title="Print dashboard"
           >
             <FaPrint />
@@ -392,7 +392,7 @@ const CustomerStatistics = () => {
       {/* Main Charts + Small Pie + Top Customers */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Large Chart area (span 2 col on large screens) */}
-        <div className="lg:col-span-2 backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="lg:col-span-2 rounded-xl border p-4 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-gray-800">Customer Overview</h3>
             <p className="text-sm text-gray-500">Period: <strong>{timeFilter}</strong></p>
@@ -480,7 +480,7 @@ const CustomerStatistics = () => {
 
         {/* Right Column: Small Donut + Top Customers */}
         <div className="flex flex-col gap-4 lg:gap-6">
-          <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="rounded-xl border p-4 lg:p-6">
             <h4 className="text-lg font-semibold mb-3">Active vs Inactive</h4>
             <div style={{ height: 220 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -520,14 +520,14 @@ const CustomerStatistics = () => {
             </div>
           </div>
 
-          <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+          <div className="rounded-xl border p-4 lg:p-6">
             <h4 className="text-lg lg:text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
               🏆 Top Customers
             </h4>
 
             <div className="overflow-x-auto">
               <table className="w-full min-w-[500px]">
-                <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+                <thead className="border-b">
                   <tr>
                     <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Name</th>
                     <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Email</th>
@@ -567,7 +567,7 @@ const CustomerStatistics = () => {
             <div className="mt-4 lg:mt-5 flex justify-end">
               <button
                 onClick={handleExportCSV}
-                className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] rounded-xl shadow-lg hover:shadow-xl flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
+                className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] rounded-xl shadow-lg hover:shadow-xl flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
               >
                 <FaDownload className="text-sm" /> Export CSV
               </button>
@@ -597,8 +597,8 @@ const StatCard = ({ title, value, icon, bgIcon, gradient, sparkData, trend }) =>
 
   return (
     <motion.div
-      className="backdrop-blur-xl rounded-xl border p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
-      style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+      className="rounded-xl border p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex items-start justify-between gap-2">

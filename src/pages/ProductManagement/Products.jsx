@@ -675,7 +675,7 @@ const Products = () => {
             </span>
           </div>
           <button
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
             onClick={toggleFilters}
             aria-label="Toggle filters"
           >
@@ -686,7 +686,7 @@ const Products = () => {
             <span className="font-medium sm:hidden">Filters</span>
           </button>
           <button
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
             onClick={handleCreateProduct}
           >
             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -699,7 +699,7 @@ const Products = () => {
 
       {/* Filter Section */}
       {showFilters && (
-        <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
           <div className="flex items-center justify-between mb-3 lg:mb-4">
             <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
             <div className="flex items-center gap-2">
@@ -720,7 +720,7 @@ const Products = () => {
               placeholder="Search by name, description..."
               value={filters.searchQuery}
               onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
-              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
@@ -729,7 +729,7 @@ const Products = () => {
               <select
                 value={filters.categoryFilter}
                 onChange={(e) => handleFilterChange('categoryFilter', e.target.value)}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
               >
                 <option value="">All Categories</option>
                 {categories.filter(category => category.isDeleted !== true).map(category => {
@@ -747,7 +747,7 @@ const Products = () => {
               <select
                 value={filters.statusFilter}
                 onChange={(e) => handleFilterChange('statusFilter', e.target.value)}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
               >
                 <option value="">All Statuses</option>
                 {['active', 'inactive', 'pending', 'discontinued'].map(status => (
@@ -763,7 +763,7 @@ const Products = () => {
 
       {/* Unified State: Loading / Empty / Error */}
       {loading || filteredProducts.length === 0 || error ? (
-        <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
+        <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
           <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
 
             {/* ── LOADING ── */}
@@ -795,7 +795,7 @@ const Products = () => {
 
                 <button
                   onClick={handleRetry}
-                  className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                  className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                 >
                   Retry
                 </button>
@@ -829,11 +829,11 @@ const Products = () => {
         </div>
       ) : (
         /* Products Table - Only when data exists */
-        <div className="backdrop-blur-xl rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
           <div className="overflow-x-auto">
             <table className="w-full table-fixed min-w-[900px]">
               {/* ---------- HEADER ---------- */}
-              <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+              <thead className="border-b">
                 <tr>
                   <th className="w-[5%]  px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
                     #
@@ -865,7 +865,7 @@ const Products = () => {
                   const categoryInfo = getCategoryInfo(product.categoryId);
                   const categoryBadgeStyle = categoryInfo.isDeleted
                     ? { backgroundColor: '#F3F4F6', color: '#9CA3AF', borderColor: '#D1D5DB' }
-                    : { backgroundColor: '#FCEFCB', color: '#A86523', borderColor: '#A86523' };
+                    : { backgroundColor: 'rgb(254 243 199)', color: 'rgb(217 119 6)', borderColor: 'rgb(217 119 6)' };
 
                   return (
                     <tr
@@ -955,7 +955,7 @@ const Products = () => {
                             : product.productStatus === 'active'
                               ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
                               : product.productStatus === 'inactive'
-                                ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white'
+                                ? 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white'
                                 : 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white'
                             }`}
                         >
@@ -1039,7 +1039,7 @@ const Products = () => {
 
       {/* Pagination */}
       {filteredProducts.length > 0 && (
-        <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm font-medium text-gray-700">
               Showing <span className="font-bold text-gray-900">{startIndex + 1}</span> to <span className="font-bold text-gray-900">{Math.min(endIndex, filteredProducts.length)}</span> of <span className="font-bold text-gray-900">{filteredProducts.length}</span> products
@@ -1082,7 +1082,7 @@ const Products = () => {
                   <button
                     key={page}
                     className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === page
-                      ? 'text-white border-transparent bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A] hover:from-[#A86523] hover:via-[#8B4E1A] hover:to-[#6B3D14]'
+                      ? 'text-white border-transparent bg-gradient-to-r from-[rgb(245 158 11)] via-[rgb(217 119 6)] to-[rgb(180 83 9)] hover:from-[rgb(217 119 6)] hover:via-[rgb(180 83 9)] hover:to-[rgb(146 64 14)]'
                       : 'text-gray-600 bg-white border border-gray-300 hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300'
                       }`}
                     onClick={() => handlePageChange(page)}

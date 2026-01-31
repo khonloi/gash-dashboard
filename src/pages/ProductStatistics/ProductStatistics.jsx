@@ -335,7 +335,7 @@ export default function ProductStatistics() {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Select period"
           >
             <option value="month">This Month</option>
@@ -347,7 +347,7 @@ export default function ProductStatistics() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Category"
           >
             {categories.map((c, idx) => (
@@ -360,7 +360,7 @@ export default function ProductStatistics() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
+            className="px-3 lg:px-4 py-2 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 bg-white text-gray-800 font-semibold"
             title="Status"
           >
             <option value="all">All Status</option>
@@ -373,7 +373,7 @@ export default function ProductStatistics() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleExportExcel}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
             title="Export Excel"
           >
             <FaFileExport /> <span className="font-medium">Export</span>
@@ -428,7 +428,7 @@ export default function ProductStatistics() {
       {/* CHARTS + TOP PRODUCTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Main charts - large left area (span 2 columns) */}
-        <div className="lg:col-span-2 backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="lg:col-span-2 rounded-xl border p-4 lg:p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-bold text-gray-800">Product Overview</h3>
             <div className="text-sm text-gray-500">Period: <strong>{period}</strong></div>
@@ -568,12 +568,12 @@ export default function ProductStatistics() {
         </div>
 
         {/* Right column - Top products */}
-        <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="rounded-xl border p-4 lg:p-6">
           <div className="flex justify-between items-center mb-3">
             <h4 className="text-lg font-semibold text-gray-800">Top Products</h4>
             <button
               onClick={handleExportTopCSV}
-              className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
               Export CSV
             </button>
@@ -581,7 +581,7 @@ export default function ProductStatistics() {
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-[400px]">
-              <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+              <thead className="border-b">
                 <tr>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Product</th>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">SKU</th>
@@ -637,8 +637,8 @@ function AnimatedStatCard({ title, value, icon, bgIcon = "bg-gray-100", gradient
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay }}
       whileHover={{ scale: 1.02 }}
-      className="backdrop-blur-xl rounded-xl border p-4 shadow-md"
-      style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}
+      className="rounded-xl border p-4 shadow-md"
+
     >
       <div className="flex items-start justify-between">
         <div className={`w-14 h-14 ${bgIcon} rounded-xl flex items-center justify-center`}>{icon}</div>

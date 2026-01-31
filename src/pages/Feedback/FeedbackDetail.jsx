@@ -60,19 +60,19 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
             <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
                 <div
                     className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300"
-                    style={{ borderColor: '#A86523' }}
+
                 >
                     {/* Modal Header */}
                     <div
                         className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-                        style={{ borderColor: '#A86523' }}
+
                     >
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Feedback Details</h2>
                         <button
                             type="button"
                             onClick={onClose}
                             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            style={{ '--tw-ring-color': '#A86523' }}
+                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                             aria-label="Close modal"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                 <p className="text-gray-600 mb-4">{error}</p>
                                 <button
                                     onClick={fetchFeedbackDetail}
-                                    className="px-4 py-2 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                                    className="px-4 py-2 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                                 >
                                     Retry
                                 </button>
@@ -116,7 +116,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                         ) : feedback ? (
                             <div className="space-y-4">
                                 {/* Customer Information */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Customer Information</h3>
                                     <div className="flex items-start space-x-2 sm:space-x-3">
                                         <div
@@ -175,7 +175,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                 </div>
 
                                 {/* Feedback Content */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Feedback</h3>
                                     <div className="space-y-2">
                                         {/* Rating and Timestamps Row */}
@@ -237,7 +237,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                         {feedback.feedback?.has_content && feedback.feedback.content ? (
                                             <div>
                                                 <p className="text-xs text-gray-500 mb-1">Content</p>
-                                                <div className="bg-white border rounded-lg p-2 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                                <div className="bg-white border rounded-lg p-2 sm:p-3">
                                                     <p className="text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-normal break-words">
                                                         "{feedback.feedback.content}"
                                                     </p>
@@ -255,7 +255,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                 </div>
 
                                 {/* Product Information */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Product Information</h3>
                                     <div className="flex items-start space-x-2 sm:space-x-3">
                                         <div
@@ -333,7 +333,7 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                 </div>
 
                                 {/* Order Information */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Order Information</h3>
                                     <div className="flex items-start space-x-2 sm:space-x-3">
                                         <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0"></div>

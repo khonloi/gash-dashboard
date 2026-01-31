@@ -53,11 +53,12 @@ const OrdersByWeek = ({ user }) => {
         try {
             setLoading(true);
             const response = await Api.statistics.getOrderStatistics({ period: 'week' });
-            setStats({
+            setStats(prev => ({
+                ...prev,
                 ...response,
-                ordersPerWeek: response.ordersPerWeek || [],
-                topPaymentMethods: response.topPaymentMethods || [],
-            });
+                ordersPerWeek: response.ordersPerWeek || prev.ordersPerWeek || [],
+                topPaymentMethods: response.topPaymentMethods || prev.topPaymentMethods || [],
+            }));
             setLoading(false);
         } catch (err) {
             setError('Failed to fetch weekly order statistics');
@@ -201,7 +202,7 @@ const OrdersByWeek = ({ user }) => {
 
     if (loading) {
         return (
-            <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
+            <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
                 <Loading
                     type="page"
                     size="medium"
@@ -213,7 +214,7 @@ const OrdersByWeek = ({ user }) => {
 
     if (error) {
         return (
-            <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
+            <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
                 <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
                     <div className="flex flex-col items-center space-y-3">
                         <div className="w-14 h-14 bg-gradient-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center shadow-lg">
@@ -232,7 +233,7 @@ const OrdersByWeek = ({ user }) => {
                         </div>
                         <button
                             onClick={fetchStats}
-                            className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                            className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                         >
                             Retry
                         </button>
@@ -253,88 +254,88 @@ const OrdersByWeek = ({ user }) => {
             </div>
 
             {/* Stats Cards */}
-            <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
                                 <FaShoppingCart className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Total Orders</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.totalOrders.toLocaleString()}</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{(stats.totalOrders ?? 0).toLocaleString()}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
                                 <FaCheckCircle className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Completed</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.completedOrders}</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{stats.completedOrders ?? 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
                                 <FaClock className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Pending</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.pendingOrders}</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{stats.pendingOrders ?? 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
                                 <FaTimesCircle className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Cancelled</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.cancelledOrders}</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{stats.cancelledOrders ?? 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
                                 <FaDollarSign className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Avg. Order Value</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{replaceVND(formatCurrency(stats.averageOrderValue))}</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{replaceVND(formatCurrency(stats.averageOrderValue ?? 0))}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
                                 <FaHourglassHalf className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Avg. Processing</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.averageProcessingTime.toFixed(2)} hrs</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{(stats.averageProcessingTime ?? 0).toFixed(2)} hrs</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                    <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center">
                                 <FaUndo className="text-sm text-white" />
                             </div>
                             <div>
                                 <p className="text-gray-600 text-xs font-medium mb-1">Refund Rate</p>
-                                <p className="text-sm font-bold text-gray-800 truncate">{stats.refundRate.toFixed(2)}%</p>
+                                <p className="text-sm font-bold text-gray-800 truncate">{(stats.refundRate ?? 0).toFixed(2)}%</p>
                             </div>
                         </div>
                     </div>
@@ -342,7 +343,7 @@ const OrdersByWeek = ({ user }) => {
             </div>
 
             {/* Charts */}
-            <div className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="bg-white rounded-xl border overflow-hidden">
                 <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
                     <h3 className="text-base lg:text-lg font-semibold text-gray-900">Chart & Data</h3>
                     <p className="text-gray-600 text-sm lg:text-base">Visual representation and detailed data</p>

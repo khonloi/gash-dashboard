@@ -362,9 +362,9 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
 
     return (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300" style={{ borderColor: '#A86523' }}>
+            <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300">
                 {/* Header */}
-                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0" style={{ borderColor: '#A86523' }}>
+                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0">
                     <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Order Details</h2>
                     <div className="flex items-center gap-2">
                         {!showUpdateForm && !showRefundForm && (
@@ -372,7 +372,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                 {isRefundStatusUpdateAllowed() && (
                                     <button
                                         onClick={handleRefundEditClick}
-                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                                         title="Process refund status and proof"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -384,7 +384,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                 {isOrderStatusUpdateAllowed() && (
                                     <button
                                         onClick={handleEditClick}
-                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                                         title="Update order status"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -399,7 +399,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                             type="button"
                             onClick={onClose}
                             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            style={{ '--tw-ring-color': '#A86523' }}
+                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                             aria-label="Close modal"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -424,10 +424,10 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                 >
                     <div className="space-y-3 sm:space-y-4">
                         {/* Order Status Overview */}
-                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                             <div className="mb-1.5 sm:mb-2">
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 flex items-center">
-                                    <svg className="w-5 h-5 mr-2" style={{ color: '#A86523' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 mr-2" style={{ color: 'rgb(217 119 6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Order Status Overview
@@ -475,7 +475,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
 
                         {/* Refund Proof */}
                         {currentOrder?.refund_proof && (
-                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2 flex items-center">
                                     Refund Proof
                                 </h3>
@@ -505,7 +505,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                         {/* Pricing Information and Customer Information on same row */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                             {/* Pricing Information */}
-                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Pricing Information</h3>
                                 <div className="flex flex-col gap-1.5 sm:gap-2">
                                     <div className="flex flex-col">
@@ -524,11 +524,11 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                 {currentOrder?.voucher && (
                                     <div className="mt-2 pt-2 border-t border-gray-200">
                                         <div className="flex items-center">
-                                            <svg className="w-4 h-4 mr-1.5" style={{ color: '#A86523' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-4 h-4 mr-1.5" style={{ color: 'rgb(217 119 6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                                             </svg>
                                             <span className="text-xs text-gray-600">Voucher: </span>
-                                            <span className="ml-1 text-xs font-semibold" style={{ color: '#A86523' }}>
+                                            <span className="ml-1 text-xs font-semibold" style={{ color: 'rgb(217 119 6)' }}>
                                                 {currentOrder.voucher.code} ({currentOrder.voucher.discountType === 'percentage' ? `${currentOrder.voucher.discountValue}%` : `${formatPrice(currentOrder.voucher.discountValue)}`})
                                             </span>
                                         </div>
@@ -537,7 +537,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                             </div>
 
                             {/* Customer Information */}
-                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Customer Information</h3>
                                 <div className="flex items-start space-x-2 sm:space-x-3">
                                     <div
@@ -589,7 +589,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                         </div>
 
                         {/* Order Information */}
-                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                             <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Order Information</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                                 {/* Left Column */}
@@ -649,7 +649,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                         </div>
 
                         {/* Order Items */}
-                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
                             <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2 flex items-center">
                                 Order Items
                                 <span className="ml-2 px-2 py-0.5 sm:px-3 sm:py-1 bg-gray-200 text-gray-800 text-xs sm:text-sm font-semibold rounded-full">
@@ -675,7 +675,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                     <p className="text-gray-600 mb-4">{error}</p>
                                     <button
                                         onClick={fetchOrderDetails}
-                                        className="px-4 py-2 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                                        className="px-4 py-2 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                                     >
                                         Retry
                                     </button>

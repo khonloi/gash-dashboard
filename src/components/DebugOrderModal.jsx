@@ -56,7 +56,7 @@ const DebugOrderModal = ({
 
         try {
             const count = parseInt(orderCount, 10);
-            
+
             if (isNaN(count) || count < 1 || count > 1000) {
                 showToast('Order count must be between 1 and 1000', 'error');
                 setLoading(false);
@@ -125,7 +125,7 @@ const DebugOrderModal = ({
     const handleCountChange = useCallback((e) => {
         const value = e.target.value;
         setOrderCount(value);
-        
+
         // Clear validation error when user types
         if (validationError) {
             setValidationError('');
@@ -138,13 +138,13 @@ const DebugOrderModal = ({
         <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
             <div
                 className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-lg max-h-[90vh] flex flex-col transform transition-all duration-300"
-                style={{ borderColor: '#A86523' }}
+
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
                 <div
                     className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-                    style={{ borderColor: '#A86523' }}
+
                 >
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
@@ -165,7 +165,7 @@ const DebugOrderModal = ({
                         type="button"
                         onClick={handleClose}
                         className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': '#A86523' }}
+                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                         aria-label="Close"
                         disabled={loading}
                     >
@@ -188,7 +188,7 @@ const DebugOrderModal = ({
                                     Debug/Testing Feature
                                 </h3>
                                 <p className="text-xs text-yellow-700">
-                                    This feature generates random orders based on existing products, variants, and user accounts. 
+                                    This feature generates random orders based on existing products, variants, and user accounts.
                                     Only available when <code className="bg-yellow-100 px-1 py-0.5 rounded">ENABLE_DEBUG_ORDERS=true</code> is set in the backend environment.
                                 </p>
                             </div>
@@ -223,11 +223,10 @@ const DebugOrderModal = ({
                                 max="1000"
                                 value={orderCount}
                                 onChange={handleCountChange}
-                                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base ${
-                                    validationError
+                                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base ${validationError
                                         ? 'border-red-400 bg-white focus:ring-red-500 focus:border-red-500'
-                                        : 'border-gray-300 bg-white hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
-                                }`}
+                                        : 'border-gray-300 bg-white hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
+                                    }`}
                                 placeholder="Enter number of orders (1-1000)"
                                 required
                                 disabled={loading}
@@ -252,13 +251,13 @@ const DebugOrderModal = ({
                 {/* Footer */}
                 <div
                     className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0"
-                    style={{ borderColor: '#A86523' }}
+
                 >
                     <button
                         type="button"
                         onClick={handleClose}
                         className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': '#A86523' }}
+                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                         disabled={loading}
                     >
                         Cancel
@@ -269,7 +268,7 @@ const DebugOrderModal = ({
                         disabled={loading || !orderCount || orderCount < 1 || orderCount > 1000}
                         className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 disabled:hover:from-orange-600 disabled:hover:to-red-600"
                         style={{
-                            '--tw-ring-color': '#A86523'
+                            '--tw-ring-color': 'rgb(217 119 6)'
                         }}
                     >
                         {loading ? (

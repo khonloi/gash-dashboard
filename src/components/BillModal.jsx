@@ -212,17 +212,17 @@ const BillModal = ({ isOpen, onClose, billData }) => {
         }
       `}</style>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-3xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95 max-h-[90vh] flex flex-col overflow-hidden" style={{ borderColor: '#A86523' }}>
-          <div className="bg-white z-10 p-3 sm:p-4 lg:p-5 border-b shrink-0" style={{ borderColor: '#A86523' }}>
+        <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-3xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95 max-h-[90vh] flex flex-col overflow-hidden">
+          <div className="bg-white z-10 p-3 sm:p-4 lg:p-5 border-b shrink-0">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Bill Details</h2>
               <div className="flex items-center gap-2 lg:gap-3 w-full sm:w-auto justify-end">
                 <button
                   onClick={handleExportPDF}
                   className="px-3 lg:px-4 py-2 lg:py-3 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md font-medium text-xs lg:text-sm flex items-center space-x-2"
-                  style={{ backgroundColor: '#E9A319' }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#A86523'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E9A319'}
+                  style={{ backgroundColor: 'rgb(245 158 11)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(217 119 6)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(245 158 11)'}
                 >
                   <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -232,7 +232,7 @@ const BillModal = ({ isOpen, onClose, billData }) => {
                 <button
                   type="button"
                   className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                  style={{ '--tw-ring-color': '#A86523' }}
+                  style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                   onClick={onClose}
                   aria-label="Close"
                 >
@@ -252,7 +252,7 @@ const BillModal = ({ isOpen, onClose, billData }) => {
               msOverflowStyle: 'none', /* IE and Edge */
             }}
           >
-            <div className="bg-white border-2 shadow-md" style={{ borderColor: '#A86523' }}>
+            <div className="bg-white border-2 shadow-md">
               {/* Header */}
               <div className="p-4 lg:p-5 border-b-4 border-orange-400" style={{ background: 'linear-gradient(to right, #7B542F, #B6771D)' }}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

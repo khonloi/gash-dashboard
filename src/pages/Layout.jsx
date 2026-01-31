@@ -240,12 +240,12 @@ const Layout = ({ children }) => {
         <aside
           className={`fixed top-0 left-0 h-full bg-white text-gray-800 shadow-xl z-50 flex flex-col transition-all duration-300 border-r ${isSidebarExpanded ? "w-72" : "w-20"
             }`}
-          style={{ borderColor: '#A86523' }}
+
           role="navigation"
           aria-label="Admin navigation"
         >
           {/* Sidebar Header */}
-          <div className="px-4 py-4 border-b flex items-center justify-between bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A]" style={{ borderColor: '#A86523' }}>
+          <div className="px-4 py-4 border-b flex items-center justify-between bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A]">
             {isSidebarExpanded ? (
               <Link
                 to={user?.role === "manager" ? "/orders" : "/statistics/order"}
@@ -391,7 +391,7 @@ const Layout = ({ children }) => {
           </nav>
 
           {/* Profile Section */}
-          <div className="flex flex-col border-t py-4 mt-auto bg-gradient-to-t from-white via-[#FCEFCB]/30 to-transparent" style={{ borderColor: '#A86523' }}>
+          <div className="flex flex-col border-t py-4 mt-auto bg-gradient-to-t from-white via-[#FCEFCB]/30 to-transparent">
             <div className="px-4">
               {isSidebarExpanded ? (
                 /* Expanded view – full info with consistent spacing */

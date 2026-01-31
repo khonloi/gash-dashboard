@@ -539,7 +539,7 @@ const RevenueByWeek = ({ user }) => {
     // Loading state
     if (loading) {
         return (
-            <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
+            <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
                 <Loading
                     type="page"
                     size="medium"
@@ -552,7 +552,7 @@ const RevenueByWeek = ({ user }) => {
     // Error state
     if (error) {
         return (
-            <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
+            <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
                 <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
                     <div className="flex flex-col items-center space-y-3">
                         <div className="w-14 h-14 bg-gradient-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center shadow-lg">
@@ -571,7 +571,7 @@ const RevenueByWeek = ({ user }) => {
                         </div>
                         <button
                             onClick={fetchRevenueByWeek}
-                            className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                            className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                         >
                             Retry
                         </button>
@@ -591,7 +591,7 @@ const RevenueByWeek = ({ user }) => {
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
                     <button
-                        className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 transform hover:scale-105"
+                        className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
                         onClick={() => setShowFilter(!showFilter)}
                         aria-label="Toggle filters"
                     >
@@ -606,7 +606,7 @@ const RevenueByWeek = ({ user }) => {
 
             {/* Filter Section */}
             {showFilter && (
-                <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
                     <div className="flex items-center justify-between mb-3 lg:mb-4">
                         <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
                         <div className="flex items-center gap-2">
@@ -639,7 +639,7 @@ const RevenueByWeek = ({ user }) => {
                             <select
                                 value={weeksToShow}
                                 onChange={(e) => handleChangeWeeksToShow(parseInt(e.target.value))}
-                                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
                             >
                                 {getWeekOptions().map((option) => (
                                     <option key={option.value} value={option.value}>
@@ -654,10 +654,10 @@ const RevenueByWeek = ({ user }) => {
 
             {/* Summary Cards */}
             {weekSummary && (
-                <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                         {/* Current Week Revenue */}
-                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                             <div className="flex flex-col items-center text-center space-y-2">
                                 <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
                                     <FaChartLine className="text-sm text-white" />
@@ -672,7 +672,7 @@ const RevenueByWeek = ({ user }) => {
                         </div>
 
                         {/* Average Weekly Revenue */}
-                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                             <div className="flex flex-col items-center text-center space-y-2">
                                 <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
                                     <FaChartLine className="text-sm text-white" />
@@ -688,7 +688,7 @@ const RevenueByWeek = ({ user }) => {
 
                         {/* Best Week */}
                         {weekSummary.bestWeek && (
-                            <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                                 <div className="flex flex-col items-center text-center space-y-2">
                                     <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
                                         <FaTrophy className="text-sm text-white" />
@@ -704,7 +704,7 @@ const RevenueByWeek = ({ user }) => {
                         )}
 
                         {/* vs Last Week */}
-                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                             <div className="flex flex-col items-center text-center space-y-2">
                                 <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
                                     <FaArrowUp className="text-sm text-white" />
@@ -725,7 +725,7 @@ const RevenueByWeek = ({ user }) => {
 
                         {/* Trend Status */}
                         {weekSummary.trend && (
-                            <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-white rounded-xl p-3 shadow-lg border hover:shadow-xl transition-all duration-300 h-24 flex flex-col justify-center">
                                 <div className="flex flex-col items-center text-center space-y-1">
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${weekSummary.trend.status === 'increasing' ? 'bg-green-500' :
                                         weekSummary.trend.status === 'decreasing' ? 'bg-red-500' : 'bg-gray-500'
@@ -760,7 +760,7 @@ const RevenueByWeek = ({ user }) => {
             )}
 
             {/* Revenue by Week Content */}
-            <div className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="bg-white rounded-xl border overflow-hidden">
                 <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
                     <h3 className="text-base lg:text-lg font-semibold text-gray-900">Chart & Data</h3>
                     <p className="text-gray-600 text-sm lg:text-base">Visual representation and detailed data</p>

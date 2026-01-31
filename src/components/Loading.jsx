@@ -34,29 +34,29 @@ const Loading = ({
 
     const typeConfig = {
         default: {
-            spinnerBorderColor: '#FCEFCB',
-            spinnerTopColor: '#E9A319',
+            spinnerBorderColor: 'rgb(254 243 199)',
+            spinnerTopColor: 'rgb(245 158 11)',
             textColor: 'text-gray-800',
             subTextColor: 'text-gray-600',
             bgColor: 'bg-gray-100'
         },
         auth: {
-            spinnerBorderColor: '#FCEFCB',
-            spinnerTopColor: '#E9A319',
+            spinnerBorderColor: 'rgb(254 243 199)',
+            spinnerTopColor: 'rgb(245 158 11)',
             textColor: 'text-gray-600',
             subTextColor: 'text-gray-500',
             bgColor: 'bg-gray-100'
         },
         page: {
-            spinnerBorderColor: '#FCEFCB',
-            spinnerTopColor: '#E9A319',
+            spinnerBorderColor: 'rgb(254 243 199)',
+            spinnerTopColor: 'rgb(245 158 11)',
             textColor: 'text-gray-800',
             subTextColor: 'text-gray-600',
             bgColor: 'bg-white'
         },
         inline: {
-            spinnerBorderColor: '#FCEFCB',
-            spinnerTopColor: '#E9A319',
+            spinnerBorderColor: 'rgb(254 243 199)',
+            spinnerTopColor: 'rgb(245 158 11)',
             textColor: 'text-gray-700',
             subTextColor: 'text-gray-500',
             bgColor: 'bg-transparent'

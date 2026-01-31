@@ -150,7 +150,7 @@ const ProductVariantList = ({
                                                             }}
                                                         />
                                                         {variant.isMain && (
-                                                            <span className="text-xs font-medium text-[#A86523] bg-[#FCEFCB] px-2 py-1 rounded-md border border-[#E9A319]">
+                                                            <span className="text-xs font-medium text-[rgb(217 119 6)] bg-[rgb(254 243 199)] px-2 py-1 rounded-md border border-[rgb(245 158 11)]">
                                                                 Main
                                                             </span>
                                                         )}

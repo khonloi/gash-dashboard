@@ -107,7 +107,7 @@ const LiveStreamManagement = () => {
         if (showStartForm && !currentLivestream && streamRef.current) {
             // Restart stream with new device
             const timer = setTimeout(() => {
-                startMediaStream().catch(() => {});
+                startMediaStream().catch(() => { });
             }, 300);
             return () => clearTimeout(timer);
         }
@@ -1014,7 +1014,7 @@ const LiveStreamManagement = () => {
                     {!currentLivestream && isAdminOrManager && (
                         <button
                             onClick={() => setShowStartForm(true)}
-                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                         >
                             <LiveTv className="w-3 h-3 lg:w-4 lg:h-4" />
                             <span className="font-medium">Start Live</span>
@@ -1024,7 +1024,7 @@ const LiveStreamManagement = () => {
             </div>
 
             {/* Search and Filter Controls */}
-            <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+            <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
                 <div className="flex items-center justify-between mb-3 lg:mb-4">
                     <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
                     <div className="flex items-center gap-2">
@@ -1045,7 +1045,7 @@ const LiveStreamManagement = () => {
                         placeholder="Search by title, description..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                        className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
@@ -1054,7 +1054,7 @@ const LiveStreamManagement = () => {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+                            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
                         >
                             <option value="all">All Statuses</option>
                             <option value="live">Live</option>
@@ -1079,7 +1079,7 @@ const LiveStreamManagement = () => {
 
             {/* Pagination */}
             {totalItems > 0 && totalPages > 1 && (
-                <div className="backdrop-blur-xl rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="text-sm font-medium text-gray-700">
                             Showing <span className="font-bold text-gray-900">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-bold text-gray-900">{Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span className="font-bold text-gray-900">{totalItems}</span> results
@@ -1122,7 +1122,7 @@ const LiveStreamManagement = () => {
                                     <button
                                         key={page}
                                         className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === page
-                                            ? 'text-white border-transparent bg-gradient-to-r from-[#E9A319] via-[#A86523] to-[#8B4E1A] hover:from-[#A86523] hover:via-[#8B4E1A] hover:to-[#6B3D14]'
+                                            ? 'text-white border-transparent bg-gradient-to-r from-[rgb(245 158 11)] via-[rgb(217 119 6)] to-[rgb(180 83 9)] hover:from-[rgb(217 119 6)] hover:via-[rgb(180 83 9)] hover:to-[rgb(146 64 14)]'
                                             : 'text-gray-600 bg-white border border-gray-300 hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300'
                                             }`}
                                         onClick={() => setCurrentPage(page)}
@@ -1231,12 +1231,12 @@ const LiveStreamManagement = () => {
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
                     <div
                         className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300"
-                        style={{ borderColor: '#A86523' }}
+
                     >
                         {/* Header */}
                         <div
                             className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-                            style={{ borderColor: '#A86523' }}
+
                         >
                             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                                 Start New Livestream
@@ -1250,7 +1250,7 @@ const LiveStreamManagement = () => {
                                     stopMediaStream();
                                 }}
                                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': '#A86523' }}
+                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                 aria-label="Close"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1277,7 +1277,7 @@ const LiveStreamManagement = () => {
                                                 placeholder="Enter livestream title..."
                                                 className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 focus:ring-2 bg-white text-sm lg:text-base ${validationErrors.title
                                                     ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
-                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
                                                     }`}
                                                 required
                                             />
@@ -1297,7 +1297,7 @@ const LiveStreamManagement = () => {
                                                 rows={3}
                                                 className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 focus:ring-2 bg-white text-sm lg:text-base ${validationErrors.description
                                                     ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
-                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                                    : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
                                                     }`}
                                             />
                                             {validationErrors.description && (
@@ -1330,7 +1330,7 @@ const LiveStreamManagement = () => {
                         {/* Footer */}
                         <div
                             className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0"
-                            style={{ borderColor: '#A86523' }}
+
                         >
                             <button
                                 type="button"
@@ -1342,7 +1342,7 @@ const LiveStreamManagement = () => {
                                 }}
                                 disabled={isLoading}
                                 className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50"
-                                style={{ '--tw-ring-color': '#A86523' }}
+                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                             >
                                 Cancel
                             </button>
@@ -1350,9 +1350,9 @@ const LiveStreamManagement = () => {
                                 type="button"
                                 onClick={handleStartLivestream}
                                 disabled={isLoading}
-                                className="flex items-center gap-2 px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] disabled:hover:from-[#E9A319] disabled:hover:to-[#A86523]"
+                                className="flex items-center gap-2 px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
                                 style={{
-                                    '--tw-ring-color': '#A86523'
+                                    '--tw-ring-color': 'rgb(217 119 6)'
                                 }}
                             >
                                 {isLoading ? (

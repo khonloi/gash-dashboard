@@ -47,14 +47,14 @@ const VideoPreview = ({
 
                         {/* Media Status Indicators */}
                         {/* <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md backdrop-blur-sm ${isVideoPlaying
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md ${isVideoPlaying
                                 ? 'bg-green-500/90 text-white'
                                 : 'bg-red-500/90 text-white'
                                 }`}>
                                 <span className="text-xs">{isVideoPlaying ? '📹' : '🚫'}</span>
                                 <span>{isVideoPlaying ? 'VIDEO' : 'OFF'}</span>
                             </div>
-                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md backdrop-blur-sm ${isAudioPlaying
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold shadow-md ${isAudioPlaying
                                 ? 'bg-green-500/90 text-white'
                                 : 'bg-red-500/90 text-white'
                                 }`}>

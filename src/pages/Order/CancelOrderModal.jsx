@@ -30,9 +30,9 @@ const CancelOrderModal = ({ isOpen, onClose, orderId, onConfirm }) => {
 
   return (
     <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl border-2 max-w-md w-full max-h-[95vh] overflow-hidden" style={{ borderColor: '#A86523' }}>
+      <div className="bg-white rounded-2xl shadow-2xl border-2 max-w-md w-full max-h-[95vh] overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-5 border-b" style={{ borderColor: '#A86523' }}>
+        <div className="px-6 py-5 border-b">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-900">Cancel Order</h2>
             <button
@@ -49,7 +49,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId, onConfirm }) => {
 
         {/* Content */}
         <div className="p-6 space-y-6">
-          <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#A86523' }}>
+          <div className="bg-white rounded-lg p-6 border">
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
                 <div className="flex items-center">
@@ -104,7 +104,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId, onConfirm }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t" style={{ borderColor: '#A86523' }}>
+        <div className="px-6 py-4 border-t">
           <div className="flex justify-end items-center space-x-3">
             <button
               onClick={onClose}
@@ -116,9 +116,9 @@ const CancelOrderModal = ({ isOpen, onClose, orderId, onConfirm }) => {
               onClick={handleSubmit}
               disabled={!cancelFormData.cancelReason || (cancelFormData.cancelReason === "other" && !cancelFormData.customReason.trim())}
               className="px-6 py-2 text-white rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 shadow-sm hover:shadow-md"
-              style={{ backgroundColor: '#E9A319' }}
-              onMouseEnter={(e) => !(!cancelFormData.cancelReason || (cancelFormData.cancelReason === "other" && !cancelFormData.customReason.trim())) && (e.currentTarget.style.backgroundColor = '#A86523')}
-              onMouseLeave={(e) => !(!cancelFormData.cancelReason || (cancelFormData.cancelReason === "other" && !cancelFormData.customReason.trim())) && (e.currentTarget.style.backgroundColor = '#E9A319')}
+              style={{ backgroundColor: 'rgb(245 158 11)' }}
+              onMouseEnter={(e) => !(!cancelFormData.cancelReason || (cancelFormData.cancelReason === "other" && !cancelFormData.customReason.trim())) && (e.currentTarget.style.backgroundColor = 'rgb(217 119 6)')}
+              onMouseLeave={(e) => !(!cancelFormData.cancelReason || (cancelFormData.cancelReason === "other" && !cancelFormData.customReason.trim())) && (e.currentTarget.style.backgroundColor = 'rgb(245 158 11)')}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />

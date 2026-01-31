@@ -417,7 +417,7 @@ const Profile = () => {
     <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6">
       <div className="max-w-6xl mx-auto">
         {loading || error || !profile ? (
-          <div className="backdrop-blur-xl rounded-xl border p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
+          <div className="rounded-xl border p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status">
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
               {/* ── LOADING ── */}
               {loading ? (
@@ -447,7 +447,7 @@ const Profile = () => {
 
                   <button
                     onClick={fetchProfile}
-                    className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                    className="px-4 py-2 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                   >
                     Retry
                   </button>
@@ -486,15 +486,15 @@ const Profile = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
               {/* Profile Card */}
               <div className="lg:col-span-1 flex">
-                <div className="backdrop-blur-xl rounded-xl border overflow-hidden w-full flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border overflow-hidden w-full flex flex-col">
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-[#FCEFCB] to-white p-6 sm:p-8 text-center border-b" style={{ borderColor: '#A86523' }}>
+                  <div className="bg-gradient-to-r from-[rgb(254 243 199)] to-white p-6 sm:p-8 text-center border-b">
                     <div className="relative inline-block">
                       <img
                         src={profile.image || "https://via.placeholder.com/120x120?text=No+Image"}
                         alt={profile.username || "Profile"}
                         className="w-24 h-24 rounded-full object-cover border-2"
-                        style={{ borderColor: '#A86523' }}
+
                         onError={(e) => {
                           e.target.src = "https://via.placeholder.com/120x120?text=No+Image";
                         }}
@@ -509,7 +509,7 @@ const Profile = () => {
                   {!isDeleted ? (
                     <div className="p-4 sm:p-6 space-y-3 flex-grow flex flex-col justify-end">
                       <button
-                        className="w-full text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                        className="w-full text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                         onClick={() => setEditMode(true)}
                       >
                         Update Profile
@@ -534,7 +534,7 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div className="p-4 sm:p-6 flex-grow flex flex-col justify-end">
-                      <div className="backdrop-blur-xl rounded-xl border p-4 mb-4" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                      <div className="rounded-xl border p-4 mb-4" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                         <div className="flex items-center justify-center mb-2">
                           <svg className="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -558,8 +558,8 @@ const Profile = () => {
 
               {/* Profile Details */}
               <div className="lg:col-span-2 flex">
-                <div className="backdrop-blur-xl rounded-xl border overflow-hidden w-full flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
-                  <div className="bg-gradient-to-r from-[#FCEFCB] to-white border-b p-4 sm:p-5" style={{ borderColor: '#A86523' }}>
+                <div className="rounded-xl border overflow-hidden w-full flex flex-col">
+                  <div className="bg-gradient-to-r from-[rgb(254 243 199)] to-white border-b p-4 sm:p-5">
                     <h2 className="text-xl font-semibold text-gray-900">Profile Information</h2>
                   </div>
 
@@ -567,10 +567,10 @@ const Profile = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                       {/* Personal Information */}
                       <div className="space-y-3">
-                        <h3 className="text-lg font-medium text-gray-900 border-b pb-2" style={{ borderColor: '#A86523' }}>Personal Information</h3>
+                        <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Personal Information</h3>
 
                         <div className="space-y-2">
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -582,7 +582,7 @@ const Profile = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -594,7 +594,7 @@ const Profile = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -606,7 +606,7 @@ const Profile = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -622,10 +622,10 @@ const Profile = () => {
 
                       {/* Additional Information */}
                       <div className="space-y-3">
-                        <h3 className="text-lg font-medium text-gray-900 border-b pb-2" style={{ borderColor: '#A86523' }}>Additional Information</h3>
+                        <h3 className="text-lg font-medium text-gray-900 border-b pb-2">Additional Information</h3>
 
                         <div className="space-y-2">
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -639,7 +639,7 @@ const Profile = () => {
                           </div>
 
                           {profile.gender && (
-                            <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                            <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                               <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                                 <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -653,7 +653,7 @@ const Profile = () => {
                           )}
 
                           {profile.dob && (
-                            <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                            <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                               <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                                 <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -666,7 +666,7 @@ const Profile = () => {
                             </div>
                           )}
 
-                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border" style={{ borderColor: '#A86523' }}>
+                          <div className="flex items-center p-3 bg-gray-50 rounded-lg border">
                             <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

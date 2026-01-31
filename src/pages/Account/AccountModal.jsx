@@ -199,9 +199,9 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                 }
             `}</style>
             <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-                <div className={`bg-white rounded-2xl shadow-2xl border-2 w-full transform transition-all duration-300 ${internalViewOnly ? 'max-w-2xl' : 'max-w-md'} max-h-[90vh] flex flex-col`} style={{ borderColor: '#A86523' }}>
+                <div className={`bg-white rounded-2xl shadow-2xl border-2 w-full transform transition-all duration-300 ${internalViewOnly ? 'max-w-2xl' : 'max-w-md'} max-h-[90vh] flex flex-col`}>
                     {/* Modal Header */}
-                    <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0" style={{ borderColor: '#A86523' }}>
+                    <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0">
                         <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                             {internalViewOnly ? 'Account Details' : 'Edit Account'}
                         </h3>
@@ -212,7 +212,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                         // Switch to edit mode without closing modal
                                         setInternalViewOnly(false);
                                     }}
-                                    className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                                    className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                                     title="Edit Account"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +225,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                 type="button"
                                 onClick={onClose}
                                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': '#A86523' }}
+                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                 aria-label="Close modal"
                                 disabled={isSubmitting}
                             >
@@ -241,7 +241,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                             // View Mode - Display account details
                             <div className="space-y-4">
                                 {/* Account Information */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Account Information</h3>
                                     <div className="flex items-start space-x-2 sm:space-x-3">
                                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden bg-gray-200 shrink-0">
@@ -289,7 +289,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                                 <div>
                                                     <p className="text-xs text-gray-500 mb-0.5">Status</p>
                                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${currentAccount.acc_status === 'active' ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
-                                                        currentAccount.acc_status === 'suspended' ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white' :
+                                                        currentAccount.acc_status === 'suspended' ? 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white' :
                                                             currentAccount.acc_status === 'inactive' ? 'bg-red-600 text-white' :
                                                                 'bg-gray-100 text-gray-800'
                                                         } capitalize`}>
@@ -302,7 +302,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                 </div>
 
                                 {/* Additional Information */}
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Additional Information</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                                         <div>
@@ -334,7 +334,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
 
                                 {/* Order Statistics - Only show for non-admin accounts */}
                                 {currentAccount.role !== 'admin' && internalViewOnly && (
-                                    <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                    <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                         <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Order Statistics</h3>
                                         {ordersLoading ? (
                                             <div className="flex items-center justify-center py-4">
@@ -378,7 +378,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                         onChange={handleChange}
                                         className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 focus:ring-2 bg-white text-sm lg:text-base ${errors.role
                                             ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                            : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
                                             }`}
                                     >
                                         <option value="admin">Admin</option>
@@ -397,7 +397,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                         onChange={handleChange}
                                         className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 bg-white text-sm lg:text-base ${errors.acc_status
                                             ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 hover:border-gray-400 focus:border-[#A86523] focus:ring-[#A86523]'
+                                            : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
                                             }`}
                                         disabled={currentAccount.is_deleted}
                                     >
@@ -414,7 +414,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
 
                     {/* Footer - Only show in edit mode */}
                     {!internalViewOnly && (
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0" style={{ borderColor: '#A86523' }}>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0">
                             <button
                                 type="button"
                                 onClick={() => {
@@ -422,7 +422,7 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                     setInternalViewOnly(true);
                                 }}
                                 className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': '#A86523' }}
+                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                 disabled={isSubmitting}
                             >
                                 Cancel
@@ -431,9 +431,9 @@ export default function AccountModal({ isOpen, account, onClose, onSuccess, view
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
-                                className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] disabled:hover:from-[#E9A319] disabled:hover:to-[#A86523]"
+                                className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
                                 style={{
-                                    '--tw-ring-color': '#A86523'
+                                    '--tw-ring-color': 'rgb(217 119 6)'
                                 }}
                             >
                                 {isSubmitting ? (

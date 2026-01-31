@@ -110,9 +110,9 @@ const StreamsList = ({
     }, [loadAllLivestreams, currentPage, itemsPerPage, searchTerm, statusFilter]);
 
     return (
-        <div className="backdrop-blur-xl rounded-xl border overflow-hidden mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+        <div className="rounded-xl border overflow-hidden mb-4 lg:mb-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
             {isLoading ? (
-                <div className="backdrop-blur-xl rounded-xl border p-6 mb-4 lg:mb-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
+                <div className="rounded-xl border p-6 mb-4 lg:mb-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }} role="status" aria-live="polite">
                     <Loading
                         type="page"
                         size="medium"
@@ -123,7 +123,7 @@ const StreamsList = ({
                 <div className="overflow-x-auto">
                     <table className="w-full table-fixed min-w-[900px]">
                         {/* ---------- HEADER ---------- */}
-                        <thead className="backdrop-blur-sm border-b" style={{ borderColor: '#A86523' }}>
+                        <thead className="border-b">
                             <tr>
                                 <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
                                     #
@@ -189,7 +189,7 @@ const StreamsList = ({
                                                 ? 'bg-gradient-to-r from-red-400 to-red-600 text-white border border-red-500'
                                                 : stream.status === 'ended'
                                                     ? 'bg-gradient-to-r from-gray-400 to-gray-600 text-white border border-gray-500'
-                                                    : 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white border border-yellow-500'
+                                                    : 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white border border-yellow-500'
                                                 }`}>
                                                 {stream.status || 'unknown'}
                                             </span>

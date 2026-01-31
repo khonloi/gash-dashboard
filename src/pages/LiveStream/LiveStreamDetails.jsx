@@ -373,7 +373,7 @@ const LiveStreamDetails = () => {
                     <p className="text-gray-600 mb-6">This livestream does not exist or has been deleted.</p>
                     <button
                         onClick={() => navigate('/livestream')}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -417,7 +417,7 @@ const LiveStreamDetails = () => {
                         <button
                             onClick={handleRefresh}
                             disabled={isRefreshing}
-                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                         >
                             {isRefreshing ? (
                                 <>
@@ -435,7 +435,7 @@ const LiveStreamDetails = () => {
             {/* Main Content */}
             <div className="space-y-4 lg:space-y-6">
                 {/* Basic Information */}
-                <div className="backdrop-blur-xl rounded-xl border overflow-hidden" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                     <div className="p-3 sm:p-4 lg:p-6">
                         <div className="flex items-start justify-between mb-3 lg:mb-4">
                             <div className="flex-1">
@@ -454,7 +454,7 @@ const LiveStreamDetails = () => {
 
                         {/* Details Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
-                            {/* <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            {/* <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Fingerprint className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Stream ID</span>
@@ -462,7 +462,7 @@ const LiveStreamDetails = () => {
                                 <p className="text-xs sm:text-sm font-semibold text-gray-900 break-all">{livestream._id}</p>
                             </div> */}
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Videocam className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Room Name</span>
@@ -470,7 +470,7 @@ const LiveStreamDetails = () => {
                                 <p className="text-xs sm:text-sm font-semibold text-gray-900 break-all">{livestream.roomName}</p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Flag className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Status</span>
@@ -481,7 +481,7 @@ const LiveStreamDetails = () => {
                                 </span>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Total Viewers</span>
@@ -489,7 +489,7 @@ const LiveStreamDetails = () => {
                                 <p className="text-sm sm:text-base font-semibold text-gray-900">{viewerStats.peak} viewers</p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Schedule className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Peak At</span>
@@ -499,7 +499,7 @@ const LiveStreamDetails = () => {
                                 </p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Min Viewers</span>
@@ -507,7 +507,7 @@ const LiveStreamDetails = () => {
                                 <p className="text-sm sm:text-base font-semibold text-gray-900">{viewerStats.min} viewers</p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Schedule className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Min At</span>
@@ -517,7 +517,7 @@ const LiveStreamDetails = () => {
                                 </p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Schedule className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Duration</span>
@@ -528,7 +528,7 @@ const LiveStreamDetails = () => {
                             </div>
 
                             {reactions && reactions.total > 0 && (
-                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                                <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                     <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                         <LiveTv className="w-3 h-3 sm:w-4 sm:h-4" />
                                         <span className="text-xs font-medium">Reactions</span>
@@ -539,7 +539,7 @@ const LiveStreamDetails = () => {
                                 </div>
                             )}
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Inventory2 className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Products</span>
@@ -549,7 +549,7 @@ const LiveStreamDetails = () => {
                                 </p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center gap-2 text-gray-600 mb-1.5 sm:mb-2">
                                     <Comment className="w-3 h-3 sm:w-4 sm:h-4" />
                                     <span className="text-xs font-medium">Comments</span>
@@ -564,7 +564,7 @@ const LiveStreamDetails = () => {
 
                 {/* Reactions Details */}
                 {reactions && reactions.total > 0 && (
-                    <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                    <div className="rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                         <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3">
                             Reactions ({reactions.total})
                         </h3>
@@ -605,7 +605,7 @@ const LiveStreamDetails = () => {
                 {/* Timeline and Additional Information */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
                     {/* Timeline */}
-                    <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                    <div className="rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                         <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3">Timeline</h3>
                         <div className="space-y-3">
                             <div className="flex items-start gap-3">
@@ -633,7 +633,7 @@ const LiveStreamDetails = () => {
                     </div>
 
                     {/* Additional Information */}
-                    <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                    <div className="rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                         <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3">Additional Information</h3>
                         <dl>
                             <div>
@@ -682,7 +682,7 @@ const LiveStreamDetails = () => {
 
                 {/* Live Products */}
                 {products && products.length > 0 && (
-                    <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                    <div className="rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                         <div className="flex items-center justify-between mb-2 sm:mb-3">
                             <h3 className="text-sm sm:text-base font-semibold text-gray-900">
                                 Live Products ({products.length})
@@ -724,7 +724,7 @@ const LiveStreamDetails = () => {
                                 }
 
                                 return (
-                                    <div key={liveProduct._id} className={`rounded-lg border p-2.5 sm:p-3 hover:shadow-md transition-shadow flex items-center gap-3 sm:gap-4 ${!isActive ? 'opacity-60' : ''} ${isPinned ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-300 shadow-md' : 'bg-gray-50'}`} style={isPinned ? {} : { borderColor: '#A86523' }}>
+                                    <div key={liveProduct._id} className={`rounded-lg border p-2.5 sm:p-3 hover:shadow-md transition-shadow flex items-center gap-3 sm:gap-4 ${!isActive ? 'opacity-60' : ''} ${isPinned ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-300 shadow-md' : 'bg-gray-50'}`} style={isPinned ? {} : { borderColor: 'rgb(217 119 6)' }}>
                                         {/* Product Image */}
                                         {(() => {
                                             const productImageUrl = getMainImageUrl(liveProduct);
@@ -827,7 +827,7 @@ const LiveStreamDetails = () => {
                 )}
 
                 {/* Live Comments */}
-                <div className="backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="rounded-xl border p-3 sm:p-4 lg:p-6" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
                     <div className="flex items-center justify-between mb-2 sm:mb-3">
                         <h3 className="text-sm sm:text-base font-semibold text-gray-900">
                             Comments ({comments?.length || 0})
@@ -888,7 +888,7 @@ const CommentItem = ({ comment, user, livestreamId }) => {
         <div className={`group relative rounded-lg border p-2.5 sm:p-3 transition-all ${isDeleted
             ? 'bg-gray-100 border-gray-300 opacity-60'
             : 'bg-gray-50 border-gray-200 hover:border-gray-300 hover:shadow-sm'
-            }`} style={!isDeleted ? { borderColor: '#A86523' } : {}}>
+            }`} style={!isDeleted ? { borderColor: 'rgb(217 119 6)' } : {}}>
             <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                     {/* Author and badges */}

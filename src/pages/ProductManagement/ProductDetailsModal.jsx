@@ -206,12 +206,12 @@ const ProductDetailsModal = ({
             <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4" onClick={onClose}>
                 <div
                     className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-6xl max-h-[90vh] flex flex-col transform transition-all duration-300"
-                    style={{ borderColor: '#A86523' }}
+
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div
                         className="flex items-center justify-between p-4 sm:p-5 border-b shrink-0"
-                        style={{ borderColor: '#A86523' }}
+
                     >
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                             Product Details
@@ -220,8 +220,8 @@ const ProductDetailsModal = ({
                             {!viewOnly && realtimeProductStatus !== 'discontinued' && (
                                 <button
                                     onClick={handleEditProduct}
-                                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                    style={{ '--tw-ring-color': '#A86523' }}
+                                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                    style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                     title="Edit Product"
                                 >
                                     <FaEdit className="w-4 h-4" />
@@ -230,7 +230,7 @@ const ProductDetailsModal = ({
                             )}
                             <button
                                 className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': '#A86523' }}
+                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                 onClick={onClose}
                                 aria-label="Close modal"
                             >
@@ -250,7 +250,7 @@ const ProductDetailsModal = ({
                     >
                         {/* Overview + Images */}
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Overview</h3>
                                 <dl className="space-y-3 text-sm text-gray-700">
                                     <div>
@@ -282,7 +282,7 @@ const ProductDetailsModal = ({
                                                     : realtimeProductStatus === 'active'
                                                         ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
                                                         : realtimeProductStatus === 'inactive'
-                                                            ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white'
+                                                            ? 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white'
                                                             : 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white'
                                                     }`}
                                             >
@@ -293,7 +293,7 @@ const ProductDetailsModal = ({
                                 </dl>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                            <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                                 <div className="flex items-center justify-between mb-1.5 sm:mb-2">
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900">Product Images</h3>
                                     <span className="text-xs text-gray-500">{product.productImageIds?.length || 0} image(s)</span>
@@ -338,7 +338,7 @@ const ProductDetailsModal = ({
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                             <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1.5 sm:mb-2">Description</h3>
                             <div
                                 className="prose prose-sm max-w-none text-gray-700 whitespace-normal break-words"
@@ -346,7 +346,7 @@ const ProductDetailsModal = ({
                             />
                         </div>
 
-                        <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3" style={{ borderColor: '#A86523' }}>
+                        <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
                             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
                                 <div>
                                     <h3 className="text-sm sm:text-base font-semibold text-gray-900">Product Variants</h3>
@@ -359,7 +359,7 @@ const ProductDetailsModal = ({
                                         <button
                                             onClick={() => setShowBulkVariant(true)}
                                             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                            style={{ '--tw-ring-color': '#A86523' }}
+                                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                             title="Bulk add variants with same color and image"
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -369,8 +369,8 @@ const ProductDetailsModal = ({
                                         </button>
                                         <button
                                             onClick={() => setShowCreateVariant(true)}
-                                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                            style={{ '--tw-ring-color': '#A86523' }}
+                                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                                         >
                                             <FaPlus className="w-4 h-4" />
                                             <span>Add Variant</span>

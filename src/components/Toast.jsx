@@ -30,13 +30,13 @@ export const ToastProvider = ({ children }) => {
   const toastStyles = {
     success: "bg-green-50 text-green-800",
     error: "bg-red-50 text-red-800",
-    info: "bg-[#FCEFCB] text-[#A86523]",
+    info: "bg-[rgb(254 243 199)] text-[rgb(217 119 6)]",
   };
 
   const borderColors = {
     success: "#10b981", // green-500
     error: "#ef4444", // red-500
-    info: "#A86523", // theme brown
+    info: "rgb(217 119 6)", // theme brown
   };
 
   const icons = {
@@ -69,7 +69,7 @@ export const ToastProvider = ({ children }) => {
       </svg>
     ),
     info: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" style={{ color: '#A86523' }}>
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" style={{ color: 'rgb(217 119 6)' }}>
         <path
           fillRule="evenodd"
           clipRule="evenodd"

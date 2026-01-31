@@ -230,10 +230,10 @@ const ChangePasswordModal = ({ handleCancel }) => {
                 transition={{ duration: 0.18 }}
                 onClick={(e) => e.stopPropagation()}
                 className="relative bg-white rounded-2xl shadow-2xl border-2 w-full max-w-md max-h-[90vh] flex flex-col"
-                style={{ borderColor: '#A86523' }}
+
             >
                 {/* Modal Header */}
-                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0" style={{ borderColor: '#A86523' }}>
+                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0">
                     <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                         Change Password
                     </h2>
@@ -241,7 +241,7 @@ const ChangePasswordModal = ({ handleCancel }) => {
                         type="button"
                         onClick={handleCancel}
                         className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': '#A86523' }}
+                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                         aria-label="Close modal"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +267,7 @@ const ChangePasswordModal = ({ handleCancel }) => {
                                     type={showPassword[field.key] ? "text" : "password"}
                                     value={form[field.key]}
                                     onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                                    className={`w-full px-3 py-2 lg:px-4 lg:py-3 border-2 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 backdrop-blur-sm text-sm lg:text-base shadow-md hover:shadow-lg pr-10 ${validationErrors[field.key]
+                                    className={`w-full px-3 py-2 lg:px-4 lg:py-3 border-2 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base shadow-md hover:shadow-lg pr-10 ${validationErrors[field.key]
                                         ? 'border-red-400 focus:border-red-500 focus:ring-red-500'
                                         : 'border-gray-300/60 focus:border-amber-500 focus:ring-amber-500/30 hover:border-yellow-400/60'
                                         }`}
@@ -293,12 +293,12 @@ const ChangePasswordModal = ({ handleCancel }) => {
                 </div>
 
                 {/* Footer */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0" style={{ borderColor: '#A86523' }}>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0">
                     <button
                         type="button"
                         onClick={handleCancel}
                         className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': '#A86523' }}
+                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
                         disabled={loading}
                     >
                         Cancel
@@ -307,9 +307,9 @@ const ChangePasswordModal = ({ handleCancel }) => {
                         type="submit"
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] disabled:hover:from-[#E9A319] disabled:hover:to-[#A86523]"
+                        className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
                         style={{
-                            '--tw-ring-color': '#A86523'
+                            '--tw-ring-color': 'rgb(217 119 6)'
                         }}
                     >
                         {loading ? (

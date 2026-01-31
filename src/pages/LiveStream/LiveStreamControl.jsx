@@ -571,7 +571,7 @@ const LiveStreamControl = () => {
                     <p className="text-gray-600 mb-6">This livestream does not exist or has been deleted.</p>
                     <button
                         onClick={() => navigate('/livestream')}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -626,7 +626,7 @@ const LiveStreamControl = () => {
                         <button
                             onClick={handleRefresh}
                             disabled={isRefreshing}
-                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                         >
                             {isRefreshing ? (
                                 <>
@@ -647,7 +647,7 @@ const LiveStreamControl = () => {
             {/* Main Content - Left: Stream Info/Stats/Reactions, Right: Products/Comments */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 mb-4 lg:mb-6 flex-1 min-h-0">
                 {/* Left Side: Stream Info, View Stats, and Reactions */}
-                <div className="lg:col-span-3 backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-5 min-w-0 overflow-hidden flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="lg:col-span-3 rounded-xl border p-3 sm:p-4 lg:p-5 min-w-0 overflow-hidden flex flex-col">
                     <div className="space-y-3 lg:space-y-4 flex-1 overflow-y-auto min-h-0">
                         {/* Livestream Info Card */}
                         <div className="bg-white rounded-lg border border-gray-200 p-3 lg:p-4 shrink-0">
@@ -723,7 +723,7 @@ const LiveStreamControl = () => {
                         {/* Reactions Section */}
                         <div className="bg-white rounded-lg border border-gray-200 p-3 lg:p-4 shrink-0">
                             <div className="flex items-center gap-2 mb-3">
-                                <ThumbUp className="w-4 h-4 text-[#A86523] shrink-0" />
+                                <ThumbUp className="w-4 h-4 text-[rgb(217 119 6)] shrink-0" />
                                 <h2 className="text-sm font-semibold text-gray-900 truncate">Reactions</h2>
                                 {reactions && reactions.total > 0 && (
                                     <span className="px-1.5 py-0.5 bg-green-100 text-green-800 rounded-full text-[10px] font-bold shrink-0">
@@ -739,12 +739,12 @@ const LiveStreamControl = () => {
                 </div>
 
                 {/* Right Side: Comments and Products */}
-                <div className="lg:col-span-9 backdrop-blur-xl rounded-xl border p-3 sm:p-4 lg:p-6 min-w-0 overflow-hidden flex flex-col" style={{ borderColor: '#A86523', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(251, 191, 36, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
+                <div className="lg:col-span-9 rounded-xl border p-3 sm:p-4 lg:p-6 min-w-0 overflow-hidden flex flex-col">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-1 min-h-0" style={{ alignItems: 'stretch' }}>
                         {/* Comments Section */}
                         <div className="min-w-0 overflow-hidden flex flex-col h-full">
                             <div className="flex items-center gap-2 mb-4 shrink-0">
-                                <Comment className="w-5 h-5 text-[#A86523] shrink-0" />
+                                <Comment className="w-5 h-5 text-[rgb(217 119 6)] shrink-0" />
                                 <h2 className="text-base lg:text-lg font-semibold text-gray-900 truncate">Comments Management</h2>
                             </div>
                             <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
@@ -765,7 +765,7 @@ const LiveStreamControl = () => {
                         {/* Products Section */}
                         <div className="min-w-0 overflow-hidden flex flex-col h-full">
                             <div className="flex items-center gap-2 mb-4 shrink-0">
-                                <Inventory2 className="w-5 h-5 text-[#A86523] shrink-0" />
+                                <Inventory2 className="w-5 h-5 text-[rgb(217 119 6)] shrink-0" />
                                 <h2 className="text-base lg:text-lg font-semibold text-gray-900 truncate">Products Management</h2>
                             </div>
                             <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
@@ -887,13 +887,13 @@ const CommentsTab = ({ comments, livestreamId, user, onPinComment, onUnpinCommen
                             }}
                             placeholder="Write a comment..."
                             rows={2}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A86523] focus:border-transparent resize-none text-sm"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(217 119 6)] focus:border-transparent resize-none text-sm"
                             disabled={isSubmittingComment}
                         />
                         <button
                             type="submit"
                             disabled={!newComment.trim() || isSubmittingComment}
-                            className="w-10 h-10 bg-gradient-to-r from-[#E9A319] to-[#A86523] text-white rounded-lg hover:from-[#A86523] hover:to-[#8B4E1A] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg transform hover:scale-105 disabled:transform-none flex items-center justify-center"
+                            className="w-10 h-10 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] text-white rounded-lg hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg transform hover:scale-105 disabled:transform-none flex items-center justify-center"
                         >
                             {isSubmittingComment ? (
                                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
@@ -927,7 +927,7 @@ const CommentItem = ({ comment, user, isAdmin, onPinComment, onUnpinComment, onH
                 : isDeleted
                     ? 'bg-gray-100 border-gray-300 opacity-60'
                     : 'bg-gray-50 border-gray-200 hover:border-gray-300 hover:shadow-sm'
-                }`} style={!isPinned && !isDeleted ? { borderColor: '#A86523' } : {}}>
+                }`} style={!isPinned && !isDeleted ? { borderColor: 'rgb(217 119 6)' } : {}}>
                 <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                         {/* Author and badges */}

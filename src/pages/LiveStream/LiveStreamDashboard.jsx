@@ -2184,7 +2184,7 @@ const LiveStreamDashboard = () => {
             {currentLivestream && !showComments && (
                 <button
                     onClick={() => setShowComments(true)}
-                    className="fixed bottom-5 right-5 z-50 flex items-center gap-1.5 px-4 py-2.5 text-white rounded-lg shadow-lg transition-all duration-300 bg-gradient-to-r from-[#E9A319] to-[#A86523] hover:from-[#A86523] hover:to-[#8B4E1A] transform hover:scale-105"
+                    className="fixed bottom-5 right-5 z-50 flex items-center gap-1.5 px-4 py-2.5 text-white rounded-lg shadow-lg transition-all duration-300 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
                 >
                     <Chat className="w-4 h-4" />
                     <span className="font-semibold text-sm">Show Comments</span>
