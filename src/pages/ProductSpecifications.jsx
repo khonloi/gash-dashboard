@@ -8,6 +8,7 @@ import DeleteConfirmModal from '../components/ui/DeleteConfirmModal';
 import Modal from '../components/ui/Modal';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
+import Page, { usePagination, useFilters } from '../components/ui/Page';
 
 const ProductSpecifications = () => {
   const { user, isAuthLoading } = useContext(AuthContext);
@@ -21,16 +22,19 @@ const ProductSpecifications = () => {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
 
-  // Filter states
-  const [filters, setFilters] = useState({
-    searchQuery: '',
+  const {
+      filters,
+      searchTerm,
+      setSearchTerm,
+      showFilters,
+      toggleFilters,
+      handleFilterChange,
+      clearFilters,
+      hasActiveFilters
+  } = useFilters({
+      searchQuery: '',
+      status: 'all'
   });
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [showFilters, setShowFilters] = useState(true);
-
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(10);
 
   // Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -166,7 +170,6 @@ const ProductSpecifications = () => {
     if (user) {
       fetchAll();
     }
-    setCurrentPage(1);
   }, [user, fetchAll]);
 
   // Helper functions - useMemo to prevent unnecessary re-renders
@@ -269,96 +272,33 @@ const ProductSpecifications = () => {
   // Apply filters
   const applyFilters = useCallback((itemsList) => {
     return itemsList.filter((item) => {
-      // Filter by search query
-      if (filters.searchQuery) {
-        const query = filters.searchQuery.toLowerCase();
-        const name = item.name?.toLowerCase() || '';
-        if (!name.includes(query)) return false;
-      }
-
-      // Filter by status
-      if (statusFilter !== 'all') {
-        const itemStatus = getItemStatus(item);
-        if (itemStatus !== statusFilter) return false;
-      }
-
-      return true;
+      const matchesSearch = filters.searchQuery === '' || item.name.toLowerCase().includes(filters.searchQuery.toLowerCase());
+      const matchesStatus = filters.status === 'all' || getItemStatus(item) === filters.status;
+      return matchesSearch && matchesStatus;
     });
-  }, [filters, statusFilter]);
+  }, [filters, getItemStatus]);
 
-  const filteredItems = applyFilters(getCurrentItems());
+  const filteredData = applyFilters(getCurrentItems());
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredItems.length / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const currentItems = filteredItems.slice(startIndex, endIndex);
+  const {
+      currentPage,
+      totalPages,
+      startIndex,
+      endIndex,
+      currentData: paginatedItems,
+      handlePageChange,
+      setCurrentPage
+  } = usePagination(filteredData, 10);
 
-  // Handle page change
-  const handlePageChange = useCallback((page) => {
-    setCurrentPage(page);
-  }, []);
-
-  // Handle previous page
-  const handlePreviousPage = useCallback(() => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  }, []);
-
-  // Handle next page
-  const handleNextPage = useCallback(() => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  }, [totalPages]);
-
-  // Handle first/last page
-  const handleFirstPage = useCallback(() => {
+  // Clear filters
+  const handleClearAllFilters = () => {
+    clearFilters();
     setCurrentPage(1);
-  }, []);
-
-  const handleLastPage = useCallback(() => {
-    setCurrentPage(totalPages);
-  }, [totalPages]);
-
-  // Calculate which pages to show (max 5 pages)
-  const getVisiblePages = () => {
-    const maxVisible = 5;
-    if (totalPages <= maxVisible) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    let start = Math.max(1, currentPage - 2);
-    let end = Math.min(totalPages, start + maxVisible - 1);
-
-    if (end - start < maxVisible - 1) {
-      start = Math.max(1, end - maxVisible + 1);
-    }
-
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
-  const visiblePages = getVisiblePages();
-
-  // Handle filter changes
-  const handleFilterChange = useCallback((field, value) => {
-    setFilters((prev) => ({ ...prev, [field]: value }));
-    setCurrentPage(1);
-  }, []);
-
-  // Check if any filters are active
-  const hasActiveFilters = filters.searchQuery !== '' || statusFilter !== 'all';
-
-  // Clear all filters
-  const clearFilters = useCallback(() => {
-    setFilters({
-      searchQuery: '',
-    });
-    setStatusFilter('all');
-    setCurrentPage(1);
-  }, []);
-
-  // Toggle filters
-  const toggleFilters = useCallback(() => {
-    setShowFilters(prev => !prev);
-  }, []);
+  // Reset to page 1 when active tab or filters change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { setCurrentPage(1); }, [activeTab, filters.searchQuery, filters.status]);
 
   // Create item
   const createItem = useCallback(async () => {
@@ -965,88 +905,63 @@ const ProductSpecifications = () => {
   }
 
   return (
-    <div className="min-h-screen p-2 sm:p-3 lg:p-4 xl:p-6">
-      {/* Header Section */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4 mb-4 lg:mb-6 pt-2 lg:pt-3 pb-2 lg:pb-3">
-        <div className="flex-1 min-w-0">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 lg:mb-2 leading-tight">Product Specifications Management</h1>
-          {/* <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Manage colors, sizes, and categories</p> */}
-        </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 lg:gap-4 shrink-0">
-          <div className="bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-orange-400/20 backdrop-blur-md px-2 lg:px-4 py-1 lg:py-2 rounded-xl border-2 border-yellow-400/50 shadow-md">
-            <span className="text-xs lg:text-sm font-semibold text-gray-700">
-              {filteredItems.length} {activeTab === 'specifcations' ? 'items' : activeTab}
-            </span>
-          </div>
-          <button
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
-            onClick={toggleFilters}
-            aria-label="Toggle filters"
-          >
-            <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-            </svg>
-            <span className="font-medium hidden sm:inline">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
-            <span className="font-medium sm:hidden">Filters</span>
-          </button>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
-            aria-label={`Add new ${getLabel().toLowerCase()}`}
-          >
-            <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            <span className='font-medium'>Add {getLabel()}</span>
-          </button>
-        </div>
-      </div>
+    <Page>
+      <Page.Header 
+        title="Product Specifications Management"
+        renderBadge={() => `${filteredData.length} ${activeTab === 'specifcations' ? 'items' : activeTab}`}
+        renderActions={() => (
+          <>
+            <button
+              className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
+              onClick={toggleFilters}
+              aria-label="Toggle filters"
+            >
+              <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+              </svg>
+              <span className="font-medium hidden sm:inline">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+              <span className="font-medium sm:hidden">Filters</span>
+            </button>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center space-x-1 lg:space-x-2 px-3 lg:px-4 py-2 lg:py-3 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-xs lg:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 transform hover:scale-105"
+              aria-label={`Add new ${getLabel().toLowerCase()}`}
+            >
+              <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span className='font-medium'>Add {getLabel()}</span>
+            </button>
+          </>
+        )}
+      />
 
-      {/* Search Section */}
-      {showFilters && (
-        <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
-          <div className="flex items-center justify-between mb-3 lg:mb-4">
-            <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={clearFilters}
-                disabled={!hasActiveFilters}
-                className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
-                aria-label="Clear all filters"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-          <div className="mb-3 lg:mb-4">
-            <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search by Name</label>
+      <Page.Filters show={showFilters} onClear={handleClearAllFilters} hasActiveFilters={hasActiveFilters()}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+          <div>
+            <label className="block text-xs lg:text-sm font-semibold text-gray-700 mb-2">Search</label>
             <input
               type="text"
-              placeholder="Enter name..."
+              placeholder="Search by name..."
               value={filters.searchQuery}
               onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
               className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
-            <div>
-              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Status</label>
-              <select
-                value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-              >
-                <option value="all">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="deleted">Deleted</option>
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs lg:text-sm font-semibold text-gray-700 mb-2">Status</label>
+            <select
+              value={filters.status}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+            >
+              <option value="all">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="deleted">Deleted</option>
+            </select>
           </div>
         </div>
-      )}
+      </Page.Filters>
 
       {/* Tabs */}
       <div className="rounded-xl border mb-4 lg:mb-6 overflow-hidden">
@@ -1102,46 +1017,18 @@ const ProductSpecifications = () => {
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'rgb(217 119 6)', boxShadow: '0 25px 70px rgba(168, 101, 35, 0.3), 0 15px 40px rgba(233, 163, 25, 0.25), 0 5px 15px rgba(168, 101, 35, 0.2)' }}>
-        {loading || filteredItems.length === 0 ? (
-          <div className="p-6" role="status">
-            <div className="flex flex-col items-center justify-center space-y-4 min-h-[180px]">
-              {/* ── LOADING ── */}
-              {loading ? (
-                <Loading
-                  type="page"
-                  size="medium"
-                  message={`Loading ${activeTab}...`}
-                />
-              ) : (
-                /* ── NO ITEMS ── */
-                <>
-                  <div className="w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-lg">
-                    <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-base font-medium text-gray-900">No {activeTab} found</h3>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {filters.searchQuery
-                        ? "Try adjusting your search criteria"
-                        : `Get started by adding a new ${getLabel().toLowerCase()}`}
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full table-fixed min-w-[600px]">
+      <Page.Content
+        loading={loading}
+        isEmpty={filteredData.length === 0}
+        emptyTitle={`No ${activeTab} found`}
+        emptyMessage={
+          filters.searchQuery
+            ? "Try adjusting your search criteria"
+            : `Get started by adding a new ${getLabel().toLowerCase()}`
+        }
+        loadingMessage={`Loading ${activeTab}...`}
+      >
+        <Page.Table minWidth="600px">
               <thead className="border-b">
                 <tr>
                   <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">#</th>
@@ -1153,7 +1040,7 @@ const ProductSpecifications = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item, index) => {
+                {paginatedItems.map((item, index) => {
                   const itemId = item._id || item.id || `item-${index}`;
                   const isDeleted = item.isDeleted === true;
                   return (
@@ -1222,102 +1109,18 @@ const ProductSpecifications = () => {
                   );
                 })}
               </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+        </Page.Table>
+      </Page.Content>
 
-      {/* Pagination */}
-      {filteredItems.length > 0 && (
-        <div className="rounded-xl border p-4 lg:p-6 mt-4 lg:mt-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-700">
-              Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, filteredItems.length)}</span> of <span className="font-medium">{filteredItems.length}</span> items
-            </div>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={handleFirstPage}
-                disabled={currentPage === 1}
-                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
-                aria-label="First page"
-                title="First page"
-              >
-                First
-              </button>
-              <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
-                aria-label="Previous page"
-              >
-                Previous
-              </button>
-
-              <div className="flex items-center space-x-1">
-                {totalPages > 5 && visiblePages[0] > 1 && (
-                  <>
-                    <button
-                      className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
-                      onClick={() => handlePageChange(1)}
-                      aria-label="Page 1"
-                    >
-                      1
-                    </button>
-                    {visiblePages[0] > 2 && (
-                      <span className="px-2 text-gray-500">...</span>
-                    )}
-                  </>
-                )}
-                {visiblePages.map(page => (
-                  <button
-                    key={page}
-                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === page
-                      ? 'text-white border-transparent bg-gradient-to-r from-[rgb(245 158 11)] via-[rgb(217 119 6)] to-[rgb(180 83 9)] hover:from-[rgb(217 119 6)] hover:via-[rgb(180 83 9)] hover:to-[rgb(146 64 14)]'
-                      : 'text-gray-600 bg-white border border-gray-300 hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300'
-                      }`}
-                    onClick={() => handlePageChange(page)}
-                    aria-label={`Page ${page}`}
-                  >
-                    {page}
-                  </button>
-                ))}
-                {totalPages > 5 && visiblePages[visiblePages.length - 1] < totalPages && (
-                  <>
-                    {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
-                      <span className="px-2 text-gray-500">...</span>
-                    )}
-                    <button
-                      className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
-                      onClick={() => handlePageChange(totalPages)}
-                      aria-label={`Page ${totalPages}`}
-                    >
-                      {totalPages}
-                    </button>
-                  </>
-                )}
-              </div>
-
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
-                aria-label="Next page"
-              >
-                Next
-              </button>
-              <button
-                onClick={handleLastPage}
-                disabled={currentPage === totalPages}
-                className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:border-gray-300 transition-all duration-200"
-                aria-label="Last page"
-                title="Last page"
-              >
-                Last
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Page.Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={filteredData.length}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        onPageChange={handlePageChange}
+        itemName="items"
+      />
 
       {/* Create Modal */}
       <Modal isOpen={showCreateModal} onClose={handleCloseCreateModal} maxWidth="max-w-md">
@@ -1440,7 +1243,7 @@ const ProductSpecifications = () => {
         onCancel={handleCancelDelete}
         isLoading={loading}
       />
-    </div>
+    </Page>
   );
 };
 
