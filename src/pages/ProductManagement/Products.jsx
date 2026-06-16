@@ -563,12 +563,12 @@ const Products = () => {
   // Get category name by ID
   const getCategoryName = useCallback((catId) => getCategoryInfo(catId).name, [getCategoryInfo]);
 
-  // Get status badge class
-  const getStatusBadgeClass = useCallback((status) => {
+  // Get status color
+  const getStatusColor = useCallback((status) => {
     switch (status) {
-      case 'active': return 'products-status-active';
-      case 'discontinued': return 'products-status-discontinued';
-      default: return 'products-status-unknown';
+      case 'active': return 'green';
+      case 'discontinued': return 'red';
+      default: return 'gray';
     }
   }, []);
 
@@ -797,83 +797,61 @@ const Products = () => {
 
                       {/* Status */}
                       <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${discontinued
-                            ? 'bg-red-600 text-white'
-                            : product.productStatus === 'active'
-                              ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
-                              : product.productStatus === 'inactive'
-                                ? 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white'
-                                : 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white'
-                            }`}
-                        >
+                        <Page.Badge color={discontinued ? 'red' : product.productStatus === 'active' ? 'green' : product.productStatus === 'inactive' ? 'yellow' : 'blue'}>
                           {discontinued ? 'discontinued' : product.productStatus || 'unknown'}
-                        </span>
+                        </Page.Badge>
                       </td>
 
                       {/* Actions */}
                       <td className="px-2 lg:px-4 py-3">
                         <div className="flex justify-center items-center space-x-1">
                           {/* View Button */}
-                          <button
+                          <Page.ActionButton
                             onClick={() => handleShowDetails(product)}
-                            className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
-                            aria-label={`View details for product ${product._id}`}
+                            variant="primary"
                             title="View Details"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                          </button>
+                          </Page.ActionButton>
 
                           {/* Edit Button */}
-                          <button
+                          <Page.ActionButton
                             onClick={() => handleEditProduct(product)}
                             disabled={discontinued}
-                            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${discontinued
-                              ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                              : 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm'
-                              }`}
-                            aria-label={`Edit product ${product._id}`}
+                            variant="primary"
                             title="Edit Product"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
-                          </button>
+                          </Page.ActionButton>
 
                           {/* Delete (Discontinue) Button */}
-                          <button
+                          <Page.ActionButton
                             onClick={() => handleRequestDiscontinue(product)}
                             disabled={discontinued}
-                            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${discontinued
-                              ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                              : 'text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700'
-                              }`}
-                            aria-label={`Discontinue product ${product._id}`}
+                            variant="danger"
                             title="Discontinue Product"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                          </button>
+                          </Page.ActionButton>
 
                           {/* Add Variant Button */}
-                          <button
+                          <Page.ActionButton
                             onClick={() => handleOpenAddVariantModal(product)}
                             disabled={discontinued}
-                            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${discontinued
-                              ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                              : 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm'
-                              }`}
-                            aria-label={`Add variant for product ${product._id}`}
+                            variant="primary"
                             title="Add Variant"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
-                          </button>
+                          </Page.ActionButton>
                         </div>
                       </td>
                     </tr>

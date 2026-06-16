@@ -243,11 +243,55 @@ const Pagination = ({
     );
 };
 
+const Badge = ({ children, color = 'gray' }) => {
+    const colorClasses = {
+        green: 'bg-gradient-to-r from-green-400 to-emerald-500 text-white',
+        yellow: 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white',
+        red: 'bg-red-600 text-white',
+        blue: 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white',
+        orange: 'bg-orange-100 text-orange-800',
+        purple: 'bg-purple-100 text-purple-800',
+        gray: 'bg-gray-100 text-gray-800'
+    };
+    
+    return (
+        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${colorClasses[color] || colorClasses.gray}`}>
+            {children}
+        </span>
+    );
+};
+
+const ActionButton = ({ onClick, disabled, variant = 'primary', title, children }) => {
+    const variantClasses = {
+        primary: 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm',
+        danger: 'text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700',
+        success: 'text-white bg-green-600 hover:bg-green-700 border-green-600 hover:border-green-700',
+        warning: 'border-orange-400/60 bg-gradient-to-br from-orange-100/80 via-amber-100/80 to-yellow-100/80 hover:from-orange-200 hover:via-amber-200 hover:to-yellow-200 text-orange-700 hover:text-orange-800 backdrop-blur-sm',
+        disabled: 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
+    };
+    
+    const activeClass = disabled ? variantClasses.disabled : (variantClasses[variant] || variantClasses.primary);
+    
+    return (
+        <button
+            onClick={onClick}
+            disabled={disabled}
+            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${activeClass}`}
+            title={title}
+            aria-label={title}
+        >
+            {children}
+        </button>
+    );
+};
+
 Page.Header = Header;
 Page.Filters = Filters;
 Page.Content = Content;
 Page.Table = TableWrapper;
 Page.Pagination = Pagination;
+Page.Badge = Badge;
+Page.ActionButton = ActionButton;
 
 export const usePagination = (data, itemsPerPage = 10) => {
     const [currentPage, ReactSetCurrentPage] = React.useState(1);
@@ -283,10 +327,12 @@ export const usePagination = (data, itemsPerPage = 10) => {
     };
 };
 
-export const useFilters = (initialFilters = {}) => {
+export const useFilters = (initialFilters = {}, initialSort = { by: '', order: 'asc' }) => {
     const [filters, setFilters] = React.useState(initialFilters);
     const [searchTerm, setSearchTerm] = React.useState('');
     const [showFilters, setShowFilters] = React.useState(true);
+    const [sortBy, setSortBy] = React.useState(initialSort.by);
+    const [sortOrder, setSortOrder] = React.useState(initialSort.order);
 
     const toggleFilters = () => setShowFilters(!showFilters);
     
@@ -294,13 +340,27 @@ export const useFilters = (initialFilters = {}) => {
         setFilters(prev => ({ ...prev, [key]: value }));
     };
 
+    const handleSortChange = (by) => {
+        if (sortBy === by) {
+            setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(by);
+            setSortOrder('asc');
+        }
+    };
+
     const clearFilters = () => {
         setFilters(initialFilters);
         setSearchTerm('');
+        setSortBy(initialSort.by);
+        setSortOrder(initialSort.order);
     };
 
     const hasActiveFilters = () => {
-        return searchTerm !== '' || Object.values(filters).some(val => val !== 'all' && val !== '');
+        return searchTerm !== '' || 
+               Object.values(filters).some(val => val !== 'all' && val !== '') ||
+               sortBy !== initialSort.by ||
+               sortOrder !== initialSort.order;
     };
 
     return {
@@ -312,7 +372,12 @@ export const useFilters = (initialFilters = {}) => {
         handleFilterChange,
         clearFilters,
         hasActiveFilters,
-        setFilters
+        setFilters,
+        sortBy,
+        setSortBy,
+        sortOrder,
+        setSortOrder,
+        handleSortChange
     };
 };
 

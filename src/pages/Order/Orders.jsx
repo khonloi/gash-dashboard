@@ -1133,53 +1133,37 @@ const Orders = () => {
                           {formatPrice(order.finalPrice || order.totalPrice)}
                         </td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${order.order_status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : order.order_status === "confirmed"
-                                ? "bg-blue-100 text-blue-800"
-                                : order.order_status === "shipping"
-                                  ? "bg-purple-100 text-purple-800"
-                                  : order.order_status === "delivered"
-                                    ? "bg-gradient-to-r from-green-400 to-emerald-500 text-white"
-                                    : order.order_status === "cancelled"
-                                      ? "bg-red-600 text-white"
-                                      : "bg-gray-100 text-gray-800"
-                              }`}
-                          >
+                          <Page.Badge color={
+                            order.order_status === "pending" ? "yellow" :
+                            order.order_status === "confirmed" ? "blue" :
+                            order.order_status === "shipping" ? "purple" :
+                            order.order_status === "delivered" ? "green" :
+                            order.order_status === "cancelled" ? "red" : "gray"
+                          }>
                             {displayStatus(order.order_status)}
-                          </span>
+                          </Page.Badge>
                         </td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${order.payment_method === "COD"
-                              ? "bg-orange-100 text-orange-800"
-                              : order.payment_method === "VNPAY"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-gray-100 text-gray-800"
-                              }`}
-                          >
+                          <Page.Badge color={
+                            order.payment_method === "COD" ? "orange" :
+                            order.payment_method === "VNPAY" ? "blue" : "gray"
+                          }>
                             {displayStatus(order.payment_method)}
-                          </span>
+                          </Page.Badge>
                         </td>
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${order.pay_status === "paid"
-                              ? "bg-gradient-to-r from-green-400 to-emerald-500 text-white"
-                              : order.pay_status === "unpaid"
-                                ? "bg-red-600 text-white"
-                                : "bg-gray-100 text-gray-800"
-                              }`}
-                          >
+                          <Page.Badge color={
+                            order.pay_status === "paid" ? "green" :
+                            order.pay_status === "unpaid" ? "red" : "gray"
+                          }>
                             {displayStatus(order.pay_status)}
-                          </span>
+                          </Page.Badge>
                         </td>
                         <td className="px-2 lg:px-4 py-3">
                           <div className="flex justify-center items-center space-x-1">
-                            <button
+                            <Page.ActionButton
                               onClick={() => handleViewOrderDetails(order)}
-                              className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
-                              aria-label={`View details for order ${order._id}`}
+                              variant="primary"
                               title="View Details"
                             >
                               <svg
@@ -1201,8 +1185,8 @@ const Orders = () => {
                                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                 />
                               </svg>
-                            </button>
-                            <button
+                            </Page.ActionButton>
+                            <Page.ActionButton
                               onClick={() => handleOpenUpdateModal(order)}
                               disabled={shouldDisableUpdateButton(
                                 order.payment_method,
@@ -1210,31 +1194,12 @@ const Orders = () => {
                                 order.pay_status,
                                 order.refund_status
                               )}
-                              className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${shouldDisableUpdateButton(
+                              variant={isRefundStatusUpdateAllowed(
                                 order.payment_method,
                                 order.order_status,
                                 order.pay_status,
                                 order.refund_status
-                              )
-                                ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                                : isRefundStatusUpdateAllowed(
-                                  order.payment_method,
-                                  order.order_status,
-                                  order.pay_status,
-                                  order.refund_status
-                                )
-                                  ? 'border-orange-400/60 bg-gradient-to-br from-orange-100/80 via-amber-100/80 to-yellow-100/80 hover:from-orange-200 hover:via-amber-200 hover:to-yellow-200 text-orange-700 hover:text-orange-800 backdrop-blur-sm'
-                                  : 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm'
-                                }`}
-                              aria-label={`${isRefundStatusUpdateAllowed(
-                                order.payment_method,
-                                order.order_status,
-                                order.pay_status,
-                                order.refund_status
-                              )
-                                ? "Process refund"
-                                : "Edit order"
-                                } ${order._id}`}
+                              ) ? "warning" : "primary"}
                               title={
                                 isRefundStatusUpdateAllowed(
                                   order.payment_method,
@@ -1285,8 +1250,8 @@ const Orders = () => {
                                   />
                                 )}
                               </svg>
-                            </button>
-                            <button
+                            </Page.ActionButton>
+                            <Page.ActionButton
                               onClick={() => {
                                 if (order.order_status !== "pending") return;
                                 setCancelOrderId(order._id);
@@ -1297,12 +1262,8 @@ const Orders = () => {
                                 });
                               }}
                               disabled={order.order_status !== "pending"}
-                              className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${order.order_status === "pending"
-                                ? 'text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700'
-                                : 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                                }`}
-                              aria-label={`Cancel order ${order._id}`}
-                              title={order.order_status === "pending" ? "Cancel Order" : "Cancel only available for pending orders"}
+                              variant="danger"
+                              title="Cancel Order"
                             >
                               <svg
                                 className="w-3 h-3 lg:w-4 lg:h-4"
@@ -1314,10 +1275,10 @@ const Orders = () => {
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
                                   strokeWidth={2}
-                                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  d="M6 18L18 6M6 6l12 12"
                                 />
                               </svg>
-                            </button>
+                            </Page.ActionButton>
                           </div>
                         </td>
                       </tr>

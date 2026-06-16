@@ -525,26 +525,18 @@ const Feedbacks = () => {
                           </div>
                         </td>
 
-                        {/* Status */}
                         <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${deleted
-                              ? "bg-red-600 text-white"
-                              : "bg-gradient-to-r from-green-400 to-emerald-500 text-white"
-                              }`}
-                          >
+                          <Page.Badge color={deleted ? 'red' : 'green'}>
                             {deleted ? "deleted" : "active"}
-                          </span>
+                          </Page.Badge>
                         </td>
 
-                        {/* Actions */}
                         <td className="px-2 lg:px-4 py-3">
                           <div className="flex justify-center items-center space-x-1">
                             {/* View Button */}
-                            <button
+                            <Page.ActionButton
                               onClick={() => handleShowDetails(feedback)}
-                              className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
-                              aria-label={`View details for feedback ${feedback._id}`}
+                              variant="primary"
                               title="View Details"
                             >
                               <svg
@@ -566,19 +558,14 @@ const Feedbacks = () => {
                                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                 />
                               </svg>
-                            </button>
+                            </Page.ActionButton>
 
                             {/* Delete/Restore Button */}
-                            <button
+                            <Page.ActionButton
                               onClick={() =>
                                 toggleDeleteFeedback(feedback._id, deleted)
                               }
-                              className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${deleted
-                                ? "text-white bg-green-600 hover:bg-green-700 border-green-600 hover:border-green-700"
-                                : "text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700"
-                                }`}
-                              aria-label={`${deleted ? "Restore" : "Delete"
-                                } feedback ${feedback._id}`}
+                              variant={deleted ? "success" : "danger"}
                               title={`${deleted ? "Restore" : "Delete"} Feedback`}
                             >
                               <svg
@@ -605,7 +592,7 @@ const Feedbacks = () => {
                                   />
                                 )}
                               </svg>
-                            </button>
+                            </Page.ActionButton>
                           </div>
                         </td>
                       </tr>
