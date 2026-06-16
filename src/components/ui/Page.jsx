@@ -285,10 +285,50 @@ const ActionButton = ({ onClick, disabled, variant = 'primary', title, children 
     );
 };
 
+const Tr = ({ children, className = '', inactive = false, ...props }) => {
+    return (
+        <tr
+            className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${inactive ? 'opacity-60' : ''} ${className}`}
+            {...props}
+        >
+            {children}
+        </tr>
+    );
+};
+
+const Th = ({ children, className = '', width = 'auto', align = 'left', ...props }) => {
+    const alignClass = align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
+    // If width has a specific class like w-[5%], add it
+    return (
+        <th
+            className={`px-2 lg:px-4 py-3 text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap ${alignClass} ${width !== 'auto' ? width : ''} ${className}`}
+            {...props}
+        >
+            {children}
+        </th>
+    );
+};
+
+const Td = ({ children, className = '', align = 'left', nowrap = false, ...props }) => {
+    const alignClass = align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
+    const nowrapClass = nowrap ? 'whitespace-nowrap' : '';
+    return (
+        <td
+            className={`px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 ${alignClass} ${nowrapClass} ${className}`}
+            {...props}
+        >
+            {children}
+        </td>
+    );
+};
+
 Page.Header = Header;
 Page.Filters = Filters;
 Page.Content = Content;
 Page.Table = TableWrapper;
+Page.Tr = Tr;
+Page.Th = Th;
+Page.Td = Td;
 Page.Pagination = Pagination;
 Page.Badge = Badge;
 Page.ActionButton = ActionButton;

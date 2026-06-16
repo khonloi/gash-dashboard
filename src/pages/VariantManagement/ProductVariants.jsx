@@ -454,15 +454,15 @@ const ProductVariants = () => {
         <Page.Table minWidth="900px">
                     <thead className="border-b">
                       <tr>
-                        <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">#</th>
-                        <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Product</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Color</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Size</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Price</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Stock</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Image</th>
-                        <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Status</th>
-                        <th className="w-[15%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                        <Page.Th width="w-[5%]">#</Page.Th>
+                        <Page.Th width="w-[20%]">Product</Page.Th>
+                        <Page.Th width="w-[10%]">Color</Page.Th>
+                        <Page.Th width="w-[10%]">Size</Page.Th>
+                        <Page.Th width="w-[10%]">Price</Page.Th>
+                        <Page.Th width="w-[10%]">Stock</Page.Th>
+                        <Page.Th width="w-[10%]">Image</Page.Th>
+                        <Page.Th width="w-[10%]">Status</Page.Th>
+                        <Page.Th width="w-[15%]" align="center">Actions</Page.Th>
                       </tr>
                     </thead>
                     <tbody>
@@ -483,31 +483,31 @@ const ProductVariants = () => {
                             {variantsToDisplay.map((variant, vIdx) => {
                               const inactive = isVariantDiscontinued(variant);
                               return (
-                                <tr
+                                <Page.Tr
                                   key={variant._id}
-                                  className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${inactive ? 'opacity-60' : ''}`}
+                                  inactive={inactive}
                                 >
-                                  <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">{startIndex + index + 1}.{vIdx + 1}</td>
-                                  <td className="px-2 lg:px-4 py-3">
-                                    <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                                  <Page.Td nowrap>{startIndex + index + 1}.{vIdx + 1}</Page.Td>
+                                  <Page.Td>
+                                    <div className="font-medium truncate">
                                       {variant.productId?.productName || 'N/A'}
                                     </div>
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3">
-                                    <div className="text-xs lg:text-sm text-gray-900 truncate">
+                                  </Page.Td>
+                                  <Page.Td>
+                                    <div className="truncate">
                                       {variant.productColorId?.color_name || 'N/A'}
                                     </div>
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3">
-                                    <div className="text-xs lg:text-sm text-gray-900 truncate">
+                                  </Page.Td>
+                                  <Page.Td>
+                                    <div className="truncate">
                                       {variant.productSizeId?.size_name || 'N/A'}
                                     </div>
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 font-medium">
+                                  </Page.Td>
+                                  <Page.Td className="font-medium">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(variant.variantPrice || 0)}
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">{variant.stockQuantity || 0}</td>
-                                  <td className="px-2 lg:px-4 py-3">
+                                  </Page.Td>
+                                  <Page.Td>{variant.stockQuantity || 0}</Page.Td>
+                                  <Page.Td>
                                     {variant.variantImage ? (
                                       <img
                                         src={variant.variantImage}
@@ -526,13 +526,13 @@ const ProductVariants = () => {
                                         </svg>
                                       </div>
                                     )}
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                                  </Page.Td>
+                                  <Page.Td nowrap>
                                     <Page.Badge color={variant.variantStatus === 'active' ? 'green' : variant.variantStatus === 'inactive' ? 'red' : 'gray'}>
                                       {variant.variantStatus || 'unknown'}
                                     </Page.Badge>
-                                  </td>
-                                  <td className="px-2 lg:px-4 py-3">
+                                  </Page.Td>
+                                  <Page.Td>
                                     <div className="flex justify-center items-center space-x-1">
                                       <Page.ActionButton
                                         onClick={(e) => {
@@ -561,8 +561,8 @@ const ProductVariants = () => {
                                         </svg>
                                       </Page.ActionButton>
                                     </div>
-                                  </td>
-                                </tr>
+                                  </Page.Td>
+                                </Page.Tr>
                               );
                             })}
                             {hasMore && (

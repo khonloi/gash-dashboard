@@ -331,44 +331,44 @@ export default function Accounts() {
                 <Page.Table minWidth="700px">
                     <thead className="border-b">
                         <tr>
-                            <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">#</th>
-                            <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Username</th>
-                            <th className="w-[15%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Email</th>
-                            <th className="w-[15%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Name</th>
-                            <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Phone</th>
-                            <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Role</th>
-                            <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Status</th>
-                            <th className="w-[15%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                            <Page.Th width="w-[5%]">#</Page.Th>
+                            <Page.Th width="w-[10%]">Username</Page.Th>
+                            <Page.Th width="w-[15%]">Email</Page.Th>
+                            <Page.Th width="w-[15%]">Name</Page.Th>
+                            <Page.Th width="w-[12%]">Phone</Page.Th>
+                            <Page.Th width="w-[10%]">Role</Page.Th>
+                            <Page.Th width="w-[8%]">Status</Page.Th>
+                            <Page.Th width="w-[15%]" align="center">Actions</Page.Th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentAccounts.map((a, index) => {
                             const inactive = isAccountInactive(a);
                             return (
-                                <tr
+                                <Page.Tr
                                     key={a.id || a._id}
-                                    className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${inactive ? 'opacity-60' : ''}`}
+                                    inactive={inactive}
                                 >
-                                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">{startIndex + index + 1}</td>
-                                    <td className="px-2 lg:px-4 py-3">
-                                        <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">{a.username || 'N/A'}</div>
-                                    </td>
-                                    <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                    <Page.Td nowrap>{startIndex + index + 1}</Page.Td>
+                                    <Page.Td>
+                                        <div className="font-medium truncate">{a.username || 'N/A'}</div>
+                                    </Page.Td>
+                                    <Page.Td>
                                         <div className="truncate">{a.email || 'N/A'}</div>
-                                    </td>
-                                    <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">{a.name || 'N/A'}</td>
-                                    <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">{a.phone || 'N/A'}</td>
-                                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                                    </Page.Td>
+                                    <Page.Td>{a.name || 'N/A'}</Page.Td>
+                                    <Page.Td>{a.phone || 'N/A'}</Page.Td>
+                                    <Page.Td nowrap>
                                         <Page.Badge color={a.role === 'admin' ? 'blue' : a.role === 'manager' ? 'green' : 'gray'}>
                                             {formatRoleName(a.role)}
                                         </Page.Badge>
-                                    </td>
-                                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                                    </Page.Td>
+                                    <Page.Td nowrap>
                                         <Page.Badge color={getStatusColor(a.acc_status)}>
                                             {a.acc_status || 'active'}
                                         </Page.Badge>
-                                    </td>
-                                    <td className="px-2 lg:px-4 py-3">
+                                    </Page.Td>
+                                    <Page.Td>
                                         <div className="flex justify-center items-center space-x-1">
                                             <Page.ActionButton
                                                 onClick={() => handleView(a)}
@@ -401,8 +401,8 @@ export default function Accounts() {
                                                 </svg>
                                             </Page.ActionButton>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </Page.Td>
+                                </Page.Tr>
                             );
                         })}
                     </tbody>

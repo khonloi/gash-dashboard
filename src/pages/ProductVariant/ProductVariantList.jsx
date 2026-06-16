@@ -3,6 +3,7 @@ import { ToastContext } from '../../context/ToastContext';
 import Api from '../../common/SummaryAPI';
 import ImageModal from '../../components/ui/ImageModal';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
+import Page from '../../components/ui/Page';
 
 const ProductVariantList = ({
     variants,
@@ -102,18 +103,18 @@ const ProductVariantList = ({
             <div className="bg-white rounded-xl shadow-xl">
                 <div className="overflow-x-auto">
                     <div>
-                        <table className="w-full min-w-[760px] table-fixed">
-                            <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+                        <Page.Table minWidth="760px">
+                            <thead className="border-b sticky top-0 z-10 bg-gray-50">
                                 <tr>
-                                    <th className="w-[6%] px-3 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">#</th>
-                                    <th className="w-[16%] px-3 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Color</th>
-                                    <th className="w-[14%] px-3 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Size</th>
-                                    <th className="w-[16%] px-3 lg:px-4 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Price</th>
-                                    <th className="w-[12%] px-3 lg:px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Stock</th>
-                                    <th className="w-[18%] px-3 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Image</th>
-                                    <th className="w-[12%] px-3 lg:px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Status</th>
+                                    <Page.Th width="w-[6%]">#</Page.Th>
+                                    <Page.Th width="w-[16%]">Color</Page.Th>
+                                    <Page.Th width="w-[14%]">Size</Page.Th>
+                                    <Page.Th width="w-[16%]" align="right">Price</Page.Th>
+                                    <Page.Th width="w-[12%]" align="center">Stock</Page.Th>
+                                    <Page.Th width="w-[18%]">Image</Page.Th>
+                                    <Page.Th width="w-[12%]">Status</Page.Th>
                                     {!viewOnly && (
-                                        <th className="w-[10%] px-3 lg:px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                                        <Page.Th width="w-[10%]" align="center">Actions</Page.Th>
                                     )}
                                 </tr>
                             </thead>
@@ -121,18 +122,18 @@ const ProductVariantList = ({
                                 {variants.map((variant, vIdx) => {
                                     const isDisabled = variant.variantStatus === 'discontinued' || variant.isDeleted;
                                     return (
-                                        <tr
+                                        <Page.Tr
                                             key={variant._id || variant.id || vIdx}
-                                            className={`hover:bg-[#FDF5E7] transition-colors duration-150 ${isDisabled ? 'opacity-60' : ''}`}
+                                            inactive={isDisabled}
                                         >
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">{vIdx + 1}</td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">{variant.productColorId?.color_name || 'N/A'}</td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">{variant.productSizeId?.size_name || 'N/A'}</td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 text-right font-semibold whitespace-nowrap">
+                                            <Page.Td nowrap>{vIdx + 1}</Page.Td>
+                                            <Page.Td nowrap>{variant.productColorId?.color_name || 'N/A'}</Page.Td>
+                                            <Page.Td nowrap>{variant.productSizeId?.size_name || 'N/A'}</Page.Td>
+                                            <Page.Td align="right" className="font-semibold" nowrap>
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(variant.variantPrice || 0)}
-                                            </td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 text-center whitespace-nowrap">{variant.stockQuantity || 0}</td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                            </Page.Td>
+                                            <Page.Td align="center" nowrap>{variant.stockQuantity || 0}</Page.Td>
+                                            <Page.Td>
                                                 {variant.variantImage ? (
                                                     <div className="flex items-center gap-2">
                                                         <img
@@ -162,65 +163,52 @@ const ProductVariantList = ({
                                                         </svg>
                                                     </div>
                                                 )}
-                                            </td>
-                                            <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">
-                                                <span
-                                                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium capitalize ${variant.variantStatus === 'active'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : variant.variantStatus === 'inactive'
-                                                            ? 'bg-gray-100 text-gray-800 border border-gray-200'
-                                                            : 'bg-yellow-100 text-yellow-800'
-                                                        }`}
+                                            </Page.Td>
+                                            <Page.Td nowrap>
+                                                <Page.Badge 
+                                                    status={variant.variantStatus === 'active' ? 'success' : variant.variantStatus === 'inactive' ? 'neutral' : 'warning'}
                                                 >
                                                     {variant.variantStatus || 'N/A'}
-                                                </span>
-                                            </td>
+                                                </Page.Badge>
+                                            </Page.Td>
                                             {!viewOnly && (
-                                                <td className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-center text-gray-900 whitespace-nowrap">
+                                                <Page.Td align="center" nowrap>
                                                     <div className="flex justify-center items-center space-x-1">
                                                         {(() => {
                                                             const isDisabled = variant.variantStatus === 'discontinued' || variant.isDeleted;
                                                             return (
                                                                 <>
-                                                                    <button
+                                                                    <Page.ActionButton
                                                                         onClick={() => onEditVariant && onEditVariant(variant)}
                                                                         disabled={isDisabled}
-                                                                        className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${isDisabled
-                                                                            ? 'text-gray-400 bg-gray-50/80 border-gray-300/60 cursor-not-allowed'
-                                                                            : 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm'
-                                                                            } disabled:hover:scale-100`}
+                                                                        variant="primary"
                                                                         title={isDisabled ? "Cannot edit discontinued/deleted variant" : "Edit Variant"}
-                                                                        aria-label={`Edit variant ${variant._id || variant.id}`}
                                                                     >
                                                                         <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                                         </svg>
-                                                                    </button>
-                                                                    <button
+                                                                    </Page.ActionButton>
+                                                                    <Page.ActionButton
                                                                         onClick={() => handleDeleteClick(variant)}
                                                                         disabled={isDisabled || loading}
-                                                                        className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${isDisabled
-                                                                            ? 'text-gray-400 bg-gray-50/80 border-gray-300/60 cursor-not-allowed'
-                                                                            : 'text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700'
-                                                                            } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
+                                                                        variant="danger"
                                                                         title={isDisabled ? "Cannot delete discontinued/deleted variant" : "Delete Variant"}
-                                                                        aria-label={`Delete variant ${variant._id || variant.id}`}
                                                                     >
                                                                         <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                                         </svg>
-                                                                    </button>
+                                                                    </Page.ActionButton>
                                                                 </>
                                                             );
                                                         })()}
                                                     </div>
-                                                </td>
+                                                </Page.Td>
                                             )}
-                                        </tr>
+                                        </Page.Tr>
                                     );
                                 })}
                             </tbody>
-                        </table>
+                        </Page.Table>
                     </div>
                 </div>
             </div>

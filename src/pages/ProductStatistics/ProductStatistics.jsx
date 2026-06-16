@@ -27,6 +27,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../components/ui/Loading";
+import Page from "../../components/ui/Page";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast";
@@ -580,34 +581,34 @@ export default function ProductStatistics() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[400px]">
+            <Page.Table minWidth="400px">
               <thead className="border-b">
                 <tr>
-                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Product</th>
-                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">SKU</th>
-                  <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Sold</th>
-                  <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Stock</th>
+                  <Page.Th>Product</Page.Th>
+                  <Page.Th>SKU</Page.Th>
+                  <Page.Th align="center">Sold</Page.Th>
+                  <Page.Th align="center">Stock</Page.Th>
                 </tr>
               </thead>
               <tbody>
                 {(topProducts && topProducts.length ? topProducts : MOCK_TOP_PRODUCTS).map((p) => (
-                  <tr
+                  <Page.Tr
                     key={p.id}
-                    className="border-b-2 border-gray-200/40 hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300"
                   >
-                    <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm font-medium text-gray-800">{p.name}</td>
-                    <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">{p.sku ?? "-"}</td>
-                    <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm text-blue-600 font-semibold">{p.sold ?? p.sales ?? 0}</td>
-                    <td
-                      className={`px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold ${(p.stock ?? p.quantity ?? 0) <= 5 ? "text-red-600" : "text-gray-700"
+                    <Page.Td className="font-medium text-gray-800">{p.name}</Page.Td>
+                    <Page.Td className="text-gray-600">{p.sku ?? "-"}</Page.Td>
+                    <Page.Td align="center" className="text-blue-600 font-semibold">{p.sold ?? p.sales ?? 0}</Page.Td>
+                    <Page.Td
+                      align="center"
+                      className={`font-semibold ${(p.stock ?? p.quantity ?? 0) <= 5 ? "text-red-600" : "text-gray-700"
                         }`}
                     >
                       {p.stock ?? p.quantity ?? 0}
-                    </td>
-                  </tr>
+                    </Page.Td>
+                  </Page.Tr>
                 ))}
               </tbody>
-            </table>
+            </Page.Table>
           </div>
 
           <p className="text-xs lg:text-sm text-gray-500 mt-3">

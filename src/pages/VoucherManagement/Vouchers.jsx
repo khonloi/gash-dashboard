@@ -345,19 +345,17 @@ export default function Vouchers() {
         <Page.Table minWidth="900px">
               <thead className="border-b">
                 <tr>
-                  <th className="w-[4%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    #
-                  </th>
-                  <th className="w-[13%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Code</th>
-                  <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Type</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-right text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Discount</th>
-                  <th className="w-[8%] pl-2 lg:pl-4 pr-3 lg:pr-5 py-3 text-right text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Min Order</th>
-                  <th className="w-[8%] pl-3 lg:pl-5 pr-5 lg:pr-7 py-3 text-right text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Max Discount</th>
-                  <th className="w-[10%] pl-5 lg:pl-7 pr-2 lg:pr-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Start Date</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">End Date</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Usage</th>
-                  <th className="w-[9%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Status</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                  <Page.Th width="w-[4%]">#</Page.Th>
+                  <Page.Th width="w-[13%]">Code</Page.Th>
+                  <Page.Th width="w-[8%]">Type</Page.Th>
+                  <Page.Th width="w-[10%]" align="right">Discount</Page.Th>
+                  <Page.Th width="w-[8%]" align="right" className="pl-2 lg:pl-4 pr-3 lg:pr-5">Min Order</Page.Th>
+                  <Page.Th width="w-[8%]" align="right" className="pl-3 lg:pl-5 pr-5 lg:pr-7">Max Discount</Page.Th>
+                  <Page.Th width="w-[10%]" className="pl-5 lg:pl-7 pr-2 lg:pr-4">Start Date</Page.Th>
+                  <Page.Th width="w-[10%]">End Date</Page.Th>
+                  <Page.Th width="w-[10%]">Usage</Page.Th>
+                  <Page.Th width="w-[9%]">Status</Page.Th>
+                  <Page.Th width="w-[10%]" align="center">Actions</Page.Th>
                 </tr>
               </thead>
               <tbody>
@@ -365,56 +363,56 @@ export default function Vouchers() {
                   const status = getVoucherStatus(v);
                   const formattedStatus = formatStatus(status);
                   return (
-                    <tr key={v.id || v._id} className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${v.isDeleted ? 'opacity-60' : ''}`}>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                    <Page.Tr key={v.id || v._id} inactive={v.isDeleted}>
+                      <Page.Td nowrap>
                         {startIndex + index + 1}
-                      </td>
-                      <td className="px-2 lg:px-4 py-3">
-                        <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                      </Page.Td>
+                      <Page.Td>
+                        <div className="font-medium truncate">
                           {v.code}
                         </div>
-                      </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      </Page.Td>
+                      <Page.Td nowrap>
                         {v.discountType === "percentage" ? "Percentage" : "Fixed"}
-                      </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-right">
-                        <div className="text-xs lg:text-sm font-semibold text-gray-900">
+                      </Page.Td>
+                      <Page.Td nowrap className="text-right">
+                        <div className="font-semibold">
                           {v.discountType === "percentage"
                             ? `${v.discountValue}%`
                             : `${v.discountValue.toLocaleString("vi-VN")}₫`}
                         </div>
-                      </td>
-                      <td className="pl-2 lg:pl-4 pr-3 lg:pr-5 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">
+                      </Page.Td>
+                      <Page.Td nowrap className="pl-2 lg:pl-4 pr-3 lg:pr-5 text-right">
                         {v.minOrderValue.toLocaleString("vi-VN")}₫
-                      </td>
-                      <td className="pl-3 lg:pl-5 pr-5 lg:pr-7 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">
+                      </Page.Td>
+                      <Page.Td nowrap className="pl-3 lg:pl-5 pr-5 lg:pr-7 text-right">
                         {v.discountType === "percentage"
                           ? v.maxDiscount
                             ? `${v.maxDiscount.toLocaleString("vi-VN")}₫`
                             : "-"
                           : "-"}
-                      </td>
-                      <td className="pl-5 lg:pl-7 pr-2 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      </Page.Td>
+                      <Page.Td nowrap className="pl-5 lg:pl-7 pr-2 lg:pr-4">
                         {new Date(v.startDate).toLocaleDateString("vi-VN", {
                           day: '2-digit',
                           month: '2-digit',
                           year: 'numeric'
                         })}
-                      </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      </Page.Td>
+                      <Page.Td nowrap>
                         {new Date(v.endDate).toLocaleDateString("vi-VN", {
                           day: '2-digit',
                           month: '2-digit',
                           year: 'numeric'
                         })}
-                      </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                        <div className="text-xs lg:text-sm text-gray-900">
+                      </Page.Td>
+                      <Page.Td nowrap>
+                        <div>
                           <span className="font-medium">{v.usedCount}</span>
                           <span className="text-gray-500">/{v.usageLimit}</span>
                         </div>
-                      </td>
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                      </Page.Td>
+                      <Page.Td nowrap>
                         <Page.Badge color={
                           status === 'ACTIVE' ? 'green' :
                           status === 'UPCOMING' ? 'blue' :
@@ -423,8 +421,8 @@ export default function Vouchers() {
                         }>
                           {formattedStatus}
                         </Page.Badge>
-                      </td>
-                      <td className="px-2 lg:px-4 py-3">
+                      </Page.Td>
+                      <Page.Td>
                         <div className="flex justify-center items-center space-x-1">
                           <Page.ActionButton
                             onClick={() => handleEdit(v)}
@@ -447,8 +445,8 @@ export default function Vouchers() {
                             </svg>
                           </Page.ActionButton>
                         </div>
-                      </td>
-                    </tr>
+                      </Page.Td>
+                    </Page.Tr>
                   );
                 })}
               </tbody>

@@ -305,80 +305,68 @@ export default function Bills() {
         <Page.Table minWidth="1000px">
           <thead className="border-b">
                 <tr>
-                  <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    #
-                  </th>
-                  <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Order ID</th>
-                  <th className="w-[18%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Customer</th>
-                  <th className="w-[11%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Date</th>
-                  <th className="w-[6%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Payment Method</th>
-                  <th className="w-[16%] px-2 lg:px-4 py-3 text-right text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Total</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Status</th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Paid Status</th>
-                  <th className="w-[12%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                  <Page.Th width="w-[5%]">#</Page.Th>
+                  <Page.Th width="w-[12%]">Order ID</Page.Th>
+                  <Page.Th width="w-[18%]">Customer</Page.Th>
+                  <Page.Th width="w-[11%]">Date</Page.Th>
+                  <Page.Th width="w-[6%]">Payment Method</Page.Th>
+                  <Page.Th width="w-[16%]" align="right">Total</Page.Th>
+                  <Page.Th width="w-[10%]" align="center">Status</Page.Th>
+                  <Page.Th width="w-[10%]" align="center">Paid Status</Page.Th>
+                  <Page.Th width="w-[12%]" align="center">Actions</Page.Th>
                 </tr>
           </thead>
           <tbody>
                 {paginatedOrders.map((order, index) => (
-                  <tr key={order._id} className="hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40">
-                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                  <Page.Tr key={order._id}>
+                    <Page.Td nowrap>
                       {startIndex + index + 1}
-                    </td>
-                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm font-medium text-gray-900">#{order._id.slice(-6).toUpperCase()}</td>
+                    </Page.Td>
+                    <Page.Td nowrap className="font-medium">#{order._id.slice(-6).toUpperCase()}</Page.Td>
 
-                    <td className="px-2 lg:px-4 py-3">
-                      <div className="text-xs lg:text-sm text-gray-900" style={{ wordBreak: 'break-word', whiteSpace: 'normal' }} title={order.name || 'N/A'}>
+                    <Page.Td>
+                      <div style={{ wordBreak: 'break-word', whiteSpace: 'normal' }} title={order.name || 'N/A'}>
                         {order.name || 'N/A'}
                       </div>
-                    </td>
-                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                    </Page.Td>
+                    <Page.Td nowrap>
                       {new Date(order.orderDate).toLocaleDateString("vi-VN", {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
-                    </td>
-                    <td className="pl-2 lg:pl-3 pr-3 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 capitalize">{order.payment_method || 'N/A'}</td>
-                    <td className="pl-3 lg:pl-4 pr-2 lg:pr-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900 text-right">{order.finalPrice ? `${order.finalPrice.toLocaleString('vi-VN')}đ` : 'N/A'}</td>
-                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                    </Page.Td>
+                    <Page.Td nowrap className="pl-2 lg:pl-3 pr-3 lg:pr-4 capitalize">{order.payment_method || 'N/A'}</Page.Td>
+                    <Page.Td nowrap className="pl-3 lg:pl-4 pr-2 lg:pr-4 text-right">{order.finalPrice ? `${order.finalPrice.toLocaleString('vi-VN')}đ` : 'N/A'}</Page.Td>
+                    <Page.Td nowrap>
                       <div className="flex justify-center">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${order.order_status === 'delivered' ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
-                          order.order_status === 'shipping' ? 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white' :
-                            order.order_status === 'confirmed' ? 'bg-gradient-to-r from-purple-400 to-indigo-500 text-white' :
-                              order.order_status === 'pending' ? 'bg-gradient-to-r from-gray-400 to-gray-500 text-white' :
-                                'bg-red-600 text-white'
-                          }`}>
+                        <Page.Badge color={order.order_status === 'delivered' ? 'green' : order.order_status === 'shipping' ? 'blue' : order.order_status === 'confirmed' ? 'purple' : order.order_status === 'pending' ? 'gray' : 'red'}>
                           {order.order_status ? order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1) : 'N/A'}
-                        </span>
+                        </Page.Badge>
                       </div>
-                    </td>
-                    <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                    </Page.Td>
+                    <Page.Td nowrap>
                       <div className="flex justify-center">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize shadow-sm ${order.pay_status?.toLowerCase() === 'paid' ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
-                          order.pay_status?.toLowerCase() === 'unpaid' ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-white' :
-                            order.pay_status?.toLowerCase() === 'refunded' ? 'bg-red-600 text-white' :
-                              'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
-                          }`}>
+                        <Page.Badge color={order.pay_status?.toLowerCase() === 'paid' ? 'green' : order.pay_status?.toLowerCase() === 'unpaid' ? 'yellow' : order.pay_status?.toLowerCase() === 'refunded' ? 'red' : 'gray'}>
                           {order.pay_status ? order.pay_status.charAt(0).toUpperCase() + order.pay_status.slice(1) : 'N/A'}
-                        </span>
+                        </Page.Badge>
                       </div>
-                    </td>
-                    <td className="px-2 lg:px-4 py-3">
+                    </Page.Td>
+                    <Page.Td>
                       <div className="flex justify-center items-center space-x-1">
-                        <button
+                        <Page.ActionButton
                           onClick={() => handleViewBill(order)}
-                          className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
-                          aria-label={`View bill for order ${order._id}`}
+                          variant="primary"
                           title="View Bill"
                         >
                           <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
-                        </button>
+                        </Page.ActionButton>
                       </div>
-                    </td>
-                  </tr>
+                    </Page.Td>
+                  </Page.Tr>
                 ))}
           </tbody>
         </Page.Table>

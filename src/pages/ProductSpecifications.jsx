@@ -1031,12 +1031,12 @@ const ProductSpecifications = () => {
         <Page.Table minWidth="600px">
               <thead className="border-b">
                 <tr>
-                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">#</th>
+                  <Page.Th>#</Page.Th>
                   {activeTab === 'specifcations' && (
-                    <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Type</th>
+                    <Page.Th>Type</Page.Th>
                   )}
-                  <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Name</th>
-                  <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Actions</th>
+                  <Page.Th>Name</Page.Th>
+                  <Page.Th align="center">Actions</Page.Th>
                 </tr>
               </thead>
               <tbody>
@@ -1044,35 +1044,31 @@ const ProductSpecifications = () => {
                   const itemId = item._id || item.id || `item-${index}`;
                   const isDeleted = item.isDeleted === true;
                   return (
-                    <tr
+                    <Page.Tr
                       key={itemId}
-                      className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${isDeleted ? 'opacity-60' : ''}`}
+                      inactive={isDeleted}
                     >
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <Page.Td nowrap>
                         {startIndex + index + 1}
-                      </td>
+                      </Page.Td>
                       {activeTab === 'specifcations' && (
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                          <span className="text-xs lg:text-sm font-medium text-gray-900 bg-gray-100 px-3 py-1 rounded-lg capitalize">
+                        <Page.Td nowrap>
+                          <span className="font-medium bg-gray-100 px-3 py-1 rounded-lg capitalize">
                             {item.type}
                           </span>
-                        </td>
+                        </Page.Td>
                       )}
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
-                        <span className="text-xs lg:text-sm font-medium text-gray-900 bg-gray-100 px-3 py-1 rounded-lg">
+                      <Page.Td nowrap>
+                        <span className="font-medium bg-gray-100 px-3 py-1 rounded-lg">
                           {item.name || 'N/A'}
                         </span>
-                      </td>
-                      <td className="px-2 lg:px-4 py-3">
+                      </Page.Td>
+                      <Page.Td>
                         <div className="flex justify-center items-center space-x-1">
-                          <button
-                            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${isDeleted
-                              ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                              : 'border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm'
-                              }`}
+                          <Page.ActionButton
                             onClick={() => handleEdit(item)}
                             disabled={loading || isDeleted}
-                            aria-label={`Edit ${item.type} ${item._id || item.id}`}
+                            variant="primary"
                             title="Edit"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1083,15 +1079,11 @@ const ProductSpecifications = () => {
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                               />
                             </svg>
-                          </button>
-                          <button
-                            className={`p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 ${isDeleted
-                              ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed'
-                              : 'text-white bg-red-600 hover:bg-red-700 border-red-600 hover:border-red-700'
-                              }`}
+                          </Page.ActionButton>
+                          <Page.ActionButton
                             onClick={() => handleDeleteClick(item)}
                             disabled={loading || isDeleted}
-                            aria-label={`Delete ${item.type} ${item._id || item.id}`}
+                            variant="danger"
                             title="Delete"
                           >
                             <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1102,10 +1094,10 @@ const ProductSpecifications = () => {
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                               />
                             </svg>
-                          </button>
+                          </Page.ActionButton>
                         </div>
-                      </td>
-                    </tr>
+                      </Page.Td>
+                    </Page.Tr>
                   );
                 })}
               </tbody>

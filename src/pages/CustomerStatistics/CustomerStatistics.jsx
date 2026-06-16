@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Loading from "../../components/ui/Loading";
+import Page from "../../components/ui/Page";
 import { useToast } from "../../hooks/useToast";
 import {
   FaUsers,
@@ -526,29 +527,28 @@ const CustomerStatistics = () => {
             </h4>
 
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[500px]">
+              <Page.Table minWidth="500px">
                 <thead className="border-b">
                   <tr>
-                    <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Name</th>
-                    <th className="px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Email</th>
-                    <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Orders</th>
-                    <th className="px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">Spent ($)</th>
+                    <Page.Th>Name</Page.Th>
+                    <Page.Th>Email</Page.Th>
+                    <Page.Th align="center">Orders</Page.Th>
+                    <Page.Th align="center">Spent ($)</Page.Th>
                   </tr>
                 </thead>
                 <tbody>
                   {topCustomers && topCustomers.length > 0 ? (
                     topCustomers.map((c, index) => (
-                      <tr
+                      <Page.Tr
                         key={c.id || index}
-                        className="border-b-2 border-gray-200/40 hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300"
                       >
-                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm font-medium text-gray-800">{c.name}</td>
-                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">{c.email}</td>
-                        <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold text-blue-600">{c.orders}</td>
-                        <td className="px-2 lg:px-4 py-3 text-center text-xs lg:text-sm font-semibold text-gray-700">
+                        <Page.Td className="font-medium">{c.name}</Page.Td>
+                        <Page.Td className="text-gray-600">{c.email}</Page.Td>
+                        <Page.Td align="center" className="font-semibold text-blue-600">{c.orders}</Page.Td>
+                        <Page.Td align="center" className="font-semibold text-gray-700">
                           ${c.spent?.toLocaleString() || 0}
-                        </td>
-                      </tr>
+                        </Page.Td>
+                      </Page.Tr>
                     ))
                   ) : (
                     <tr>
@@ -561,7 +561,7 @@ const CustomerStatistics = () => {
                     </tr>
                   )}
                 </tbody>
-              </table>
+              </Page.Table>
             </div>
 
             <div className="mt-4 lg:mt-5 flex justify-end">

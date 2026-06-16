@@ -8,6 +8,7 @@ import { getOrderStatusOptionDisabled } from "../../utils/orderUtils";
 import { ToastContext } from "../../context/ToastContext";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
+import Page from "../../components/ui/Page";
 
 // Format price to VND
 function formatPrice(price) {
@@ -426,36 +427,36 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                             {!showUpdateForm && (
                                 <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                                     <div className="overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-gray-200">
+                                        <Page.Table>
                                             <thead className="bg-gray-50">
                                                 <tr>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Order ID</th>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Status</th>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Payment Method</th>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Payment Status</th>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Refund Status</th>
+                                                    <Page.Th>Order ID</Page.Th>
+                                                    <Page.Th>Order Status</Page.Th>
+                                                    <Page.Th>Payment Method</Page.Th>
+                                                    <Page.Th>Payment Status</Page.Th>
+                                                    <Page.Th>Refund Status</Page.Th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="bg-white divide-y divide-gray-200">
-                                                <tr>
-                                                    <td className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-900 font-mono">
+                                            <tbody className="bg-white">
+                                                <Page.Tr>
+                                                    <Page.Td className="font-mono">
                                                         {currentOrder?._id || 'N/A'}
-                                                    </td>
-                                                    <td className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-900">
+                                                    </Page.Td>
+                                                    <Page.Td>
                                                         {displayStatus(currentOrder?.order_status)}
-                                                    </td>
-                                                    <td className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-900">
+                                                    </Page.Td>
+                                                    <Page.Td>
                                                         {displayStatus(currentOrder?.payment_method)}
-                                                    </td>
-                                                    <td className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-900">
+                                                    </Page.Td>
+                                                    <Page.Td>
                                                         {displayStatus(currentOrder?.pay_status)}
-                                                    </td>
-                                                    <td className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-900">
+                                                    </Page.Td>
+                                                    <Page.Td>
                                                         {displayStatus(currentOrder?.refund_status)}
-                                                    </td>
-                                                </tr>
+                                                    </Page.Td>
+                                                </Page.Tr>
                                             </tbody>
-                                        </table>
+                                        </Page.Table>
                                     </div>
                                 </div>
                             )}
@@ -679,20 +680,20 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                             ) : (
                                 <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                                     <div className="overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-gray-200">
+                                        <Page.Table>
                                             <thead className="bg-gray-50">
                                                 <tr>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Product</th>
-                                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Variant</th>
-                                                    <th className="px-3 py-2 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Quantity</th>
-                                                    <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Unit Price</th>
-                                                    <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Total</th>
+                                                    <Page.Th>Product</Page.Th>
+                                                    <Page.Th>Variant</Page.Th>
+                                                    <Page.Th align="center">Quantity</Page.Th>
+                                                    <Page.Th align="right">Unit Price</Page.Th>
+                                                    <Page.Th align="right">Total</Page.Th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="bg-white divide-y divide-gray-200">
+                                            <tbody className="bg-white">
                                                 {orderDetails.map((detail, index) => (
-                                                    <tr key={detail._id || index} className="hover:bg-gray-50 transition-colors duration-150">
-                                                        <td className="px-3 py-2">
+                                                    <Page.Tr key={detail._id || index}>
+                                                        <Page.Td>
                                                             <div className="flex items-center space-x-2 sm:space-x-3">
                                                                 {detail.variant?.image ? (
                                                                     <img
@@ -711,7 +712,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                                                 <div className="min-w-0">
                                                                     {detail.variant?.product?.name ? (
                                                                         <div
-                                                                            className="text-xs sm:text-sm font-medium text-gray-900 cursor-pointer hover:text-blue-600 hover:underline transition-colors duration-200 truncate"
+                                                                            className="font-medium text-gray-900 cursor-pointer hover:text-blue-600 hover:underline transition-colors duration-200 truncate"
                                                                             onClick={(e) => {
                                                                                 e.preventDefault();
                                                                                 e.stopPropagation();
@@ -729,34 +730,34 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                                                                             {detail.variant.product.name}
                                                                         </div>
                                                                     ) : (
-                                                                        <div className="text-xs sm:text-sm font-medium text-gray-900">
+                                                                        <div className="font-medium text-gray-900">
                                                                             Unknown Product
                                                                         </div>
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                        <td className="px-3 py-2">
-                                                            <div className="text-xs sm:text-sm text-gray-900">
+                                                        </Page.Td>
+                                                        <Page.Td>
+                                                            <div className="text-gray-900">
                                                                 {detail.variant?.color?.name && detail.variant?.size?.name
                                                                     ? `${detail.variant.color.name} - ${detail.variant.size.name}`
                                                                     : detail.variant?.color?.name || detail.variant?.size?.name || "Standard"
                                                                 }
                                                             </div>
-                                                        </td>
-                                                        <td className="px-3 py-2 text-center text-xs sm:text-sm font-medium text-gray-900">
+                                                        </Page.Td>
+                                                        <Page.Td align="center" className="font-medium text-gray-900">
                                                             {detail.quantity || 0}
-                                                        </td>
-                                                        <td className="px-3 py-2 text-right text-xs sm:text-sm font-medium text-gray-900">
+                                                        </Page.Td>
+                                                        <Page.Td align="right" className="font-medium text-gray-900">
                                                             {formatPrice(detail.unitPrice || 0)}
-                                                        </td>
-                                                        <td className="px-3 py-2 text-right text-xs sm:text-sm font-medium text-gray-900">
+                                                        </Page.Td>
+                                                        <Page.Td align="right" className="font-medium text-gray-900">
                                                             {formatPrice(detail.totalPrice || 0)}
-                                                        </td>
-                                                    </tr>
+                                                        </Page.Td>
+                                                    </Page.Tr>
                                                 ))}
                                             </tbody>
-                                        </table>
+                                        </Page.Table>
                                     </div>
                                 </div>
                             )}

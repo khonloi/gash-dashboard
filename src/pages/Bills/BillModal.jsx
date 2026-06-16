@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import { useToast } from '../../hooks/useToast';
 import Modal from '../../components/ui/Modal';
 import Button from '../../components/ui/Button';
+import Page from '../../components/ui/Page';
 
 const BillModal = ({ isOpen, onClose, billData }) => {
   const { showToast } = useToast();
@@ -292,42 +293,42 @@ const BillModal = ({ isOpen, onClose, billData }) => {
             <div className="p-4">
               <h3 className="text-base font-bold text-gray-800 mb-3">ORDER ITEMS</h3>
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300">
+                <Page.Table>
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold text-gray-700">Product</th>
-                      <th className="border border-gray-300 px-3 py-2 text-center text-sm font-semibold text-gray-700">Color</th>
-                      <th className="border border-gray-300 px-3 py-2 text-center text-sm font-semibold text-gray-700">Size</th>
-                      <th className="border border-gray-300 px-3 py-2 text-center text-sm font-semibold text-gray-700">Quantity</th>
-                      <th className="border border-gray-300 px-3 py-2 text-right text-sm font-semibold text-gray-700">Unit Price</th>
-                      <th className="border border-gray-300 px-3 py-2 text-right text-sm font-semibold text-gray-700">Total</th>
+                      <Page.Th>Product</Page.Th>
+                      <Page.Th align="center">Color</Page.Th>
+                      <Page.Th align="center">Size</Page.Th>
+                      <Page.Th align="center">Quantity</Page.Th>
+                      <Page.Th align="right">Unit Price</Page.Th>
+                      <Page.Th align="right">Total</Page.Th>
                     </tr>
                   </thead>
                   <tbody>
                     {billData.items?.map((item, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="border border-gray-300 px-3 py-2">
-                          <p className="text-sm font-semibold text-gray-800">{item.productName || 'N/A'}</p>
-                        </td>
-                        <td className="border border-gray-300 px-3 py-2 text-center text-sm text-gray-600">
+                      <Page.Tr key={index}>
+                        <Page.Td>
+                          <p className="font-semibold text-gray-800">{item.productName || 'N/A'}</p>
+                        </Page.Td>
+                        <Page.Td align="center" className="text-gray-600">
                           {item.color || 'N/A'}
-                        </td>
-                        <td className="border border-gray-300 px-3 py-2 text-center text-sm text-gray-600">
+                        </Page.Td>
+                        <Page.Td align="center" className="text-gray-600">
                           {item.size || 'N/A'}
-                        </td>
-                        <td className="border border-gray-300 px-3 py-2 text-center text-sm font-medium">
+                        </Page.Td>
+                        <Page.Td align="center" className="font-medium">
                           {item.quantity || 0}
-                        </td>
-                        <td className="border border-gray-300 px-3 py-2 text-right text-sm text-gray-600">
+                        </Page.Td>
+                        <Page.Td align="right" className="text-gray-600">
                           {formatPrice(item.unitPrice)}
-                        </td>
-                        <td className="border border-gray-300 px-3 py-2 text-right text-sm font-semibold text-gray-800">
+                        </Page.Td>
+                        <Page.Td align="right" className="font-semibold text-gray-800">
                           {formatPrice(item.totalPrice)}
-                        </td>
-                      </tr>
+                        </Page.Td>
+                      </Page.Tr>
                     ))}
                   </tbody>
-                </table>
+                </Page.Table>
               </div>
             </div>
 

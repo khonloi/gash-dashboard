@@ -424,47 +424,31 @@ const Feedbacks = () => {
                 {/* ---------- HEADER ---------- */}
                 <thead className="border-b">
                   <tr>
-                    <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      #
-                    </th>
-                    <th className="w-[15%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Customer
-                    </th>
-                    <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Product Name
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Feedback Date
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Rating
-                    </th>
-                    <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Content
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Status
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Actions
-                    </th>
+                    <Page.Th width="w-[5%]">#</Page.Th>
+                    <Page.Th width="w-[15%]">Customer</Page.Th>
+                    <Page.Th width="w-[20%]">Product Name</Page.Th>
+                    <Page.Th width="w-[10%]">Feedback Date</Page.Th>
+                    <Page.Th width="w-[10%]">Rating</Page.Th>
+                    <Page.Th width="w-[20%]">Content</Page.Th>
+                    <Page.Th width="w-[10%]">Status</Page.Th>
+                    <Page.Th width="w-[10%]" align="center">Actions</Page.Th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentFeedbacks.map((feedback, index) => {
                     const deleted = isFeedbackDeleted(feedback);
                     return (
-                      <tr
+                      <Page.Tr
                         key={feedback._id}
-                        className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40`}
+                        inactive={deleted}
                       >
                         {/* # */}
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                        <Page.Td nowrap>
                           {startIndex + index + 1}
-                        </td>
+                        </Page.Td>
 
                         {/* Customer */}
-                        <td className="px-2 lg:px-4 py-3">
+                        <Page.Td>
                           <div className="flex items-center space-x-2">
                             <img
                               src={feedback.customer?.image || ""}
@@ -480,22 +464,24 @@ const Feedbacks = () => {
                               </div>
                             </div>
                           </div>
-                        </td>
+                        </Page.Td>
 
                         {/* Product Name */}
-                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 truncate">
-                          {feedback.product?.product_name || "N/A"}
-                        </td>
+                        <Page.Td>
+                          <div className="truncate">
+                            {feedback.product?.product_name || "N/A"}
+                          </div>
+                        </Page.Td>
 
                         {/* Feedback Date */}
-                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900 whitespace-nowrap">
+                        <Page.Td nowrap>
                           {feedback.feedback?.created_at
                             ? new Date(feedback.feedback.created_at).toLocaleDateString()
                             : "N/A"}
-                        </td>
+                        </Page.Td>
 
                         {/* Rating */}
-                        <td className="px-2 lg:px-4 py-3">
+                        <Page.Td>
                           <div className="flex items-center">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <svg
@@ -511,10 +497,10 @@ const Feedbacks = () => {
                               </svg>
                             ))}
                           </div>
-                        </td>
+                        </Page.Td>
 
                         {/* Content */}
-                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                        <Page.Td>
                           <div className="truncate">
                             {feedback.feedback?.content
                               ? `${feedback.feedback.content.substring(0, 80)}${feedback.feedback.content.length > 80
@@ -523,15 +509,15 @@ const Feedbacks = () => {
                               }`
                               : "N/A"}
                           </div>
-                        </td>
+                        </Page.Td>
 
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                        <Page.Td nowrap>
                           <Page.Badge color={deleted ? 'red' : 'green'}>
                             {deleted ? "deleted" : "active"}
                           </Page.Badge>
-                        </td>
+                        </Page.Td>
 
-                        <td className="px-2 lg:px-4 py-3">
+                        <Page.Td>
                           <div className="flex justify-center items-center space-x-1">
                             {/* View Button */}
                             <Page.ActionButton
@@ -594,8 +580,8 @@ const Feedbacks = () => {
                               </svg>
                             </Page.ActionButton>
                           </div>
-                        </td>
-                      </tr>
+                        </Page.Td>
+                      </Page.Tr>
                     );
                   })}
                 </tbody>

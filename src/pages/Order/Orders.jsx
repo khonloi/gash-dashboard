@@ -1072,67 +1072,46 @@ const Orders = () => {
                 {/* ---------- HEADER ---------- */}
                 <thead className="border-b">
                   <tr>
-                    <th className="w-[4%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      #
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Order ID
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Create Date
-                    </th>
-                    <th className="w-[16%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Recipient Name
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Final
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Status
-                    </th>
-                    <th className="w-[9%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Method
-                    </th>
-                    <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Payment
-                    </th>
-                    <th className="w-[15%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                      Actions
-                    </th>
+                    <Page.Th width="w-[4%]">#</Page.Th>
+                    <Page.Th width="w-[10%]">Order ID</Page.Th>
+                    <Page.Th width="w-[10%]">Create Date</Page.Th>
+                    <Page.Th width="w-[16%]">Recipient Name</Page.Th>
+                    <Page.Th width="w-[10%]">Final</Page.Th>
+                    <Page.Th width="w-[10%]">Status</Page.Th>
+                    <Page.Th width="w-[9%]">Method</Page.Th>
+                    <Page.Th width="w-[10%]">Payment</Page.Th>
+                    <Page.Th width="w-[15%]" align="center">Actions</Page.Th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentOrders.map((order, index) => (
-                    <React.Fragment key={order._id}>
-                      <tr
-                        className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40`}
-                      >
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <Page.Tr key={order._id}>
+                        <Page.Td nowrap>
                           {startIndex + index + 1}
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                        </Page.Td>
+                        <Page.Td nowrap>
                           <div
-                            className="text-xs lg:text-sm font-medium text-gray-900"
+                            className="font-medium"
                             title={order._id}
                           >
                             {formatOrderId(order._id)}
                           </div>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                        </Page.Td>
+                        <Page.Td nowrap>
                           {formatDateVN(order.orderDate)}
-                        </td>
-                        <td className="px-2 lg:px-4 py-3">
-                          <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                        </Page.Td>
+                        <Page.Td>
+                          <div className="font-medium truncate">
                             {order.name ||
                               order.acc_id?.name ||
                               order.acc_id?.username ||
                               "Guest"}
                           </div>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm font-medium text-gray-900">
+                        </Page.Td>
+                        <Page.Td nowrap className="font-medium">
                           {formatPrice(order.finalPrice || order.totalPrice)}
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                        </Page.Td>
+                        <Page.Td nowrap>
                           <Page.Badge color={
                             order.order_status === "pending" ? "yellow" :
                             order.order_status === "confirmed" ? "blue" :
@@ -1142,24 +1121,24 @@ const Orders = () => {
                           }>
                             {displayStatus(order.order_status)}
                           </Page.Badge>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                        </Page.Td>
+                        <Page.Td nowrap>
                           <Page.Badge color={
                             order.payment_method === "COD" ? "orange" :
                             order.payment_method === "VNPAY" ? "blue" : "gray"
                           }>
                             {displayStatus(order.payment_method)}
                           </Page.Badge>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                        </Page.Td>
+                        <Page.Td nowrap>
                           <Page.Badge color={
                             order.pay_status === "paid" ? "green" :
                             order.pay_status === "unpaid" ? "red" : "gray"
                           }>
                             {displayStatus(order.pay_status)}
                           </Page.Badge>
-                        </td>
-                        <td className="px-2 lg:px-4 py-3">
+                        </Page.Td>
+                        <Page.Td>
                           <div className="flex justify-center items-center space-x-1">
                             <Page.ActionButton
                               onClick={() => handleViewOrderDetails(order)}
@@ -1280,9 +1259,8 @@ const Orders = () => {
                               </svg>
                             </Page.ActionButton>
                           </div>
-                        </td>
-                      </tr>
-                    </React.Fragment>
+                        </Page.Td>
+                      </Page.Tr>
                   ))}
                 </tbody>
         </Page.Table>

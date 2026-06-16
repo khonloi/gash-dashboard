@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Api from '../../../common/SummaryAPI';
 import Loading from '../../../components/ui/Loading';
+import Page from '../../../components/ui/Page';
 
 const StreamsList = ({
     title,
@@ -121,37 +122,19 @@ const StreamsList = ({
                 </div>
             ) : streams.length > 0 ? (
                 <div className="overflow-x-auto">
-                    <table className="w-full table-fixed min-w-[900px]">
+                    <Page.Table minWidth="900px">
                         {/* ---------- HEADER ---------- */}
                         <thead className="border-b">
                             <tr>
-                                <th className="w-[5%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    #
-                                </th>
-                                <th className="w-[18%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Title
-                                </th>
-                                <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Description
-                                </th>
-                                <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Status
-                                </th>
-                                <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Host
-                                </th>
-                                <th className="w-[8%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Viewers
-                                </th>
-                                <th className="w-[11%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Start Time
-                                </th>
-                                <th className="w-[11%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    End Time
-                                </th>
-                                <th className="w-[9%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                                    Actions
-                                </th>
+                                <Page.Th width="w-[5%]">#</Page.Th>
+                                <Page.Th width="w-[18%]">Title</Page.Th>
+                                <Page.Th width="w-[20%]">Description</Page.Th>
+                                <Page.Th width="w-[8%]">Status</Page.Th>
+                                <Page.Th width="w-[10%]">Host</Page.Th>
+                                <Page.Th width="w-[8%]">Viewers</Page.Th>
+                                <Page.Th width="w-[11%]">Start Time</Page.Th>
+                                <Page.Th width="w-[11%]">End Time</Page.Th>
+                                <Page.Th width="w-[9%]" align="center">Actions</Page.Th>
                             </tr>
                         </thead>
 
@@ -160,31 +143,28 @@ const StreamsList = ({
                                 const startIndex = ((currentPage || 1) - 1) * (itemsPerPage || 10);
                                 const itemNumber = startIndex + index + 1;
                                 return (
-                                    <tr
-                                        key={stream._id || index}
-                                        className="hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40"
-                                    >
+                                    <Page.Tr key={stream._id || index}>
                                         {/* # */}
-                                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                                        <Page.Td nowrap>
                                             {itemNumber}
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Title */}
-                                        <td className="px-2 lg:px-4 py-3">
-                                            <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                                        <Page.Td>
+                                            <div className="font-medium truncate">
                                                 {stream.title || 'Untitled Stream'}
                                             </div>
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Description */}
-                                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                        <Page.Td>
                                             <div className="truncate">
                                                 {stream.description || 'No description'}
                                             </div>
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Status */}
-                                        <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                                        <Page.Td nowrap>
                                             <span className={`px-2 py-1 rounded-full text-xs font-semibold ${stream.status === 'live'
                                                 ? 'bg-gradient-to-r from-red-400 to-red-600 text-white border border-red-500'
                                                 : stream.status === 'ended'
@@ -193,49 +173,48 @@ const StreamsList = ({
                                                 }`}>
                                                 {stream.status || 'unknown'}
                                             </span>
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Host */}
-                                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                        <Page.Td>
                                             {stream.hostId?.name || stream.hostId || 'Unknown'}
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Viewers */}
-                                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                        <Page.Td>
                                             {stream.peakViewers || stream.currentViewers || 0}
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Start Time */}
-                                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                        <Page.Td>
                                             {stream.startTime ? new Date(stream.startTime).toLocaleString() : 'N/A'}
-                                        </td>
+                                        </Page.Td>
 
                                         {/* End Time */}
-                                        <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                                        <Page.Td>
                                             {stream.endTime ? new Date(stream.endTime).toLocaleString() : 'N/A'}
-                                        </td>
+                                        </Page.Td>
 
                                         {/* Actions */}
-                                        <td className="px-2 lg:px-4 py-3">
+                                        <Page.Td>
                                             <div className="flex justify-center items-center">
-                                                <button
+                                                <Page.ActionButton
                                                     onClick={() => navigate(`/livestream/details/${stream._id}`)}
-                                                    className="p-1.5 rounded-xl transition-all duration-300 border-2 shadow-md hover:shadow-lg transform hover:scale-110 border-yellow-400/60 bg-gradient-to-br from-yellow-100/80 via-amber-100/80 to-orange-100/80 hover:from-yellow-200 hover:via-amber-200 hover:to-orange-200 text-amber-700 hover:text-amber-800 backdrop-blur-sm"
-                                                    aria-label={`View details for livestream ${stream._id}`}
+                                                    variant="primary"
                                                     title="View Details"
                                                 >
                                                     <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                     </svg>
-                                                </button>
+                                                </Page.ActionButton>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </Page.Td>
+                                    </Page.Tr>
                                 );
                             })}
                         </tbody>
-                    </table>
+                    </Page.Table>
                 </div>
             ) : (
                 <div className="p-6 text-center">

@@ -683,27 +683,13 @@ const Products = () => {
               {/* ---------- HEADER ---------- */}
               <thead className="border-b">
                 <tr>
-                  <th className="w-[5%]  px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    #
-                  </th>
-                  <th className="w-[20%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Product Name
-                  </th>
-                  <th className="w-[12%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Category
-                  </th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Main Image
-                  </th>
-                  <th className="w-[30%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Description
-                  </th>
-                  <th className="w-[10%] px-2 lg:px-4 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Status
-                  </th>
-                  <th className="w-[13%] px-2 lg:px-4 py-3 text-center text-xs font-bold text-gray-800 uppercase tracking-wider whitespace-nowrap">
-                    Actions
-                  </th>
+                  <Page.Th width="w-[5%]">#</Page.Th>
+                  <Page.Th width="w-[20%]">Product Name</Page.Th>
+                  <Page.Th width="w-[12%]">Category</Page.Th>
+                  <Page.Th width="w-[10%]" align="center">Main Image</Page.Th>
+                  <Page.Th width="w-[30%]">Description</Page.Th>
+                  <Page.Th width="w-[10%]">Status</Page.Th>
+                  <Page.Th width="w-[13%]" align="center">Actions</Page.Th>
                 </tr>
               </thead>
 
@@ -716,24 +702,24 @@ const Products = () => {
                     : { backgroundColor: 'rgb(254 243 199)', color: 'rgb(217 119 6)', borderColor: 'rgb(217 119 6)' };
 
                   return (
-                    <tr
+                    <Page.Tr
                       key={product._id}
-                      className={`hover:bg-gradient-to-r hover:from-yellow-50/50 hover:via-amber-50/50 hover:to-orange-50/50 transition-all duration-300 border-b-2 border-gray-200/40 ${discontinued ? 'opacity-60' : ''}`}
+                      inactive={discontinued}
                     >
                       {/* # */}
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap text-xs lg:text-sm text-gray-900">
+                      <Page.Td nowrap>
                         {startIndex + index + 1}
-                      </td>
+                      </Page.Td>
 
                       {/* Product Name */}
-                      <td className="px-2 lg:px-4 py-3">
-                        <div className="text-xs lg:text-sm font-medium text-gray-900 truncate">
+                      <Page.Td>
+                        <div className="font-medium truncate">
                           {product.productName || 'N/A'}
                         </div>
-                      </td>
+                      </Page.Td>
 
                       {/* Category */}
-                      <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                      <Page.Td>
                         <span className={categoryInfo.isDeleted ? 'line-through text-gray-400' : ''}>
                           {categoryInfo.name || 'N/A'}
                         </span>
@@ -742,10 +728,10 @@ const Products = () => {
                             (Deleted)
                           </span>
                         )}
-                      </td>
+                      </Page.Td>
 
                       {/* Main Image */}
-                      <td className="px-2 lg:px-4 py-3">
+                      <Page.Td>
                         {product.productImageIds && product.productImageIds.length > 0 ? (
                           <img
                             src={
@@ -784,30 +770,32 @@ const Products = () => {
                             </svg>
                           </div>
                         )}
-                      </td>
+                      </Page.Td>
 
                       {/* Description */}
-                      <td className="px-2 lg:px-4 py-3 text-xs lg:text-sm text-gray-900">
+                      <Page.Td>
                         <div className="truncate">
                           {product.description
                             ? `${stripHtml(product.description).substring(0, 80)}${stripHtml(product.description).length > 80 ? '...' : ''}`
                             : 'N/A'}
                         </div>
-                      </td>
+                      </Page.Td>
 
                       {/* Status */}
-                      <td className="px-2 lg:px-4 py-3 whitespace-nowrap">
+                      <Page.Td nowrap>
                         <Page.Badge color={discontinued ? 'red' : product.productStatus === 'active' ? 'green' : product.productStatus === 'inactive' ? 'yellow' : 'blue'}>
-                          {discontinued ? 'discontinued' : product.productStatus || 'unknown'}
+                          {product.productStatus || 'unknown'}
                         </Page.Badge>
-                      </td>
+                      </Page.Td>
 
                       {/* Actions */}
-                      <td className="px-2 lg:px-4 py-3">
+                      <Page.Td>
                         <div className="flex justify-center items-center space-x-1">
-                          {/* View Button */}
                           <Page.ActionButton
-                            onClick={() => handleShowDetails(product)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowDetails(product);
+                            }}
                             variant="primary"
                             title="View Details"
                           >
@@ -817,9 +805,11 @@ const Products = () => {
                             </svg>
                           </Page.ActionButton>
 
-                          {/* Edit Button */}
                           <Page.ActionButton
-                            onClick={() => handleEditProduct(product)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditProduct(product);
+                            }}
                             disabled={discontinued}
                             variant="primary"
                             title="Edit Product"
@@ -829,9 +819,11 @@ const Products = () => {
                             </svg>
                           </Page.ActionButton>
 
-                          {/* Delete (Discontinue) Button */}
                           <Page.ActionButton
-                            onClick={() => handleRequestDiscontinue(product)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRequestDiscontinue(product);
+                            }}
                             disabled={discontinued}
                             variant="danger"
                             title="Discontinue Product"
@@ -853,8 +845,8 @@ const Products = () => {
                             </svg>
                           </Page.ActionButton>
                         </div>
-                      </td>
-                    </tr>
+                      </Page.Td>
+                    </Page.Tr>
                   );
                 })}
               </tbody>
