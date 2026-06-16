@@ -7,6 +7,8 @@ import AccountModal from "./AccountModal";
 import Loading from "../../components/ui/Loading";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import Page, { usePagination, useFilters } from "../../components/ui/Page";
+import usePageModals from "../../hooks/usePageModals";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 export default function Accounts() {
     const { showToast } = useContext(ToastContext);
@@ -16,11 +18,22 @@ export default function Accounts() {
     const [accounts, setAccounts] = useState([]);
     const [sortBy, setSortBy] = useState("acc_status");
     const [sortOrder, setSortOrder] = useState("asc");
-    const [showModal, setShowModal] = useState(false);
-    const [editingAccount, setEditingAccount] = useState(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [accountToDelete, setAccountToDelete] = useState(null);
-    const [isViewMode, setIsViewMode] = useState(false);
+
+    const {
+        isMainModalOpen: showModal,
+        mainModalMode,
+        selectedItem: editingAccount,
+        isDeleteModalOpen: showDeleteConfirm,
+        itemToDelete: accountToDelete,
+        openEditModal,
+        openViewModal,
+        closeMainModal: closeModal,
+        openDeleteModal: handleDeleteClick,
+        closeDeleteModal: handleCancelDelete
+    } = usePageModals();
+    const { handleApiError } = useErrorHandler();
+    const isViewMode = mainModalMode === 'view';
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
@@ -48,18 +61,9 @@ export default function Accounts() {
             const accountData = Array.isArray(response) ? response : Array.isArray(response.data) ? response.data : [];
             setAccounts(accountData);
         } catch (err) {
-            let errorMessage = "Failed to fetch accounts";
-            if (err.response?.data?.message) {
-                errorMessage = err.response.data.message;
-            } else if (err.response?.status === 403) {
-                errorMessage = "Access denied. Only admin can view accounts";
-            } else if (err.response?.status === 401) {
-                errorMessage = "You are not authorized to view accounts";
+            const errorMessage = handleApiError(err, "Failed to fetch accounts");
+            if (err.response?.status === 401) {
                 navigate('/login', { replace: true });
-            } else if (err.response?.status >= 500) {
-                errorMessage = "Server error. Please try again later";
-            } else if (err.message) {
-                errorMessage = `Failed to fetch accounts: ${err.message}`;
             }
             setError(errorMessage);
             showToast(errorMessage, "error");
@@ -80,9 +84,7 @@ export default function Accounts() {
             );
 
             if (targetAccount) {
-                setEditingAccount(targetAccount);
-                setIsViewMode(true);
-                setShowModal(true);
+                openViewModal(targetAccount);
                 // Clear the URL parameter after opening modal
                 navigate('/accounts', { replace: true });
             }
@@ -103,33 +105,23 @@ export default function Accounts() {
 
     // View account details
     const handleView = (account) => {
-        setEditingAccount(account);
-        setIsViewMode(true);
-        setShowModal(true);
+        openViewModal(account);
     };
 
     // Edit account
     const handleEdit = (account) => {
         if (account.acc_status === 'inactive') return;
-        setEditingAccount(account);
-        setIsViewMode(false);
-        setShowModal(true);
+        openEditModal(account);
     };
 
-    // Close modal
-    const closeModal = () => {
-        setShowModal(false);
-        setEditingAccount(null);
-        setIsViewMode(false);
-    };
+    // Close modal (now using closeModal from usePageModals)
+
 
     // Handle successful operation
     const handleSuccess = (account = null, action = 'refresh') => {
         if (action === 'edit' && account) {
             // Switch to edit mode
-            setEditingAccount(account);
-            setIsViewMode(false);
-            setShowModal(true);
+            openEditModal(account);
         } else {
             // Refresh accounts list
             fetchAccounts();
@@ -137,12 +129,6 @@ export default function Accounts() {
     };
 
 
-
-    // Show delete confirmation
-    const handleDeleteClick = (account) => {
-        setAccountToDelete(account);
-        setShowDeleteConfirm(true);
-    };
 
     // Delete / Disable account
     const handleDelete = async () => {
@@ -157,31 +143,13 @@ export default function Accounts() {
             await SummaryAPI.accounts.disable(accountId);
             showToast("Account disabled successfully", "success");
             fetchAccounts();
-            setShowDeleteConfirm(false);
-            setAccountToDelete(null);
+            handleCancelDelete();
         } catch (err) {
-            let errorMessage = "Failed to disable account";
-            if (err.response?.data?.message) {
-                errorMessage = err.response.data.message;
-            } else if (err.response?.status === 403) {
-                errorMessage = "Access denied. Only admin can disable accounts";
-            } else if (err.response?.status === 404) {
-                errorMessage = "Account not found";
-            } else if (err.response?.status >= 500) {
-                errorMessage = "Server error. Please try again later";
-            } else if (err.message) {
-                errorMessage = `Failed to disable account: ${err.message}`;
-            }
+            const errorMessage = handleApiError(err, "Failed to disable account");
             showToast(errorMessage, "error");
         } finally {
             setIsDeleting(false);
         }
-    };
-
-    // Cancel delete
-    const handleCancelDelete = () => {
-        setShowDeleteConfirm(false);
-        setAccountToDelete(null);
     };
 
     // Get status priority: active = 0, suspended = 1, inactive = 2, others = 3

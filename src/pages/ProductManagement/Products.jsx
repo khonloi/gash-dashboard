@@ -13,6 +13,8 @@ import axiosClient from '../../common/axiosClient';
 import Loading from '../../components/ui/Loading';
 import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 import Page, { usePagination, useFilters } from '../../components/ui/Page';
+import useAdvancedModals from '../../hooks/useAdvancedModals';
+import useErrorHandler from '../../hooks/useErrorHandler';
 
 // Using SummaryAPI for all API calls
 
@@ -58,21 +60,12 @@ const Products = () => {
       setCurrentPage
   } = usePagination(filteredProducts, 10);
 
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [selectedProductForDetails, setSelectedProductForDetails] = useState(null);
+  const { openModal, closeModal, isModalOpen, getModalData } = useAdvancedModals();
+  const { handleApiError } = useErrorHandler();
+  
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
   const navigate = useNavigate();
-
-  // Add Variant Modal States
-  const [showAddVariantModal, setShowAddVariantModal] = useState(false);
-  const [selectedProductForVariant, setSelectedProductForVariant] = useState(null);
-  const [showDiscontinueConfirm, setShowDiscontinueConfirm] = useState(false);
-  const [productPendingDiscontinue, setProductPendingDiscontinue] = useState(null);
 
   // Status options based on model
   const statusOptions = ['active', 'discontinued'];
@@ -356,9 +349,9 @@ const Products = () => {
       const newProduct = response.data?.data || response.data;
       setProducts(prev => [...prev, newProduct]);
       showToast('Product added successfully', 'success');
-      setShowCreateModal(false);
+      closeModal('create');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to create product';
+      const errorMessage = handleApiError(err, 'Failed to create product');
       setError(errorMessage);
       showToast(errorMessage, 'error');
     } finally {
@@ -381,15 +374,13 @@ const Products = () => {
         )
       );
       // Update selectedProductForDetails with new data
-      setSelectedProductForDetails(updatedProduct);
+      openModal('details', updatedProduct);
       showToast('Product edited successfully', 'success');
       setEditingProductId(null);
       setEditingProduct(null);
-      setShowEditModal(false);
-      // Return to ProductDetailsModal after successful update
-      setShowDetailsModal(true);
+      closeModal('edit');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to update product';
+      const errorMessage = handleApiError(err, 'Failed to update product');
       setError(errorMessage);
       showToast(errorMessage, 'error');
     } finally {
@@ -416,10 +407,10 @@ const Products = () => {
       );
 
       showToast('Product marked as discontinued successfully', 'success');
-      if (selectedProductId === productId) setSelectedProductId(null);
+      if (getModalData('details')?._id === productId) closeModal('details');
       if (editingProductId === productId) setEditingProductId(null);
     } catch (err) {
-      let errorMessage = err.response?.data?.message || err.message || 'Failed to discontinue product';
+      let errorMessage = handleApiError(err, 'Failed to discontinue product');
 
       // Improve error message for active orders
       if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
@@ -431,27 +422,25 @@ const Products = () => {
     } finally {
       setLoading(false);
       setError(''); // Clear any previous error state
-      setProductPendingDiscontinue(null);
-      setShowDiscontinueConfirm(false);
+      closeModal('discontinue');
     }
-  }, [selectedProductId, editingProductId, showToast]);
+  }, [editingProductId, showToast, getModalData, closeModal]);
 
   const handleRequestDiscontinue = useCallback((product) => {
     if (!product) return;
-    setProductPendingDiscontinue(product);
-    setShowDiscontinueConfirm(true);
-  }, []);
+    openModal('discontinue', product);
+  }, [openModal]);
 
   const handleCancelDiscontinue = useCallback(() => {
     if (loading) return;
-    setShowDiscontinueConfirm(false);
-    setProductPendingDiscontinue(null);
-  }, [loading]);
+    closeModal('discontinue');
+  }, [loading, closeModal]);
 
   const handleConfirmDiscontinue = useCallback(() => {
-    if (!productPendingDiscontinue) return;
-    deleteProduct(productPendingDiscontinue._id);
-  }, [productPendingDiscontinue, deleteProduct]);
+    const product = getModalData('discontinue');
+    if (!product) return;
+    deleteProduct(product._id);
+  }, [getModalData, deleteProduct]);
 
   // Handle authentication state and fetch data
   useEffect(() => {
@@ -473,8 +462,7 @@ const Products = () => {
       if (productId) {
         const product = products.find(p => p._id === productId);
         if (product) {
-          setSelectedProductForDetails(product);
-          setShowDetailsModal(true);
+          openModal('details', product);
           setIsViewMode(true);
           // Always fetch variants when opening from URL
           fetchProductVariants(product._id);
@@ -484,49 +472,47 @@ const Products = () => {
         }
       }
     }
-  }, [products, location.search, fetchProductVariants]);
+  }, [products, location.search, fetchProductVariants, openModal]);
 
   // Show product details in popup
   const handleShowDetails = useCallback((product) => {
-    setSelectedProductForDetails(product);
-    setShowDetailsModal(true);
+    openModal('details', product);
     // Fetch variants if not already loaded
     if (!productVariants[product._id]) {
       fetchProductVariants(product._id);
     }
-  }, [productVariants, fetchProductVariants]);
+  }, [productVariants, fetchProductVariants, openModal]);
 
   // Close details modal
   const handleCloseDetailsModal = useCallback(() => {
-    setShowDetailsModal(false);
-    setSelectedProductForDetails(null);
+    closeModal('details');
     setIsViewMode(false);
-  }, []);
+  }, [closeModal]);
 
   // Start editing product
   const handleEditProduct = useCallback((product) => {
     setEditingProductId(product._id);
     setEditingProduct(product);
-    setShowEditModal(true);
-  }, []);
+    openModal('edit');
+  }, [openModal]);
 
   // Handle create product modal
   const handleCreateProduct = useCallback(() => {
-    setShowCreateModal(true);
-  }, []);
+    openModal('create');
+  }, [openModal]);
 
   // Handle close modals
   const handleCloseCreateModal = useCallback(() => {
-    setShowCreateModal(false);
-  }, []);
+    closeModal('create');
+  }, [closeModal]);
 
   const handleCloseEditModal = useCallback(() => {
-    setShowEditModal(false);
+    closeModal('edit');
     setEditingProductId(null);
     setEditingProduct(null);
     // Return to ProductDetailsModal
-    setShowDetailsModal(true);
-  }, []);
+    if (getModalData('details')) openModal('details', getModalData('details'));
+  }, [closeModal, getModalData, openModal]);
 
   // Retry fetching data
   const handleRetry = useCallback(() => {
@@ -535,27 +521,23 @@ const Products = () => {
 
   // Handle image click
   const handleImageClick = useCallback((imageUrl) => {
-    setSelectedImage(imageUrl);
-    setShowImageModal(true);
-  }, []);
+    openModal('image', imageUrl);
+  }, [openModal]);
 
   // Close image modal
   const handleCloseImageModal = useCallback(() => {
-    setShowImageModal(false);
-    setSelectedImage('');
-  }, []);
+    closeModal('image');
+  }, [closeModal]);
 
   // Handle opening Add Variant modal
   const handleOpenAddVariantModal = useCallback((product) => {
-    setSelectedProductForVariant(product);
-    setShowAddVariantModal(true);
-  }, []);
+    openModal('addVariant', product);
+  }, [openModal]);
 
   // Handle closing Add Variant modal
   const handleCloseAddVariantModal = useCallback(() => {
-    setShowAddVariantModal(false);
-    setSelectedProductForVariant(null);
-  }, []);
+    closeModal('addVariant');
+  }, [closeModal]);
 
   // Get category info by ID
   const getCategoryInfo = useCallback((catId) => {
@@ -913,46 +895,48 @@ const Products = () => {
 
       {/* Add Variant Modal */}
       <VariantModal
-        isOpen={showAddVariantModal}
+        isOpen={isModalOpen('addVariant')}
         onClose={handleCloseAddVariantModal}
-        product={selectedProductForVariant}
+        product={getModalData('addVariant')}
         colors={colors}
         sizes={sizes}
         onVariantCreated={() => {
           handleCloseAddVariantModal();
-          if (selectedProductForVariant) {
-            fetchProductVariants(selectedProductForVariant._id);
+          const p = getModalData('addVariant');
+          if (p) {
+            fetchProductVariants(p._id);
           }
         }}
       />
 
       {/* Product Details Modal */}
       <ProductDetailsModal
-        isOpen={showDetailsModal}
+        isOpen={isModalOpen('details')}
         onClose={handleCloseDetailsModal}
-        product={selectedProductForDetails}
+        product={getModalData('details')}
         productVariants={productVariants}
         getCategoryName={getCategoryName}
         getCategoryInfo={getCategoryInfo}
         colors={colors}
         sizes={sizes}
         onVariantChange={() => {
-          if (selectedProductForDetails) {
-            fetchProductVariants(selectedProductForDetails._id);
+          const p = getModalData('details');
+          if (p) {
+            fetchProductVariants(p._id);
           }
         }}
         onEditProduct={(product) => {
           setEditingProductId(product._id);
           setEditingProduct(product);
-          setShowDetailsModal(false);
-          setShowEditModal(true);
+          closeModal('details');
+          openModal('edit');
         }}
         viewOnly={isViewMode}
       />
 
       {/* Create Product Modal */}
       <ProductModal
-        isOpen={showCreateModal}
+        isOpen={isModalOpen('create')}
         onClose={handleCloseCreateModal}
         onSubmit={createProduct}
         categories={categories}
@@ -962,7 +946,7 @@ const Products = () => {
 
       {/* Edit Product Modal */}
       <ProductModal
-        isOpen={showEditModal}
+        isOpen={isModalOpen('edit')}
         onClose={handleCloseEditModal}
         onSubmit={updateProduct}
         product={editingProduct}
@@ -972,13 +956,13 @@ const Products = () => {
       />
 
       <DeleteConfirmModal
-        isOpen={showDiscontinueConfirm}
+        isOpen={isModalOpen('discontinue')}
         title="Discontinue Product"
         message={
           <>
             Are you sure you want to discontinue{' '}
             <span className="font-semibold text-gray-900">
-              {productPendingDiscontinue?.productName || productPendingDiscontinue?.name || 'this product'}
+              {getModalData('discontinue')?.productName || getModalData('discontinue')?.name || 'this product'}
             </span>
             ?
             <br />
@@ -993,9 +977,9 @@ const Products = () => {
 
       {/* Image Modal */}
       <ImageModal
-        isOpen={showImageModal}
+        isOpen={isModalOpen('image')}
         onClose={handleCloseImageModal}
-        imageUrl={selectedImage}
+        imageUrl={getModalData('image')}
         alt="Product Image"
       />
     </Page>

@@ -5,17 +5,29 @@ import VoucherModal from "./VoucherModal";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import Loading from "../../components/ui/Loading";
 import Page, { usePagination, useFilters } from "../../components/ui/Page";
+import usePageModals from "../../hooks/usePageModals";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 export default function Vouchers() {
   const { showToast } = useContext(ToastContext);
   const [vouchers, setVouchers] = useState([]);
   const [sortBy, setSortBy] = useState("code"); // 'startDate', 'endDate', 'code', 'discountValue', 'usageLimit'
   const [sortOrder, setSortOrder] = useState("asc"); // 'asc' or 'desc'
-  const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState("create"); // 'create' or 'edit'
-  const [editingVoucher, setEditingVoucher] = useState(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [voucherToDelete, setVoucherToDelete] = useState(null);
+
+  const {
+      isMainModalOpen: showModal,
+      mainModalMode: modalMode,
+      selectedItem: editingVoucher,
+      isDeleteModalOpen: showDeleteConfirm,
+      itemToDelete: voucherToDelete,
+      openCreateModal: handleCreate,
+      openEditModal,
+      closeMainModal: closeModal,
+      openDeleteModal: handleDeleteClick,
+      closeDeleteModal: handleCancelDelete
+  } = usePageModals();
+  const { handleApiError } = useErrorHandler();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -33,23 +45,7 @@ export default function Vouchers() {
       type: "all"
   });
 
-  // Helper function to extract error message
-  const getErrorMessage = (err, defaultMessage) => {
-    if (err.response?.data?.message) {
-      return err.response.data.message;
-    } else if (err.response?.status === 403) {
-      return "Access denied. Only admin and manager can perform this action";
-    } else if (err.response?.status === 401) {
-      return "You are not authorized to perform this action";
-    } else if (err.response?.status === 404) {
-      return "Resource not found";
-    } else if (err.response?.status >= 500) {
-      return "Server error. Please try again later";
-    } else if (err.message) {
-      return err.message;
-    }
-    return defaultMessage;
-  };
+
 
   // Fetch vouchers
   const fetchVouchers = useCallback(async () => {
@@ -60,7 +56,7 @@ export default function Vouchers() {
       setVouchers(data.data);
     } catch (err) {
       console.error(err);
-      const errorMessage = getErrorMessage(err, "Failed to fetch vouchers");
+      const errorMessage = handleApiError(err, "Failed to fetch vouchers");
       setError(errorMessage);
       showToast(errorMessage, "error");
     } finally {
@@ -97,22 +93,7 @@ export default function Vouchers() {
   // Edit voucher
   const handleEdit = (voucher) => {
     if (voucher.isDeleted) return;
-    setEditingVoucher(voucher);
-    setModalMode("edit");
-    setShowModal(true);
-  };
-
-  // Create voucher
-  const handleCreate = () => {
-    setEditingVoucher(null);
-    setModalMode("create");
-    setShowModal(true);
-  };
-
-  // Close modal
-  const closeModal = () => {
-    setShowModal(false);
-    setEditingVoucher(null);
+    openEditModal(voucher);
   };
 
   // Handle successful operation
@@ -122,11 +103,6 @@ export default function Vouchers() {
 
 
 
-  // Show delete confirmation
-  const handleDeleteClick = (voucher) => {
-    setVoucherToDelete(voucher);
-    setShowDeleteConfirm(true);
-  };
 
   // Delete / Disable voucher
   const handleDelete = async () => {
@@ -144,12 +120,11 @@ export default function Vouchers() {
     try {
       await SummaryAPI.vouchers.disable(voucherId);
       showToast("Voucher disabled successfully", "success");
-      setShowDeleteConfirm(false);
-      setVoucherToDelete(null);
+      handleCancelDelete();
       fetchVouchers();
     } catch (err) {
       console.error(err);
-      const errorMessage = getErrorMessage(err, "Failed to disable voucher");
+      const errorMessage = handleApiError(err, "Failed to disable voucher");
       setError(errorMessage);
       showToast(errorMessage, "error");
     } finally {
@@ -157,11 +132,6 @@ export default function Vouchers() {
     }
   };
 
-  // Cancel delete
-  const handleCancelDelete = () => {
-    setShowDeleteConfirm(false);
-    setVoucherToDelete(null);
-  };
 
   // Get status priority for sorting (lower number = higher priority)
   // Priority: ACTIVE > UPCOMING > USED UP > EXPIRED > DISABLED

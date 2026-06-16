@@ -6,6 +6,8 @@ import Api from "../../common/SummaryAPI";
 import FeedbackDetail from "./FeedbackDetail";
 import Loading from "../../components/ui/Loading";
 import Page, { usePagination, useFilters } from "../../components/ui/Page";
+import usePageModals from "../../hooks/usePageModals";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 const Feedbacks = () => {
   const { user, isAuthLoading } = useContext(AuthContext);
@@ -13,8 +15,15 @@ const Feedbacks = () => {
   const navigate = useNavigate();
   const [feedbacks, setFeedbacks] = useState([]);
   const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
-  const [selectedFeedbackId, setSelectedFeedbackId] = useState(null);
   const [uniqueProductNames, setUniqueProductNames] = useState([]);
+
+  const {
+      isMainModalOpen: showDetailsModal,
+      selectedItem: selectedFeedbackId,
+      openViewModal: handleShowDetailsInner,
+      closeMainModal: handleCloseDetailsModal
+  } = usePageModals();
+  const { handleApiError } = useErrorHandler();
 
   const {
       filters,
@@ -43,27 +52,8 @@ const Feedbacks = () => {
       setCurrentPage
   } = usePagination(filteredFeedbacks, 10);
 
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Helper function to extract error message
-  const getErrorMessage = (err, defaultMessage) => {
-    if (err.response?.data?.message) {
-      return err.response.data.message;
-    } else if (err.response?.status === 403) {
-      return "Access denied. Only admin and manager can perform this action";
-    } else if (err.response?.status === 401) {
-      return "You are not authorized to perform this action";
-    } else if (err.response?.status === 404) {
-      return "Resource not found";
-    } else if (err.response?.status >= 500) {
-      return "Server error. Please try again later";
-    } else if (err.message) {
-      return err.message;
-    }
-    return defaultMessage;
-  };
 
   // Fetch feedbacks without parameters
   const fetchFeedbacks = useCallback(async () => {
@@ -115,7 +105,7 @@ const Feedbacks = () => {
       }
     } catch (err) {
       console.error("Fetch feedbacks error:", err);
-      const errorMessage = getErrorMessage(err, "Failed to fetch feedbacks");
+      const errorMessage = handleApiError(err, "Failed to fetch feedbacks");
       setError(errorMessage);
       showToast(errorMessage, "error");
     } finally {
@@ -303,7 +293,7 @@ const Feedbacks = () => {
       const defaultMessage = newDeletedState
         ? "Failed to delete feedback"
         : "Failed to restore feedback";
-      const errorMessage = getErrorMessage(err, defaultMessage);
+      const errorMessage = handleApiError(err, defaultMessage);
       showToast(errorMessage, "error");
     }
   };
@@ -315,15 +305,8 @@ const Feedbacks = () => {
 
   // Show feedback details in popup
   const handleShowDetails = useCallback((feedback) => {
-    setSelectedFeedbackId(feedback._id);
-    setShowDetailsModal(true);
-  }, []);
-
-  // Close details modal
-  const handleCloseDetailsModal = useCallback(() => {
-    setShowDetailsModal(false);
-    setSelectedFeedbackId(null);
-  }, []);
+    handleShowDetailsInner(feedback._id);
+  }, [handleShowDetailsInner]);
 
   // Check if feedback is deleted
   const isFeedbackDeleted = useCallback((feedback) => {

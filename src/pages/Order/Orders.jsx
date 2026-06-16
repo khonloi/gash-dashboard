@@ -6,6 +6,7 @@ import UploadRefundProofModal from "./UploadRefundProofModal";
 import DebugOrderModal from "./DebugOrderModal";
 import Loading from "../../components/ui/Loading";
 import Page, { usePagination, useFilters } from "../../components/ui/Page";
+import useErrorHandler from "../../hooks/useErrorHandler";
 import React, {
   useState,
   useEffect,
@@ -126,6 +127,7 @@ const Orders = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [dateFilterError, setDateFilterError] = useState("");
+  const { handleApiError } = useErrorHandler();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -238,7 +240,8 @@ const Orders = () => {
           : []
       );
     } catch (err) {
-      setError(err.message || "Failed to load orders");
+      const errorMessage = handleApiError(err, "Failed to load orders");
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -477,7 +480,8 @@ const Orders = () => {
         });
         showToast("Order edited successfully", "success");
       } catch (err) {
-        showToast(err.message || "Failed to update order", "error");
+        const errorMessage = handleApiError(err, "Failed to update order");
+        showToast(errorMessage, "error");
       } finally {
         setLoading(false);
       }
@@ -777,25 +781,8 @@ const Orders = () => {
     } catch (err) {
       // Handle order update errors
       console.error("Refund Update Error:", err);
-
-      let errorMessage = "Failed to update refund status";
-
-      // Extract error message from response
-      if (err?.response?.data?.message) {
-        errorMessage = err.response.data.message;
-      } else if (err?.response?.data?.error) {
-        errorMessage = err.response.data.error;
-      } else if (err?.message) {
-        errorMessage = err.message;
-      }
-
-      // Check for network errors
-      if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error') || !err.response) {
-        errorMessage = "Failed to upload refund proof. Please try again later.";
-      } else if (err?.response?.status === 500) {
-        errorMessage = "Failed to upload refund proof. Server error - please try again later";
-      }
-
+      
+      const errorMessage = handleApiError(err, "Failed to update refund status");
       setRefundError(errorMessage);
       throw err; // Re-throw to be handled by modal
     } finally {
@@ -896,20 +883,10 @@ const Orders = () => {
       showToast("Order edited successfully", "success");
     } catch (err) {
       // Extract error message from response
-      let errorMessage = "Failed to update order";
-
-      if (err?.response?.data?.message) {
-        errorMessage = err.response.data.message;
-      } else if (err?.message) {
-        errorMessage = err.message;
-      } else if (!err.response) {
-        errorMessage = "Failed to update order. Please try again later.";
-      }
+      const errorMessage = handleApiError(err, "Failed to update order");
 
       showToast(errorMessage, "error");
       setUpdateError(errorMessage);
-      if (err?.response?.data) {
-      }
     } finally {
       setIsUpdating(false);
     }

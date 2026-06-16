@@ -6,6 +6,8 @@ import VariantModal from "../ProductManagement/VariantModal";
 import Loading from "../../components/ui/Loading";
 import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 import Page, { usePagination, useFilters } from "../../components/ui/Page";
+import usePageModals from "../../hooks/usePageModals";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 const ProductVariants = () => {
   const { showToast } = useContext(ToastContext);
@@ -13,12 +15,20 @@ const ProductVariants = () => {
   const [productFilter, setProductFilter] = useState("");
   const [sortBy, setSortBy] = useState("color");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [showModal, setShowModal] = useState(false);
-  const [editingVariant, setEditingVariant] = useState(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [variantToDelete, setVariantToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const {
+      isMainModalOpen: showModal,
+      selectedItem: editingVariant,
+      isDeleteModalOpen: showDeleteConfirm,
+      itemToDelete: variantToDelete,
+      openEditModal: handleEdit,
+      closeMainModal: closeModal,
+      openDeleteModal: handleDeleteClick,
+      closeDeleteModal: handleCancelDelete
+  } = usePageModals();
+  const { handleApiError } = useErrorHandler();
   
   const {
       filters,
@@ -45,18 +55,7 @@ const ProductVariants = () => {
       setVariants(data.data);
     } catch (err) {
       console.error(err);
-      let errorMessage = "Failed to fetch variants";
-      if (err.response?.data?.message) {
-        errorMessage = err.response.data.message;
-      } else if (err.response?.status === 403) {
-        errorMessage = "Access denied. Only admin and manager can view variants";
-      } else if (err.response?.status === 401) {
-        errorMessage = "You are not authorized to view variants";
-      } else if (err.response?.status >= 500) {
-        errorMessage = "Server error. Please try again later";
-      } else if (err.message) {
-        errorMessage = `Failed to fetch variants: ${err.message}`;
-      }
+      const errorMessage = handleApiError(err, "Failed to fetch variants");
       setError(errorMessage);
       showToast(errorMessage, "error");
     } finally {
@@ -155,32 +154,14 @@ const ProductVariants = () => {
     fetchSizes();
   }, [fetchVariants, fetchColors, fetchSizes]);
 
-  // Edit variant
-  const handleEdit = (variant) => {
-    setEditingVariant(variant);
-    setShowModal(true);
-  };
-
-  // Close modal
-  const closeModal = () => {
-    setShowModal(false);
-    setEditingVariant(null);
-  };
-
   // Handle variant updated
   const handleVariantUpdated = useCallback(() => {
     fetchVariants();
-    setShowModal(false);
-    setEditingVariant(null);
-  }, [fetchVariants]);
+    closeModal();
+  }, [fetchVariants, closeModal]);
 
 
 
-  // Show delete confirmation
-  const handleDeleteClick = (variant) => {
-    setVariantToDelete(variant);
-    setShowDeleteConfirm(true);
-  };
 
   // Deactivate variant (soft delete)
   const handleDelete = async () => {
@@ -192,41 +173,19 @@ const ProductVariants = () => {
       fetchVariants();
     } catch (err) {
       console.error(err);
-      let errorMessage = "Failed to deactivate variant";
-      if (err.response?.data?.message) {
-        errorMessage = err.response.data.message;
+      let errorMessage = handleApiError(err, "Failed to deactivate variant");
 
-        // Improve error message for active orders
-        if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
-          errorMessage = "Cannot delete variant because it still contains active orders.";
-        }
-      } else if (err.response?.status === 403) {
-        errorMessage = "Access denied. Only admin and manager can deactivate variants";
-      } else if (err.response?.status === 404) {
-        errorMessage = "Variant not found";
-      } else if (err.response?.status >= 500) {
-        errorMessage = "Server error. Please try again later";
-      } else if (err.message) {
-        errorMessage = `Failed to deactivate variant: ${err.message}`;
-
-        // Improve error message for active orders
-        if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
-          errorMessage = "Cannot delete variant because it still contains active orders.";
-        }
+      // Improve error message for active orders
+      if (errorMessage.includes('active orders') || errorMessage.includes('pending, confirmed, or shipping')) {
+        errorMessage = "Cannot delete variant because it still contains active orders.";
       }
+
       // Only show toast, don't set error state (error state is for fetch operations)
       showToast(errorMessage, "error");
     } finally {
-      setShowDeleteConfirm(false);
-      setVariantToDelete(null);
+      handleCancelDelete();
       // Note: No error state to clear here as we don't use error state for delete operations
     }
-  };
-
-  // Cancel delete
-  const handleCancelDelete = () => {
-    setShowDeleteConfirm(false);
-    setVariantToDelete(null);
   };
 
 
