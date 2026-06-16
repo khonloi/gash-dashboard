@@ -12,6 +12,10 @@ import {
 import { io } from "socket.io-client"; // 🧩 SOCKET ADDED
 import Loading from "../components/ui/Loading";
 import DeleteConfirmModal from "../components/ui/DeleteConfirmModal";
+import Modal from "../components/ui/Modal";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import TextArea from "../components/ui/TextArea";
 import { useToast } from "../hooks/useToast";
 
 const MAX_TITLE_LENGTH = 100;
@@ -949,422 +953,317 @@ export default function Notifications() {
       </div>
 
       {/* === Modals === */}
-      <AnimatePresence>
-        {showCreate && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-white p-6 rounded-xl w-full max-w-lg shadow-xl relative"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <button
-                onClick={() => setShowCreate(false)}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+      {/* Create Notification Modal */}
+      <Modal isOpen={showCreate} onClose={() => setShowCreate(false)} maxWidth="max-w-lg">
+        <Modal.Header>
+          <span className="flex items-center gap-2 font-semibold">
+            <FiSend /> Create Notification
+          </span>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-col gap-4">
+            <Input
+              label={`Title (${newNotification.title?.length || 0}/${MAX_TITLE_LENGTH})`}
+              type="text"
+              value={newNotification.title}
+              onChange={(e) =>
+                setNewNotification({ ...newNotification, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })
+              }
+              maxLength={MAX_TITLE_LENGTH}
+            />
+
+            <TextArea
+              label={`Message (${newNotification.message?.length || 0}/${MAX_MESSAGE_LENGTH})`}
+              value={newNotification.message}
+              onChange={(e) =>
+                setNewNotification({ ...newNotification, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })
+              }
+              maxLength={MAX_MESSAGE_LENGTH}
+              rows={6}
+            />
+
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                Recipient
+              </label>
+              <select
+                className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]"
+                value={newNotification.recipient}
+                onChange={(e) =>
+                  setNewNotification({ ...newNotification, recipient: e.target.value })
+                }
               >
-                <FiX size={20} />
-              </button>
+                <option value="all">All Users</option>
+                <option value="single">Single User</option>
+                <option value="multiple">Multiple Users</option>
+                <option value="specific">Specific Users (choose)</option>
+              </select>
+            </div>
 
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <FiSend /> Create Notification
-              </h2>
-
-              <div className="flex flex-col gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title ({newNotification.title?.length || 0}/{MAX_TITLE_LENGTH})
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                    value={newNotification.title}
-                    onChange={(e) =>
-                      setNewNotification({ ...newNotification, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })
-                    }
-                    maxLength={MAX_TITLE_LENGTH}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Message ({newNotification.message?.length || 0}/{MAX_MESSAGE_LENGTH})
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
-                    value={newNotification.message}
-                    onChange={(e) =>
-                      setNewNotification({ ...newNotification, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })
-                    }
-                    maxLength={MAX_MESSAGE_LENGTH}
-                  />
-                </div>
-                <select
-                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                  value={newNotification.recipient}
-                  onChange={(e) =>
-                    setNewNotification({ ...newNotification, recipient: e.target.value })
+            {(newNotification.recipient === "single" ||
+              newNotification.recipient === "multiple") && (
+                <Input
+                  label="User ID(s)"
+                  placeholder={
+                    newNotification.recipient === "single"
+                      ? "Enter user ID"
+                      : "Enter multiple IDs, separated by commas"
                   }
-                >
-                  <option value="all">All Users</option>
-                  <option value="single">Single User</option>
-                  <option value="multiple">Multiple Users</option>
-                  <option value="specific">Specific Users (choose)</option>
-                </select>
-
-                {(newNotification.recipient === "single" ||
-                  newNotification.recipient === "multiple") && (
-                    <input
-                      type="text"
-                      placeholder={
-                        newNotification.recipient === "single"
-                          ? "Enter user ID"
-                          : "Enter multiple IDs, separated by commas"
-                      }
-                      className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                      value={newNotification.userId}
-                      onChange={(e) =>
-                        setNewNotification({ ...newNotification, userId: e.target.value })
-                      }
-                    />
-                  )}
-
-                {newNotification.recipient === "specific" && (
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={openSelectUsersModal}
-                      className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
-                    >
-                      Select Users
-                    </button>
-                    <div className="text-sm text-gray-700">
-                      {selectedUsers.length > 0 ? (
-                        <span>{selectedUsers.length} user{selectedUsers.length > 1 ? "s" : ""} selected</span>
-                      ) : (
-                        <span className="text-gray-400">No users selected</span>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                <button
-                  onClick={handleSendNotification}
-                  disabled={sending}
-                  className={`mt-2 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${sending ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
-                >
-                  {sending ? (
-                    <>
-                      <Loading type="inline" size="small" message="" className="mr-1" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <FiSend /> Send Notification
-                    </>
-                  )}
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Select Users Modal (popup B) */}
-      <AnimatePresence>
-        {showSelectUsersModal && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-60"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-2xl shadow-xl relative border"
-
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.95 }}
-            >
-              <button
-                onClick={closeSelectUsersModal}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-              >
-                <FiX size={20} />
-              </button>
-
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                Select Users
-              </h2>
-
-              {/* Search input */}
-              <div className="mb-3">
-                <input
-                  type="text"
-                  placeholder="Search users by name, username, or email..."
-                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                  value={searchUser}
-                  onChange={(e) => setSearchUser(e.target.value.slice(0, MAX_SEARCH_LENGTH))}
-                  maxLength={MAX_SEARCH_LENGTH}
+                  value={newNotification.userId}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, userId: e.target.value })
+                  }
                 />
-              </div>
-
-              {/* Select All checkbox */}
-              {users.length > 0 && (
-                <label className="flex items-center gap-2 mb-2 font-medium">
-                  <input
-                    type="checkbox"
-                    checked={
-                      users.length > 0 && selectedUsers.length === users.length
-                    }
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedUsers(users.map((u) => u._id));
-                      } else {
-                        setSelectedUsers([]);
-                      }
-                    }}
-                    className="w-4 h-4"
-                  />
-                  <span>Select All</span>
-                </label>
               )}
 
-              {/* Filtered user list */}
-              {(() => {
-                const filteredUsers = users.filter(
-                  (u) =>
-                    u.fullName?.toLowerCase().includes(searchUser.toLowerCase()) ||
-                    u.username?.toLowerCase().includes(searchUser.toLowerCase()) ||
-                    u.email?.toLowerCase().includes(searchUser.toLowerCase())
-                );
+            {newNotification.recipient === "specific" && (
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="secondary"
+                  onClick={openSelectUsersModal}
+                >
+                  Select Users
+                </Button>
+                <div className="text-sm text-gray-700">
+                  {selectedUsers.length > 0 ? (
+                    <span>{selectedUsers.length} user{selectedUsers.length > 1 ? "s" : ""} selected</span>
+                  ) : (
+                    <span className="text-gray-400">No users selected</span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowCreate(false)}
+            disabled={sending}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSendNotification}
+            disabled={sending}
+            className="flex items-center gap-2"
+          >
+            {sending ? (
+              <>
+                <Loading type="inline" size="small" message="" className="mr-1" />
+                Sending...
+              </>
+            ) : (
+              <>
+                <FiSend /> Send Notification
+              </>
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-                return (
-                  <div className="max-h-80 overflow-y-auto border rounded-lg p-2">
-                    {usersLoading ? (
-                      <div className="p-4 text-center text-gray-500">
-                        Loading accounts...
-                      </div>
-                    ) : usersError ? (
-                      <div className="p-4 text-center text-red-500">{usersError}</div>
-                    ) : filteredUsers.length === 0 ? (
-                      <div className="p-4 text-center text-gray-500">No users found.</div>
-                    ) : (
-                      <ul className="space-y-2">
-                        {filteredUsers.map((u) => {
-                          const displayName =
-                            u.name || u.fullName || u.username || u.email || "Unknown";
-                          return (
-                            <li
-                              key={u._id}
-                              className="flex items-center justify-between p-2 hover:bg-gray-50 rounded"
-                            >
-                              <div className="flex items-center gap-3">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedUsers.includes(u._id)}
-                                  onChange={() => toggleUserSelection(u._id)}
-                                  className="w-4 h-4"
-                                />
-                                <div className="text-sm">
-                                  <div className="font-medium">{u.username}</div>
-                                  <div className="text-xs text-gray-500">
-                                    {displayName !== u.username ? displayName : u.email}
-                                  </div>
+      {/* Select Users Modal (popup B) */}
+      <Modal isOpen={showSelectUsersModal} onClose={closeSelectUsersModal} maxWidth="max-w-2xl" zIndex="z-[120]">
+        <Modal.Header>Select Users</Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-col gap-4">
+            <Input
+              label="Search Users"
+              placeholder="Search users by name, username, or email..."
+              value={searchUser}
+              onChange={(e) => setSearchUser(e.target.value.slice(0, MAX_SEARCH_LENGTH))}
+              maxLength={MAX_SEARCH_LENGTH}
+            />
+
+            {users.length > 0 && (
+              <label className="flex items-center gap-2 mb-2 font-medium">
+                <input
+                  type="checkbox"
+                  checked={
+                    users.length > 0 && selectedUsers.length === users.length
+                  }
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedUsers(users.map((u) => u._id));
+                    } else {
+                      setSelectedUsers([]);
+                    }
+                  }}
+                  className="w-4 h-4"
+                />
+                <span>Select All</span>
+              </label>
+            )}
+
+            {(() => {
+              const filteredUsers = users.filter(
+                (u) =>
+                  u.fullName?.toLowerCase().includes(searchUser.toLowerCase()) ||
+                  u.username?.toLowerCase().includes(searchUser.toLowerCase()) ||
+                  u.email?.toLowerCase().includes(searchUser.toLowerCase())
+              );
+
+              return (
+                <div className="max-h-80 overflow-y-auto border rounded-lg p-2">
+                  {usersLoading ? (
+                    <div className="p-4 text-center text-gray-500">
+                      Loading accounts...
+                    </div>
+                  ) : usersError ? (
+                    <div className="p-4 text-center text-red-500">{usersError}</div>
+                  ) : filteredUsers.length === 0 ? (
+                    <div className="p-4 text-center text-gray-500">No users found.</div>
+                  ) : (
+                    <ul className="space-y-2">
+                      {filteredUsers.map((u) => {
+                        const displayName =
+                          u.name || u.fullName || u.username || u.email || "Unknown";
+                        return (
+                          <li
+                            key={u._id}
+                            className="flex items-center justify-between p-2 hover:bg-gray-50 rounded"
+                          >
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="checkbox"
+                                checked={selectedUsers.includes(u._id)}
+                                onChange={() => toggleUserSelection(u._id)}
+                                className="w-4 h-4"
+                              />
+                              <div className="text-sm">
+                                <div className="font-medium">{u.username}</div>
+                                <div className="text-xs text-gray-500">
+                                  {displayName !== u.username ? displayName : u.email}
                                 </div>
                               </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  </div>
-                );
-              })()}
-
-              <div className="mt-4 flex justify-end gap-3">
-                <button
-                  onClick={closeSelectUsersModal}
-                  className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-amber-50 hover:text-gray-800 hover:border-amber-300 transition-all duration-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={confirmSelectUsers}
-                  className="px-3 lg:px-4 py-2 lg:py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  Confirm ({selectedUsers.length})
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={closeSelectUsersModal}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={confirmSelectUsers}
+          >
+            Confirm ({selectedUsers.length})
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* === Edit Template Modal === */}
-      <AnimatePresence>
-        {showEditTemplate && editingTemplate && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      <Modal isOpen={showEditTemplate && !!editingTemplate} onClose={() => setShowEditTemplate(false)} maxWidth="max-w-lg">
+        <Modal.Header>Edit Template</Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-col gap-4">
+            <Input
+              label={`Template Name (${editingTemplate?.name?.length || 0}/${MAX_TEMPLATE_NAME_LENGTH})`}
+              value={editingTemplate?.name || ""}
+              onChange={(e) => setEditingTemplate({ ...editingTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
+              maxLength={MAX_TEMPLATE_NAME_LENGTH}
+            />
+
+            <Input
+              label={`Title (${editingTemplate?.title?.length || 0}/${MAX_TITLE_LENGTH})`}
+              value={editingTemplate?.title || ""}
+              onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
+              maxLength={MAX_TITLE_LENGTH}
+            />
+
+            <TextArea
+              label={`Message (${editingTemplate?.message?.length || 0}/${MAX_MESSAGE_LENGTH})`}
+              value={editingTemplate?.message || ""}
+              onChange={(e) => setEditingTemplate({ ...editingTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
+              maxLength={MAX_MESSAGE_LENGTH}
+              rows={6}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowEditTemplate(false)}
           >
-            <motion.div
-              className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-lg shadow-xl relative border"
-
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <button
-                onClick={() => setShowEditTemplate(false)}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-              >
-                <FiX size={20} />
-              </button>
-
-              <h2 className="text-xl font-semibold mb-4">
-                Edit Template
-              </h2>
-
-              <div className="flex flex-col gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Template Name ({editingTemplate.name?.length || 0}/{MAX_TEMPLATE_NAME_LENGTH})
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                    value={editingTemplate.name || ""}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
-                    maxLength={MAX_TEMPLATE_NAME_LENGTH}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title ({editingTemplate.title?.length || 0}/{MAX_TITLE_LENGTH})
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                    value={editingTemplate.title || ""}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
-                    maxLength={MAX_TITLE_LENGTH}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Message ({editingTemplate.message?.length || 0}/{MAX_MESSAGE_LENGTH})
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
-                    value={editingTemplate.message || ""}
-                    onChange={(e) => setEditingTemplate({ ...editingTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
-                    maxLength={MAX_MESSAGE_LENGTH}
-                  />
-                </div>
-                <button
-                  onClick={handleSaveTemplate}
-                  className="mt-2 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105"
-                >
-                  <FiEdit2 /> Update Template
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSaveTemplate}
+            className="flex items-center gap-2"
+          >
+            <FiEdit2 /> Update Template
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* === Create Template Modal === */}
-      <AnimatePresence>
-        {showCreateTemplate && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      <Modal isOpen={showCreateTemplate} onClose={() => setShowCreateTemplate(false)} maxWidth="max-w-lg">
+        <Modal.Header>Create Template</Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-col gap-4">
+            <Input
+              label={`Template Name (${newTemplate.name?.length || 0}/${MAX_TEMPLATE_NAME_LENGTH})`}
+              value={newTemplate.name}
+              onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
+              maxLength={MAX_TEMPLATE_NAME_LENGTH}
+            />
+
+            <Input
+              label={`Title (${newTemplate.title?.length || 0}/${MAX_TITLE_LENGTH})`}
+              value={newTemplate.title}
+              onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
+              maxLength={MAX_TITLE_LENGTH}
+            />
+
+            <TextArea
+              label={`Message (${newTemplate.message?.length || 0}/${MAX_MESSAGE_LENGTH})`}
+              value={newTemplate.message}
+              onChange={(e) => setNewTemplate({ ...newTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
+              maxLength={MAX_MESSAGE_LENGTH}
+              rows={6}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowCreateTemplate(false)}
+            disabled={savingTemplate}
           >
-            <motion.div
-              className="bg-white p-4 lg:p-6 rounded-xl w-full max-w-lg shadow-xl relative border"
-
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <button
-                onClick={() => setShowCreateTemplate(false)}
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-              >
-                <FiX size={20} />
-              </button>
-
-              <h2 className="text-xl font-semibold mb-4">
-                Create Template
-              </h2>
-
-              <div className="flex flex-col gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Template Name ({newTemplate.name?.length || 0}/{MAX_TEMPLATE_NAME_LENGTH})
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                    value={newTemplate.name}
-                    onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value.slice(0, MAX_TEMPLATE_NAME_LENGTH) })}
-                    maxLength={MAX_TEMPLATE_NAME_LENGTH}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title ({newTemplate.title?.length || 0}/{MAX_TITLE_LENGTH})
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-                    value={newTemplate.title}
-                    onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value.slice(0, MAX_TITLE_LENGTH) })}
-                    maxLength={MAX_TITLE_LENGTH}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Message ({newTemplate.message?.length || 0}/{MAX_MESSAGE_LENGTH})
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60 min-h-[20em]"
-                    value={newTemplate.message}
-                    onChange={(e) => setNewTemplate({ ...newTemplate, message: e.target.value.slice(0, MAX_MESSAGE_LENGTH) })}
-                    maxLength={MAX_MESSAGE_LENGTH}
-                  />
-                </div>
-                <button
-                  onClick={handleCreateTemplate}
-                  disabled={savingTemplate}
-                  className={`mt-2 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${savingTemplate ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
-                >
-                  {savingTemplate ? (
-                    <>
-                      <Loading type="inline" size="small" message="" className="mr-1" />
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <FiPlus /> Save Template
-                    </>
-                  )}
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleCreateTemplate}
+            disabled={savingTemplate}
+            className="flex items-center gap-2"
+          >
+            {savingTemplate ? (
+              <>
+                <Loading type="inline" size="small" message="" className="mr-1" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <FiPlus /> Save Template
+              </>
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       <DeleteConfirmModal
         isOpen={showNotificationConfirm && !!notificationToDelete}

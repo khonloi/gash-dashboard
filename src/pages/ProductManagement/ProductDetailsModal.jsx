@@ -7,6 +7,8 @@ import BulkVariantModal from './BulkVariantModal';
 import ProductVariantList from '../ProductVariant/ProductVariantList';
 import ImageModal from '../../components/ui/ImageModal';
 import Loading from '../../components/ui/Loading';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const ProductDetailsModal = ({
     isOpen,
@@ -198,56 +200,26 @@ const ProductDetailsModal = ({
 
     return (
         <>
-            <style>{`
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4" onClick={onClose}>
-                <div
-                    className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-6xl max-h-[90vh] flex flex-col transform transition-all duration-300"
-
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div
-                        className="flex items-center justify-between p-4 sm:p-5 border-b shrink-0"
-
-                    >
-                        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-                            Product Details
-                        </h2>
-                        <div className="flex items-center gap-2">
-                            {!viewOnly && realtimeProductStatus !== 'discontinued' && (
-                                <button
-                                    onClick={handleEditProduct}
-                                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                    style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                                    title="Edit Product"
-                                >
-                                    <FaEdit className="w-4 h-4" />
-                                    <span>Edit Product</span>
-                                </button>
-                            )}
-                            <button
-                                className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                                onClick={onClose}
-                                aria-label="Close modal"
+            <Modal isOpen={isOpen} onClose={onClose} maxWidth="max-w-6xl" zIndex="z-50">
+                <Modal.Header>
+                    <div className="flex items-center space-x-4">
+                        <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Product Details</span>
+                        {!viewOnly && realtimeProductStatus !== 'discontinued' && (
+                            <Button
+                                onClick={handleEditProduct}
+                                variant="primary"
+                                size="sm"
+                                className="flex items-center space-x-2 transform hover:scale-105"
+                                title="Edit Product"
                             >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+                                <FaEdit className="w-4 h-4" />
+                                <span>Edit Product</span>
+                            </Button>
+                        )}
                     </div>
+                </Modal.Header>
 
-                    <div
-                        className="flex-1 overflow-y-auto hide-scrollbar p-4 sm:p-5 lg:p-6 space-y-4 min-h-0"
-                        style={{
-                            scrollbarWidth: 'none', /* Firefox */
-                            msOverflowStyle: 'none', /* IE and Edge */
-                        }}
-                    >
+                <Modal.Body className="flex-1 min-h-0 overflow-y-auto">
                         {/* Overview + Images */}
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                             <div className="bg-gray-50 rounded-lg border p-2.5 sm:p-3">
@@ -408,9 +380,8 @@ const ProductDetailsModal = ({
                                 </div>
                             )}
                         </div>
-                    </div>
-                </div>
-            </div>
+                </Modal.Body>
+            </Modal>
 
             {/* Create Variant Modal */}
             <VariantModal

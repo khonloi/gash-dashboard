@@ -5,6 +5,7 @@ import Api from '../../common/SummaryAPI';
 import { useToast } from '../../hooks/useToast';
 import { LiveTv, Comment, Inventory2, ThumbUp, Refresh, Schedule, Flag, PushPin, MoreVert } from '@mui/icons-material';
 import Loading from '../../components/ui/Loading';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 import LiveStreamProducts from './components/LiveStreamProducts';
 import { format } from 'date-fns';
 import io from 'socket.io-client';
@@ -1080,48 +1081,27 @@ const CommentItem = ({ comment, user, isAdmin, onPinComment, onUnpinComment, onH
             </div>
 
             {/* Delete Confirmation Modal */}
-            {showDeleteModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-[9999]">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowDeleteModal(false)}></div>
-                    <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 border border-gray-100">
-                        <div className="p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                </div>
-                                <h2 className="text-xl font-bold text-gray-800">Delete Comment</h2>
+            <DeleteConfirmModal
+                isOpen={showDeleteModal}
+                title="Delete Comment"
+                message={
+                    comment.commentText ? (
+                        <>
+                            Are you sure you want to delete this comment?
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-3">
+                                <p className="text-sm text-gray-700 line-clamp-3">
+                                    "{comment.commentText || comment.content}"
+                                </p>
                             </div>
-                            <p className="text-gray-600 mb-2">Are you sure you want to delete this comment?</p>
-                            {comment.commentText && (
-                                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">
-                                    <p className="text-sm text-gray-700 line-clamp-3">
-                                        "{comment.commentText || comment.content}"
-                                    </p>
-                                </div>
-                            )}
-                            <div className="flex gap-3 justify-end">
-                                <button
-                                    onClick={() => setShowDeleteModal(false)}
-                                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        onHideComment(comment._id);
-                                        setShowDeleteModal(false);
-                                    }}
-                                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+                        </>
+                    ) : "Are you sure you want to delete this comment?"
+                }
+                onConfirm={() => {
+                    onHideComment(comment._id);
+                    setShowDeleteModal(false);
+                }}
+                onCancel={() => setShowDeleteModal(false)}
+            />
         </>
     );
 };

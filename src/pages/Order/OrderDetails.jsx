@@ -6,6 +6,8 @@ import UploadRefundProofModal from "./UploadRefundProofModal";
 import Loading from "../../components/ui/Loading";
 import { getOrderStatusOptionDisabled } from "../../utils/orderUtils";
 import { ToastContext } from "../../context/ToastContext";
+import Modal from "../../components/ui/Modal";
+import Button from "../../components/ui/Button";
 
 // Format price to VND
 function formatPrice(price) {
@@ -358,70 +360,57 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
     const isRefunded = currentOrder?.refund_status === 'refunded';
 
 
-    if (!isOpen) return null;
-
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300">
-                {/* Header */}
-                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0">
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Order Details</h2>
-                    <div className="flex items-center gap-2">
-                        {!showUpdateForm && !showRefundForm && (
-                            <>
-                                {isRefundStatusUpdateAllowed() && (
-                                    <button
-                                        onClick={handleRefundEditClick}
-                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
-                                        title="Process refund status and proof"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                                        </svg>
-                                        <span className="hidden sm:inline">Process Refund</span>
-                                    </button>
-                                )}
-                                {isOrderStatusUpdateAllowed() && (
-                                    <button
-                                        onClick={handleEditClick}
-                                        className="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-xl transition-all duration-300 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] transform hover:scale-105"
-                                        title="Update order status"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                        <span className="hidden sm:inline">Update Status</span>
-                                    </button>
-                                )}
-                            </>
-                        )}
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                            aria-label="Close modal"
-                        >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
+        <>
+            <style>{`
+                .hide-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                .hide-scrollbar {
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+            `}</style>
+            <Modal isOpen={isOpen} onClose={onClose} maxWidth="max-w-4xl" zIndex="z-50">
+            <Modal.Header>
+                <div className="flex items-center space-x-4">
+                    <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Order Details</span>
+                    {!showUpdateForm && !showRefundForm && (
+                        <>
+                            {isRefundStatusUpdateAllowed() && (
+                                <Button
+                                    onClick={handleRefundEditClick}
+                                    variant="primary"
+                                    size="sm"
+                                    className="flex items-center space-x-2 transform hover:scale-105"
+                                    title="Process refund status and proof"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                    </svg>
+                                    <span className="hidden sm:inline">Process Refund</span>
+                                </Button>
+                            )}
+                            {isOrderStatusUpdateAllowed() && (
+                                <Button
+                                    onClick={handleEditClick}
+                                    variant="primary"
+                                    size="sm"
+                                    className="flex items-center space-x-2 transform hover:scale-105"
+                                    title="Update order status"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    <span className="hidden sm:inline">Update Status</span>
+                                </Button>
+                            )}
+                        </>
+                    )}
                 </div>
+            </Modal.Header>
 
-                {/* Content */}
-                <style>{`
-                    .hide-scrollbar::-webkit-scrollbar {
-                        display: none;
-                    }
-                `}</style>
-                <div
-                    className="flex-1 overflow-y-auto hide-scrollbar p-4 sm:p-5 lg:p-6"
-                    style={{
-                        scrollbarWidth: 'none', /* Firefox */
-                        msOverflowStyle: 'none', /* IE and Edge */
-                    }}
-                >
+            <Modal.Body className="flex-1 min-h-0 overflow-y-auto hide-scrollbar">
                     <div className="space-y-3 sm:space-y-4">
                         {/* Order Status Overview */}
                         <div className="bg-gray-50 rounded-lg p-2.5 sm:p-3 border">
@@ -773,9 +762,9 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                             )}
                         </div>
 
-                    </div>
-                </div>
             </div>
+            </Modal.Body>
+        </Modal>
 
             {/* Update Status Modal */}
             <UpdateOrderStatusModal
@@ -807,7 +796,7 @@ const OrderDetails = ({ order, onClose, isOpen, autoOpenRefundModal = false }) =
                 imageUrl={imageModal.imageUrl}
                 alt={imageModal.alt}
             />
-        </div>
+        </>
     );
 };
 

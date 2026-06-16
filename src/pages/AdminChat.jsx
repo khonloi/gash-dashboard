@@ -16,6 +16,7 @@ import EmojiPicker from "emoji-picker-react";
 import { AuthContext } from "../context/AuthContext";
 import SummaryAPI from "../common/SummaryAPI";
 import Loading from "../components/ui/Loading";
+import ImageModal from "../components/ui/ImageModal";
 import { useToast } from "../hooks/useToast";
 
 const SOCKET_URL = "http://localhost:5000";
@@ -1007,101 +1008,13 @@ export default function AdminChat() {
         </section>
       </div>
 
-      {/* FULLSCREEN IMAGE VIEWER WITH ZOOM & PAN */}
-      {viewerImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
-          onClick={() => setViewerImage(null)}
-        >
-          <div
-            className="relative max-w-full max-h-full overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-            onWheel={(e) => {
-              e.preventDefault();
-              const delta = e.deltaY > 0 ? 0.9 : 1.1;
-              const img = e.currentTarget.querySelector("img");
-              const newScale =
-                (img.dataset.scale ? parseFloat(img.dataset.scale) : 1) * delta;
-              if (newScale >= 0.5 && newScale <= 5) {
-                img.style.transform = `scale(${newScale})`;
-                img.dataset.scale = newScale;
-              }
-            }}
-            style={{ touchAction: "pan-x pan-y pinch-zoom" }}
-          >
-            <img
-              src={viewerImage}
-              alt="Full view"
-              className="max-w-none max-h-screen object-contain transition-transform duration-200 select-none"
-              style={{ transform: "scale(1)", touchAction: "none" }}
-              data-scale="1"
-              draggable={false}
-              onMouseDown={(e) => {
-                if (e.button !== 0) return; // only left click
-                const img = e.currentTarget;
-                const startX = e.clientX;
-                const startY = e.clientY;
-                const startTranslateX = img.dataset.tx
-                  ? parseFloat(img.dataset.tx)
-                  : 0;
-                const startTranslateY = img.dataset.ty
-                  ? parseFloat(img.dataset.ty)
-                  : 0;
-
-                const onMove = (e) => {
-                  const dx = e.clientX - startX;
-                  const dy = e.clientY - startY;
-                  img.dataset.tx = startTranslateX + dx;
-                  img.dataset.ty = startTranslateY + dy;
-                  img.style.transform = `scale(${img.dataset.scale}) translate(${img.dataset.tx}px, ${img.dataset.ty}px)`;
-                };
-
-                const onUp = () => {
-                  document.removeEventListener("mousemove", onMove);
-                  document.removeEventListener("mouseup", onUp);
-                };
-
-                document.addEventListener("mousemove", onMove);
-                document.addEventListener("mouseup", onUp);
-              }}
-            />
-
-            {/* Zoom indicator */}
-            <div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded-full text-sm
-"
-            >
-              {(() => {
-                const scale =
-                  (viewerImage &&
-                    document.querySelector("[data-scale]")?.dataset.scale) ||
-                  1;
-                return `${Math.round(scale * 100)}%`;
-              })()}
-            </div>
-
-            {/* Close button */}
-            <button
-              onClick={() => setViewerImage(null)}
-              className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 text-white rounded-full p-2 transition"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={!!viewerImage}
+        onClose={() => setViewerImage(null)}
+        imageUrl={viewerImage}
+        alt="Full view"
+      />
     </div>
   );
 }

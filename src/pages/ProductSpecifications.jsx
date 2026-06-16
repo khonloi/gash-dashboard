@@ -5,6 +5,9 @@ import { ToastContext } from '../context/ToastContext';
 import Api from '../common/SummaryAPI';
 import Loading from '../components/ui/Loading';
 import DeleteConfirmModal from '../components/ui/DeleteConfirmModal';
+import Modal from '../components/ui/Modal';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
 
 const ProductSpecifications = () => {
   const { user, isAuthLoading } = useContext(AuthContext);
@@ -1317,157 +1320,105 @@ const ProductSpecifications = () => {
       )}
 
       {/* Create Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl border-2 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b">
-              <h2 className="text-xl font-semibold text-gray-900">Add New {getLabel()}</h2>
-              <button
-                onClick={handleCloseCreateModal}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                aria-label="Close modal"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-4 lg:p-6">
-              <div className="space-y-4">
-                {activeTab === 'specifcations' && (
-                  <div>
-                    <label htmlFor="create-type" className="block text-sm font-medium text-gray-700 mb-2">
-                      Type *
-                    </label>
-                    <select
-                      id="create-type"
-                      value={newForm.type}
-                      onChange={(e) => handleNewFieldChange('type', e.target.value)}
-                      className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]"
-                    >
-                      <option value="color">Color</option>
-                      <option value="size">Size</option>
-                      <option value="category">Category</option>
-                    </select>
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="create-name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="create-name"
-                    type="text"
-                    value={newForm.name}
-                    onChange={(e) => handleNewFieldChange('name', e.target.value)}
-                    className={`w-full px-3 py-2 lg:px-4 lg:py-3 border rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base ${createFieldErrors.name
-                      ? 'border-red-400 bg-white focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
-                      }`}
-                    placeholder="Enter name..."
-                    required
-                  />
-                  {createFieldErrors.name && (
-                    <p className="mt-1.5 text-sm text-red-600">{createFieldErrors.name}</p>
-                  )}
-                </div>
+      <Modal isOpen={showCreateModal} onClose={handleCloseCreateModal} maxWidth="max-w-md">
+        <Modal.Header>Add New {getLabel()}</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-4">
+            {activeTab === 'specifcations' && (
+              <div>
+                <label htmlFor="create-type" className="block text-sm font-medium text-gray-700 mb-2">
+                  Type *
+                </label>
+                <select
+                  id="create-type"
+                  value={newForm.type}
+                  onChange={(e) => handleNewFieldChange('type', e.target.value)}
+                  className="w-full px-3 py-2 lg:px-4 lg:py-3 border border-gray-300 rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]"
+                >
+                  <option value="color">Color</option>
+                  <option value="size">Size</option>
+                  <option value="category">Category</option>
+                </select>
               </div>
-            </div>
-            <div className="flex items-center justify-end space-x-3 p-4 lg:p-6 border-t">
-              <button
-                onClick={handleCloseCreateModal}
-                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={createItem}
-                className="px-6 py-2.5 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-lg bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)] transform hover:scale-105"
-                disabled={loading}
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <Loading type="inline" size="small" message="" className="mr-1" />
-                    <span>Processing...</span>
-                  </div>
-                ) : (
-                  `Add`
-                )}
-              </button>
-            </div>
+            )}
+            <Input
+              label="Name"
+              required
+              id="create-name"
+              type="text"
+              value={newForm.name}
+              onChange={(e) => handleNewFieldChange('name', e.target.value)}
+              error={createFieldErrors.name}
+              placeholder="Enter name..."
+            />
           </div>
-        </div>
-      )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={handleCloseCreateModal}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={createItem}
+            disabled={loading}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center space-x-2">
+                <Loading type="inline" size="small" message="" className="mr-1" />
+                <span>Processing...</span>
+              </div>
+            ) : (
+              'Add'
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Edit Modal */}
-      {showEditModal && editingItem && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl border-2 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b">
-              <h2 className="text-xl font-semibold text-gray-900">Edit {editingItem.type.charAt(0).toUpperCase() + editingItem.type.slice(1)}</h2>
-              <button
-                onClick={handleCloseEditModal}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                aria-label="Close modal"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-4 lg:p-6">
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="edit-name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="edit-name"
-                    type="text"
-                    value={editForm.name}
-                    onChange={(e) => handleEditFieldChange('name', e.target.value)}
-                    className={`w-full px-3 py-2 lg:px-4 lg:py-3 border rounded-lg focus:ring-2 transition-all duration-200 bg-white text-sm lg:text-base ${editFieldErrors.name
-                      ? 'border-red-400 bg-white focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 hover:border-gray-400 focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)]'
-                      }`}
-                    placeholder="Enter name..."
-                    required
-                  />
-                  {editFieldErrors.name && (
-                    <p className="mt-1.5 text-sm text-red-600">{editFieldErrors.name}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-end space-x-3 p-4 lg:p-6 border-t">
-              <button
-                onClick={handleCloseEditModal}
-                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={updateItem}
-                className="px-6 py-2.5 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-lg bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)] transform hover:scale-105"
-                disabled={loading}
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <Loading type="inline" size="small" message="" className="mr-1" />
-                    <span>Processing...</span>
-                  </div>
-                ) : (
-                  'Edit'
-                )}
-              </button>
-            </div>
+      <Modal isOpen={showEditModal && !!editingItem} onClose={handleCloseEditModal} maxWidth="max-w-md">
+        <Modal.Header>Edit {editingItem ? editingItem.type.charAt(0).toUpperCase() + editingItem.type.slice(1) : ''}</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-4">
+            <Input
+              label="Name"
+              required
+              id="edit-name"
+              type="text"
+              value={editForm.name}
+              onChange={(e) => handleEditFieldChange('name', e.target.value)}
+              error={editFieldErrors.name}
+              placeholder="Enter name..."
+            />
           </div>
-        </div>
-      )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={handleCloseEditModal}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={updateItem}
+            disabled={loading}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center space-x-2">
+                <Loading type="inline" size="small" message="" className="mr-1" />
+                <span>Processing...</span>
+              </div>
+            ) : (
+              'Edit'
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Delete Confirmation Modal */}
       <DeleteConfirmModal

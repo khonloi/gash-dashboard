@@ -3,6 +3,8 @@ import { AuthContext } from '../../context/AuthContext';
 import Api from '../../common/SummaryAPI';
 import ImageModal from '../../components/ui/ImageModal';
 import Loading from '../../components/ui/Loading';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
     const { user } = React.useContext(AuthContext);
@@ -48,47 +50,20 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
         }
     }, [isOpen]);
 
-    if (!isOpen) return null;
-
     return (
         <>
             <style>{`
                 .hide-scrollbar::-webkit-scrollbar {
                     display: none;
                 }
+                .hide-scrollbar {
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
             `}</style>
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-                <div
-                    className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300"
-
-                >
-                    {/* Modal Header */}
-                    <div
-                        className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-
-                    >
-                        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Feedback Details</h2>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                            aria-label="Close modal"
-                        >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* Modal Content */}
-                    <div
-                        className="flex-1 overflow-y-auto hide-scrollbar p-4 sm:p-5 lg:p-6"
-                        style={{
-                            scrollbarWidth: 'none', /* Firefox */
-                            msOverflowStyle: 'none', /* IE and Edge */
-                        }}
-                    >
+            <Modal isOpen={isOpen} onClose={onClose} maxWidth="max-w-4xl">
+                <Modal.Header>Feedback Details</Modal.Header>
+                <Modal.Body className="hide-scrollbar flex-1">
                         {loading ? (
                             <div className="flex items-center justify-center py-12">
                                 <Loading
@@ -400,20 +375,19 @@ const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
                                 <p className="text-gray-500">No feedback data available</p>
                             </div>
                         )}
-                    </div>
-                </div>
+                </Modal.Body>
+            </Modal>
 
-                {/* Image Modal */}
-                <ImageModal
-                    isOpen={showImageModal}
-                    onClose={() => {
-                        setShowImageModal(false);
-                        setSelectedImage('');
-                    }}
-                    imageUrl={selectedImage}
-                    alt={feedback?.product?.product_name || 'Product image'}
-                />
-            </div>
+            {/* Image Modal */}
+            <ImageModal
+                isOpen={showImageModal}
+                onClose={() => {
+                    setShowImageModal(false);
+                    setSelectedImage('');
+                }}
+                imageUrl={selectedImage}
+                alt={feedback?.product?.product_name || 'Product image'}
+            />
         </>
     );
 };
