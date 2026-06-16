@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import Api from '../../common/SummaryAPI';
 import { useToast } from '../../hooks/useToast';
 import { LiveTv, Comment, Inventory2, ThumbUp, Refresh, Schedule, Flag, PushPin, MoreVert } from '@mui/icons-material';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import LiveStreamProducts from './components/LiveStreamProducts';
 import { format } from 'date-fns';
 import io from 'socket.io-client';

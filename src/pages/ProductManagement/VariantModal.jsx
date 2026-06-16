@@ -1,7 +1,9 @@
 // VariantModal.jsx - Combined Create and Edit Variant Modal
 import React, { useState, useCallback, useEffect, useContext } from 'react';
-import { ToastContext } from '../context/ToastContext';
-import Api from '../common/SummaryAPI';
+import { ToastContext } from '../../context/ToastContext';
+import Api from '../../common/SummaryAPI';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const VariantModal = ({
     isOpen,
@@ -416,36 +418,12 @@ const VariantModal = ({
     if (isEditMode && !variant) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-            <div
-                className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-2xl max-h-[90vh] flex flex-col transform transition-all duration-300"
+        <Modal isOpen={isOpen} onClose={handleClose} maxWidth="max-w-2xl" zIndex="z-50">
+            <Modal.Header>
+                {isEditMode ? 'Edit Variant' : 'Add New Variant'}
+            </Modal.Header>
 
-                onClick={(e) => e.stopPropagation()}
-            >
-                {/* Header */}
-                <div
-                    className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-
-                >
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-                        {isEditMode ? 'Edit Variant' : 'Add New Variant'}
-                    </h2>
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        aria-label="Close"
-                        disabled={loading}
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Body */}
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <Modal.Body className="p-4 sm:p-6 lg:p-8 flex-1">
                     {product && (
                         <div className="mb-5 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                             <p className="text-sm text-blue-800">
@@ -620,43 +598,29 @@ const VariantModal = ({
                             <p className="text-red-600 text-sm">{error}</p>
                         </div>
                     )}
-                </div>
+            </Modal.Body>
 
-                {/* Footer */}
-                <div
-                    className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0"
-
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose} disabled={loading}>
+                    Cancel
+                </Button>
+                <Button 
+                    variant="primary" 
+                    onClick={handleSubmit} 
+                    disabled={loading}
+                    className="px-6"
                 >
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        disabled={loading}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
-                        style={{
-                            '--tw-ring-color': 'rgb(217 119 6)'
-                        }}
-                    >
-                        {loading ? (
-                            <div className="flex items-center justify-center space-x-2">
-                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                                <span>Processing...</span>
-                            </div>
-                        ) : (
-                            isEditMode ? 'Edit' : 'Add'
-                        )}
-                    </button>
-                </div>
-            </div>
-        </div>
+                    {loading ? (
+                        <div className="flex items-center justify-center space-x-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+                            <span>Processing...</span>
+                        </div>
+                    ) : (
+                        isEditMode ? 'Edit' : 'Add'
+                    )}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 

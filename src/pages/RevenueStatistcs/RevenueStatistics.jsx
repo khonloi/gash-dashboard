@@ -19,7 +19,7 @@ import RevenueByWeek from "./RevenueByWeek";
 import RevenueByMonth from "./RevenueByMonth";
 import RevenueByYear from "./RevenueByYear";
 import RevenueByDay from "./RevenueByDay";
-import Loading from "../../components/Loading";
+import Loading from "../../components/ui/Loading";
 
 // Register Chart.js components
 ChartJS.register(

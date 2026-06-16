@@ -14,7 +14,7 @@ import {
 } from 'chart.js';
 import { FaShoppingCart, FaCheckCircle, FaClock, FaTimesCircle, FaDollarSign, FaHourglassHalf, FaUndo } from 'react-icons/fa';
 import Api from '../../common/SummaryAPI';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 
 // Register Chart.js components
 ChartJS.register(

@@ -2,8 +2,10 @@
 import React, { useState, useCallback, useContext, useRef, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { MdFormatBold, MdFormatItalic, MdFormatListBulleted, MdFormatListNumbered, MdLink, MdFormatUnderlined, MdLooksOne, MdLooksTwo, MdLooks3 } from 'react-icons/md';
-import { ToastContext } from '../context/ToastContext';
-import Api from '../common/SummaryAPI';
+import { ToastContext } from '../../context/ToastContext';
+import Api from '../../common/SummaryAPI';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const ProductModal = ({
     isOpen,
@@ -24,10 +26,9 @@ const ProductModal = ({
         categoryId: '',
         description: '',
         productStatus: 'pending', // Default to 'pending' - will be set to 'active' when variant is added
-        productImageIds: []
     });
-    const [newImages, setNewImages] = useState([]);
-    const [newImagePreviews, setNewImagePreviews] = useState([]);
+    const [imagesList, setImagesList] = useState([]);
+    const [imageUrlLink, setImageUrlLink] = useState('');
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [validationErrors, setValidationErrors] = useState({});
     const descriptionRef = useRef(null);
@@ -81,13 +82,19 @@ const ProductModal = ({
                 categoryId: product.categoryId?._id || product.categoryId || '',
                 description: product.description || '',
                 productStatus: product.productStatus || 'active',
-                productImageIds: product.productImageIds || []
             };
             setFormData(initialData);
-            setNewImages([]);
-            setNewImagePreviews([]);
+            
+            const initialImages = (product.productImageIds || []).map(img => ({
+                type: 'existing',
+                url: img.imageUrl,
+                isMain: img.isMain
+            }));
+            setImagesList(initialImages);
+            setImageUrlLink('');
+            
             // Find the main image index
-            const mainIndex = product.productImageIds?.findIndex(img => img.isMain) || 0;
+            const mainIndex = initialImages.findIndex(img => img.isMain);
             setMainImageIndex(mainIndex >= 0 ? mainIndex : 0);
 
             // Set description HTML
@@ -101,10 +108,9 @@ const ProductModal = ({
                 categoryId: '',
                 description: '',
                 productStatus: 'pending', // Default to 'pending' - will be set to 'active' when variant is added
-                productImageIds: []
             });
-            setNewImages([]);
-            setNewImagePreviews([]);
+            setImagesList([]);
+            setImageUrlLink('');
             setMainImageIndex(0);
             setValidationErrors({});
             if (descriptionRef.current) {
@@ -182,35 +188,18 @@ const ProductModal = ({
         if (descriptionError) errors.description = descriptionError;
 
         // Validate images
-        if (isEditMode) {
-            // Edit mode: combine existing and new images
-            const hasExistingImages = formData.productImageIds && formData.productImageIds.length > 0;
-            const hasNewImages = newImages.length > 0;
-            const allImagesCount = (formData.productImageIds?.length || 0) + newImages.length;
-
-            if (!hasExistingImages && !hasNewImages) {
-                errors.images = 'Please fill in all required fields';
-            } else {
-                // Validate mainImageIndex is valid (within range of all images)
-                if (mainImageIndex < 0 || mainImageIndex >= allImagesCount) {
-                    errors.images = 'Exactly one product image must have isMain set to true';
-                }
-            }
+        if (imagesList.length === 0) {
+            errors.images = 'Please fill in all required fields';
         } else {
-            // Create mode: only new images
-            if (newImages.length === 0) {
-                errors.images = 'Please fill in all required fields';
-            } else {
-                // Validate mainImageIndex is valid (within range)
-                if (mainImageIndex < 0 || mainImageIndex >= newImages.length) {
-                    errors.images = 'Exactly one product image must have isMain set to true';
-                }
+            // Validate mainImageIndex is valid (within range of all images)
+            if (mainImageIndex < 0 || mainImageIndex >= imagesList.length) {
+                errors.images = 'Exactly one product image must have isMain set to true';
             }
         }
 
         setValidationErrors(errors);
         return Object.keys(errors).length === 0;
-    }, [formData, newImages, mainImageIndex, validateField, isEditMode]);
+    }, [formData, imagesList, mainImageIndex, validateField]);
 
     // Handle field change with real-time validation
     const handleFieldChange = useCallback((field, value) => {
@@ -250,8 +239,7 @@ const ProductModal = ({
                 const response = await Api.upload.image(file);
 
                 // Backend returns: { success: true, url: '...', filename: '...' }
-                // axiosClient returns full response object, so URL is at response.data.url
-                const imageUrl = response.data?.url;
+                const imageUrl = response.data?.url || response.data?.data?.url;
 
                 if (!imageUrl) {
                     if (attempt === retries) {
@@ -286,42 +274,6 @@ const ProductModal = ({
         return '';
     }, []);
 
-    const uploadMultipleImages = useCallback(async (files) => {
-        if (!files || files.length === 0) return [];
-
-        // Try multiple upload first
-        try {
-            const response = await Api.upload.multiple(files);
-
-            // Backend returns: { success: true, files: [{ url: '...', filename: '...' }, ...] }
-            // axiosClient returns full response object, so files are at response.data.files
-            const uploadedFiles = response.data?.files || [];
-
-            if (uploadedFiles && uploadedFiles.length > 0) {
-                // Extract URLs from the files array
-                const imageUrls = uploadedFiles.map(file => file.url).filter(url => url);
-
-                if (imageUrls.length === files.length) {
-                    return imageUrls;
-                }
-            }
-        } catch {
-            // Fall through to single upload
-        }
-
-        // Fallback: Upload files one by one with retry
-        const uploadedUrls = [];
-
-        for (let i = 0; i < files.length; i++) {
-            const url = await uploadSingleImage(files[i], 2); // 2 retries
-            if (url) {
-                uploadedUrls.push(url);
-            }
-        }
-
-        return uploadedUrls;
-    }, [uploadSingleImage]);
-
     // Handle new image file selection
     const handleNewImageFilesChange = useCallback((e) => {
         const files = Array.from(e.target.files || []);
@@ -335,24 +287,49 @@ const ProductModal = ({
             return;
         }
 
-        setNewImages(prev => [...prev, ...files]);
-
-        // Create previews
         files.forEach(file => {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setNewImagePreviews(prev => [...prev, reader.result]);
+                setImagesList(prev => [
+                    ...prev,
+                    {
+                        type: 'file',
+                        file: file,
+                        url: reader.result
+                    }
+                ]);
             };
             reader.readAsDataURL(file);
         });
-    }, []);
+        e.target.value = '';
+    }, [showToast]);
 
-    // Remove an existing image (edit mode only)
-    const removeExistingImage = useCallback((index) => {
-        setFormData(prev => ({
+    // Handle adding image link
+    const handleAddImageLink = useCallback(() => {
+        if (!imageUrlLink || imageUrlLink.trim() === '') return;
+        const trimmedLink = imageUrlLink.trim();
+
+        // Basic URL validation
+        try {
+            new URL(trimmedLink);
+        } catch (_) {
+            showToast('Please enter a valid image URL', 'error');
+            return;
+        }
+
+        setImagesList(prev => [
             ...prev,
-            productImageIds: prev.productImageIds.filter((_, i) => i !== index)
-        }));
+            {
+                type: 'link',
+                url: trimmedLink
+            }
+        ]);
+        setImageUrlLink('');
+    }, [imageUrlLink, showToast]);
+
+    // Remove an image
+    const removeImage = useCallback((index) => {
+        setImagesList(prev => prev.filter((_, i) => i !== index));
         // Adjust main image index if needed
         if (mainImageIndex === index) {
             setMainImageIndex(0);
@@ -360,27 +337,6 @@ const ProductModal = ({
             setMainImageIndex(prev => prev - 1);
         }
     }, [mainImageIndex]);
-
-    // Remove a new image
-    const removeNewImage = useCallback((index) => {
-        setNewImages(prev => prev.filter((_, i) => i !== index));
-        setNewImagePreviews(prev => prev.filter((_, i) => i !== index));
-        // Adjust main image index if needed
-        if (isEditMode) {
-            const adjustedIndex = index + (formData.productImageIds?.length || 0);
-            if (mainImageIndex === adjustedIndex) {
-                setMainImageIndex(0);
-            } else if (mainImageIndex > adjustedIndex) {
-                setMainImageIndex(prev => prev - 1);
-            }
-        } else {
-            if (mainImageIndex === index) {
-                setMainImageIndex(0);
-            } else if (mainImageIndex > index) {
-                setMainImageIndex(prev => prev - 1);
-            }
-        }
-    }, [formData.productImageIds, mainImageIndex, isEditMode]);
 
     // Handle form submit
     const handleSubmit = useCallback(async (e) => {
@@ -398,74 +354,34 @@ const ProductModal = ({
         }
 
         try {
-            if (isEditMode) {
-                // Edit mode: Upload new images if any
-                let updatedImageData = [...(formData.productImageIds || [])];
-
-                if (newImages.length > 0) {
-                    const uploadedImageUrls = await uploadMultipleImages(newImages);
-
-                    // Validate that at least some images were uploaded successfully
-                    if (uploadedImageUrls.length === 0) {
-                        console.error('All images failed to upload');
-                        showToast('All images failed to upload. Please try again.', 'error');
+            // Process and upload images
+            const finalImages = [];
+            for (let i = 0; i < imagesList.length; i++) {
+                const img = imagesList[i];
+                if (img.type === 'file') {
+                    const uploadedUrl = await uploadSingleImage(img.file);
+                    if (!uploadedUrl) {
+                        showToast('Failed to upload one or more images. Please try again.', 'error');
+                        setLocalLoading(false);
                         return;
                     }
-
-                    if (uploadedImageUrls.length !== newImages.length) {
-                        const failedCount = newImages.length - uploadedImageUrls.length;
-                        console.warn(`Some images failed to upload: ${failedCount} out of ${newImages.length} failed`);
-                        showToast(`${uploadedImageUrls.length} out of ${newImages.length} images uploaded successfully. ${failedCount} image(s) failed.`, 'warning');
-                    }
-
-                    // Add new images to the array
-                    const newImageData = uploadedImageUrls.map(url => ({
-                        imageUrl: url,
-                        isMain: false
-                    }));
-                    updatedImageData = [...updatedImageData, ...newImageData];
+                    finalImages.push({
+                        imageUrl: uploadedUrl,
+                        isMain: i === mainImageIndex
+                    });
+                } else {
+                    finalImages.push({
+                        imageUrl: img.url,
+                        isMain: i === mainImageIndex
+                    });
                 }
-
-                // Set the main image
-                updatedImageData = updatedImageData.map((img, index) => ({
-                    ...img,
-                    isMain: index === mainImageIndex
-                }));
-
-                // Call parent onSubmit with updated data
-                await onSubmit({
-                    ...formData,
-                    productImageIds: updatedImageData,
-                });
-            } else {
-                // Create mode: Upload all images
-                const uploadedImageUrls = await uploadMultipleImages(newImages);
-
-                // Validate that at least some images were uploaded successfully
-                if (uploadedImageUrls.length === 0) {
-                    console.error('All images failed to upload');
-                    showToast('All images failed to upload. Please try again.', 'error');
-                    return;
-                }
-
-                if (uploadedImageUrls.length !== newImages.length) {
-                    const failedCount = newImages.length - uploadedImageUrls.length;
-                    console.warn(`Some images failed to upload: ${failedCount} out of ${newImages.length} failed`);
-                    showToast(`${uploadedImageUrls.length} out of ${newImages.length} images uploaded successfully. ${failedCount} image(s) failed.`, 'warning');
-                }
-
-                // Prepare image data with isMain flag
-                const imageData = uploadedImageUrls.map((url, index) => ({
-                    imageUrl: url,
-                    isMain: index === mainImageIndex
-                }));
-
-                // Call parent onSubmit with form data and images
-                await onSubmit({
-                    ...formData,
-                    productImageIds: imageData,
-                });
             }
+
+            // Call parent onSubmit with form data and images
+            await onSubmit({
+                ...formData,
+                productImageIds: finalImages,
+            });
 
             // Reset form
             setFormData({
@@ -473,10 +389,9 @@ const ProductModal = ({
                 categoryId: '',
                 description: '',
                 productStatus: 'pending', // Default to 'pending' - will be set to 'active' when variant is added
-                productImageIds: []
             });
-            setNewImages([]);
-            setNewImagePreviews([]);
+            setImagesList([]);
+            setImageUrlLink('');
             setMainImageIndex(0);
             setValidationErrors({});
             setLocalLoading(false);
@@ -511,18 +426,9 @@ const ProductModal = ({
                         blankFields.description = "Please fill in all required fields";
                         hasFieldErrors = true;
                     }
-                    if (isEditMode) {
-                        const hasExistingImages = formData.productImageIds && formData.productImageIds.length > 0;
-                        const hasNewImages = newImages.length > 0;
-                        if (!hasExistingImages && !hasNewImages) {
-                            blankFields.images = "Please fill in all required fields";
-                            hasFieldErrors = true;
-                        }
-                    } else {
-                        if (newImages.length === 0) {
-                            blankFields.images = "Please fill in all required fields";
-                            hasFieldErrors = true;
-                        }
+                    if (imagesList.length === 0) {
+                        blankFields.images = "Please fill in all required fields";
+                        hasFieldErrors = true;
                     }
                     if (Object.keys(blankFields).length > 0) {
                         setValidationErrors(prev => ({ ...prev, ...blankFields }));
@@ -598,7 +504,7 @@ const ProductModal = ({
         } finally {
             setLocalLoading(false);
         }
-    }, [formData, newImages, mainImageIndex, uploadMultipleImages, onSubmit, validateForm, showToast, isEditMode]);
+    }, [formData, imagesList, mainImageIndex, onSubmit, validateForm, uploadSingleImage, showToast, isEditMode]);
 
     // Reset form when modal closes
     const handleClose = useCallback(() => {
@@ -607,10 +513,9 @@ const ProductModal = ({
             categoryId: '',
             description: '',
             productStatus: 'active',
-            productImageIds: []
         });
-        setNewImages([]);
-        setNewImagePreviews([]);
+        setImagesList([]);
+        setImageUrlLink('');
         setMainImageIndex(0);
         setValidationErrors({});
         onClose();
@@ -619,47 +524,14 @@ const ProductModal = ({
     if (!isOpen) return null;
     if (isEditMode && !product) return null;
 
-    // Combine images for display (edit mode only)
-    const allImages = isEditMode ? [
-        ...(formData.productImageIds || []),
-        ...newImagePreviews.map((preview, index) => ({
-            imageUrl: preview,
-            isMain: false,
-            isNew: true,
-            newIndex: index
-        }))
-    ] : [];
-
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-            <div
-                className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300"
+        <Modal isOpen={isOpen} onClose={handleClose} maxWidth="max-w-4xl" zIndex="z-50">
+            <Modal.Header>
+                {isEditMode ? 'Edit Product' : 'Add New Product'}
+            </Modal.Header>
 
-            >
-                {/* Header */}
-                <div
-                    className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0"
-
-                >
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-                        {isEditMode ? 'Edit Product' : 'Add New Product'}
-                    </h2>
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        aria-label="Close"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Body */}
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-                    <form onSubmit={handleSubmit} className="space-y-5 lg:space-y-6">
+            <Modal.Body className="p-4 sm:p-6 lg:p-8 flex-1">
+                <form id="productForm" onSubmit={handleSubmit} className="space-y-5 lg:space-y-6">
                         {/* Basic Info */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
                             <div>
@@ -790,6 +662,25 @@ const ProductModal = ({
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                                 Product Images <span className="text-red-500">*</span>
                             </label>
+
+                            {/* Image Link Input */}
+                            <div className="flex gap-2 mb-4">
+                                <input
+                                    type="text"
+                                    value={imageUrlLink}
+                                    onChange={(e) => setImageUrlLink(e.target.value)}
+                                    placeholder="Or paste an image link here..."
+                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm lg:text-base focus:border-[rgb(217 119 6)] focus:ring-[rgb(217 119 6)] focus:outline-none"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={handleAddImageLink}
+                                    className="px-4 py-2 bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] text-white font-medium rounded-lg text-sm transition-all duration-200 shadow-md hover:shadow-lg"
+                                >
+                                    Add Link
+                                </button>
+                            </div>
+
                             <div className="space-y-4">
                                 {/* File Input */}
                                 <input
@@ -833,90 +724,50 @@ const ProductModal = ({
                                     </label>
 
                                     {/* Images */}
-                                    {isEditMode ? (
-                                        // Edit mode: show existing + new images
-                                        allImages.map((img, index) => (
-                                            <div
-                                                key={index}
-                                                className={`relative border-2 rounded-lg overflow-hidden aspect-square ${mainImageIndex === index ? 'border-blue-500' : 'border-gray-200'
-                                                    }`}
-                                            >
-                                                <img
-                                                    src={img.imageUrl}
-                                                    alt={`Image ${index + 1}`}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                                <div className="absolute top-2 right-2 flex space-x-1">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            if (img.isNew) {
-                                                                removeNewImage(img.newIndex);
-                                                            } else {
-                                                                removeExistingImage(index);
-                                                            }
-                                                        }}
-                                                        className="w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110"
-                                                        title="Remove image"
-                                                    >
-                                                        ×
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setMainImageIndex(index)}
-                                                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110 ${mainImageIndex === index
-                                                            ? 'bg-yellow-500 text-white'
-                                                            : 'bg-white/90 text-gray-600 hover:bg-white hover:text-yellow-500 border border-gray-300'
-                                                            }`}
-                                                        title={mainImageIndex === index ? "Main image" : "Set as main image"}
-                                                    >
-                                                        <FaStar />
-                                                    </button>
-                                                </div>
-                                                {img.isNew && (
-                                                    <div className="absolute bottom-2 right-2 bg-green-500 text-white text-xs font-semibold px-2.5 py-1 rounded-md shadow-md">
-                                                        New
-                                                    </div>
-                                                )}
+                                    {imagesList.map((img, index) => (
+                                        <div
+                                            key={index}
+                                            className={`relative border-2 rounded-lg overflow-hidden aspect-square ${mainImageIndex === index ? 'border-blue-500' : 'border-gray-200'
+                                                }`}
+                                        >
+                                            <img
+                                                src={img.url}
+                                                alt={`Product ${index + 1}`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className="absolute top-2 right-2 flex space-x-1">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeImage(index)}
+                                                    className="w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110"
+                                                    title="Remove image"
+                                                >
+                                                    ×
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMainImageIndex(index)}
+                                                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110 ${mainImageIndex === index
+                                                        ? 'bg-yellow-500 text-white'
+                                                        : 'bg-white/90 text-gray-600 hover:bg-white hover:text-yellow-500 border border-gray-300'
+                                                        }`}
+                                                    title={mainImageIndex === index ? "Main image" : "Set as main image"}
+                                                >
+                                                    <FaStar />
+                                                </button>
                                             </div>
-                                        ))
-                                    ) : (
-                                        // Create mode: show only new images
-                                        newImagePreviews.map((preview, index) => (
-                                            <div
-                                                key={index}
-                                                className={`relative border-2 rounded-lg overflow-hidden aspect-square ${mainImageIndex === index ? 'border-blue-500' : 'border-gray-200'
-                                                    }`}
-                                            >
-                                                <img
-                                                    src={preview}
-                                                    alt={`Preview ${index + 1}`}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                                <div className="absolute top-2 right-2 flex space-x-1">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeNewImage(index)}
-                                                        className="w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110"
-                                                        title="Remove image"
-                                                    >
-                                                        ×
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setMainImageIndex(index)}
-                                                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-110 ${mainImageIndex === index
-                                                            ? 'bg-yellow-500 text-white'
-                                                            : 'bg-white/90 text-gray-600 hover:bg-white hover:text-yellow-500 border border-gray-300'
-                                                            }`}
-                                                        title={mainImageIndex === index ? "Main image" : "Set as main image"}
-                                                    >
-                                                        <FaStar />
-                                                    </button>
+                                            {img.type === 'file' && (
+                                                <div className="absolute bottom-2 right-2 bg-green-500 text-white text-xs font-semibold px-2.5 py-1 rounded-md shadow-md">
+                                                    New Upload
                                                 </div>
-                                            </div>
-                                        ))
-                                    )}
+                                            )}
+                                            {img.type === 'link' && (
+                                                <div className="absolute bottom-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2.5 py-1 rounded-md shadow-md">
+                                                    Link
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -928,43 +779,30 @@ const ProductModal = ({
                             </div>
                         )}
                     </form>
-                </div>
+            </Modal.Body>
 
-                {/* Footer */}
-                <div
-                    className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0"
-
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose} disabled={localLoading}>
+                    Cancel
+                </Button>
+                <Button 
+                    type="submit" 
+                    form="productForm" 
+                    variant="primary" 
+                    disabled={localLoading}
+                    className="px-6"
                 >
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        disabled={localLoading}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={localLoading}
-                        className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
-                        style={{
-                            '--tw-ring-color': 'rgb(217 119 6)'
-                        }}
-                    >
-                        {localLoading ? (
-                            <div className="flex items-center justify-center space-x-2">
-                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                                <span>Processing...</span>
-                            </div>
-                        ) : (
-                            isEditMode ? 'Edit' : 'Add'
-                        )}
-                    </button>
-                </div>
-            </div>
-        </div>
+                    {localLoading ? (
+                        <div className="flex items-center justify-center space-x-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+                            <span>Processing...</span>
+                        </div>
+                    ) : (
+                        isEditMode ? 'Edit' : 'Add'
+                    )}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 

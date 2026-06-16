@@ -26,7 +26,7 @@
 
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import Loading from "../../components/Loading";
+import Loading from "../../components/ui/Loading";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useToast } from "../../hooks/useToast";

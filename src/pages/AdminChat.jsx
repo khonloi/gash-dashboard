@@ -15,7 +15,7 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import { AuthContext } from "../context/AuthContext";
 import SummaryAPI from "../common/SummaryAPI";
-import Loading from "../components/Loading";
+import Loading from "../components/ui/Loading";
 import { useToast } from "../hooks/useToast";
 
 const SOCKET_URL = "http://localhost:5000";

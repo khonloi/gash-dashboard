@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
-import Api from "../common/SummaryAPI";
-import Loading from "./Loading";
+import Api from "../../common/SummaryAPI";
+import Loading from "../../components/ui/Loading";
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const UploadRefundProofModal = ({
     isOpen,
@@ -187,31 +189,18 @@ const UploadRefundProofModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-60 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-md flex flex-col transform transition-all duration-300">
-                {/* Modal Header */}
-                <div className="flex items-center justify-between p-3 sm:p-4 border-b shrink-0">
+        <>
+            <Modal isOpen={isOpen} onClose={handleClose} maxWidth="max-w-md" zIndex="z-60">
+                <Modal.Header>
                     <h3 className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
                         <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                         </svg>
                         Upload Refund Proof
                     </h3>
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        aria-label="Close modal"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                </Modal.Header>
 
-                {/* Modal Content */}
-                <div className="p-4 sm:p-5 relative">
+                <Modal.Body className="p-4 sm:p-5 relative">
                     {/* Loading Overlay */}
                     {isUploadingCombined && (
                         <div className="absolute inset-0 bg-white/90 rounded-lg flex items-center justify-center z-10">
@@ -317,97 +306,67 @@ const UploadRefundProofModal = ({
                             </div>
                         )}
                     </div>
-                </div>
+                </Modal.Body>
 
-                {/* Modal Footer */}
-                <div className={`flex items-center justify-end p-3 sm:p-4 border-t shrink-0 space-x-3 ${isUploadingCombined ? 'opacity-50 pointer-events-none' : ''}`}>
-                    <button
-                        onClick={handleClose}
-                        disabled={isUploadingCombined}
-                        className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200 font-medium disabled:cursor-not-allowed"
-                    >
+                <Modal.Footer className={isUploadingCombined ? 'opacity-50 pointer-events-none' : ''}>
+                    <Button variant="secondary" onClick={handleClose} disabled={isUploadingCombined}>
                         Cancel
-                    </button>
-                    <button
-                        onClick={handleUploadClick}
+                    </Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleUploadClick} 
                         disabled={isUploadingCombined || (!selectedFile && !currentProof)}
-                        className="px-4 py-2 text-sm text-white rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 shadow-sm hover:shadow-md"
-                        style={{ backgroundColor: 'rgb(245 158 11)' }}
-                        onMouseEnter={(e) => !isUploadingCombined && !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = 'rgb(217 119 6)')}
-                        onMouseLeave={(e) => !isUploadingCombined && !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = 'rgb(245 158 11)')}
+                        className="bg-orange-500 hover:bg-orange-600 border-none px-6"
                     >
-                        <span>
-                            Upload
-                        </span>
-                    </button>
-                </div>
-            </div>
+                        Upload
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
             {/* Confirmation Modal */}
-            {showConfirmModal && (
-                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-70 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-md flex flex-col transform transition-all duration-300">
-                        {/* Modal Header */}
-                        <div className="flex items-center justify-between p-3 sm:p-4 border-b shrink-0">
-                            <h3 className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
-                                <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                                </svg>
-                                Confirm
-                            </h3>
-                            <button
-                                type="button"
-                                onClick={handleCancelConfirm}
-                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                                aria-label="Close modal"
-                            >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+            <Modal isOpen={showConfirmModal} onClose={handleCancelConfirm} maxWidth="max-w-md" zIndex="z-70">
+                <Modal.Header>
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        Confirm
+                    </h3>
+                </Modal.Header>
 
-                        {/* Modal Content */}
-                        <div className="p-4 sm:p-5">
-                            <div className="mb-4">
-                                <p className="text-sm sm:text-base text-gray-700 mb-3">
-                                    You are about to upload the refund proof. This action can only be performed <strong className="text-orange-600">once</strong> and cannot be undone.
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                    Are you sure you want to proceed with uploading the refund proof?
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Modal Footer */}
-                        <div className="flex items-center justify-end p-3 sm:p-4 border-t shrink-0 space-x-3">
-                            <button
-                                onClick={handleCancelConfirm}
-                                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200 font-medium"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleConfirmUpload}
-                                disabled={isUploadingCombined}
-                                className="px-4 py-2 text-sm text-white rounded-lg transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 shadow-sm hover:shadow-md"
-                                style={{ backgroundColor: 'rgb(245 158 11)' }}
-                                onMouseEnter={(e) => !isUploadingCombined && !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = 'rgb(217 119 6)')}
-                                onMouseLeave={(e) => !isUploadingCombined && !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = 'rgb(245 158 11)')}
-                            >
-                                {isUploadingCombined && (
-                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                )}
-                                <span>
-                                    {isUploadingCombined ? 'Uploading...' : 'Confirm'}
-                                </span>
-                            </button>
-                        </div>
+                <Modal.Body className="p-4 sm:p-5">
+                    <div className="mb-4">
+                        <p className="text-sm sm:text-base text-gray-700 mb-3">
+                            You are about to upload the refund proof. This action can only be performed <strong className="text-orange-600">once</strong> and cannot be undone.
+                        </p>
+                        <p className="text-sm text-gray-600">
+                            Are you sure you want to proceed with uploading the refund proof?
+                        </p>
                     </div>
-                </div>
-            )}
-        </div>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCancelConfirm} disabled={isUploadingCombined}>
+                        Cancel
+                    </Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleConfirmUpload} 
+                        disabled={isUploadingCombined}
+                        className="bg-orange-500 hover:bg-orange-600 border-none px-6"
+                    >
+                        {isUploadingCombined ? (
+                            <div className="flex items-center space-x-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                <span>Uploading...</span>
+                            </div>
+                        ) : (
+                            'Confirm'
+                        )}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 };
 

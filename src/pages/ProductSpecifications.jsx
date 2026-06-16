@@ -3,8 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ToastContext } from '../context/ToastContext';
 import Api from '../common/SummaryAPI';
-import Loading from '../components/Loading';
-import DeleteConfirmModal from '../components/DeleteConfirmModal';
+import Loading from '../components/ui/Loading';
+import DeleteConfirmModal from '../components/ui/DeleteConfirmModal';
 
 const ProductSpecifications = () => {
   const { user, isAuthLoading } = useContext(AuthContext);

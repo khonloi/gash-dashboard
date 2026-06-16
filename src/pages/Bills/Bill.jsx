@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { ToastContext } from "../../context/ToastContext";
 import SummaryAPI from "../../common/SummaryAPI";
-import BillModal from "../../components/BillModal";
-import Loading from "../../components/Loading";
+import BillModal from "./BillModal";
+import Loading from "../../components/ui/Loading";
 
 export default function Bills() {
   const { showToast } = useContext(ToastContext);

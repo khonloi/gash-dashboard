@@ -10,8 +10,8 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import { io } from "socket.io-client"; // 🧩 SOCKET ADDED
-import Loading from "../components/Loading";
-import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import Loading from "../components/ui/Loading";
+import DeleteConfirmModal from "../components/ui/DeleteConfirmModal";
 import { useToast } from "../hooks/useToast";
 
 const MAX_TITLE_LENGTH = 100;

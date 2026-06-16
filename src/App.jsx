@@ -10,13 +10,13 @@ import {
 
 // Context & Providers
 import { AuthProvider, AuthContext } from "./context/AuthContext.jsx";
-import { ToastProvider } from "./components/Toast.jsx";
+import { ToastProvider } from "./components/ui/Toast.jsx";
 
 // ==== Import các component hiện có ====
 import Products from "./pages/ProductManagement/Products.jsx";
 import ProductVariants from "./pages/VariantManagement/ProductVariants.jsx";
 import Login from "./pages/Login.jsx";
-import Profile from "./pages/Profile.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 import Orders from "./pages/Order/Orders.jsx";
 import ProductSpecifications from "./pages/ProductSpecifications.jsx";
 import Accounts from "./pages/Account/Accounts.jsx";

@@ -9,7 +9,7 @@ import VideoPreview from './components/VideoPreview';
 import MediaSetup from './components/MediaSetup';
 import StreamsList from './components/StreamsList';
 import { LIVEKIT_CONFIG } from '../../config/livekit';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 
 const LiveStreamManagement = () => {
     const { user } = useContext(AuthContext);

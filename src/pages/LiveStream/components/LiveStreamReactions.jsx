@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Api from '../../../common/SummaryAPI';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 import io from 'socket.io-client';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';

@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ToastContext } from "../../context/ToastContext";
 import Api from "../../common/SummaryAPI";
 import FeedbackDetail from "./FeedbackDetail";
-import Loading from "../../components/Loading";
+import Loading from "../../components/ui/Loading";
 
 const Feedbacks = () => {
   const { user, isAuthLoading } = useContext(AuthContext);

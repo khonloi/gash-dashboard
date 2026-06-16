@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 import SummaryAPI from "../../common/SummaryAPI";
 import AccountModal from "./AccountModal";
-import Loading from "../../components/Loading";
+import Loading from "../../components/ui/Loading";
 
 export default function Accounts() {
     const { showToast } = useContext(ToastContext);

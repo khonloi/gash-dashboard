@@ -5,13 +5,13 @@ import { AuthContext } from '../../context/AuthContext';
 import { ToastContext } from '../../context/ToastContext';
 import '../../styles/Products.css';
 import Api from '../../common/SummaryAPI';
-import ProductModal from '../../components/ProductModal';
+import ProductModal from './ProductModal';
 import ProductDetailsModal from './ProductDetailsModal';
-import VariantModal from '../../components/VariantModal';
-import ImageModal from '../../components/ImageModal';
+import VariantModal from './VariantModal';
+import ImageModal from '../../components/ui/ImageModal';
 import axiosClient from '../../common/axiosClient';
-import Loading from '../../components/Loading';
-import DeleteConfirmModal from '../../components/DeleteConfirmModal';
+import Loading from '../../components/ui/Loading';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 // Using SummaryAPI for all API calls
 
@@ -698,68 +698,72 @@ const Products = () => {
       </div>
 
       {/* Filter Section */}
-      {showFilters && (
-        <div className="rounded-xl border p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
-          <div className="flex items-center justify-between mb-3 lg:mb-4">
-            <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={clearFilters}
-                disabled={!hasActiveFilters()}
-                className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
-                aria-label="Clear all filters"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-          <div className="mb-3 lg:mb-4">
-            <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search Products</label>
-            <input
-              type="text"
-              placeholder="Search by name, description..."
-              value={filters.searchQuery}
-              onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
-              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-            />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
-            <div>
-              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select
-                value={filters.categoryFilter}
-                onChange={(e) => handleFilterChange('categoryFilter', e.target.value)}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-              >
-                <option value="">All Categories</option>
-                {categories.filter(category => category.isDeleted !== true).map(category => {
-                  const optionValue = toIdString(category._id || category.id);
-                  return (
-                    <option key={optionValue} value={optionValue}>
-                      {category.cat_name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Status</label>
-              <select
-                value={filters.statusFilter}
-                onChange={(e) => handleFilterChange('statusFilter', e.target.value)}
-                className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
-              >
-                <option value="">All Statuses</option>
-                {['active', 'inactive', 'pending', 'discontinued'].map(status => (
-                  <option key={status} value={status}>
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </div>
+      <div 
+        className={`rounded-xl border overflow-hidden transition-all duration-300 ease-in-out ${
+          showFilters 
+            ? "max-h-[500px] opacity-100 p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6 border-gray-200" 
+            : "max-h-0 opacity-0 p-0 mb-0 border-transparent pointer-events-none"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-3 lg:mb-4">
+          <h2 className="text-base lg:text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Search & Filter</h2>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={clearFilters}
+              disabled={!hasActiveFilters()}
+              className="px-2 py-1.5 lg:px-3 lg:py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-pink-500 hover:to-rose-500 rounded-xl transition-all duration-300 border-2 border-gray-300/60 hover:border-transparent font-medium text-xs lg:text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-600 shadow-md hover:shadow-lg"
+              aria-label="Clear all filters"
+            >
+              Clear
+            </button>
           </div>
         </div>
-      )}
+        <div className="mb-3 lg:mb-4">
+          <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Search Products</label>
+          <input
+            type="text"
+            placeholder="Search by name, description..."
+            value={filters.searchQuery}
+            onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
+            className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
+          <div>
+            <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Category</label>
+            <select
+              value={filters.categoryFilter}
+              onChange={(e) => handleFilterChange('categoryFilter', e.target.value)}
+              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+            >
+              <option value="">All Categories</option>
+              {categories.filter(category => category.isDeleted !== true).map(category => {
+                const optionValue = toIdString(category._id || category.id);
+                return (
+                  <option key={optionValue} value={optionValue}>
+                    {category.cat_name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Status</label>
+            <select
+              value={filters.statusFilter}
+              onChange={(e) => handleFilterChange('statusFilter', e.target.value)}
+              className="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-gray-300/60 rounded-xl focus:ring-2 focus:ring-offset-2 transition-all duration-300 text-sm lg:text-base focus:border-amber-500 focus:ring-amber-500/30 shadow-md hover:shadow-lg hover:border-yellow-400/60"
+            >
+              <option value="">All Statuses</option>
+              {['active', 'inactive', 'pending', 'discontinued'].map(status => (
+                <option key={status} value={status}>
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
 
       {/* Unified State: Loading / Empty / Error */}
       {loading || filteredProducts.length === 0 || error ? (

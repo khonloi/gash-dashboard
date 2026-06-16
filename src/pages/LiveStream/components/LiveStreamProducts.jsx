@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import Api from '../../../common/SummaryAPI';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 import { useToast } from '../../../hooks/useToast';
 import io from 'socket.io-client';
 

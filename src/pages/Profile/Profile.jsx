@@ -6,16 +6,16 @@ import React, {
   useRef,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import Api from "../common/SummaryAPI";
-import { useToast } from "../hooks/useToast";
+import { AuthContext } from "../../context/AuthContext";
+import Api from "../../common/SummaryAPI";
+import { useToast } from "../../hooks/useToast";
 import { startRegistration } from "@simplewebauthn/browser";
-import Loading from "../components/Loading";
-import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import Loading from "../../components/ui/Loading";
+import DeleteConfirmModal from "../../components/ui/DeleteConfirmModal";
 
 // Import modal
-import EditProfileModal from "../components/EditProfileModal";
-import ChangePasswordModal from "../components/ChangePasswordModal";
+import EditProfileModal from "./EditProfileModal";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const Profile = () => {
   const [selectedFile, setSelectedFile] = useState(null);

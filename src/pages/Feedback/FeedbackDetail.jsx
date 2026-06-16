@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Api from '../../common/SummaryAPI';
-import ImageModal from '../../components/ImageModal';
-import Loading from '../../components/Loading';
+import ImageModal from '../../components/ui/ImageModal';
+import Loading from '../../components/ui/Loading';
 
 const FeedbackDetail = ({ feedbackId, isOpen, onClose }) => {
     const { user } = React.useContext(AuthContext);

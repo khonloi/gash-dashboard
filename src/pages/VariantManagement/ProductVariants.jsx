@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { ToastContext } from "../../context/ToastContext";
 import Api from "../../common/SummaryAPI";
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import VariantModal from "../../components/VariantModal";
-import Loading from "../../components/Loading";
+import VariantModal from "../ProductManagement/VariantModal";
+import Loading from "../../components/ui/Loading";
 
 const ProductVariants = () => {
   const { showToast } = useContext(ToastContext);

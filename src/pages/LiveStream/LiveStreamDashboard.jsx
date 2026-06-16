@@ -9,7 +9,7 @@ import VideoPreview from './components/VideoPreview';
 import LiveStreamComments from './components/LiveStreamComments';
 import LiveStreamReactions from './components/LiveStreamReactions';
 import { LIVEKIT_CONFIG } from '../../config/livekit';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import { Chat } from '@mui/icons-material';
 import LiveStreamProducts from './components/LiveStreamProducts';
 import io from 'socket.io-client';

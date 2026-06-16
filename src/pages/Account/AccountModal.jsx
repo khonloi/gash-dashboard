@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ToastContext } from "../../context/ToastContext";
 import SummaryAPI from "../../common/SummaryAPI";
-import Loading from "../../components/Loading";
+import Loading from "../../components/ui/Loading";
 
 export default function AccountModal({ isOpen, account, onClose, onSuccess, viewOnly = false }) {
     const { showToast } = useContext(ToastContext);

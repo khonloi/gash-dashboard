@@ -2,11 +2,11 @@
 import React, { useState, useCallback, useContext, useEffect, useMemo } from 'react';
 import { FaPlus, FaEdit } from 'react-icons/fa';
 import { ToastContext } from '../../context/ToastContext';
-import VariantModal from '../../components/VariantModal';
-import BulkVariantModal from '../../components/BulkVariantModal';
+import VariantModal from './VariantModal';
+import BulkVariantModal from './BulkVariantModal';
 import ProductVariantList from '../ProductVariant/ProductVariantList';
-import ImageModal from '../../components/ImageModal';
-import Loading from '../../components/Loading';
+import ImageModal from '../../components/ui/ImageModal';
+import Loading from '../../components/ui/Loading';
 
 const ProductDetailsModal = ({
     isOpen,

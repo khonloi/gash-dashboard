@@ -1,10 +1,10 @@
 import RefundProofModal from "../RefundProofModal";
 import CancelOrderModal from "./CancelOrderModal"; // Adjust path as needed
 import OrderDetails from "./OrderDetails";
-import UpdateOrderStatusModal from "../../components/UpdateOrderStatusModal";
-import UploadRefundProofModal from "../../components/UploadRefundProofModal";
-import DebugOrderModal from "../../components/DebugOrderModal";
-import Loading from "../../components/Loading";
+import UpdateOrderStatusModal from "./UpdateOrderStatusModal";
+import UploadRefundProofModal from "./UploadRefundProofModal";
+import DebugOrderModal from "./DebugOrderModal";
+import Loading from "../../components/ui/Loading";
 import React, {
   useState,
   useEffect,

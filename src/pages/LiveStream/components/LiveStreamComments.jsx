@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import io from 'socket.io-client';
 import Api from '../../../common/SummaryAPI';
 import { useToast } from '../../../hooks/useToast';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 

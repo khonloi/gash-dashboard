@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import Api from "../../common/SummaryAPI";
-import ImageModal from "../../components/ImageModal";
-import UpdateOrderStatusModal from "../../components/UpdateOrderStatusModal";
-import UploadRefundProofModal from "../../components/UploadRefundProofModal";
-import Loading from "../../components/Loading";
+import ImageModal from "../../components/ui/ImageModal";
+import UpdateOrderStatusModal from "./UpdateOrderStatusModal";
+import UploadRefundProofModal from "./UploadRefundProofModal";
+import Loading from "../../components/ui/Loading";
 import { getOrderStatusOptionDisabled } from "../../utils/orderUtils";
 import { ToastContext } from "../../context/ToastContext";
 

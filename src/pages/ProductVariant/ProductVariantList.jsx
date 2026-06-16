@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { ToastContext } from '../../context/ToastContext';
 import Api from '../../common/SummaryAPI';
-import ImageModal from '../../components/ImageModal';
-import DeleteConfirmModal from '../../components/DeleteConfirmModal';
+import ImageModal from '../../components/ui/ImageModal';
+import DeleteConfirmModal from '../../components/ui/DeleteConfirmModal';
 
 const ProductVariantList = ({
     variants,

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ToastContext } from '../context/ToastContext';
-import SummaryAPI from '../common/SummaryAPI';
+import { ToastContext } from '../../context/ToastContext';
+import SummaryAPI from '../../common/SummaryAPI';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
 
 const VoucherModal = ({
     isOpen,
@@ -495,28 +497,12 @@ const VoucherModal = ({
     const isDisabled = isEditMode && formData.isDeleted;
 
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border-2 w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300">
-                {/* Fixed Header */}
-                <div className="flex items-center justify-between p-3 sm:p-4 lg:p-5 border-b shrink-0">
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-                        {isEditMode ? `Edit Voucher` : "Add New Voucher"}
-                    </h2>
-                    <button
-                        type="button"
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                        onClick={handleClose}
-                        aria-label="Close"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+        <Modal isOpen={isOpen} onClose={handleClose} maxWidth="max-w-4xl" zIndex="z-50">
+            <Modal.Header>
+                {isEditMode ? `Edit Voucher` : "Add New Voucher"}
+            </Modal.Header>
 
-                {/* Scrollable Form Content */}
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <Modal.Body className="p-4 sm:p-6 lg:p-8 flex-1">
                     <form id="voucher-form" onSubmit={handleSubmit} className="space-y-5 lg:space-y-6">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
                             <div>
@@ -659,39 +645,30 @@ const VoucherModal = ({
                             )}
                         </div>
                     </form>
-                </div>
+            </Modal.Body>
 
-                {/* Fixed Footer */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 p-3 sm:p-4 lg:p-5 border-t shrink-0">
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="px-5 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-300 hover:border-gray-400 font-medium text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        style={{ '--tw-ring-color': 'rgb(217 119 6)' }}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        form="voucher-form"
-                        disabled={loading || isDisabled}
-                        className="px-6 py-2.5 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:hover:shadow-md bg-gradient-to-r from-[rgb(245 158 11)] to-[rgb(217 119 6)] hover:from-[rgb(217 119 6)] hover:to-[rgb(180 83 9)] disabled:hover:from-[rgb(245 158 11)] disabled:hover:to-[rgb(217 119 6)]"
-                        style={{
-                            '--tw-ring-color': 'rgb(217 119 6)'
-                        }}
-                    >
-                        {loading ? (
-                            <div className="flex items-center justify-center space-x-2">
-                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                                <span>Processing...</span>
-                            </div>
-                        ) : (
-                            isEditMode ? "Edit" : "Add"
-                        )}
-                    </button>
-                </div>
-            </div>
-        </div>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                </Button>
+                <Button 
+                    type="submit" 
+                    form="voucher-form" 
+                    variant="primary" 
+                    disabled={loading || isDisabled}
+                    className="px-6"
+                >
+                    {loading ? (
+                        <div className="flex items-center justify-center space-x-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+                            <span>Processing...</span>
+                        </div>
+                    ) : (
+                        isEditMode ? "Edit" : "Add"
+                    )}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 

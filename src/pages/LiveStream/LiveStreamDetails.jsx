@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import Api from '../../common/SummaryAPI';
 import { useToast } from '../../hooks/useToast';
 import { LiveTv, Videocam, VideocamOff, VolumeUp, VolumeOff, People, TrendingUp, TrendingDown, Schedule, Flag, Fingerprint, Comment, Inventory2, PushPin, MoreVert, Dashboard } from '@mui/icons-material';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import { format } from 'date-fns';
 
 // Format date helper function
